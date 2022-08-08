@@ -258,7 +258,7 @@ public class FlashcardActivity extends BaseActivity {
     }
 
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onResume() {
+	public void onResume() {
         updateWordbookFolderItems();
         super.onResume();
     }
@@ -346,7 +346,6 @@ public class FlashcardActivity extends BaseActivity {
                 }
                 runSearchBtn(true);
                 break;
-                break;
             case 21:
                 if (this.mClearBtn != null && this.mClearBtn.isFocusable() && this.mEdittextWordbookName != null) {
                     this.mEdittextWordbookName.requestFocus();
@@ -364,7 +363,7 @@ public class FlashcardActivity extends BaseActivity {
     }
 
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onDestroy() {
+	public void onDestroy() {
         super.onDestroy();
     }
 

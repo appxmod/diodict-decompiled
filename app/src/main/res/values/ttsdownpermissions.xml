@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <ttsdownpermission name="TTS_DOWNLOAD_NOT_ALLOW">0x0</ttsdownpermission>
-    <ttsdownpermission name="TTS_DOWNLOAD_SVOX_ENG_ALLOW">0x1</ttsdownpermission>
-    <ttsdownpermission name="TTS_DOWNLOAD_SVOX_KOR_ALLOW">0x2</ttsdownpermission>
-    <ttsdownpermission name="TTS_DOWNLOAD_SVOX_JPN_ALLOW">0x3</ttsdownpermission>
-    <ttsdownpermission name="TTS_DOWNLOAD_SVOX_CHN_ALLOW">0x4</ttsdownpermission>
-    <ttsdownpermission name="TTS_DOWNLOAD_HCI_ENG_ALLOW">0x5</ttsdownpermission>
-    <ttsdownpermission name="TTS_DOWNLOAD_HCI_KOR_ALLOW">0x6</ttsdownpermission>
-    <ttsdownpermission name="TTS_DOWNLOAD_HCI_JPN_ALLOW">0x7</ttsdownpermission>
-    <ttsdownpermission name="TTS_DOWNLOAD_HCI_CHN_ALLOW">0x8</ttsdownpermission>
+    <integer name="TTS_DOWNLOAD_NOT_ALLOW">0x0</integer>
+    <integer name="TTS_DOWNLOAD_SVOX_ENG_ALLOW">0x1</integer>
+    <integer name="TTS_DOWNLOAD_SVOX_KOR_ALLOW">0x2</integer>
+    <integer name="TTS_DOWNLOAD_SVOX_JPN_ALLOW">0x3</integer>
+    <integer name="TTS_DOWNLOAD_SVOX_CHN_ALLOW">0x4</integer>
+    <integer name="TTS_DOWNLOAD_HCI_ENG_ALLOW">0x5</integer>
+    <integer name="TTS_DOWNLOAD_HCI_KOR_ALLOW">0x6</integer>
+    <integer name="TTS_DOWNLOAD_HCI_JPN_ALLOW">0x7</integer>
+    <integer name="TTS_DOWNLOAD_HCI_CHN_ALLOW">0x8</integer>
 </resources>

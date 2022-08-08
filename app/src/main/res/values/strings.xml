@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"  tools:ignore="MissingTranslation">
     <string name="oxford_engkor_main_dict_name">Oxford ENG-KOR</string>
     <string name="oxford_engkor_product_name">Oxford Advanced Learner’s \nEnglish-Korean Dictionary</string>
     <string name="oxford_engeng_main_dict_name">Oxford Advanced Learner’s</string>

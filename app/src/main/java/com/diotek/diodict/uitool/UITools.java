@@ -15,7 +15,7 @@ import java.io.IOException;
 /* loaded from: classes.dex */
 public class UITools {
     public static void savePicture(Bitmap bmp, String szPath, String szName, Bitmap.CompressFormat nFormat) {
-        FileOutputStream foutputstream;
+        FileOutputStream foutputstream = null;
         FileOutputStream foutputstream2 = null;
         if (bmp != null) {
             try {
@@ -30,8 +30,7 @@ public class UITools {
                 bmp.compress(nFormat, 100, foutputstream);
                 foutputstream.flush();
                 foutputstream.close();
-            } catch (IOException e2) {
-                e = e2;
+            } catch (Exception e) {
                 foutputstream2 = foutputstream;
                 try {
                     foutputstream2.close();

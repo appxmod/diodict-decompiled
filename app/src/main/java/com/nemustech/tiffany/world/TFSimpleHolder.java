@@ -60,7 +60,7 @@ public abstract class TFSimpleHolder extends TFHolder {
             int idx = 0;
             Iterator i$ = this.mObjectSlots.iterator();
             while (i$.hasNext()) {
-                TFObjectContainer oc = i$.next();
+                TFObjectContainer oc = (TFObjectContainer) i$.next();
                 setItemIndexOfObjectInSlot(oc, calculateItemIndexOfSlot(idx));
                 idx++;
             }
@@ -151,7 +151,7 @@ public abstract class TFSimpleHolder extends TFHolder {
                 int idx = 0;
                 Iterator i$ = this.mObjectSlots.iterator();
                 while (i$.hasNext()) {
-                    TFObjectContainer container = i$.next();
+                    TFObjectContainer container = (TFObjectContainer) i$.next();
                     container.getObject().setItemIndex(idx);
                     idx++;
                 }
@@ -184,7 +184,7 @@ public abstract class TFSimpleHolder extends TFHolder {
         if (this.mCloneList != null) {
             Iterator i$2 = this.mCloneList.iterator();
             while (i$2.hasNext()) {
-                TFObject o = i$2.next();
+                TFObject o = (TFObject) i$2.next();
                 try {
                     ((TFHolder) o).addHolder((TFHolder) holder.clone(), slotIndex);
                 } catch (CloneNotSupportedException e) {
@@ -244,7 +244,7 @@ public abstract class TFSimpleHolder extends TFHolder {
         if (this.mCloneList != null) {
             Iterator i$ = this.mCloneList.iterator();
             while (i$.hasNext()) {
-                TFObject o = i$.next();
+                TFObject o = (TFObject) i$.next();
                 ((TFHolder) o).removeHolder(slotIndex);
             }
         }
@@ -277,7 +277,7 @@ public abstract class TFSimpleHolder extends TFHolder {
                 int idx = 0;
                 Iterator i$ = this.mObjectSlots.iterator();
                 while (i$.hasNext()) {
-                    TFObjectContainer container = i$.next();
+                    TFObjectContainer container = (TFObjectContainer) i$.next();
                     container.getObject().setItemIndex(idx);
                     idx++;
                 }
@@ -310,7 +310,7 @@ public abstract class TFSimpleHolder extends TFHolder {
         if (this.mCloneList != null) {
             Iterator i$2 = this.mCloneList.iterator();
             while (i$2.hasNext()) {
-                TFObject o = i$2.next();
+                TFObject o = (TFObject) i$2.next();
                 try {
                     TFHolder h = (TFHolder) o;
                     h.addModel((TFModel) model.clone(), slotIndex);
@@ -371,7 +371,7 @@ public abstract class TFSimpleHolder extends TFHolder {
             if (this.mCloneList != null) {
                 Iterator i$ = this.mCloneList.iterator();
                 while (i$.hasNext()) {
-                    TFObject o = i$.next();
+                    TFObject o = (TFObject) i$.next();
                     ((TFHolder) o).removeModel(slotIndex);
                 }
             }
@@ -424,7 +424,7 @@ public abstract class TFSimpleHolder extends TFHolder {
             int virtualHeadSlot = getHeadSlotIndex(getItemCount());
             Iterator i$ = this.mObjectSlots.iterator();
             while (i$.hasNext()) {
-                TFObjectContainer referenceWrapper = i$.next();
+                TFObjectContainer referenceWrapper = (TFObjectContainer) i$.next();
                 if (curSlotIndex < getHeadSlotIndex() - virtualHeadSlot || (getHeadSlotIndex() + getItemCount()) - virtualHeadSlot <= curSlotIndex) {
                     setItemIndexOfObjectInSlot(referenceWrapper, -1);
                 } else {
@@ -613,7 +613,7 @@ public abstract class TFSimpleHolder extends TFHolder {
 
     @Override // com.nemustech.tiffany.world.TFHolder
     /* renamed from: getMoveAnimation  reason: collision with other method in class */
-    public SimpleMoveAnimation mo5getMoveAnimation() {
+    public SimpleMoveAnimation getMoveAnimation() {
         return (SimpleMoveAnimation) this.mMoveAni;
     }
 

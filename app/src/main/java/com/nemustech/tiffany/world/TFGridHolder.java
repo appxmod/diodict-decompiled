@@ -87,7 +87,7 @@ public abstract class TFGridHolder extends TFHolder {
 
     @Override // com.nemustech.tiffany.world.TFHolder
     /* renamed from: getMoveAnimation */
-    public GridMoveAnimation mo5getMoveAnimation() {
+    public GridMoveAnimation getMoveAnimation() {
         return (GridMoveAnimation) this.mMoveAni;
     }
 
@@ -137,7 +137,7 @@ public abstract class TFGridHolder extends TFHolder {
             int slotIndex = 0;
             Iterator i$ = this.mObjectSlots.iterator();
             while (i$.hasNext()) {
-                TFObjectContainer slot = i$.next();
+                TFObjectContainer slot = (TFObjectContainer) i$.next();
                 setItemIndexOfObjectInSlot(slot, calculateItemIndexOfSlot(slotIndex));
                 slotIndex++;
             }
@@ -269,7 +269,7 @@ public abstract class TFGridHolder extends TFHolder {
             int slotIndex = 0;
             Iterator i$ = this.mObjectSlots.iterator();
             while (i$.hasNext()) {
-                TFObjectContainer slot = i$.next();
+                TFObjectContainer slot = (TFObjectContainer) i$.next();
                 setItemIndexOfObjectInSlot(slot, calculateItemIndexOfSlot(slotIndex));
                 slotIndex++;
             }
@@ -335,7 +335,7 @@ public abstract class TFGridHolder extends TFHolder {
                 int idx = 0;
                 Iterator i$ = this.mObjectSlots.iterator();
                 while (i$.hasNext()) {
-                    TFObjectContainer container = i$.next();
+                    TFObjectContainer container = (TFObjectContainer) i$.next();
                     container.getObject().setItemIndex(idx);
                     idx++;
                 }
@@ -365,7 +365,7 @@ public abstract class TFGridHolder extends TFHolder {
         if (this.mCloneList != null) {
             Iterator i$2 = this.mCloneList.iterator();
             while (i$2.hasNext()) {
-                TFObject o = i$2.next();
+                TFObject o = (TFObject) i$2.next();
                 try {
                     ((TFHolder) o).addHolder((TFHolder) holder.clone(), slotIndex);
                 } catch (CloneNotSupportedException e) {
@@ -408,7 +408,7 @@ public abstract class TFGridHolder extends TFHolder {
             if (this.mCloneList != null) {
                 Iterator i$ = this.mCloneList.iterator();
                 while (i$.hasNext()) {
-                    TFObject o = i$.next();
+                    TFObject o = (TFObject) i$.next();
                     ((TFHolder) o).removeHolder(slotIndex);
                 }
             }
@@ -437,7 +437,7 @@ public abstract class TFGridHolder extends TFHolder {
                 int idx = 0;
                 Iterator i$ = this.mObjectSlots.iterator();
                 while (i$.hasNext()) {
-                    TFObjectContainer container = i$.next();
+                    TFObjectContainer container = (TFObjectContainer) i$.next();
                     container.getObject().setItemIndex(idx);
                     idx++;
                 }
@@ -467,7 +467,7 @@ public abstract class TFGridHolder extends TFHolder {
         if (this.mCloneList != null) {
             Iterator i$2 = this.mCloneList.iterator();
             while (i$2.hasNext()) {
-                TFObject o = i$2.next();
+                TFObject o = (TFObject) i$2.next();
                 try {
                     TFHolder h = (TFHolder) o;
                     h.addModel((TFModel) model.clone(), slotIndex);

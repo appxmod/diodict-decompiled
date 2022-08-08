@@ -125,7 +125,7 @@ public class TFCache {
     public void clear() {
         Iterator i$ = this.mArrayIntKey.iterator();
         while (i$.hasNext()) {
-            Integer integer = i$.next();
+            Integer integer = (Integer) i$.next();
             Bitmap bitmap = this.mArrayBitmap.get(integer);
             bitmap.recycle();
         }

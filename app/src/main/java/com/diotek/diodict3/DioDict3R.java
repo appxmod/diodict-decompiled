@@ -2781,10 +2781,10 @@ public final class DioDict3R {
         public static final int DioComKeyboard_keyHeight = 1;
         public static final int DioComKeyboard_keyWidth = 0;
         public static final int DioComKeyboard_verticalGap = 3;
-        public static final int[] DioComKeyboard = R.styleable.DioComKeyboard;
-        public static final int[] DioComKeyboardView = R.styleable.DioComKeyboardView;
-        public static final int[] DioComKeyboardViewPreviewState = R.styleable.DioComKeyboardViewPreviewState;
-        public static final int[] DioComKeyboard_Key = R.styleable.DioComKeyboard_Key;
-        public static final int[] DioComKeyboard_Row = R.styleable.DioComKeyboard_Row;
+//        public static final int[] DioComKeyboard = R.styleable.DioComKeyboard;
+//        public static final int[] DioComKeyboardView = R.styleable.DioComKeyboardView;
+//        public static final int[] DioComKeyboardViewPreviewState = R.styleable.DioComKeyboardViewPreviewState;
+//        public static final int[] DioComKeyboard_Key = R.styleable.DioComKeyboard_Key;
+//        public static final int[] DioComKeyboard_Row = R.styleable.DioComKeyboard_Row;
     }
 }

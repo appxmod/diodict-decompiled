@@ -130,7 +130,7 @@ public class TFRenderer implements TFView.Renderer {
                 }
                 Iterator i$ = filteredLayer.iterator();
                 while (i$.hasNext()) {
-                    TFObject o = i$.next();
+                    TFObject o = (TFObject) i$.next();
                     if (o instanceof TFHolder) {
                         TFHolder h = (TFHolder) o;
                         gl.glLoadIdentity();

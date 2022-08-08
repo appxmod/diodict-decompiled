@@ -488,11 +488,11 @@ public class DictDBManager {
         if (!containsDBInfo(nDicType) || nDicType < 0) {
             return false;
         }
-        return DICTINFO_TABLE.get(Integer.valueOf(nDicType)).getSourceLanguage() == mContext.getResources().getInteger(R.enlanguage.DEL_KOREAN_OLD);
+        return DICTINFO_TABLE.get(Integer.valueOf(nDicType)).getSourceLanguage() == mContext.getResources().getInteger(R.integer.DEL_KOREAN_OLD);
     }
 
     public static boolean isTotalSearch(int nDicType) {
-        return containsDBInfo(nDicType) && nDicType >= 0 && nDicType == mContext.getResources().getInteger(R.dbtype.DEDT_TOTAL_SEARCH);
+        return containsDBInfo(nDicType) && nDicType >= 0 && nDicType == mContext.getResources().getInteger(R.integer.DEDT_TOTAL_SEARCH);
     }
 
     private static Context getContextByDBType(int nDictType) {
@@ -637,7 +637,7 @@ public class DictDBManager {
             return 0;
         }
         int dictRecognizeLang = getDictRecognizeLang(dictType);
-        if (currentSearchMethodId == mDBInfoRes.getInteger(R.searchtype.SEARCHTYPE_HANGULRO)) {
+        if (currentSearchMethodId == mDBInfoRes.getInteger(R.integer.SEARCHTYPE_HANGULRO)) {
             return 1;
         }
         return dictRecognizeLang;
@@ -657,7 +657,7 @@ public class DictDBManager {
     }
 
     public static boolean isTargetLanguageJpn(int dictType) {
-        return sourceLanguageCompare(dictType, R.enlanguage.DEL_JAPANESE);
+        return sourceLanguageCompare(dictType, R.integer.DEL_JAPANESE);
     }
 
     public static boolean sourceLanguageCompare(int dictType, int resLanguageID) {
@@ -678,43 +678,43 @@ public class DictDBManager {
     }
 
     private static int codePageToLanguageCode(int codepage) {
-        int resID = R.enlanguage.DEL_MAX;
+        int resID = R.integer.DEL_MAX;
         switch (codepage) {
             case -1:
-                resID = R.enlanguage.DEL_MAX;
+                resID = R.integer.DEL_MAX;
                 break;
             case 0:
-                resID = R.enlanguage.DEL_ENGLISH;
+                resID = R.integer.DEL_ENGLISH;
                 break;
             case DictInfo.CP_JPN /* 932 */:
-                resID = R.enlanguage.DEL_JAPANESE;
+                resID = R.integer.DEL_JAPANESE;
                 break;
             case DictInfo.CP_CHN /* 936 */:
-                resID = R.enlanguage.DEL_CHINESE_SIMP;
+                resID = R.integer.DEL_CHINESE_SIMP;
                 break;
             case DictInfo.CP_KOR /* 949 */:
-                resID = R.enlanguage.DEL_KOREAN;
+                resID = R.integer.DEL_KOREAN;
                 break;
             case DictInfo.CP_TWN /* 950 */:
-                resID = R.enlanguage.DEL_CHINESE_TRAD;
+                resID = R.integer.DEL_CHINESE_TRAD;
                 break;
             case DictInfo.CP_1250 /* 1250 */:
-                resID = R.enlanguage.DEL_WORLD;
+                resID = R.integer.DEL_WORLD;
                 break;
             case DictInfo.CP_LT1 /* 1252 */:
-                resID = R.enlanguage.DEL_WORLD;
+                resID = R.integer.DEL_WORLD;
                 break;
             case DictInfo.CP_TUR /* 1254 */:
-                resID = R.enlanguage.DEL_TURKISH;
+                resID = R.integer.DEL_TURKISH;
                 break;
             case DictInfo.CP_BAL /* 1257 */:
-                resID = R.enlanguage.DEL_WORLD;
+                resID = R.integer.DEL_WORLD;
                 break;
             case DictInfo.CP_HIN /* 1331 */:
-                resID = R.enlanguage.DEL_HINDI;
+                resID = R.integer.DEL_HINDI;
                 break;
             case DictInfo.CP_CRL /* 21866 */:
-                resID = R.enlanguage.DEL_WORLD;
+                resID = R.integer.DEL_WORLD;
                 break;
         }
         return mContext.getResources().getInteger(resID);
@@ -727,7 +727,7 @@ public class DictDBManager {
             Iterator i$ = languageList.iterator();
             while (true) {
                 if (i$.hasNext()) {
-                    Integer language = i$.next();
+                    Integer language = (Integer) i$.next();
                     if (DICTINFO_TABLE.get(dbType).getSourceLanguage() == language.intValue()) {
                         dictList.add(dbType);
                         break;
@@ -805,43 +805,43 @@ public class DictDBManager {
     }
 
     private static boolean isLanguageKorean(int language) {
-        return mDBInfoRes.getInteger(R.enlanguage.DEL_KOREAN) == language || mDBInfoRes.getInteger(R.enlanguage.DEL_KOREAN_OLD) == language;
+        return mDBInfoRes.getInteger(R.integer.DEL_KOREAN) == language || mDBInfoRes.getInteger(R.integer.DEL_KOREAN_OLD) == language;
     }
 
     private static boolean isLanguageFrench(int language) {
-        return mDBInfoRes.getInteger(R.enlanguage.DEL_FRENCH) == language;
+        return mDBInfoRes.getInteger(R.integer.DEL_FRENCH) == language;
     }
 
     private static boolean isLanguageGerman(int language) {
-        return mDBInfoRes.getInteger(R.enlanguage.DEL_GERMAN) == language;
+        return mDBInfoRes.getInteger(R.integer.DEL_GERMAN) == language;
     }
 
     private static boolean isLanguageChinese_SIMP(int language) {
-        return mDBInfoRes.getInteger(R.enlanguage.DEL_CHINESE_SIMP) == language;
+        return mDBInfoRes.getInteger(R.integer.DEL_CHINESE_SIMP) == language;
     }
 
     private static boolean isLanguageChinese_TRAD(int language) {
-        return mDBInfoRes.getInteger(R.enlanguage.DEL_CHINESE_TRAD) == language;
+        return mDBInfoRes.getInteger(R.integer.DEL_CHINESE_TRAD) == language;
     }
 
     private static boolean isLanguageChinese(int language) {
-        return language == mContext.getResources().getInteger(R.enlanguage.DEL_CHINESE) || language == mContext.getResources().getInteger(R.enlanguage.DEL_CHINESE_PINYIN) || language == mContext.getResources().getInteger(R.enlanguage.DEL_CHINESE_SIMP) || language == mContext.getResources().getInteger(R.enlanguage.DEL_CHINESE_SIMPTRAD) || language == mContext.getResources().getInteger(R.enlanguage.DEL_CHINESE_TRAD);
+        return language == mContext.getResources().getInteger(R.integer.DEL_CHINESE) || language == mContext.getResources().getInteger(R.integer.DEL_CHINESE_PINYIN) || language == mContext.getResources().getInteger(R.integer.DEL_CHINESE_SIMP) || language == mContext.getResources().getInteger(R.integer.DEL_CHINESE_SIMPTRAD) || language == mContext.getResources().getInteger(R.integer.DEL_CHINESE_TRAD);
     }
 
     private static boolean isLanguageEnglish(int language) {
-        return mDBInfoRes.getInteger(R.enlanguage.DEL_ENGLISH) == language;
+        return mDBInfoRes.getInteger(R.integer.DEL_ENGLISH) == language;
     }
 
     private static boolean isLanguageJapanese(int language) {
-        return mDBInfoRes.getInteger(R.enlanguage.DEL_JAPANESE) == language || mDBInfoRes.getInteger(R.enlanguage.DEL_JAPANESE_KANJI) == language;
+        return mDBInfoRes.getInteger(R.integer.DEL_JAPANESE) == language || mDBInfoRes.getInteger(R.integer.DEL_JAPANESE_KANJI) == language;
     }
 
     private static boolean isLanguageVetnamese(int language) {
-        return mDBInfoRes.getInteger(R.enlanguage.DEL_VIETNAMESE) == language;
+        return mDBInfoRes.getInteger(R.integer.DEL_VIETNAMESE) == language;
     }
 
     private static boolean isLanguageChineseInitial(int language) {
-        return mDBInfoRes.getInteger(R.enlanguage.DEL_CHINESE_PINYIN_INITIAL) == language;
+        return mDBInfoRes.getInteger(R.integer.DEL_CHINESE_PINYIN_INITIAL) == language;
     }
 
     private static int languageCodeToHangulroMode(int language) {
@@ -958,64 +958,64 @@ public class DictDBManager {
     }
 
     private static String getLangName(int cp) {
-        if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_ENGLISH) || cp == mDBInfoRes.getInteger(R.enlanguage.DEL_ENGLISH_UK)) {
+        if (cp == mDBInfoRes.getInteger(R.integer.DEL_ENGLISH) || cp == mDBInfoRes.getInteger(R.integer.DEL_ENGLISH_UK)) {
             String str = mContext.getResources().getString(R.string.edit_hit_eng);
             return str;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_KOREAN) || cp == mDBInfoRes.getInteger(R.enlanguage.DEL_KOREAN_OLD)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_KOREAN) || cp == mDBInfoRes.getInteger(R.integer.DEL_KOREAN_OLD)) {
             String str2 = mContext.getResources().getString(R.string.edit_hit_kor);
             return str2;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_JAPANESE) || cp == mDBInfoRes.getInteger(R.enlanguage.DEL_JAPANESE_KANJI)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_JAPANESE) || cp == mDBInfoRes.getInteger(R.integer.DEL_JAPANESE_KANJI)) {
             String str3 = mContext.getResources().getString(R.string.edit_hit_jpn);
             return str3;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_CHINESE) || cp == mDBInfoRes.getInteger(R.enlanguage.DEL_CHINESE_SIMP) || cp == mDBInfoRes.getInteger(R.enlanguage.DEL_CHINESE_PINYIN) || cp == mDBInfoRes.getInteger(R.enlanguage.DEL_CHINESE_PINYIN_INITIAL) || cp == mDBInfoRes.getInteger(R.enlanguage.DEL_CHINESE_SIMPTRAD) || cp == mDBInfoRes.getInteger(R.enlanguage.DEL_CHINESE_TRAD)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_CHINESE) || cp == mDBInfoRes.getInteger(R.integer.DEL_CHINESE_SIMP) || cp == mDBInfoRes.getInteger(R.integer.DEL_CHINESE_PINYIN) || cp == mDBInfoRes.getInteger(R.integer.DEL_CHINESE_PINYIN_INITIAL) || cp == mDBInfoRes.getInteger(R.integer.DEL_CHINESE_SIMPTRAD) || cp == mDBInfoRes.getInteger(R.integer.DEL_CHINESE_TRAD)) {
             String str4 = mContext.getResources().getString(R.string.edit_hit_chn);
             return str4;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_ESPANOL)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_ESPANOL)) {
             String str5 = mContext.getResources().getString(R.string.edit_hit_spa);
             return str5;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_PORTUGUESE)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_PORTUGUESE)) {
             String str6 = mContext.getResources().getString(R.string.edit_hit_por);
             return str6;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_GERMAN)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_GERMAN)) {
             String str7 = mContext.getResources().getString(R.string.edit_hit_ger);
             return str7;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_GERMAN)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_GERMAN)) {
             String str8 = mContext.getResources().getString(R.string.edit_hit_fra);
             return str8;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_GERMAN)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_GERMAN)) {
             String str9 = mContext.getResources().getString(R.string.edit_hit_ita);
             return str9;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_MALAYSIAN)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_MALAYSIAN)) {
             String str10 = mContext.getResources().getString(R.string.edit_hit_mal);
             return str10;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_RUSSIAN)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_RUSSIAN)) {
             String str11 = mContext.getResources().getString(R.string.edit_hit_rus);
             return str11;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_UKRAINIAN)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_UKRAINIAN)) {
             String str12 = mContext.getResources().getString(R.string.edit_hit_ukr);
             return str12;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_DANISH)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_DANISH)) {
             String str13 = mContext.getResources().getString(R.string.edit_hit_dan);
             return str13;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_FINNISH)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_FINNISH)) {
             String str14 = mContext.getResources().getString(R.string.edit_hit_fin);
             return str14;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_DUTCH)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_DUTCH)) {
             String str15 = mContext.getResources().getString(R.string.edit_hit_dut);
             return str15;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_NORWEGIAN)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_NORWEGIAN)) {
             String str16 = mContext.getResources().getString(R.string.edit_hit_nor);
             return str16;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_SWEDISH)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_SWEDISH)) {
             String str17 = mContext.getResources().getString(R.string.edit_hit_swe);
             return str17;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_INDONESIAN)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_INDONESIAN)) {
             String str18 = mContext.getResources().getString(R.string.edit_hit_ind);
             return str18;
-        } else if (cp == mDBInfoRes.getInteger(R.enlanguage.DEL_VIETNAMESE)) {
+        } else if (cp == mDBInfoRes.getInteger(R.integer.DEL_VIETNAMESE)) {
             String str19 = mContext.getResources().getString(R.string.edit_hit_vie);
             return str19;
-        } else if (cp != mDBInfoRes.getInteger(R.enlanguage.DEL_THAI) && cp != mDBInfoRes.getInteger(R.enlanguage.DEL_THAI_PHONETIC)) {
+        } else if (cp != mDBInfoRes.getInteger(R.integer.DEL_THAI) && cp != mDBInfoRes.getInteger(R.integer.DEL_THAI_PHONETIC)) {
             return "";
         } else {
             String str20 = mContext.getResources().getString(R.string.edit_hit_tha);
@@ -1031,8 +1031,8 @@ public class DictDBManager {
             InitDBManager(context);
         }
         int size = mUseDBList.size();
-        int dicType_chneng = mDBInfoRes.getInteger(R.dbtype.DEDT_OXFORD_ENG_CHN);
-        int dicType_chneng_fltrp = mDBInfoRes.getInteger(R.dbtype.DEDT_OXFORD_FLTRP_CHN_ENG);
+        int dicType_chneng = mDBInfoRes.getInteger(R.integer.DEDT_OXFORD_ENG_CHN);
+        int dicType_chneng_fltrp = mDBInfoRes.getInteger(R.integer.DEDT_OXFORD_FLTRP_CHN_ENG);
         for (int i = 0; i < size; i++) {
             if (dicType_chneng == mUseDBList.get(i).intValue() || dicType_chneng_fltrp == mUseDBList.get(i).intValue()) {
                 return true;

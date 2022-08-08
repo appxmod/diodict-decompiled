@@ -417,8 +417,8 @@ public class HelpActivity extends BaseActivity {
             if ((((Integer) Array.get(i).first).intValue() & mask) != (value.intValue() & mask)) {
                 i++;
             } else {
-                int natkorId = getResources().getInteger(R.dbtype.DEDT_NATKOREAN_KORTOKOR);
-                int natkoroldId = getResources().getInteger(R.dbtype.DEDT_NATKOREAN_OLDKOR);
+                int natkorId = getResources().getInteger(R.integer.DEDT_NATKOREAN_KORTOKOR);
+                int natkoroldId = getResources().getInteger(R.integer.DEDT_NATKOREAN_OLDKOR);
                 if ((value.intValue() == natkorId || value.intValue() == natkoroldId) && ((Integer) Array.get(i).first).intValue() != natkorId && ((Integer) Array.get(i).first).intValue() != natkoroldId) {
                     return -1;
                 }

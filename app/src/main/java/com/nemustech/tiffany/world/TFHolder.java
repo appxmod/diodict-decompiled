@@ -154,7 +154,7 @@ public abstract class TFHolder extends TFObject {
             clone.mObjectSlots = new LinkedList<>();
             Iterator i$ = this.mObjectSlots.iterator();
             while (i$.hasNext()) {
-                TFObjectContainer oc = i$.next();
+                TFObjectContainer oc = (TFObjectContainer) i$.next();
                 if (this.mTerminalHolder) {
                     clone.addModel((TFModel) oc.getObject().clone(), clone.mObjectSlots.size());
                 } else {
@@ -172,7 +172,7 @@ public abstract class TFHolder extends TFObject {
             } else {
                 Iterator i$2 = this.mObjectSlots.iterator();
                 while (i$2.hasNext()) {
-                    TFObjectContainer oc2 = i$2.next();
+                    TFObjectContainer oc2 = (TFObjectContainer) i$2.next();
                     if (this.mTerminalHolder) {
                         clone.addModel((TFModel) oc2.getObject().clone());
                     } else {
@@ -221,7 +221,7 @@ public abstract class TFHolder extends TFObject {
         this.mWorld = world;
         Iterator i$ = this.mObjectSlots.iterator();
         while (i$.hasNext()) {
-            TFObjectContainer o = i$.next();
+            TFObjectContainer o = (TFObjectContainer) i$.next();
             if (o.getObject() != null) {
                 if (o.getObject() instanceof TFModel) {
                     o.getObject().mWorld = this.mWorld;
@@ -250,14 +250,14 @@ public abstract class TFHolder extends TFObject {
         if (isTerminalHolder()) {
             Iterator i$ = this.mObjectSlots.iterator();
             while (i$.hasNext()) {
-                TFObjectContainer referenceWrapper = i$.next();
+                TFObjectContainer referenceWrapper = (TFObjectContainer) i$.next();
                 ((TFModel) referenceWrapper.getObject()).deleteAllImageResource();
             }
             return;
         }
         Iterator i$2 = this.mObjectSlots.iterator();
         while (i$2.hasNext()) {
-            TFObjectContainer referenceWrapper2 = i$2.next();
+            TFObjectContainer referenceWrapper2 = (TFObjectContainer) i$2.next();
             ((TFHolder) referenceWrapper2.getObject()).deleteAllImageResource();
         }
     }
@@ -350,7 +350,7 @@ public abstract class TFHolder extends TFObject {
     public void defaultBindingBehavior(float step) {
         Iterator i$ = this.mHolderBindings.iterator();
         while (i$.hasNext()) {
-            TFHolder holder = i$.next();
+            TFHolder holder = (TFHolder) i$.next();
             holder.moveHeadModelStep(step, false);
         }
     }
@@ -365,10 +365,10 @@ public abstract class TFHolder extends TFObject {
         this.mCurrentActingHolder = holder;
         Iterator i$ = holderBindings.iterator();
         while (i$.hasNext()) {
-            TFHolder m = i$.next();
+            TFHolder m = (TFHolder) i$.next();
             m.setCurrentActingHolder(holder);
-            m.mo5getMoveAnimation().setTempAutoRepositionMode(false);
-            m.mo5getMoveAnimation().stop();
+            m.getMoveAnimation().setTempAutoRepositionMode(false);
+            m.getMoveAnimation().stop();
         }
     }
 
@@ -376,9 +376,9 @@ public abstract class TFHolder extends TFObject {
         LinkedList<TFHolder> holderBindings = ((TFHolder) animation.getSubject()).getHolderBindings();
         Iterator i$ = holderBindings.iterator();
         while (i$.hasNext()) {
-            TFHolder m = i$.next();
+            TFHolder m = (TFHolder) i$.next();
             if (!m.equals(this.mCurrentActingHolder)) {
-                m.mo5getMoveAnimation().setOriginalAutoRepositionMode();
+                m.getMoveAnimation().setOriginalAutoRepositionMode();
             }
         }
     }
@@ -568,7 +568,7 @@ public abstract class TFHolder extends TFObject {
         if (this.mTerminalHolder) {
             Iterator i$ = this.mObjectSlots.iterator();
             while (i$.hasNext()) {
-                TFObjectContainer o = i$.next();
+                TFObjectContainer o = (TFObjectContainer) i$.next();
                 TFModel model = (TFModel) o.getObject();
                 model.mWorld = world;
             }
@@ -576,7 +576,7 @@ public abstract class TFHolder extends TFObject {
         }
         Iterator i$2 = this.mObjectSlots.iterator();
         while (i$2.hasNext()) {
-            TFObjectContainer o2 = i$2.next();
+            TFObjectContainer o2 = (TFObjectContainer) i$2.next();
             TFHolder holder = (TFHolder) o2.getObject();
             holder.associateToWorld(world);
         }
@@ -594,7 +594,7 @@ public abstract class TFHolder extends TFObject {
             if (this.mCloneList != null) {
                 Iterator i$ = this.mCloneList.iterator();
                 while (i$.hasNext()) {
-                    TFObject o = i$.next();
+                    TFObject o = (TFObject) i$.next();
                     try {
                         ((TFHolder) o).setHolder((TFHolder) holder.clone(), slotIndex);
                     } catch (CloneNotSupportedException e) {
@@ -613,7 +613,7 @@ public abstract class TFHolder extends TFObject {
             if (this.mCloneList != null) {
                 Iterator i$ = this.mCloneList.iterator();
                 while (i$.hasNext()) {
-                    TFObject o = i$.next();
+                    TFObject o = (TFObject) i$.next();
                     try {
                         ((TFHolder) o).setModel((TFModel) model.clone(), slotIndex);
                     } catch (CloneNotSupportedException e) {
@@ -672,7 +672,7 @@ public abstract class TFHolder extends TFObject {
     public TFObject getObjectInSlotByItemIndex(int itemIdx) {
         Iterator i$ = this.mObjectSlots.iterator();
         while (i$.hasNext()) {
-            TFObjectContainer m = i$.next();
+            TFObjectContainer m = (TFObjectContainer) i$.next();
             if (m.getObject().getItemIndex() == itemIdx) {
                 return m.getObject();
             }
@@ -773,7 +773,7 @@ public abstract class TFHolder extends TFObject {
         }
         Iterator i$ = this.mObjectSlots.iterator();
         while (i$.hasNext()) {
-            TFObjectContainer oc = i$.next();
+            TFObjectContainer oc = (TFObjectContainer) i$.next();
             TFHolder holder = (TFHolder) oc.getObject();
             if (holder != null) {
                 holder.genTexture(gl);
@@ -851,7 +851,7 @@ public abstract class TFHolder extends TFObject {
         int slotIndex = 0;
         Iterator i$ = this.mObjectSlots.iterator();
         while (i$.hasNext()) {
-            TFObjectContainer slot = i$.next();
+            TFObjectContainer slot = (TFObjectContainer) i$.next();
             setItemIndexOfObjectInSlot(slot, calculateItemIndexOfSlot(slotIndex));
             slotIndex++;
         }
@@ -879,7 +879,7 @@ public abstract class TFHolder extends TFObject {
         TFHolder toReturn = null;
         Iterator i$ = this.mObjectSlots.iterator();
         while (i$.hasNext()) {
-            TFObjectContainer m = i$.next();
+            TFObjectContainer m = (TFObjectContainer) i$.next();
             if (m.getObject() != null) {
                 if (m.getObject() instanceof TFModel) {
                     if (m.getObject() == object) {
@@ -962,7 +962,7 @@ public abstract class TFHolder extends TFObject {
         Log.d(TAG, String.format("-------------------------------------", new Object[0]));
         Iterator i$ = this.mObjectSlots.iterator();
         while (i$.hasNext()) {
-            TFObjectContainer o = i$.next();
+            TFObjectContainer o = (TFObjectContainer) i$.next();
             Log.d(TAG, String.format("dumpModelList - slotIndex: %d, itemIndex: %d", Integer.valueOf(i), Integer.valueOf(o.getObject().getItemIndex())));
             i++;
         }
@@ -996,7 +996,7 @@ public abstract class TFHolder extends TFObject {
                 Collections.sort(objects, TFObjectContainer.compareAxisZ);
                 Iterator i$ = objects.iterator();
                 while (i$.hasNext()) {
-                    TFObjectContainer o = i$.next();
+                    TFObjectContainer o = (TFObjectContainer) i$.next();
                     renderChild(gl, tickPassed, o);
                 }
                 return;
@@ -1205,7 +1205,7 @@ public abstract class TFHolder extends TFObject {
             int level2 = level + 1;
             Iterator i$ = this.mObjectSlots.iterator();
             while (i$.hasNext()) {
-                TFObjectContainer oc = i$.next();
+                TFObjectContainer oc = (TFObjectContainer) i$.next();
                 if (oc.getObject() != null) {
                     ((TFHolder) oc.getObject()).printHolderState(level2);
                 }
@@ -1215,7 +1215,8 @@ public abstract class TFHolder extends TFObject {
         }
         Iterator i$2 = this.mObjectSlots.iterator();
         while (i$2.hasNext()) {
-            ((TFModel) i$2.next().getObject()).printModelState(level);
+			TFObjectContainer oc = (TFObjectContainer) i$2.next();
+            ((TFModel) oc.getObject()).printModelState(level);
         }
     }
 
@@ -1418,7 +1419,7 @@ public abstract class TFHolder extends TFObject {
     }
 
     /* renamed from: getMoveAnimation */
-    public MoveAnimation mo5getMoveAnimation() {
+    public MoveAnimation getMoveAnimation() {
         return this.mMoveAni;
     }
 

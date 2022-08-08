@@ -62,7 +62,8 @@ public class TFCustomPanel extends TFModel {
         setSize(width, height, meshWidth, meshHeight);
     }
 
-    @Override // com.nemustech.tiffany.world.TFModel
+    @Override
+	public // com.nemustech.tiffany.world.TFModel
     void adjustTextureCoordination(Rect rectTexture, int index, int textureWidth, int textureHeight) {
         setTextureSize(index, rectTexture.right / textureWidth, rectTexture.bottom / textureHeight);
         buildTexCoordArray(index);
@@ -134,7 +135,8 @@ public class TFCustomPanel extends TFModel {
         return true;
     }
 
-    @Override // com.nemustech.tiffany.world.TFModel
+    @Override
+	public // com.nemustech.tiffany.world.TFModel
     void updateHitPoint() {
         super.updateHitPoint();
         int hitPointOffset = this.mMeshHeight * (this.mMeshWidth + 1) * 2 * 3;

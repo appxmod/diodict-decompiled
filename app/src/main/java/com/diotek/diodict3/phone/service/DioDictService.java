@@ -33,7 +33,7 @@ public class DioDictService extends Service {
     IBinder m_binder = new IDioDictService.Stub() { // from class: com.diotek.diodict3.phone.service.DioDictService.1
         @Override // com.diotek.diodict3.phone.service.IDioDictService
         /* renamed from: getWordList */
-        public HashMap<String, Object> mo3getWordList(int dicType, String inputWord, boolean isGetWordList) {
+        public HashMap<String, Object> getWordList(int dicType, String inputWord, boolean isGetWordList) {
             int maxItems;
             if (inputWord == null || inputWord.equals("")) {
                 return null;
@@ -79,7 +79,7 @@ public class DioDictService extends Service {
 
         @Override // com.diotek.diodict3.phone.service.IDioDictService
         /* renamed from: getMeaning */
-        public HashMap<String, Spanned> mo2getMeaning(int dicType, String keyword, int suid) {
+        public HashMap<String, Spanned> getMeaning(int dicType, String keyword, int suid) {
             if (DioDictService.this.mTagConverter != null) {
                 DioDictService.this.mTagConverter = null;
             }

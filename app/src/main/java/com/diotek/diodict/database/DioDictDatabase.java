@@ -781,26 +781,19 @@ public class DioDictDatabase {
     }
 
     public static Object getObjectByBytes(byte[] byteObject) {
-        ObjectInputStream ois;
+        ObjectInputStream ois = null;
         Object object = null;
         ByteArrayInputStream bis = new ByteArrayInputStream(byteObject);
         try {
             ois = new ObjectInputStream(bis);
-        } catch (IOException e) {
-            e = e;
-        } catch (ClassNotFoundException e2) {
-            e = e2;
-        }
+        } catch (Exception e) {
+			e.printStackTrace();
+		}
         try {
             bis.close();
             object = ois.readObject();
             ois.close();
-        } catch (IOException e3) {
-            e = e3;
-            e.printStackTrace();
-            return object;
-        } catch (ClassNotFoundException e4) {
-            e = e4;
+        } catch (Exception e) {
             e.printStackTrace();
             return object;
         }

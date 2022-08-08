@@ -515,7 +515,7 @@ public class TFWorld {
     }
 
     /* loaded from: classes.dex */
-    public class Layer extends LinkedList<TFObject> {
+    public static class Layer extends LinkedList<TFObject> {
         public Layer() {
         }
     }
@@ -699,7 +699,7 @@ public class TFWorld {
             Log.d("HOLDER_STAT", "On layer : " + i + " (" + layer + ")");
             Iterator i$ = layer.iterator();
             while (i$.hasNext()) {
-                TFObject o = i$.next();
+                TFObject o = (TFObject) i$.next();
                 if (o instanceof TFHolder) {
                     TFHolder h = (TFHolder) o;
                     h.printHolderState(0, absolute);

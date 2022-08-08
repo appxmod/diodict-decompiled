@@ -58,7 +58,7 @@ public abstract class TFItemProvider<T> implements Cloneable {
             clone.setClientHolder(null);
             Iterator i$ = this.mItemList.iterator();
             while (i$.hasNext()) {
-                T o = i$.next();
+                T o = (T) i$.next();
                 if (o instanceof TFObject) {
                     clone.addItem(((TFObject) o).clone());
                 } else {
@@ -93,7 +93,7 @@ public abstract class TFItemProvider<T> implements Cloneable {
                 LinkedList<TFObject> cloneList = this.mClientHolder.getCloneList();
                 Iterator i$ = cloneList.iterator();
                 while (i$.hasNext()) {
-                    TFObject o = i$.next();
+                    TFObject o = (TFObject) i$.next();
                     ((TFHolder) o).getItemProvider().addItem(item);
                 }
             }
@@ -107,7 +107,7 @@ public abstract class TFItemProvider<T> implements Cloneable {
         if (this.mClientHolder != null && this.mClientHolder.getCloneList() != null) {
             Iterator i$ = this.mClientHolder.getCloneList().iterator();
             while (i$.hasNext()) {
-                TFObject o = i$.next();
+                TFObject o = (TFObject) i$.next();
                 ((TFHolder) o).getItemProvider().addItemAt(idx, item);
             }
         }
@@ -118,7 +118,7 @@ public abstract class TFItemProvider<T> implements Cloneable {
         if (removed != null && this.mClientHolder != null && this.mClientHolder.getCloneList() != null) {
             Iterator i$ = this.mClientHolder.getCloneList().iterator();
             while (i$.hasNext()) {
-                TFObject o = i$.next();
+                TFObject o = (TFObject) i$.next();
                 ((TFHolder) o).getItemProvider().removeItemAt(idx);
             }
         }
@@ -132,7 +132,7 @@ public abstract class TFItemProvider<T> implements Cloneable {
             if (this.mClientHolder != null && this.mClientHolder.getCloneList() != null) {
                 Iterator i$ = this.mClientHolder.getCloneList().iterator();
                 while (i$.hasNext()) {
-                    TFObject o = i$.next();
+                    TFObject o = (TFObject) i$.next();
                     ((TFHolder) o).getItemProvider().removeItem(item);
                 }
             }
@@ -144,7 +144,7 @@ public abstract class TFItemProvider<T> implements Cloneable {
     public void associateTo(TFHolder holder) {
         Iterator i$ = this.mItemList.iterator();
         while (i$.hasNext()) {
-            T o = i$.next();
+            T o = (T) i$.next();
             if (o instanceof TFObject) {
                 ((TFObject) o).associateToHolder(holder);
             } else {

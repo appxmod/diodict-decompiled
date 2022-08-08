@@ -1007,7 +1007,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onPause() {
+	public void onPause() {
         this.mHandler.removeCallbacks(this.mUpdateMeanView);
         this.mHandler.removeCallbacks(this.mSearchWordRunnable);
         handleSaveMarkerObject();
@@ -1231,7 +1231,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onDestroy() {
+	public void onDestroy() {
         initializeSearchEditText();
         destroyData(false);
         destroyImage(false);
@@ -1240,7 +1240,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onResume() {
+	public void onResume() {
         if (this.mEngine.getCurDict() == 65520) {
             enableGesture(false);
         } else {
@@ -1250,7 +1250,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != FINISH_ACTIVITY) {
             if (this.mSearchListViewAdapter.getCount() > 0) {
                 int nTheme = this.mSearchMeanController.getTheme();
@@ -1320,7 +1320,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity
-    protected void setSmallMeanView() {
+	public void setSmallMeanView() {
         this.mGestures.setVisibility(0);
         super.setSmallMeanView();
     }
@@ -1405,7 +1405,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity
-    protected void onMeanViewExtensionStart() {
+	public void onMeanViewExtensionStart() {
         this.mGestures.setVisibility(8);
         if (Dependency.isContainHandWrightReocg()) {
             this.mCandiBox.hide();
@@ -1418,7 +1418,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity
-    protected void onMeanViewReductionStart() {
+	public void onMeanViewReductionStart() {
         this.mGestures.setVisibility(0);
         super.onMeanViewReductionStart();
     }
@@ -1454,8 +1454,7 @@ public class SearchListActivity extends ListMeanViewActivity {
                     this.mHandler.postDelayed(this.mFinishFlagInitialize, 2000L);
                     return true;
                 }
-                break;
-            case 19:
+			case 19:
             case 20:
                 return true;
             case 21:
@@ -3800,7 +3799,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     @Override // com.diotek.diodict.ListMeanViewActivity
     protected void checkSymbolKeyword() {
         int nDictype = this.mEngine.getCurDict();
-        if (nDictype == getResources().getInteger(R.dbtype.DEDT_OXFORD_NEW_AMERICAN_DICTIONARY)) {
+        if (nDictype == getResources().getInteger(R.integer.DEDT_OXFORD_NEW_AMERICAN_DICTIONARY)) {
             if (this.mSearchMeanController != null) {
                 String keyword = this.mSearchMeanController.getWord();
                 if (keyword == null) {

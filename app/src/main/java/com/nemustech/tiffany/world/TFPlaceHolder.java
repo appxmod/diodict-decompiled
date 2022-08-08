@@ -97,7 +97,7 @@ public class TFPlaceHolder extends TFHolder {
         if (this.mCloneList != null) {
             Iterator i$ = this.mCloneList.iterator();
             while (i$.hasNext()) {
-                TFObject o = i$.next();
+                TFObject o = (TFObject) i$.next();
                 try {
                     TFHolder h = (TFHolder) o;
                     h.addModel((TFModel) model.clone(), slotIndex);
@@ -127,7 +127,7 @@ public class TFPlaceHolder extends TFHolder {
             if (this.mCloneList != null) {
                 Iterator i$ = this.mCloneList.iterator();
                 while (i$.hasNext()) {
-                    TFObject o = i$.next();
+                    TFObject o = (TFObject) i$.next();
                     ((TFHolder) o).removeModel(slotIndex);
                 }
             }
@@ -154,7 +154,7 @@ public class TFPlaceHolder extends TFHolder {
         if (this.mCloneList != null) {
             Iterator i$ = this.mCloneList.iterator();
             while (i$.hasNext()) {
-                TFObject o = i$.next();
+                TFObject o = (TFObject) i$.next();
                 try {
                     ((TFHolder) o).addHolder((TFHolder) holder.clone(), slotIndex);
                 } catch (CloneNotSupportedException e) {
@@ -187,7 +187,7 @@ public class TFPlaceHolder extends TFHolder {
         if (this.mCloneList != null) {
             Iterator i$ = this.mCloneList.iterator();
             while (i$.hasNext()) {
-                TFObject o = i$.next();
+                TFObject o = (TFObject) i$.next();
                 ((TFHolder) o).removeHolder(slotIndex);
             }
         }

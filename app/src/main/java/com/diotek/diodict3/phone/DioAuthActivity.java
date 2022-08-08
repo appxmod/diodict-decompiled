@@ -165,7 +165,7 @@ public class DioAuthActivity extends BaseActivity {
     }
 
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onDestroy() {
+	public void onDestroy() {
         super.onDestroy();
     }
 

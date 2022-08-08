@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <envendor name="DEV_FREE0">0</envendor>
-    <envendor name="DEV_DIOTEK">1</envendor>
-    <envendor name="DEV_SAMSUNG">2</envendor>
-    <envendor name="DEV_LG">3</envendor>
-    <envendor name="DEV_PANTECH">4</envendor>
-    <envendor name="DEV_MOTOROLA">5</envendor>
-    <envendor name="DEV_SKTT">6</envendor>
-    <envendor name="DEV_KTFT">7</envendor>
-    <envendor name="DEV_RAINCOM">8</envendor>
-    <envendor name="DEV_COWON">9</envendor>
-    <envendor name="DEV_HAMPEX">10</envendor>
-    <envendor name="DEV_ORACOM">11</envendor>
-    <envendor name="DEV_MAX">12</envendor>
+    <integer name="DEV_FREE0">0</integer>
+    <integer name="DEV_DIOTEK">1</integer>
+    <integer name="DEV_SAMSUNG">2</integer>
+    <integer name="DEV_LG">3</integer>
+    <integer name="DEV_PANTECH">4</integer>
+    <integer name="DEV_MOTOROLA">5</integer>
+    <integer name="DEV_SKTT">6</integer>
+    <integer name="DEV_KTFT">7</integer>
+    <integer name="DEV_RAINCOM">8</integer>
+    <integer name="DEV_COWON">9</integer>
+    <integer name="DEV_HAMPEX">10</integer>
+    <integer name="DEV_ORACOM">11</integer>
+    <integer name="DEV_MAX">12</integer>
 </resources>

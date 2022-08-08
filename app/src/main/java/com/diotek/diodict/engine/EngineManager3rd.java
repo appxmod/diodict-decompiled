@@ -43,7 +43,7 @@ public class EngineManager3rd {
             /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
             /* renamed from: createFromParcel */
-            public SearchMethodInfo mo0createFromParcel(Parcel source) {
+            public SearchMethodInfo createFromParcel(Parcel source) {
                 SearchMethodInfo sm = new SearchMethodInfo(source.readInt(), source.readInt());
                 return sm;
             }
@@ -51,7 +51,7 @@ public class EngineManager3rd {
             /* JADX WARN: Can't rename method to resolve collision */
             @Override // android.os.Parcelable.Creator
             /* renamed from: newArray */
-            public SearchMethodInfo[] mo1newArray(int size) {
+            public SearchMethodInfo[] newArray(int size) {
                 return new SearchMethodInfo[size];
             }
         };
@@ -293,7 +293,7 @@ public class EngineManager3rd {
         Vector<Integer> templist = new Vector<>();
         Iterator i$ = EngineInfo3rd.ALLTTS_TABLE.iterator();
         while (i$.hasNext()) {
-            int ttsID = i$.next().intValue();
+            int ttsID = ((Integer)i$.next()).intValue();
             if (DictUtils.checkExistTTSFile(ttsID) && DictUtils.checkInstallTTS(ttsID)) {
                 templist.add(Integer.valueOf(ttsID));
             }

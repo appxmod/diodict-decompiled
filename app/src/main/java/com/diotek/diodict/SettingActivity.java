@@ -152,18 +152,19 @@ public class SettingActivity extends BaseActivity {
 
     @Override // android.app.Activity
     protected void onCreate(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT < 11) {
-            requestWindowFeature(7);
-        }
-        this.mCurrentMenuId = 1001;
-        if (super.onCreateActivity(savedInstanceState)) {
-            if (Dependency.isContainTTS()) {
-                setVolumeControlStream(3);
-            }
-            this.mIsCreate = true;
-            initActivity();
-        }
-    }
+		super.onCreate(savedInstanceState);
+		if (Build.VERSION.SDK_INT < 11) {
+			requestWindowFeature(7);
+		}
+		this.mCurrentMenuId = 1001;
+		if (super.onCreateActivity(savedInstanceState)) {
+			if (Dependency.isContainTTS()) {
+				setVolumeControlStream(3);
+			}
+			this.mIsCreate = true;
+			initActivity();
+		}
+	}
 
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity, android.content.ComponentCallbacks
     public void onConfigurationChanged(Configuration newConfig) {
@@ -198,7 +199,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onDestroy() {
+	public void onDestroy() {
         super.onDestroy();
     }
 

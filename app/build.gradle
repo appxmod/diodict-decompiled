@@ -3,8 +3,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion 23
+   //  buildToolsVersion "23.1"
+   // buildToolsVersion "30.0.2"
+
+    sourceSets{
+        main {
+            jniLibs.srcDir 'src/main/lib'
+        }
+    }
 
     defaultConfig {
         applicationId 'com.diotek.diodict3.phone.samsung.chn'
@@ -14,6 +21,15 @@ android {
         versionName "1.0.6.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags ''
+//            }
+//        }
     }
 
     buildTypes {
@@ -31,6 +47,12 @@ android {
         lintOptions {
             abortOnError false
         }
+//    externalNativeBuild {
+//        cmake {
+//            path file('src/main/cpp/CMakeLists.txt')
+//            version '3.18.1'
+//        }
+//    }
 }
 
 dependencies {

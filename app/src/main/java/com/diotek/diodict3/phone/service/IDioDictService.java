@@ -14,10 +14,10 @@ public interface IDioDictService extends IInterface {
     int getMeanTextColor() throws RemoteException;
 
     /* renamed from: getMeaning */
-    Map mo2getMeaning(int i, String str, int i2) throws RemoteException;
+    Map getMeaning(int i, String str, int i2) throws RemoteException;
 
     /* renamed from: getWordList */
-    Map mo3getWordList(int i, String str, boolean z) throws RemoteException;
+    Map getWordList(int i, String str, boolean z) throws RemoteException;
 
     /* loaded from: classes.dex */
     public static abstract class Stub extends Binder implements IDioDictService {
@@ -107,7 +107,7 @@ public interface IDioDictService extends IInterface {
 
             @Override // com.diotek.diodict3.phone.service.IDioDictService
             /* renamed from: getWordList */
-            public Map mo3getWordList(int dicType, String inputWord, boolean isGetWordList) throws RemoteException {
+            public Map getWordList(int dicType, String inputWord, boolean isGetWordList) throws RemoteException {
                 int i = 1;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
@@ -132,7 +132,7 @@ public interface IDioDictService extends IInterface {
 
             @Override // com.diotek.diodict3.phone.service.IDioDictService
             /* renamed from: getMeaning */
-            public Map mo2getMeaning(int dicType, String keyword, int suid) throws RemoteException {
+            public Map getMeaning(int dicType, String keyword, int suid) throws RemoteException {
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {

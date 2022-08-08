@@ -540,13 +540,13 @@ public class HistoryActivity extends ListMeanViewActivity {
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onResume() {
+	public void onResume() {
         super.onResume();
         prepareSearchExtraInfo();
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onPause() {
+	public void onPause() {
         handleSaveMarkerObject();
         this.mFileLinkTagViewManager.onPause();
         this.mHyperSimpleViewModule.onPause();
@@ -587,7 +587,7 @@ public class HistoryActivity extends ListMeanViewActivity {
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onDestroy() {
+	public void onDestroy() {
         if (this.mMainMeanContentTextView != null) {
             this.mMainMeanContentTextView.onDestroy();
         }
@@ -673,7 +673,7 @@ public class HistoryActivity extends ListMeanViewActivity {
     }
 
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         int nTheme = this.mCursorMeanController.getTheme();
         if (nTheme != DictUtils.getFontThemeFromPreference(getApplicationContext()) && this.mHistoryListMode != 2) {
@@ -1589,7 +1589,7 @@ public class HistoryActivity extends ListMeanViewActivity {
     protected void checkSymbolKeyword() {
         if (this.mCursorMeanController != null) {
             int nDictype = this.mCursorMeanController.getDicType();
-            if (nDictype == getResources().getInteger(R.dbtype.DEDT_OXFORD_NEW_AMERICAN_DICTIONARY)) {
+            if (nDictype == getResources().getInteger(R.integer.DEDT_OXFORD_NEW_AMERICAN_DICTIONARY)) {
                 String keyword = this.mCursorMeanController.getWord();
                 if (EngineInfo3rd.IsTTSAvailableKeyword(keyword)) {
                     setEnableTTSButton(true);

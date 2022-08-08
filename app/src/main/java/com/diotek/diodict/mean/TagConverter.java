@@ -865,6 +865,14 @@ public class TagConverter {
     }
 
     private void Convert_EngineContent_Spanned() {
+		try {
+			Convert_EngineContent_Spanned_real();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+    private void Convert_EngineContent_Spanned_real() {
         int tag;
         this.mSpannableBuilder = this.mKeywordSpannableBuilder;
         if (this.mSource == null || this.mSource.length() == 0) {
@@ -897,7 +905,7 @@ public class TagConverter {
                     int value2 = value - 65;
                     this.mSrcIndex++;
                     this.mSrcIndex += this.mTagLength[value2];
-                    if (mTagDspMask[value2] != 0 || (this.mStyleStack.peek().dspMode & this.mCurDspMode) != 0) {
+                    if (mTagDspMask[value2] != 0 || !this.mStyleStack.empty() && (this.mStyleStack.peek().dspMode & this.mCurDspMode) != 0) {
                         this.mSpannableBuilder.append((CharSequence) this.mStringBuilder);
                         this.mStringBuilder.delete(0, this.mStringBuilder.length());
                         this.mTagHandler[value2].handleTag_Start(tag);
@@ -906,7 +914,7 @@ public class TagConverter {
                     int value3 = value - 97;
                     this.mSrcIndex++;
                     this.mSrcIndex += this.mTagLength[value3];
-                    if ((this.mStyleStack.peek().dspMode & this.mCurDspMode) != 0 || mTagDspMask[value3] != 0) {
+                    if (!this.mStyleStack.empty() && (this.mStyleStack.peek().dspMode & this.mCurDspMode) != 0 || mTagDspMask[value3] != 0) {
                         this.mSpannableBuilder.append((CharSequence) this.mStringBuilder);
                         this.mStringBuilder.delete(0, this.mStringBuilder.length());
                         this.mTagHandler[value3].handleTag_End(tag);
