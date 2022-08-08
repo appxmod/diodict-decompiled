@@ -114,11 +114,9 @@ public class ResInstall {
                             byte[] tempdata2 = new byte[FullSize];
                             fis.read(tempdata2);
                             fos.write(tempdata2);
-                            continue;
                         } else {
                             fis.read(tempdata);
                             fos.write(tempdata);
-                            continue;
                         }
                         FullSize -= 1000;
                     }
@@ -134,13 +132,17 @@ public class ResInstall {
                     e5.printStackTrace();
                 }
             }
-            if (afd != null) {
-                afd.close();
-            }
-            if (file != null) {
-                file.close();
-            }
-        } catch (IOException e6) {
+			try {
+				if (afd != null) {
+					afd.close();
+				}
+				if (file != null) {
+					file.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (IOException e6) {
             e6.printStackTrace();
             Log.e("copyRes2File ERR2", szDBName);
             if (fis != null) {
@@ -150,13 +152,17 @@ public class ResInstall {
                     e7.printStackTrace();
                 }
             }
-            if (afd != null) {
-                afd.close();
-            }
-            if (file != null) {
-                file.close();
-            }
-        }
+			try {
+				if (afd != null) {
+					afd.close();
+				}
+				if (file != null) {
+					file.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
         return 0;
     }
 }

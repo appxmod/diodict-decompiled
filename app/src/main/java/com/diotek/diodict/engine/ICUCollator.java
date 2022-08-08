@@ -64,7 +64,7 @@ public class ICUCollator {
     }
 
     public static boolean isUsableICU() {
-        File table;
+        File table = null;
         try {
             String path = DictUtils.getDBPath() + ICU_ORDER_FILE_NAME;
             table = new File(path);

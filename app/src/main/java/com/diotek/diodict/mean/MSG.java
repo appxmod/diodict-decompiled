@@ -77,10 +77,10 @@ public class MSG {
                         }
                     }
                 } catch (Exception e5) {
-                    e = e5;
+					//e5.printStackTrace();
                 }
             } catch (Throwable th2) {
-                th = th2;
+				//th2.printStackTrace();
             }
         }
     }

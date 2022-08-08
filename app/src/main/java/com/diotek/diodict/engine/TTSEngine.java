@@ -90,7 +90,8 @@ public class TTSEngine {
                     enteredMessage = "";
                 }
                 if (!TTSEngine.usepronun) {
-                    return DictionaryFilter.runFilter(DictInfo.TTSPATH + DictInfo.TTSPATH_LUA, TTSEngine.languageCode, "", false, enteredMessage);
+					System.out.println("fatal runFilter! ak");
+                    //return DictionaryFilter.runFilter(DictInfo.TTSPATH + DictInfo.TTSPATH_LUA, TTSEngine.languageCode, "", false, enteredMessage);
                 }
                 return enteredMessage;
             }

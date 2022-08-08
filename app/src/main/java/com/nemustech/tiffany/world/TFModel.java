@@ -41,6 +41,7 @@ public abstract class TFModel extends TFObject {
     private Runnable mLongPressHandler = new Runnable() { // from class: com.nemustech.tiffany.world.TFModel.3
         @Override // java.lang.Runnable
         public void run() {
+			System.out.println("fatal mLongPressHandler!");
             if (TFModel.this.mLongPressValid) {
                 TFModel.this.mOnTouchListener.onLongPressdown(TFModel.this, TFModel.this.mTouchedIndex, TFModel.this.mLongDownX, TFModel.this.mLongDownY);
             }
@@ -457,6 +458,7 @@ public abstract class TFModel extends TFObject {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean handleDown(int faceIndex, float x, float y) {
+		System.out.println("fatal handleDown!");
         this.mTouchedIndex = faceIndex;
         if (this.mOnTouchListener != null) {
             if (this.mOnTouchListener.onTouchDown(this, faceIndex, x, y)) {

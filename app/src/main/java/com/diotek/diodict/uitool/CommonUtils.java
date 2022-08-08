@@ -433,10 +433,10 @@ public class CommonUtils {
                         }
                     }
                     return resultword3.toUpperCase();
-                } else if (resultword3.toLowerCase().equals("abend") || resultword3.toLowerCase().equals("abba")) {
+                } else if (resultword3.equalsIgnoreCase("abend") || resultword3.equalsIgnoreCase("abba")) {
                     return resultword3.toLowerCase();
                 } else {
-                    if (resultword3.toLowerCase().equals("tpd")) {
+                    if (resultword3.equalsIgnoreCase("tpd")) {
                         return resultword3.toUpperCase();
                     }
                     return resultword3;
@@ -448,32 +448,30 @@ public class CommonUtils {
     }
 
     public static String makeCorrectTTSNumber(String word) {
-        int cnt = 0;
-        int i = 0;
-        while (i < word.length()) {
-            if (isNumber(word.charAt(i))) {
-                cnt = 1;
-                while (true) {
-                    i++;
-                    if (i < word.length() && isNumber(word.charAt(i))) {
-                        cnt++;
-                    }
-                }
-            }
-            i++;
-        }
-        if (cnt == 4 || cnt == 3) {
-            int i2 = 0;
-            while (i2 < word.length()) {
-                if (isNumber(word.charAt(i2)) && cnt - 1 == 2) {
-                    if (word.charAt(i2 + 1) != '0' || word.charAt(i2 + 2) != '0') {
-                        word = word.replaceFirst(word.charAt(i2) + "", word.charAt(i2) + " ");
-                    }
-                    i2 = word.length();
-                }
-                i2++;
-            }
-        }
+		// 谢特
+//        int cnt = 0;
+//        int i = 0;
+//        while (i < word.length()) {
+//            if (isNumber(word.charAt(i))) {
+//                //cnt = 1;
+//				cnt++;
+//            }
+//            i++;
+//        }
+//        if (cnt == 4 || cnt == 3) {
+//            int i2 = 0;
+//            while (i2 < word.length()) {
+//                if (isNumber(word.charAt(i2)) && cnt - 1 == 2) {
+//					try {
+//						if (word.charAt(i2 + 1) != '0' || word.charAt(i2 + 2) != '0') {
+//							word = word.replaceFirst(word.charAt(i2) + "", word.charAt(i2) + " ");
+//						}
+//					} catch (Exception ignored) { }
+//					i2 = word.length();
+//                }
+//                i2++;
+//            }
+//        }
         return word;
     }
 

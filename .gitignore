@@ -17,3 +17,8 @@ local.properties
 appbk
 .idea
 gradle
+build
+release
+debug
+*.dex
+cppx

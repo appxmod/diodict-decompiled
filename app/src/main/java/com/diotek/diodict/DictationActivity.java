@@ -1437,45 +1437,15 @@ public class DictationActivity extends BaseActivity {
         To view partially-correct code enable 'Show inconsistent code' option in preferences
     */
     private void setRecogInputType() {
-        /*
-            r5 = this;
-            int r1 = r5.mInputWordPos
-        L2:
-            boolean r3 = r5.isContainSymbol(r1)
-            if (r3 == 0) goto L15
-            if (r1 < 0) goto L15
-            java.lang.String r3 = r5.mCorrectWord
-            int r3 = r3.length()
-            if (r1 >= r3) goto L15
-            int r1 = r1 + 1
-            goto L2
-        L15:
-            if (r1 < 0) goto L44
-            java.lang.String r3 = r5.mCorrectWord
-            int r3 = r3.length()
-            if (r1 >= r3) goto L44
-            java.lang.StringBuilder r3 = new java.lang.StringBuilder
-            r3.<init>()
-            java.lang.String r4 = ""
-            java.lang.StringBuilder r3 = r3.append(r4)
-            java.lang.String r4 = r5.mCorrectWord
-            char r4 = r4.charAt(r1)
-            java.lang.StringBuilder r3 = r3.append(r4)
-            java.lang.String r2 = r3.toString()
-            boolean r3 = com.diotek.diodict.engine.DictUtils.isFirstNumber(r2)
-            if (r3 == 0) goto L45
-            com.diotek.diodict.uitool.RecognizeView r3 = r5.mRecognizeView
-            r4 = 6
-            r3.SetRecogMode(r4)
-        L44:
-            return
-        L45:
-            int r0 = com.diotek.diodict.engine.DictUtils.getCodePage(r2)
-            r5.setRecogInputTypeWithCodePage(r0, r2)
-            goto L44
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.diotek.diodict.DictationActivity.setRecogInputType():void");
-    }
+        // throw new UnsupportedOperationException("Method not decompiled: com.diotek.diodict.DictationActivity.setRecogInputType():void");
+		System.out.println("fatal setRecogInputType!"+mInputWordPos);
+		int correctWordPos = this.mInputWordPos;
+		while (isContainSymbol(correctWordPos) && correctWordPos >= 0 && correctWordPos < this.mCorrectWord.length()) {
+			correctWordPos++;
+		}
+		// 追加???
+		//this.mInputWordPos = correctWordPos;
+	}
 
     private void setRecogInputTypeWithCodePage(int codepage, String word) {
         if (codepage != -1) {

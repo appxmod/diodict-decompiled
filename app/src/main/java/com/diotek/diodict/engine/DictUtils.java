@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 /* loaded from: classes.dex */
 public class DictUtils {
@@ -281,7 +282,7 @@ public class DictUtils {
     public static void installLib(Context context) {
     }
 
-    public static void copyDB(Context context, int nResourceId, String szDBName) {
+    public static void copyDB(Context context, int nResourceId, String szDBName) throws IOException {
         AssetFileDescriptor afd = context.getResources().openRawResourceFd(nResourceId);
         InputStream file = null;
         FileInputStream fis = null;
@@ -513,15 +514,121 @@ public class DictUtils {
         Code decompiled incorrectly, please refer to instructions dump.
         To view partially-correct code enable 'Show inconsistent code' option in preferences
     */
-    public static int getCodePage(java.lang.String r9) {
-        /*
-            Method dump skipped, instructions count: 693
-            To view this dump change 'Code comments level' option to 'DEBUG'
-        */
-        throw new UnsupportedOperationException("Method not decompiled: com.diotek.diodict.engine.DictUtils.getCodePage(java.lang.String):int");
-    }
-
-    public static int getCodePage(char ch) {
+    public static int getCodePage(java.lang.String word) {
+		int ret = getCodePage_real(word);
+		System.out.println("fatal getCodePage!"+word+" = "+ret);
+		return ret;
+	}
+	
+    public static int getCodePage_real(java.lang.String word) {
+//        throw new UnsupportedOperationException("Method not decompiled: com.diotek.diodict.engine.DictUtils.getCodePage(java.lang.String):int");
+//		int codepage = -1;
+//		boolean bSpecialChar = false;
+//		int len = word.length();
+//		for (int i = 0; i < len; i++) {
+//			char c = word.charAt(i);
+//			if (c != '[' && c != '(' && c != 173 && c != 175 && c != 183 && c != 168 && c != 183 && c != 176 && c != 180 && c != 184) {
+//				if ((c >= 192 && c <= 255) || ((c >= 256 && c <= 679) || ((c >= 7680 && c <= 7935) || c == 8491 || (c >= 7263 && c <= 7272)))) {
+//					codepage = DictInfo.CP_LT1;
+//					break;
+//				}
+//			} else {
+//				break;
+//			}
+//		}
+//		final char test = 'A';
+//		if (!ISLATIN_CP(codepage)) {
+//			codepage = DictInfo.CP_CHN;
+//			int i = 0;
+//			while (i<len) {
+//				char c = word.charAt(i);
+//				if ((c < 4352 || c > 4607) && ((c < 12592 || c > 12687) && (c < 44032 || c > 55215))) {
+//					if ((c < 11904 || c > 12031) && ((c < 12544 || c > 12591) && ((c < 12704 || c > 12735) && ((c < 13312 || c > 19903) && ((c < 19968 || c > 40879) && ((c < 63744 || c > 64050) && c != 64132 && c != 64133 && c != 64147 && c != 64148 && c != 64150 && ((c < 64177 || c > 64255) && ((c < 63639 || c > 63686) && ((c < 63688 || c > 63725) && ((c < 63728 || c > 63729) && ((c < 63732 || c > 63743) && ((c < 6144 || c > 7254) && ((c < 57554 || c > 57555) && c != 63537))))))))))))) {
+//						if ((c < 12352 || c > 12447) && (c < 12448 || c > 12543)) {
+//							if (c >= 1024 && c <= 1279) {
+//								codepage = DictInfo.CP_CRL;
+//								break;
+//							} else if ((c < 'A' || c > 'Z') && ((c < 'a' || c > 'z') && ((c < 192 || c > 246) && ((c < 248 || c > 255) && !isDioSymbolAlphabet(c))))) {
+//								if (c >= '!' && c <= '~') {
+//									bSpecialChar = true;
+//								}
+//							}
+//						}
+//					}
+//				}
+//				i++;
+//			}
+//		}
+//		if (codepage != 0 && codepage != DictInfo.CP_CHN && codepage != 932 && codepage != 949 && !ISLATIN_CP(codepage) && codepage != 21866) {
+//			if (bSpecialChar) {
+//				return 0;
+//			}
+//			return -1;
+//		}
+//		return DictInfo.CP_KOR;
+//		int cp = DictInfo.CP_LT1;
+//		for (int i = 0; i < word.length(); i++) {
+//			char c = word.charAt(i);
+//			int typ = Character.getType(c);
+//			if (typ == Character.LOWERCASE_LETTER || typ == Character.UPPERCASE_LETTER) {
+//
+//			} else {
+//				cp = getCodePage(c);
+//				if (cp==DictInfo.CP_KOR) {
+//					cp = DictInfo.CP_KOR;
+//					break;
+//				}
+//				if (cp==DictInfo.CP_CHN) {
+//					cp = DictInfo.CP_CHN;
+//				}
+//			}
+//		}
+//		return cp;
+		if (patternKor.matcher(word).find()) {
+			return DictInfo.CP_KOR;
+		}
+		if (patternHan.matcher(word).find()) {
+			return DictInfo.CP_CHN;
+		}
+		return DictInfo.CP_LT1;
+	}
+	
+	final static Pattern patternKor = Pattern.compile("\\p{IsHangul}");
+	final static Pattern patternHan = Pattern.compile("\\p{IsHan}");
+	
+	
+	public static boolean isLatinCP(int codepage) {
+		if (!isLatin1CP(codepage) && codepage != 1257 && codepage != 1254) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean isLatin1CP(int codepage) {
+		if (codepage != 1252 && codepage != 1250) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean isZhuyinCharacter(String word) {
+		if (word == null || 1 > word.length()) {
+			return false;
+		}
+		for (int i = 0; i < word.length(); i++) {
+			char c = word.charAt(i);
+			if (12544 <= c && 12592 >= c) {
+				return true;
+			}
+			if (12687 <= c && 12591 >= c) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	public static int getCodePage(char ch) {
         if (ch == '[' || ch == '(' || ch == 173 || ch == 175 || ch == 183 || ch == 168 || ch == 183 || ch == 176 || ch == 180 || ch == 184) {
             return -1;
         }

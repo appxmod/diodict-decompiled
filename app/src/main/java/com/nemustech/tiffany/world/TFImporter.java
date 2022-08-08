@@ -287,64 +287,43 @@ public abstract class TFImporter {
             Code decompiled incorrectly, please refer to instructions dump.
             To view partially-correct code enable 'Show inconsistent code' option in preferences
         */
-        protected static float parseFloat(byte[] r8, int r9, int r10) {
-            /*
-                r7 = 57
-                r6 = 48
-                r2 = 0
-                r3 = 0
-                r4 = r8[r9]
-                r5 = 45
-                if (r4 != r5) goto Lf
-                r2 = 1
-                int r9 = r9 + 1
-            Lf:
-                if (r9 >= r10) goto L26
-                r0 = r8[r9]
-                if (r0 < r6) goto L22
-                if (r0 > r7) goto L22
-                r4 = 1092616192(0x41200000, float:10.0)
-                float r4 = r4 * r3
-                int r5 = r0 + (-48)
-                float r5 = (float) r5
-                float r3 = r4 + r5
-                int r9 = r9 + 1
-                goto Lf
-            L22:
-                r4 = 46
-                if (r0 != r4) goto L3d
-            L26:
-                r1 = 10
-                int r9 = r9 + 1
-            L2a:
-                if (r9 >= r10) goto L49
-                r0 = r8[r9]
-                if (r0 < r6) goto L43
-                if (r0 > r7) goto L43
-                int r4 = r0 + (-48)
-                float r4 = (float) r4
-                float r5 = (float) r1
-                float r4 = r4 / r5
-                float r3 = r3 + r4
-                int r1 = r1 * 10
-                int r9 = r9 + 1
-                goto L2a
-            L3d:
-                java.lang.NumberFormatException r4 = new java.lang.NumberFormatException
-                r4.<init>()
-                throw r4
-            L43:
-                java.lang.NumberFormatException r4 = new java.lang.NumberFormatException
-                r4.<init>()
-                throw r4
-            L49:
-                if (r2 == 0) goto L4c
-                float r3 = -r3
-            L4c:
-                return r3
-            */
-            throw new UnsupportedOperationException("Method not decompiled: com.nemustech.tiffany.world.TFImporter.LineSplit.parseFloat(byte[], int, int):float");
-        }
+        protected static float parseFloat(byte[] line, int pos, int end) {
+			System.out.println("fatal parseFloat!"+new String(line)+" "+pos);
+			//throw new UnsupportedOperationException("Method not decompiled: com.nemustech.tiffany.world.TFImporter.LineSplit.parseFloat(byte[], int, int):float");
+			boolean minus = false;
+			float ret = 0.0f;
+			if (line[pos] == 45) {
+				minus = true;
+				pos++;
+			}
+			while (pos < end) {
+				int ch = line[pos];
+				if (ch >= 48 && ch <= 57) {
+					ret = (10.0f * ret) + (ch - 48);
+					pos++;
+				} else {
+					if (ch != 46) {
+						throw new NumberFormatException();
+					}
+					int div = 10;
+					int pos2;
+					for (pos2 = pos + 1; pos2 < end; pos2++) {
+						int ch2 = line[pos2];
+						if (ch2 >= 48 && ch2 <= 57) {
+							ret += (ch2 - 48) / div;
+							div *= 10;
+						} else {
+							throw new NumberFormatException();
+						}
+					}
+					if (!minus) {
+						return -ret;
+					}
+					return ret;
+				}
+			}
+			return ret;
+		}
 
         public void setSkipEmptyLine(boolean skip) {
             this.mSkipEmptyLine = skip;
@@ -413,7 +392,7 @@ public abstract class TFImporter {
         protected void expandLines() {
             float[][] old = this.mLines;
             int len = old != null ? old.length : 0;
-            this.mLines = new float[len + 256];
+            this.mLines = new float[len + 256][];
             if (old != null) {
                 System.arraycopy(old, 0, this.mLines, 0, len);
             }
@@ -478,7 +457,7 @@ public abstract class TFImporter {
         protected void expandLines() {
             int[][] old = this.mLines;
             int len = old != null ? old.length : 0;
-            this.mLines = new int[len + 256];
+            this.mLines = new int[len + 256][];
             if (old != null) {
                 System.arraycopy(old, 0, this.mLines, 0, len);
             }
@@ -543,7 +522,7 @@ public abstract class TFImporter {
         protected void expandLines() {
             short[][] old = this.mLines;
             int len = old != null ? old.length : 0;
-            this.mLines = new short[len + 256];
+            this.mLines = new short[len + 256][];
             if (old != null) {
                 System.arraycopy(old, 0, this.mLines, 0, len);
             }

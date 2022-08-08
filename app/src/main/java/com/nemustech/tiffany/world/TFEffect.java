@@ -516,7 +516,7 @@ public class TFEffect {
             LinkedList<TFObject> layer = this.mWorld.getLayer(l);
             Iterator i$ = layer.iterator();
             while (i$.hasNext()) {
-                TFObject o = i$.next();
+                TFObject o = (TFObject) i$.next();
                 if (o instanceof TFHolder) {
                     count += ((TFHolder) o).getSlotCount();
                 } else {
@@ -530,7 +530,7 @@ public class TFEffect {
             LinkedList<TFObject> layer2 = this.mWorld.getLayer(l2);
             Iterator i$2 = layer2.iterator();
             while (i$2.hasNext()) {
-                TFObject o2 = i$2.next();
+                TFObject o2 = (TFObject) i$2.next();
                 if (o2 instanceof TFHolder) {
                     TFHolder h = (TFHolder) o2;
                     int count2 = h.getSlotCount();
@@ -1273,8 +1273,9 @@ public class TFEffect {
     }
 
     private float[] getViewLocation(View targetView, float heightCenterRatio) {
-        targetView.getLocationOnScreen(viewLocation);
-        int[] viewLocation = {0, viewLocation[1] - (this.mStatusBarHeight + this.mTitleHeight)};
+		int[] tmp = {0,0};
+		targetView.getLocationOnScreen(tmp);
+        int[] viewLocation = {0, tmp[1] - (this.mStatusBarHeight + this.mTitleHeight)};
         DisplayMetrics dm = this.mContext.getResources().getDisplayMetrics();
         int screenWidth = dm.widthPixels;
         int screenHeight = (dm.heightPixels - this.mStatusBarHeight) - this.mTitleHeight;
