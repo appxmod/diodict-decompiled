@@ -866,98 +866,98 @@ public class TagConverter {
 
     private void Convert_EngineContent_Spanned() {
 		try {
-			Convert_EngineContent_Spanned_real();
+			Convert_EngineContent_Spanned_real1();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-    private void Convert_EngineContent_Spanned_real() {
-        int tag;
-        this.mSpannableBuilder = this.mKeywordSpannableBuilder;
-        if (this.mSource == null || this.mSource.length() == 0) {
-            clearSpannableBuilder();
-            return;
-        }
-        this.mSrcIndex = 0;
-        this.mDstIndex = 0;
-        if (this.mIsBuildCtrlData) {
-            this.mAvailableMode = 0;
-            this.mDspIdxList.clear();
-            this.mIDList.clear();
-        }
-        int end_point = this.mSource.length();
-        this.mIsStyleClose = false;
-        if ((this.mCurDspMode & 112) == 0) {
-            this.mSrcIndex = this.mSource.indexOf("%M", this.mSrcIndex);
-            this.mSpannableBuilder = this.mContentSpannableBuilder;
-        }
-        while (this.mSrcIndex < end_point && this.mSource.codePointAt(this.mSrcIndex) == 10) {
-            this.mSrcIndex++;
-        }
-        clearSpannableBuilder();
-        this.mStringBuilder.delete(0, this.mStringBuilder.length());
-        this.mLinkIdxList.clear();
-        while (this.mSrcIndex < end_point) {
-            if (this.mSource.codePointAt(this.mSrcIndex) == 37 && (tag = getTagValue(this.mSource, this.mSrcIndex + 1)) > -1) {
-                int value = this.mSource.codePointAt(this.mSrcIndex + 1);
-                if (value > 64 && value < 91) {
-                    int value2 = value - 65;
-                    this.mSrcIndex++;
-                    this.mSrcIndex += this.mTagLength[value2];
-                    if (mTagDspMask[value2] != 0 || !this.mStyleStack.empty() && (this.mStyleStack.peek().dspMode & this.mCurDspMode) != 0) {
-                        this.mSpannableBuilder.append((CharSequence) this.mStringBuilder);
-                        this.mStringBuilder.delete(0, this.mStringBuilder.length());
-                        this.mTagHandler[value2].handleTag_Start(tag);
-                    }
-                } else if (value > 96 && value < 123) {
-                    int value3 = value - 97;
-                    this.mSrcIndex++;
-                    this.mSrcIndex += this.mTagLength[value3];
-                    if (!this.mStyleStack.empty() && (this.mStyleStack.peek().dspMode & this.mCurDspMode) != 0 || mTagDspMask[value3] != 0) {
-                        this.mSpannableBuilder.append((CharSequence) this.mStringBuilder);
-                        this.mStringBuilder.delete(0, this.mStringBuilder.length());
-                        this.mTagHandler[value3].handleTag_End(tag);
-                        StyleStack_Pop(tag);
-                    }
-                }
-            } else {
-                if (this.mSource.codePointAt(this.mSrcIndex) == 10) {
-                    if (this.mStringBuilder.length() > 0) {
-                        if (this.mStringBuilder.charAt(this.mStringBuilder.length() - 1) == '\n') {
-                            this.mSrcIndex++;
-                        }
-                    } else if (this.mDstIndex > 0 && this.mSpannableBuilder.charAt(this.mSpannableBuilder.length() - 1) == '\n') {
-                        this.mSrcIndex++;
-                    }
-                }
-                if (!this.mStyleStack.empty() && (this.mStyleStack.peek().dspMode & this.mCurDspMode) > 0) {
-                    this.mStringBuilder.appendCodePoint(this.mSource.codePointAt(this.mSrcIndex));
-                    this.mDstIndex++;
-                }
-                this.mSrcIndex++;
-            }
-        }
-        if (this.mStringBuilder.length() > 0) {
-            this.mSpannableBuilder.append((CharSequence) this.mStringBuilder);
-            this.mStringBuilder.delete(0, this.mStringBuilder.length());
-        }
-        while (!this.mStyleStack.isEmpty()) {
-            int tag2 = this.mStyleStack.peek().tag;
-            this.mTagHandler[getTagIndex(tag2)].handleTag_End(tag2);
-            StyleStack_Pop(tag2);
-            if (tag2 != 12) {
-                Log.e("TagConverter", "Stack Sync Error" + tag2);
-                Log.e("TagConverter", this.mKeywordSpannableBuilder.toString());
-            }
-        }
-        if (this.mIsBuildCtrlData) {
-            int size = this.mDspIdxList.size();
-            for (int idx = 0; idx < size; idx++) {
-                this.mAvailableMode = this.mDspIdxList.get(idx).display_mask | this.mAvailableMode;
-            }
-        }
-    }
+	private void Convert_EngineContent_Spanned_real() {
+		int tag;
+		this.mSpannableBuilder = this.mKeywordSpannableBuilder;
+		if (this.mSource == null || this.mSource.length() == 0) {
+			clearSpannableBuilder();
+			return;
+		}
+		this.mSrcIndex = 0;
+		this.mDstIndex = 0;
+		if (this.mIsBuildCtrlData) {
+			this.mAvailableMode = 0;
+			this.mDspIdxList.clear();
+			this.mIDList.clear();
+		}
+		int end_point = this.mSource.length();
+		this.mIsStyleClose = false;
+		if ((this.mCurDspMode & 112) == 0) {
+			this.mSrcIndex = this.mSource.indexOf("%M", this.mSrcIndex);
+			this.mSpannableBuilder = this.mContentSpannableBuilder;
+		}
+		while (this.mSrcIndex < end_point && this.mSource.codePointAt(this.mSrcIndex) == 10) {
+			this.mSrcIndex++;
+		}
+		clearSpannableBuilder();
+		this.mStringBuilder.delete(0, this.mStringBuilder.length());
+		this.mLinkIdxList.clear();
+		while (this.mSrcIndex < end_point) {
+			if (this.mSource.codePointAt(this.mSrcIndex) == 37 && (tag = getTagValue(this.mSource, this.mSrcIndex + 1)) > -1) {
+				int value = this.mSource.codePointAt(this.mSrcIndex + 1);
+				if (value > 64 && value < 91) {
+					int value2 = value - 65;
+					this.mSrcIndex++;
+					this.mSrcIndex += this.mTagLength[value2];
+					if (mTagDspMask[value2] != 0 || !this.mStyleStack.empty() && (this.mStyleStack.peek().dspMode & this.mCurDspMode) != 0) {
+						this.mSpannableBuilder.append((CharSequence) this.mStringBuilder);
+						this.mStringBuilder.delete(0, this.mStringBuilder.length());
+						this.mTagHandler[value2].handleTag_Start(tag);
+					}
+				} else if (value > 96 && value < 123) {
+					int value3 = value - 97;
+					this.mSrcIndex++;
+					this.mSrcIndex += this.mTagLength[value3];
+					if (!this.mStyleStack.empty() && (this.mStyleStack.peek().dspMode & this.mCurDspMode) != 0 || mTagDspMask[value3] != 0) {
+						this.mSpannableBuilder.append((CharSequence) this.mStringBuilder);
+						this.mStringBuilder.delete(0, this.mStringBuilder.length());
+						this.mTagHandler[value3].handleTag_End(tag);
+						StyleStack_Pop(tag);
+					}
+				}
+			} else {
+				if (this.mSource.codePointAt(this.mSrcIndex) == 10) {
+					if (this.mStringBuilder.length() > 0) {
+						if (this.mStringBuilder.charAt(this.mStringBuilder.length() - 1) == '\n') {
+							this.mSrcIndex++;
+						}
+					} else if (this.mDstIndex > 0 && this.mSpannableBuilder.charAt(this.mSpannableBuilder.length() - 1) == '\n') {
+						this.mSrcIndex++;
+					}
+				}
+				if (!this.mStyleStack.empty() && (this.mStyleStack.peek().dspMode & this.mCurDspMode) > 0) {
+					this.mStringBuilder.appendCodePoint(this.mSource.codePointAt(this.mSrcIndex));
+					this.mDstIndex++;
+				}
+				this.mSrcIndex++;
+			}
+		}
+		if (this.mStringBuilder.length() > 0) {
+			this.mSpannableBuilder.append((CharSequence) this.mStringBuilder);
+			this.mStringBuilder.delete(0, this.mStringBuilder.length());
+		}
+		while (!this.mStyleStack.isEmpty()) {
+			int tag2 = this.mStyleStack.peek().tag;
+			this.mTagHandler[getTagIndex(tag2)].handleTag_End(tag2);
+			StyleStack_Pop(tag2);
+			if (tag2 != 12) {
+				Log.e("TagConverter", "Stack Sync Error" + tag2);
+				Log.e("TagConverter", this.mKeywordSpannableBuilder.toString());
+			}
+		}
+		if (this.mIsBuildCtrlData) {
+			int size = this.mDspIdxList.size();
+			for (int idx = 0; idx < size; idx++) {
+				this.mAvailableMode = this.mDspIdxList.get(idx).display_mask | this.mAvailableMode;
+			}
+		}
+	}
 
     public int getAvailableDispMode() {
         return this.mAvailableMode;
@@ -1305,13 +1305,17 @@ public class TagConverter {
                     item.start = this.mDstIndex;
                     this.mDspIdxList.add(item);
                 }
-            } else if (this.mDspIdxList.get(this.mDspIdxList.size() - 1).display_mask != this.mStyleStack.get(this.mStyleStack.size() - 2).dspMode) {
-                this.mDspIdxList.get(this.mDspIdxList.size() - 1).end = this.mDstIndex - 1;
-                DictPos item2 = new DictPos();
-                item2.display_mask = this.mStyleStack.get(this.mStyleStack.size() - 2).dspMode;
-                item2.start = this.mDstIndex;
-                this.mDspIdxList.add(item2);
-            }
+            } else {
+				int v1 = this.mDspIdxList.size() - 1<0?-100 : this.mDspIdxList.get(this.mDspIdxList.size() - 1).display_mask;
+				int v2 = this.mStyleStack.size() - 2<0?-100 :  this.mStyleStack.get(this.mStyleStack.size() - 2).dspMode;
+				if (v1 != v2/* && v1!=-100 && v2!=-100*/) {
+					this.mDspIdxList.get(this.mDspIdxList.size() - 1).end = this.mDstIndex - 1;
+					DictPos item2 = new DictPos();
+					item2.display_mask = this.mStyleStack.get(this.mStyleStack.size() - 2).dspMode;
+					item2.start = this.mDstIndex;
+					this.mDspIdxList.add(item2);
+				}
+			}
         }
     }
 
