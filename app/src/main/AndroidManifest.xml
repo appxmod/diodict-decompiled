@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0.6.1" android:installLocation="auto" android:compileSdkVersion="23" android:compileSdkVersionCodename="6.0-2438415" package="com.diotek.diodict3.phone.samsung.chn" platformBuildVersionCode="23" platformBuildVersionName="6.0-2438415">
+    <uses-sdk android:minSdkVersion="7"/>
+    <application android:theme="@android:style/Theme.DeviceDefault" android:label="@string/app_name" android:icon="@drawable/icon">
+        <activity android:theme="@android:style/Theme.Translucent.NoTitleBar" android:label="@string/app_name" android:name="com.diotek.diodict3.phone.DioAuthActivity" android:screenOrientation="user" android:configChanges="orientation|keyboardHidden|locale">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:theme="@android:style/Theme.Translucent.NoTitleBar" android:name="com.diotek.diodict.InitActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.SearchListActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale" android:windowSoftInputMode="adjustPan"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.FlashcardActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.FlashcardItemActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.HistoryActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.SettingActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.HelpActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@android:style/Theme.Translucent.NoTitleBar" android:name="com.diotek.diodict.WikipediaActivity" android:screenOrientation="user"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.CradleActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.StudyActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.DictationActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.HyperSearchActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale" android:windowSoftInputMode="adjustPan"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.HyperHistoryActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.HyperFlashcardActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <activity android:theme="@android:style/Theme.Translucent.NoTitleBar" android:name="com.diotek.diodict.MemoActivity" android:screenOrientation="user" android:configChanges="screenSize|orientation|keyboardHidden|locale"/>
+        <provider android:name="com.diotek.diodict.database.DioDictProvider" android:authorities="com.diotek.diodict3.phone.samsung.chn.DioDictProvider"/>
+        <service android:label="@string/app_name" android:name="com.diotek.diodict.service.ServiceForReadersHub" android:enabled="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+        <service android:label="@string/app_name" android:name="com.diotek.diodict3.phone.service.DioDictServiceMain" android:enabled="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+    </application>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+</manifest>

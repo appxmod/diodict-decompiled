@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="resultwordlayout_height">160dp</dimen>
+    <dimen name="dictationmean_marginLeft">30dp</dimen>
+</resources>

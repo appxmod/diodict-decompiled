@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:id="@+id/flashcard_bg" android:layout_width="@dimen/flashcard_rowitem_width" android:layout_height="@dimen/flashcard_rowitem_height">
+        <TextView android:textSize="@dimen/flashcard_rowitem_title_fontSize" android:textStyle="bold" android:textColor="#ff412819" android:gravity="center_horizontal" android:id="@+id/wordbooktitle" android:paddingLeft="@dimen/flashcard_rowitem_title_paddingLeft" android:paddingTop="10dp" android:paddingRight="@dimen/flashcard_rowitem_title_paddingRight" android:layout_width="match_parent" android:layout_height="@dimen/flashcard_rowitem_title_height"/>
+        <TextView android:textSize="35dp" android:textStyle="bold" android:textColor="#ff412819" android:gravity="center_horizontal" android:id="@+id/numword" android:paddingTop="@dimen/flashcard_rowitem_num_paddingTop" android:paddingBottom="@dimen/flashcard_rowitem_num_paddingBottom" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </LinearLayout>
+</RelativeLayout>

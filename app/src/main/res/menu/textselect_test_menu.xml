@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_select_text">
+        <item android:id="@+id/menu_maker" android:title="Marker"/>
+        <item android:id="@+id/menu_hyper" android:title="Hyper text"/>
+        <item android:id="@+id/menu_google_search" android:title="Google search"/>
+        <item android:id="@+id/menu_wiki_search" android:title="Wikipedia search"/>
+        <item android:id="@+id/menu_voice" android:title="TTS Play"/>
+        <item android:id="@+id/menu_copy" android:title="Clipboard copy"/>
+    </group>
+    <item android:id="@+id/menu_set_color" android:title="maker color"/>
+</menu>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="resultwordlayout_marginTop">0dp</dimen>
+    <dimen name="restudybutton_marginTop">-10dp</dimen>
+    <dimen name="resultwords_textSize">12sp</dimen>
+    <dimen name="resultchoicebutton_width">100dp</dimen>
+    <dimen name="linegap_marginTop">0dp</dimen>
+    <dimen name="recognizeview_margin">5dp</dimen>
+    <dimen name="dictation_btn_width">62dp</dimen>
+    <dimen name="dictation_btn_height">28dp</dimen>
+    <dimen name="cradlecontentmean_vertical_margin">4dp</dimen>
+    <dimen name="cradlecontentmean_marginRight">8dp</dimen>
+    <dimen name="cradleclock_horizontal_margin">8dp</dimen>
+    <dimen name="cradleclock_marginBottom">4dp</dimen>
+    <dimen name="resultchoicebutton_margin">0dp</dimen>
+    <dimen name="dictation_btn_marginRight">7dp</dimen>
+    <dimen name="fc_pagegridview_horizontal_padding">19dp</dimen>
+    <dimen name="fc_pagegridview_paddingTop">40dp</dimen>
+    <dimen name="fc_pagegridview_vertical_spacing">0dp</dimen>
+    <dimen name="fc_pagegridview_horizontal_spacing">7dp</dimen>
+</resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomKeyboardView">
+        <item name="keyBackground_normal">@drawable/kbd_normal_back_btn</item>
+        <item name="keyBackground_func">@drawable/kbd_function_back_btn</item>
+        <item name="background">@drawable/kbd_bg</item>
+        <item name="keyTextSize">24sp</item>
+        <item name="labelTextSize">22sp</item>
+        <item name="keyTextColorNormal">#ff000000</item>
+        <item name="keyTextColorPressed">#ffffffff</item>
+        <item name="keyPreviewLayout">@layout/keyboard_key_preview</item>
+        <item name="keyPreviewOffset">-12dp</item>
+        <item name="keyPreviewHeight">80dp</item>
+        <item name="verticalCorrection">-10dp</item>
+        <item name="popupLayout">@layout/common_popup_keyboard</item>
+        <item name="shadowColor">#ffffffff</item>
+        <item name="shadowRadius">1</item>
+    </style>
+    <style name="CustomWindowTitleBackground" parent="@android:style/Theme.DeviceDefault">
+        <item name="android:background">#ff1c1915</item>
+    </style>
+    <style name="TitleTheme" parent="@android:style/Theme.DeviceDefault">
+        <item name="android:windowTitleSize">25dp</item>
+        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
+        <item name="android:dialogTheme">@style/customdialogtheme</item>
+        <item name="android:textCursorDrawable">?android:attr/textCursorDrawable</item>
+    </style>
+    <style name="customdialogtheme" parent="@android:style/Theme.DeviceDefault.Dialog">
+        <item name="android:editTextColor">@color/textColor_Black</item>
+        <item name="android:textCursorDrawable">?android:attr/textCursorDrawable</item>
+    </style>
+    <style name="TranslucentBlackThemeNoTitle" parent="@android:style/Theme.Translucent.NoTitleBar">
+        <item name="android:windowBackground">@color/translucent_black</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

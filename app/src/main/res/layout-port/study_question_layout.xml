@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="bottom" android:id="@+id/StudyQuestionLayout" android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView android:textSize="12dp" android:textColor="@color/study_top_textColor" android:gravity="center_vertical" android:id="@+id/StudyContentInfoTextView" android:layout_width="wrap_content" android:layout_height="26.6dp" android:text="@string/study_content_info" android:drawableLeft="@drawable/emark2" android:drawablePadding="3dp" android:layout_centerHorizontal="true"/>
+    <RelativeLayout android:id="@+id/StudyContentMeanLayout" android:background="@drawable/study_mean_bg" android:layout_width="298.5938dp" android:layout_height="315.2969dp" android:layout_above="@+id/StudyContentChoiceLayout" android:layout_below="@+id/StudyContentInfoTextView" android:layout_centerHorizontal="true">
+        <TextView android:textSize="16dp" android:textStyle="bold" android:textColor="@color/study_card_textColor" android:gravity="center_vertical" android:id="@+id/StudyContentMeanInfoTextView" android:layout_width="wrap_content" android:layout_height="32dp" android:text="@string/study_content_inner_info" android:layout_above="@+id/StudyMeanTitleView" android:layout_centerHorizontal="true"/>
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@+id/StudyContentMeanInnerLayout" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/StudyContentMeanBottomLayout">
+            <TextView android:textSize="30dp" android:gravity="center" android:id="@+id/StudyMeanTitleView" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="3"/>
+            <com.diotek.diodict.mean.ExtendScrollView android:id="@+id/StudyMeanScrollView" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_weight="1">
+                <com.diotek.diodict.mean.ExtendTextView android:id="@+id/StudyMeanContentView" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            </com.diotek.diodict.mean.ExtendScrollView>
+        </LinearLayout>
+        <RelativeLayout android:id="@+id/StudyContentMeanBottomLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="3dp" android:layout_alignParentBottom="true">
+            <CheckBox android:id="@+id/SpeakerBtn" android:layout_width="46.6dp" android:layout_height="41.3dp" android:button="@drawable/speak_switch_btn" android:layout_alignParentLeft="true"/>
+            <CheckBox android:id="@+id/ToggleUsBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/toggle_us" android:layout_toRightOf="@+id/SpeakerBtn"/>
+            <CheckBox android:id="@+id/ToggleUkBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/toggle_uk" android:layout_toRightOf="@+id/ToggleUsBtn"/>
+            <TextView android:textColor="@color/study_card_textColor" android:id="@+id/CountTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0/0" android:layout_centerHorizontal="true" android:layout_centerVertical="true"/>
+            <CheckBox android:id="@+id/ShowMeanBtn" android:layout_width="46.6dp" android:layout_height="41.3dp" android:checked="true" android:button="@drawable/study_mean" android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+        <ImageView android:id="@+id/CorrectImageView" android:background="@drawable/study_anim_correct_7" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true"/>
+        <ImageView android:id="@+id/WrongImageView" android:background="@drawable/study_anim_wrong_7" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true"/>
+        <ImageView android:id="@+id/CorrectDioboy" android:background="@drawable/study_correct_dioboy" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"/>
+        <ImageView android:id="@+id/WrongDioboy" android:background="@drawable/study_wrong_dioboy" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <Button android:textColor="@color/textColor_Black" android:id="@+id/nextBtn" android:background="@drawable/next" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/next" android:layout_below="@+id/StudyContentMeanLayout" android:layout_centerHorizontal="true"/>
+    <RelativeLayout android:gravity="bottom" android:id="@+id/StudyContentChoiceLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.6dp" android:layout_marginRight="10.6dp" android:layout_alignParentBottom="true">
+        <ImageButton android:id="@+id/CorrectBtn" android:background="@drawable/study_correct_btn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true"/>
+        <ImageButton android:id="@+id/WrongBtn" android:background="@drawable/study_wrong_btn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+</RelativeLayout>

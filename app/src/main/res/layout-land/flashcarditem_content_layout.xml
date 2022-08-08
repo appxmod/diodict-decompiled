@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/FlashcardItemContentRelativeLayout" android:background="@drawable/search_content_bg" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:id="@+id/FlashcardItemEditLayout" android:background="@drawable/topbar_bg" android:paddingLeft="10.6dp" android:layout_width="match_parent" android:layout_height="52dp">
+        <LinearLayout android:orientation="horizontal" android:id="@+id/FlashcardItemToolLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="9.3dp" android:layout_alignParentLeft="true">
+            <Button android:textSize="12sp" android:textColor="@drawable/btn_textcolor_selector" android:id="@+id/FlashcardItemEditBtn" android:background="@drawable/btn" android:layout_width="60dp" android:layout_height="35dp" android:layout_marginRight="4dp" android:text="@string/edit"/>
+            <Button android:textSize="12sp" android:textColor="@drawable/btn_textcolor_selector" android:id="@+id/FlashcardItemEditSortBtn" android:background="@drawable/btn" android:layout_width="60dp" android:layout_height="35dp" android:text="@string/sort"/>
+            <Button android:textSize="@dimen/flashcard_btn_text_size" android:textColor="@drawable/btn_textcolor_selector" android:id="@+id/FlashcardItemEditDeleteBtn" android:background="@drawable/btn_del" android:visibility="gone" android:nextFocusDown="@+id/SelectAllTextView" android:layout_width="60dp" android:layout_height="35dp" android:text="@string/delete"/>
+            <Button android:textSize="@dimen/flashcard_btn_text_size" android:textColor="@drawable/btn_textcolor_selector" android:id="@+id/FlashcardItemEditCopyBtn" android:background="@drawable/btn_copy" android:visibility="gone" android:nextFocusDown="@+id/SelectAllTextView" android:layout_width="60dp" android:layout_height="35dp" android:text="@string/copy"/>
+        </LinearLayout>
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.6dp" android:layout_alignParentRight="true">
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/CradleBtn" android:background="@drawable/btn_cradle" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:text="@string/cradle" android:singleLine="true"/>
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/StudyBtn" android:background="@drawable/btn_study" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/flashcard_tabbtn_interval" android:text="@string/study" android:layout_toRightOf="@+id/CradleBtn"/>
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/DictationBtn" android:background="@drawable/btn_dictation" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/flashcard_tabbtn_interval" android:text="@string/dictation" android:layout_toRightOf="@+id/StudyBtn"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/SearchContentStandardLayout" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/FlashcardItemEditLayout">
+        <LinearLayout android:id="@+id/SearchContentStandardLeftLayout" android:layout_width="match_parent" android:layout_height="match_parent">
+            <LinearLayout android:id="@+id/SearchContentInnerLeftLayout" android:background="@drawable/list_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1.5">
+                <include layout="@layout/flashcarditem_left_layout"/>
+                <ImageView android:id="@+id/Vertical_Gap" android:layout_width="3dp" android:layout_height="match_parent"/>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/SearchContentStandardInnerRightLayout" android:background="#00000000" android:focusable="false" android:clickable="false" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/SearchContentStandardRightLayout" android:layout_width="match_parent" android:layout_height="match_parent">
+            <LinearLayout android:id="@+id/SearchContentStandardInnerLeftLayout" android:background="#00000000" android:focusable="false" android:clickable="false" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1.5"/>
+            <LinearLayout android:id="@+id/SearchContentInnerRightLayout" android:background="@drawable/search_content_right_bg2" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                <include layout="@layout/flashcarditem_right_layout"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <include layout="@layout/save_word_popup_right_layout"/>
+</RelativeLayout>

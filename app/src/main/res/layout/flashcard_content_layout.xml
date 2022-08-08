@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:id="@+id/FlashcardContentLayout" android:background="@drawable/flashcard_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/TopFlashcard" android:paddingLeft="10dp" android:paddingRight="10dp" android:layout_width="match_parent" android:layout_height="52dp" android:layout_alignParentTop="true">
+        <Button android:textSize="12sp" android:textColor="@drawable/btn_textcolor_selector" android:id="@+id/bt_makeflashcard" android:background="@drawable/btn" android:layout_width="85dp" android:layout_height="35dp" android:text="@string/addFlashcard" android:singleLine="true" android:layout_alignParentLeft="true"/>
+        <Button android:textSize="12sp" android:textColor="@drawable/btn_textcolor_selector" android:id="@+id/bt_editflashcard" android:background="@drawable/btn_edit" android:layout_width="60dp" android:layout_height="35dp" android:layout_marginRight="2.6dp" android:text="@string/edit" android:layout_toLeftOf="@+id/bt_deletewordbook"/>
+        <Button android:textSize="12sp" android:textColor="@drawable/btn_textcolor_selector" android:id="@+id/bt_deletewordbook" android:background="@drawable/btn_del2" android:layout_width="60dp" android:layout_height="35dp" android:text="@string/delete" android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+    <com.diotek.diodict.uitool.FixedViewFlipper android:id="@+id/gridviewGrouplayout" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/pageBarLayout" android:layout_below="@+id/TopFlashcard"/>
+    <RadioGroup android:gravity="center" android:orientation="horizontal" android:id="@+id/pageBarLayout" android:background="@drawable/pagebar_bg" android:layout_width="match_parent" android:layout_height="36dp" android:layout_alignParentBottom="true"/>
+</RelativeLayout>

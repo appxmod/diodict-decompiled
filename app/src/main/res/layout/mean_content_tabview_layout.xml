@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:id="@+id/MeanContentTabviewLayout" android:layout_width="@dimen/tabview_toppadding_width" android:layout_height="match_parent" android:layout_alignParentTop="true" android:layout_alignParentRight="true">
+    <RelativeLayout android:id="@+id/MeanTabViewTopPadding" android:focusable="false" android:layout_width="@dimen/tabview_toppadding_width" android:layout_height="@dimen/tabview_toppadding_height"/>
+    <com.diotek.diodict.uitool.TabView android:id="@+id/MeanTabView" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_below="@+id/MeanTabViewTopPadding" tabview_total="4" layout_width="wrap_content" layout_height="fill_parent" tabview_textAlign="vertical"/>
+</RelativeLayout>

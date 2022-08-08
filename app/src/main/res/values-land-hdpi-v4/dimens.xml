@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cradlecontentmean_marginBottom">0dp</dimen>
+    <dimen name="resultwordlayout_marginTop">0dp</dimen>
+    <dimen name="restudybutton_marginTop">-10dp</dimen>
+    <dimen name="dictation_btn_width">66.6dp</dimen>
+    <dimen name="cradlecontentmean_vertical_margin">0dp</dimen>
+    <dimen name="cradlecontentmean_marginRight">90.6dp</dimen>
+    <dimen name="cradleclock_horizontal_margin">4dp</dimen>
+    <dimen name="cradleclock_marginBottom">6dp</dimen>
+    <dimen name="resultchoicebutton_margin">13.3dp</dimen>
+    <dimen name="nextbtn_marginRight">10dp</dimen>
+</resources>

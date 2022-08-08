@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:state_checked="true" android:drawable="@drawable/speak_yue_cn_sel_f"/>
+    <item android:state_focused="false" android:state_checked="true" android:drawable="@drawable/speak_yue_cn_sel"/>
+    <item android:state_focused="true" android:state_checked="false" android:drawable="@drawable/speak_yue_cn_f"/>
+    <item android:drawable="@drawable/speak_yue_cn"/>
+</selector>

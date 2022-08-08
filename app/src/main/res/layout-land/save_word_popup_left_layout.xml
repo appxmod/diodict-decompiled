@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/copyToFlashcardPopLayout" android:focusable="true" android:visibility="gone" android:clickable="true" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:id="@+id/copyToFlashcardLayout" android:background="@drawable/cardpop" android:layout_width="336dp" android:layout_height="match_parent" android:layout_alignParentLeft="true" android:layout_alignParentTop="true">
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/copyToFlashcardPopTitleLayout" android:layout_width="wrap_content" android:layout_height="40dp" android:layout_marginLeft="15dp" android:layout_alignParentTop="true" android:layout_centerHorizontal="true">
+            <ImageView android:id="@+id/copyToFlashcardPopTitleMark" android:background="@drawable/emark" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5.6dp"/>
+            <TextView android:textSize="10.6sp" android:textColor="@color/textColor" android:gravity="center_vertical" android:id="@+id/copyToFlashcardPopTitle" android:layout_width="match_parent" android:layout_height="14dp" android:text="@string/selectFlashcardToSave"/>
+        </LinearLayout>
+        <GridView android:gravity="center_horizontal" android:id="@+id/copyToFlashcardGridView" android:layout_width="316dp" android:layout_height="match_parent" android:layout_marginLeft="10dp" android:layout_marginRight="7.5dp" android:verticalSpacing="13.3dp" android:numColumns="3" android:layout_above="@+id/copyToFlashcardPopAddcardLayout" android:layout_below="@+id/copyToFlashcardPopTitleLayout"/>
+        <TextView android:textColor="#ffffffff" android:id="@+id/emptyFlashcard" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="25dp" android:layout_marginTop="20dp" android:text="@string/empty_flashcard" android:layout_below="@+id/copyToFlashcardPopTitleLayout"/>
+        <RelativeLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/copyToFlashcardPopAddcardLayout" android:layout_width="wrap_content" android:layout_height="40dp" android:layout_alignParentLeft="true" android:layout_alignParentBottom="true">
+            <RelativeLayout android:gravity="center_horizontal" android:id="@+id/addCard" android:background="@drawable/addpop" android:focusable="true" android:clickable="true" android:layout_width="100dp" android:layout_height="30dp" android:layout_marginLeft="9dp">
+                <TextView android:textSize="13.3sp" android:textColor="@color/textColor" android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="18dp" android:text="@string/addFlashcard" android:drawableLeft="@drawable/addmark" android:drawablePadding="5.6dp" android:layout_toRightOf="@+id/copyToFlashcardPopAddMark"/>
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout android:orientation="horizontal" android:id="@+id/buttonLayout" android:paddingRight="6dp" android:layout_width="match_parent" android:layout_height="40dp" android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
+            <com.diotek.diodict.uitool.TextImageButton android:textColor="@color/textColor" android:id="@+id/button_ok" android:background="@drawable/btn_dialog" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ok" android:layout_toLeftOf="@+id/button_cancel" android:layout_centerVertical="true"/>
+            <com.diotek.diodict.uitool.TextImageButton android:textColor="@color/textColor" android:id="@+id/button_cancel" android:background="@drawable/btn_dialog" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="6dp" android:text="@string/cancel" android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

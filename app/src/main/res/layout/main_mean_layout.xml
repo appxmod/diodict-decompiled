@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ListView android:id="@+id/enginelist" android:fadingEdge="none" android:animationCache="false" android:layout_width="match_parent" android:layout_height="match_parent" android:drawSelectorOnTop="false" android:cacheColorHint="#00000000" android:divider="#00000000" android:choiceMode="none" android:headerDividersEnabled="false" android:footerDividersEnabled="false" android:scrollbarFadeDuration="1000" android:fadeScrollbars="true"/>
+</LinearLayout>

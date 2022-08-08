@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="fill_vertical" android:id="@+id/StudyContentLayout_land" android:background="@drawable/flashcard_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:id="@+id/DictationContentTopLayout_land" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true">
+        <ImageButton android:id="@+id/SoundBtn_land" android:background="@drawable/btn" android:layout_width="80dp" android:layout_height="35dp" android:layout_marginLeft="8dp" android:src="@drawable/icon_sound" android:layout_alignParentLeft="true" android:layout_centerVertical="true"/>
+        <LinearLayout android:orientation="horizontal" android:id="@+id/ListenLayout_land" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:layout_centerHorizontal="true">
+            <Button android:gravity="center_vertical" android:id="@+id/listenBtn_land" android:background="@drawable/listen" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginRight="4dp"/>
+            <TextView android:textSize="12dp" android:textColor="@color/textColor_onBlackBackground" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dictation_top_text"/>
+        </LinearLayout>
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.6dp" android:layout_alignParentRight="true">
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/CradleBtn_land" android:background="@drawable/btn_cradle" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:text="@string/cradle" android:singleLine="true"/>
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/StudyBtn_land" android:background="@drawable/btn_study" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/flashcard_tabbtn_interval" android:text="@string/study" android:layout_toRightOf="@+id/CradleBtn_land"/>
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/DictationBtn_land" android:background="@drawable/btn_dictation_sel" android:paddingBottom="8dp" android:clickable="false" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/flashcard_tabbtn_interval" android:text="@string/dictation" android:layout_toRightOf="@+id/StudyBtn_land"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/DictationContentBottomLayout_land" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/DictationContentTopLayout_land">
+        <include layout="@layout/dictation_question_layout_land"/>
+        <include layout="@layout/study_answer_layout_land"/>
+    </RelativeLayout>
+</RelativeLayout>

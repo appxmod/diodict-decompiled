@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.diotek.diodict.uitool.CustomPopupRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <ImageView android:id="@+id/marker_popup_bg_view" android:background="@drawable/highlight_bg" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <LinearLayout android:gravity="right" android:layout_gravity="right" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true">
+        <RadioGroup android:gravity="right" android:orientation="horizontal" android:id="@+id/marker_group" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <RadioButton android:layout_gravity="center_vertical" android:id="@+id/marker_color_blue" android:background="@drawable/marker_btn_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@color/radiobutton" android:layout_weight="1"/>
+            <RadioButton android:layout_gravity="center_vertical" android:id="@+id/marker_color_red" android:background="@drawable/marker_btn_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@color/radiobutton" android:layout_weight="1"/>
+            <RadioButton android:layout_gravity="center_vertical" android:id="@+id/marker_color_green" android:background="@drawable/marker_btn_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@color/radiobutton" android:layout_weight="1"/>
+            <RadioButton android:layout_gravity="center_vertical" android:id="@+id/marker_color_pink" android:background="@drawable/marker_btn_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@color/radiobutton" android:layout_weight="1"/>
+            <RadioButton android:layout_gravity="center_vertical" android:id="@+id/marker_color_yellow" android:background="@drawable/marker_btn_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@color/radiobutton" android:layout_weight="1"/>
+            <RadioButton android:layout_gravity="center_vertical" android:id="@+id/marker_color_white" android:background="@drawable/marker_btn_6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@color/radiobutton" android:layout_weight="1"/>
+        </RadioGroup>
+        <ImageView android:layout_gravity="center_vertical" android:id="@+id/marker_close" android:background="@drawable/close_btn" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
+</com.diotek.diodict.uitool.CustomPopupRelativeLayout>

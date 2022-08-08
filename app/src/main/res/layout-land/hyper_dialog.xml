@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.diotek.diodict.uitool.CustomPopupLinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="@dimen/hyper_text_maximum_height">
+    <RelativeLayout android:orientation="vertical" android:id="@+id/hyper_dialog_layout" android:background="@drawable/hyper_bg" android:paddingTop="2.6dp" android:paddingBottom="4dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/hyper_list_marginRight" android:layout_alignParentBottom="true">
+        <TextView android:textSize="@dimen/hyper_list_text_size" android:textStyle="bold" android:textColor="@color/hyper_list_title_color" android:gravity="center" android:id="@+id/hyper_dialog_title" android:layout_width="match_parent" android:layout_height="38.6dp" android:text="title"/>
+        <LinearLayout android:id="@+id/hyper_dialog_list_layout" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_below="@+id/hyper_dialog_title">
+            <GridView android:id="@+id/hyper_dialog_list" android:fadingEdge="none" android:layout_width="match_parent" android:layout_height="match_parent" android:listSelector="@drawable/hyper2_btn_sel" android:cacheColorHint="#00000000" android:stretchMode="columnWidth" android:numColumns="2" android:scrollbarFadeDuration="1000"/>
+        </LinearLayout>
+    </RelativeLayout>
+</com.diotek.diodict.uitool.CustomPopupLinearLayout>

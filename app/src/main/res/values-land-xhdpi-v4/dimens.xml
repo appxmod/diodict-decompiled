@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="resultwordlayout_marginTop">8dp</dimen>
+    <dimen name="restudybutton_marginTop">13.5dp</dimen>
+    <dimen name="linegap_marginTop">9dp</dimen>
+    <dimen name="cradlecontentmean_vertical_margin">0dp</dimen>
+    <dimen name="cradlecontentmean_marginRight">110dp</dimen>
+    <dimen name="cradleclock_horizontal_margin">9dp</dimen>
+    <dimen name="cradleclock_marginBottom">28dp</dimen>
+</resources>

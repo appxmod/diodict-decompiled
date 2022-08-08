@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/search_guide_layout" android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView android:textSize="11sp" android:gravity="center" android:id="@+id/guide_search_method_text" android:background="@drawable/dsc_box1" android:layout_width="93.3dp" android:layout_height="52dp" android:layout_marginLeft="28dp" android:layout_marginTop="77dp" android:text="@string/guide_seach_method"/>
+    <LinearLayout android:orientation="vertical" android:id="@+id/guide_tab_layout" android:layout_width="120dp" android:layout_height="wrap_content" android:layout_marginTop="120dp" android:layout_marginRight="26dp" android:layout_alignParentRight="true">
+        <ImageView android:id="@+id/guide_tab_img" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/dsc_tap"/>
+        <TextView android:textSize="11sp" android:gravity="center" android:id="@+id/guide_tab_text" android:background="@drawable/dsc_box1" android:layout_width="match_parent" android:layout_height="62dp" android:text="@string/guide_tab" android:layout_below="@+id/guide_tab_img"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="80dp" android:layout_marginBottom="30dp" android:layout_alignParentBottom="true">
+        <ImageView android:id="@+id/guide_flick_img" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/dsc_flick"/>
+        <TextView android:textSize="11sp" android:gravity="center" android:id="@+id/guide_tab_text" android:background="@drawable/dsc_box2" android:layout_width="134dp" android:layout_height="56dp" android:layout_marginLeft="-5dp" android:text="@string/guide_flick" android:layout_toRightOf="@+id/guide_flick_img"/>
+    </LinearLayout>
+</RelativeLayout>

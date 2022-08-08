@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mean_tts_btn_paddingLeft">8dp</dimen>
+    <dimen name="hyper_summary_ttsRepeatBtn_width">46dp</dimen>
+</resources>

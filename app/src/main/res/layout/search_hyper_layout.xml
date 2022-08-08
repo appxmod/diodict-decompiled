@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="bottom|right" android:id="@+id/SearchRightLayout" android:background="@drawable/search_content_right_bg" android:paddingLeft="3.3dp" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:id="@+id/MeanContentLayout" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/HyperMeanMoveBtnLayout" android:layout_alignParentTop="true">
+        <include layout="@layout/hypermean_content_layout"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="keyboardViewStyle" format="reference">
+    </attr>
+    <attr name="keyBackground_normal" format="reference">
+    </attr>
+    <attr name="keyBackground_func" format="reference">
+    </attr>
+    <attr name="background" format="reference">
+    </attr>
+    <attr name="keyTextSize" format="dimension">
+    </attr>
+    <attr name="labelTextSize" format="dimension">
+    </attr>
+    <attr name="keyTextColorNormal" format="color">
+    </attr>
+    <attr name="keyTextColorPressed" format="color">
+    </attr>
+    <attr name="keyPreviewLayout" format="reference">
+    </attr>
+    <attr name="keyPreviewOffset" format="dimension">
+    </attr>
+    <attr name="keyPreviewHeight" format="dimension">
+    </attr>
+    <attr name="verticalCorrection" format="dimension">
+    </attr>
+    <attr name="popupLayout" format="reference">
+    </attr>
+    <attr name="shadowColor" format="color">
+    </attr>
+    <attr name="shadowRadius" format="float">
+    </attr>
+    <attr name="state_long_pressable" format="boolean">
+    </attr>
+    <attr name="keyWidth" format="dimension|fraction">
+    </attr>
+    <attr name="keyHeight" format="dimension|fraction">
+    </attr>
+    <attr name="horizontalGap" format="dimension|fraction">
+    </attr>
+    <attr name="verticalGap" format="dimension|fraction">
+    </attr>
+    <attr name="rowEdgeFlags">
+        <flag name="top" value="0x4" />
+        <flag name="bottom" value="0x8" />
+    </attr>
+    <attr name="keyboardMode" format="reference">
+    </attr>
+    <attr name="codes" format="string|integer">
+    </attr>
+    <attr name="popupKeyboard" format="reference">
+    </attr>
+    <attr name="popupCharacters" format="string">
+    </attr>
+    <attr name="keyEdgeFlags">
+        <flag name="left" value="0x1" />
+        <flag name="right" value="0x2" />
+    </attr>
+    <attr name="isModifier" format="boolean">
+    </attr>
+    <attr name="isSticky" format="boolean">
+    </attr>
+    <attr name="isRepeatable" format="boolean">
+    </attr>
+    <attr name="iconPreview" format="reference">
+    </attr>
+    <attr name="keyOutputText" format="string">
+    </attr>
+    <attr name="keyLabel" format="string">
+    </attr>
+    <attr name="keyIcon" format="reference">
+    </attr>
+</resources>

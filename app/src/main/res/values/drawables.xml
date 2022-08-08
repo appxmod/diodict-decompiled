@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="focused">#ffff0000</drawable>
+    <drawable name="normal">#ff00ff00</drawable>
+    <drawable name="trans">#00000000</drawable>
+</resources>

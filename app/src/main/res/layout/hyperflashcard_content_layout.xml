@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/FlashcardItemContentLayout" android:background="#ffffffff" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:id="@+id/FlashcardItemEditLayout" android:background="@drawable/topbar_bg" android:paddingLeft="10.6dp" android:layout_width="match_parent" android:layout_height="52dp">
+        <LinearLayout android:orientation="horizontal" android:id="@+id/FlashcardItemToolLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="9.3dp" android:layout_alignParentLeft="true">
+            <Button android:textSize="12sp" android:textColor="@color/textColor_Black" android:id="@+id/FlashcardItemEditBtn" android:background="@drawable/btn" android:layout_width="60dp" android:layout_height="35dp" android:layout_marginRight="4dp" android:text="@string/edit"/>
+            <Button android:textSize="12sp" android:textColor="@color/textColor_Black" android:id="@+id/FlashcardItemEditSortBtn" android:background="@drawable/btn" android:layout_width="60dp" android:layout_height="35dp" android:text="@string/sort"/>
+            <Button android:textSize="12sp" android:textColor="@color/textColor_Black" android:id="@+id/FlashcardItemEditDeleteBtn" android:background="@drawable/btn_del" android:visibility="gone" android:layout_width="60dp" android:layout_height="35dp" android:text="@string/delete"/>
+            <Button android:textSize="12sp" android:textColor="@color/textColor_Black" android:id="@+id/FlashcardItemEditCopyBtn" android:background="@drawable/btn_copy" android:visibility="gone" android:layout_width="60dp" android:layout_height="35dp" android:text="@string/copy"/>
+        </LinearLayout>
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.6dp" android:layout_alignParentRight="true">
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/CradleBtn" android:background="@drawable/btn_cradle" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:text="@string/cradle" android:singleLine="true"/>
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/StudyBtn" android:background="@drawable/btn_study" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/flashcard_tabbtn_interval" android:text="@string/study" android:layout_toRightOf="@+id/CradleBtn"/>
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/DictationBtn" android:background="@drawable/btn_dictation" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/flashcard_tabbtn_interval" android:text="@string/dictation" android:layout_toRightOf="@+id/StudyBtn"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout android:id="@+id/SearchContentInnerHyperLayout" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/FlashcardItemEditLayout">
+        <include layout="@layout/search_hyper_layout"/>
+    </LinearLayout>
+    <include layout="@layout/save_word_popup_right_layout"/>
+</RelativeLayout>

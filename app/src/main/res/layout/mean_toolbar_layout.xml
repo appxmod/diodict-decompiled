@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/MeanToolbarLayout" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toLeftOf="@+id/MeanContentRightLayout" android:layout_alignParentTop="true">
+    <ImageButton android:id="@+id/MarkerBtn" android:background="@drawable/marker" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1"/>
+    <ImageButton android:id="@+id/FontBtn" android:background="@drawable/font" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1"/>
+    <ImageButton android:id="@+id/MemoBtn" android:background="@drawable/memo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1"/>
+    <ImageButton android:id="@+id/SaveBtn" android:background="@drawable/save" android:nextFocusUp="@+id/SearchEditText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1"/>
+</LinearLayout>

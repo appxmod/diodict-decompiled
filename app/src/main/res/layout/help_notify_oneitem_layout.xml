@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center" android:orientation="vertical" android:id="@+id/NotifyAllinAllEngkor" android:visibility="visible" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:gravity="center" android:paddingLeft="20dp" android:paddingRight="20dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="20dp">
+        <TextView android:textSize="16sp" android:textColor="@color/text_color_normal" android:gravity="center" android:id="@+id/dictTitleTextView" android:background="@drawable/help_title" android:paddingLeft="36dp" android:paddingRight="36dp" android:layout_width="wrap_content" android:layout_height="40dp" android:layout_marginTop="25dp" android:layout_marginBottom="20dp" android:text="@string/notify_none" android:layout_centerHorizontal="true"/>
+    </LinearLayout>
+    <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="match_parent">
+        <LinearLayout android:orientation="vertical" android:id="@+id/notify_newace_korean_dic" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="15dp" android:layout_marginRight="15dp">
+            <TextView android:textColor="@color/text_color_normal" android:id="@+id/dictTextView" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/notify_none" android:drawableLeft="@drawable/help_check"/>
+            <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:textSize="12sp" android:textColor="@color/text_color_normal" android:id="@+id/dictNotifyTextView" android:padding="5dp" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginBottom="20dp" android:text="@string/notify_none" android:lineSpacingExtra="1dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="flashcard_count_perpage">6</integer>
+    <integer name="extendmean_height">80</integer>
+    <integer name="pen_thickness">10</integer>
+    <integer name="showmeanbtn_height">42</integer>
+    <integer name="nPartNum">0</integer>
+    <integer name="lDicID">0x2000000</integer>
+</resources>

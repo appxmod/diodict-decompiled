@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="true">
+    <item android:duration="50" android:drawable="@drawable/study_anim_wrong_1"/>
+    <item android:duration="50" android:drawable="@drawable/study_anim_wrong_2"/>
+    <item android:duration="50" android:drawable="@drawable/study_anim_wrong_3"/>
+    <item android:duration="50" android:drawable="@drawable/study_anim_wrong_4"/>
+    <item android:duration="50" android:drawable="@drawable/study_anim_wrong_5"/>
+    <item android:duration="50" android:drawable="@drawable/study_anim_wrong_6"/>
+    <item android:duration="50" android:drawable="@drawable/study_anim_wrong_7"/>
+</animation-list>

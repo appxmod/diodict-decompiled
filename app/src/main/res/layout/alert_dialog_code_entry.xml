@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:gravity="left" android:id="@+id/producttitle_view" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:text="@string/app_name"/>
+    <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:gravity="left" android:id="@+id/info_activation_code" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:text="@string/alert_dialog_productnum"/>
+    <EditText android:textAppearance="?android:attr/textAppearanceMedium" android:gravity="fill_horizontal" android:id="@+id/productnum_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:scrollHorizontally="true" android:singleLine="true" android:capitalize="none" android:autoText="false"/>
+    <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:gravity="left" android:id="@+id/info_access_internet" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:text="@string/access_internet"/>
+</LinearLayout>

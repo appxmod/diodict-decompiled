@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ListView android:id="@android:id/list" android:layout_width="match_parent" android:layout_height="match_parent" android:scrollingCache="true" android:layout_above="@+id/button_layout" android:scrollbarFadeDuration="1000" android:scrollbarDefaultDelayBeforeFade="500" android:fadeScrollbars="true"/>
+    <TableLayout android:gravity="bottom" android:id="@+id/button_layout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:stretchColumns="*" android:layout_alignParentBottom="true">
+        <TableRow android:layout_gravity="center_vertical" android:background="@drawable/bottom_bar">
+            <Button android:layout_gravity="center_vertical" android:id="@+id/appwidget_ok" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/ok" android:layout_weight="1"/>
+            <Button android:layout_gravity="center_vertical" android:id="@+id/appwidget_cancel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="@string/cancel" android:layout_weight="1" android:layout_toRightOf="@+id/appwidget_ok"/>
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>

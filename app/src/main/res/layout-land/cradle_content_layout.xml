@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/CradleContentLayout" android:background="@drawable/flashcard_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:id="@+id/CradleContentTopLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true">
+        <Button android:textSize="12sp" android:textColor="@color/textColor_Black" android:id="@+id/DurationBtn" android:background="@drawable/btn" android:paddingLeft="3dp" android:paddingRight="3dp" android:layout_width="wrap_content" android:layout_height="35dp" android:layout_marginLeft="10.6dp" android:layout_marginTop="9.3dp" android:minWidth="93.3dp" android:text="@string/duration5sec" android:layout_alignParentLeft="true"/>
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.6dp" android:layout_alignParentRight="true">
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/CradleBtn" android:background="@drawable/btn_cradle_sel" android:paddingBottom="8dp" android:clickable="false" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:text="@string/cradle" android:singleLine="true"/>
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/StudyBtn" android:background="@drawable/btn_study" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/flashcard_tabbtn_interval" android:text="@string/study" android:layout_toRightOf="@+id/CradleBtn"/>
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/DictationBtn" android:background="@drawable/btn_dictation" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/flashcard_tabbtn_interval" android:text="@string/dictation" android:layout_toRightOf="@+id/StudyBtn"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center" android:id="@+id/CradleContentMeanLayout" android:background="@drawable/study_mean_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="@dimen/cradlecontentmean_vertical_margin" android:layout_marginRight="@dimen/cradlecontentmean_marginRight" android:layout_marginBottom="@dimen/cradlecontentmean_vertical_margin" android:layout_toRightOf="@+id/ClockLayout" android:layout_below="@+id/CradleContentTopLayout">
+        <LinearLayout android:orientation="vertical" android:id="@+id/CradleContentMeanInnerLayout" android:clickable="true" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_toLeftOf="@+id/CradleTabView" android:layout_above="@+id/CradleContentMeanBottomLayout">
+            <TextView android:gravity="center" android:id="@+id/CradleMeanTitleView" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="3"/>
+            <com.diotek.diodict.mean.ExtendScrollView android:id="@+id/CradleMeanScrollView" android:background="#10ffffff" android:visibility="gone" android:fadingEdgeLength="5dp" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="10dp" android:layout_marginRight="10dp" android:layout_weight="1">
+                <com.diotek.diodict.mean.ExtendTextView android:id="@+id/CradleMeanContentView" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            </com.diotek.diodict.mean.ExtendScrollView>
+        </LinearLayout>
+        <RelativeLayout android:id="@+id/CradleContentMeanBottomLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_toLeftOf="@+id/CradleTabView" android:layout_alignParentBottom="true">
+            <CheckBox android:id="@+id/SpeakerBtn" android:layout_width="46.6dp" android:layout_height="41.3dp" android:button="@drawable/speak_switch_btn" android:layout_alignParentLeft="true"/>
+            <CheckBox android:id="@+id/ToggleUsBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/toggle_us" android:layout_toRightOf="@+id/SpeakerBtn"/>
+            <CheckBox android:id="@+id/ToggleUkBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/toggle_uk" android:layout_toRightOf="@+id/ToggleUsBtn"/>
+            <TextView android:textColor="@color/study_card_textColor" android:id="@+id/CountTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0/0" android:layout_centerHorizontal="true" android:layout_centerVertical="true"/>
+        </RelativeLayout>
+        <com.diotek.diodict.uitool.TabView android:id="@+id/CradleTabView" android:background="@drawable/cradle_tab_bg" android:layout_width="26dp" android:layout_height="match_parent" android:layout_alignParentRight="true" tabview_total="2" layout_width="fill_parent" layout_height="cradletab_height" tabview_textAlign="vertical" tabview_textAlignDegree="270" tabview_textColor="#ff000000" tabview_textSize="cradletab_textSize" tabview_textBold="false" tabview_viewAllTab="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@+id/ClockLayout" android:background="@drawable/clock" android:focusable="true" android:layout_width="90dp" android:layout_height="210dp" android:layout_marginLeft="@dimen/cradleclock_horizontal_margin" android:layout_alignParentLeft="true" android:layout_alignParentBottom="true">
+        <LinearLayout android:orientation="horizontal" android:id="@+id/ClockTimeLayout" android:layout_width="match_parent" android:layout_height="56.6dp" android:layout_marginTop="14.6dp">
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                <TextView android:textSize="9.3dp" android:textStyle="bold" android:textColor="#ffffffff" android:id="@+id/ClockAMPM" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:layout_marginRight="2dp" android:text="AM" android:layout_alignParentTop="true" android:layout_alignParentRight="true"/>
+                <TextView android:textSize="30dp" android:textStyle="bold" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/ClockHour" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="4dp" android:layout_marginTop="4dp" android:text="10"/>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+                <TextView android:textSize="30dp" android:textStyle="bold" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/ClockMinute" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="4dp" android:layout_marginRight="4dp" android:text="00" android:layout_toRightOf="@+id/HoursLayout" android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_weight="1" android:layout_below="@+id/ClockTimeLayout" android:layout_centerHorizontal="true">
+            <TextView android:textSize="14.6dp" android:textStyle="bold" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/ClockDay" android:paddingBottom="4dp" android:layout_width="wrap_content" android:layout_height="28.3dp" android:text="Moonday" android:layout_weight="1"/>
+            <TextView android:textSize="16.1dp" android:textStyle="bold" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/ClockDateForm" android:layout_width="wrap_content" android:layout_height="28.3dp" android:layout_marginBottom="11.3dp" android:text="" android:singleLine="true" android:layout_weight="1"/>
+        </LinearLayout>
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/clock_cline" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/wrapSetDurarionLayout" android:visibility="gone" android:clickable="true" android:layout_width="match_parent" android:layout_height="match_parent">
+        <include layout="@layout/set_duration_layout"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/wrapSetClockLayout" android:visibility="gone" android:clickable="true" android:layout_width="match_parent" android:layout_height="match_parent">
+        <RelativeLayout android:id="@+id/SetClockLayout" android:background="@drawable/cradle_pop2_bg" android:clickable="true" android:layout_width="336dp" android:layout_height="140dp" android:layout_marginLeft="85dp" android:layout_marginBottom="56dp" android:layout_toRightOf="@+id/ClockLayout" android:layout_alignParentBottom="true">
+            <RelativeLayout android:id="@+id/setClockTitleLayout" android:background="@drawable/cradle_pop2_title" android:layout_width="match_parent" android:layout_height="40dp" android:layout_alignParentTop="true">
+                <TextView android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="9.3dp" android:text="@string/setClock" android:drawableLeft="@drawable/cradle_pop2_arrow" android:drawablePadding="6.6dp" android:layout_alignParentLeft="true" android:layout_centerVertical="true"/>
+                <ImageButton android:layout_gravity="right" android:id="@+id/closeBtn" android:background="@drawable/set_clock_closebtn" android:focusable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="9.3dp" android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="79.3dp" android:layout_below="@+id/setClockTitleLayout">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="10dp" android:paddingRight="10dp" android:layout_width="match_parent" android:layout_height="40dp">
+                    <TextView android:textSize="12dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/DateForm"/>
+                    <RadioGroup android:gravity="center" android:orientation="horizontal" android:id="@+id/DateFormRadioGroup" android:layout_width="match_parent" android:layout_height="match_parent">
+                        <RadioButton android:textSize="12dp" android:textColor="@drawable/set_clock_text" android:id="@+id/dateForm01" android:background="#00000000" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="4dp" android:checked="true" android:button="@color/radiobutton" android:text="@string/MMDDYYYY" android:singleLine="true" android:drawableLeft="@drawable/radio_btn" android:drawablePadding="2.6dp"/>
+                        <RadioButton android:textSize="12dp" android:textColor="@drawable/set_clock_text" android:id="@+id/dateForm02" android:background="#00000000" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@color/radiobutton" android:text="@string/YYYMMDD" android:singleLine="true" android:drawableLeft="@drawable/radio_btn" android:drawablePadding="2.6dp"/>
+                    </RadioGroup>
+                </LinearLayout>
+                <RelativeLayout android:gravity="center_vertical" android:layout_width="match_parent" android:layout_height="40dp">
+                    <TextView android:textSize="12dp" android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_marginLeft="9.3dp" android:text="@string/hour24"/>
+                    <CheckBox android:gravity="center_vertical" android:id="@+id/hour24CheckBox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/check" android:layout_alignParentRight="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/cradleStartLayout" android:background="@drawable/play_bg" android:visibility="gone" android:clickable="true" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignLeft="@+id/CradleContentMeanLayout" android:layout_alignTop="@+id/CradleContentMeanLayout" android:layout_alignRight="@+id/CradleContentMeanLayout" android:layout_alignBottom="@+id/CradleContentMeanLayout">
+        <Button android:id="@+id/cradleStart" android:background="@drawable/play" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true"/>
+    </RelativeLayout>
+</RelativeLayout>

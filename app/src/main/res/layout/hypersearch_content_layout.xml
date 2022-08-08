@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/SearchContentRelativeLayout" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:gravity="fill_horizontal" android:orientation="horizontal" android:id="@+id/InputLayout" android:background="@drawable/topbar_bg" android:layout_width="match_parent" android:layout_height="52dp">
+        <LinearLayout android:gravity="center_vertical" android:id="@+id/InputLeftLayout" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_alignParentLeft="true">
+            <ImageButton android:id="@+id/ChangeDictionaryBtn" android:background="@drawable/changedict" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <ImageButton android:id="@+id/ChangeLanguageBtn" android:background="@drawable/changelang" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true"/>
+        </LinearLayout>
+        <com.diotek.diodict.uitool.DictEditText android:textColor="@color/textColor_Black" android:id="@+id/SearchEditText" android:background="@drawable/search_text" android:paddingLeft="6.6dp" android:paddingRight="4.7dp" android:focusable="true" android:clickable="true" android:longClickable="true" android:layout_width="180.6dp" android:layout_height="wrap_content" android:maxLines="1" android:lines="1" android:singleLine="true" android:maxLength="70" android:layout_toLeftOf="@+id/InputRightLayout" android:layout_toRightOf="@+id/InputLeftLayout" android:layout_centerVertical="true" android:imeOptions="actionSearch"/>
+        <ImageButton android:id="@+id/ClearBtn" android:background="@drawable/clearbtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.6dp" android:layout_marginRight="1.5dp" android:layout_toLeftOf="@+id/InputRightLayout" android:layout_centerVertical="true"/>
+        <LinearLayout android:id="@+id/InputRightLayout" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_alignParentRight="true">
+            <ImageButton android:id="@+id/SearchWordBtn" android:background="@drawable/searchbtn" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true"/>
+            <ImageButton android:id="@+id/VoiceSearchBtn" android:background="@drawable/voicesearch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout android:id="@+id/SearchContentInnerHyperLayout" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/InputLayout">
+        <include layout="@layout/search_hyper_layout"/>
+    </LinearLayout>
+    <include layout="@layout/save_word_popup_right_layout"/>
+</RelativeLayout>

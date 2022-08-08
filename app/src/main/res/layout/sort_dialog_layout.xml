@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:id="@+id/editwordbook_layout_root" android:background="@drawable/sort_bg" android:layout_width="match_parent" android:layout_height="220.3dp">
+    <TextView android:textSize="17.3sp" android:textColor="#ff3c2819" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@+id/sort_title" android:layout_width="wrap_content" android:layout_height="33.3dp" android:layout_marginTop="13.3dp" android:text="@string/sort"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="114.6dp" android:layout_marginLeft="40dp" android:layout_marginRight="20dp">
+        <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_alignParentLeft="true">
+            <TextView android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/name" android:layout_weight="1" android:layout_alignParentLeft="true" android:layout_centerVertical="true"/>
+            <TextView android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/time" android:layout_weight="1" android:layout_alignParentLeft="true" android:layout_centerVertical="true"/>
+            <TextView android:gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/dicname" android:layout_weight="1" android:layout_alignParentLeft="true" android:layout_centerVertical="true"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_alignParentRight="true">
+            <CheckBox android:id="@+id/sortByNameCheckBox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/check" android:layout_weight="1"/>
+            <CheckBox android:id="@+id/sortByTimeCheckBox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/check" android:layout_weight="1"/>
+            <CheckBox android:id="@+id/sortByDictCheckBox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/check" android:layout_weight="1"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout android:layout_gravity="center_horizontal" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.6dp">
+        <com.diotek.diodict.uitool.TextImageButton android:textSize="11dp" android:textColor="#ff3c2819" android:id="@+id/byDSCBtn" android:background="@drawable/btn_dialog" android:paddingLeft="4dp" android:paddingRight="4dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sortByDSC" text_size="10sp"/>
+        <com.diotek.diodict.uitool.TextImageButton android:textSize="11dp" android:textColor="#ff3c2819" android:id="@+id/byASCBtn" android:background="@drawable/btn_dialog" android:paddingLeft="4dp" android:paddingRight="4dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8dp" android:text="@string/sortByASC" text_size="10sp"/>
+    </LinearLayout>
+</LinearLayout>

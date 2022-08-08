@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:id="@+id/MeanContentRelativeLayout" android:layout_width="match_parent" android:layout_height="match_parent">
+    <View android:id="@+id/EmptyViewTitleTop" android:visibility="gone" android:layout_width="match_parent" android:layout_height="@dimen/emptyview_titletop_height" android:layout_toLeftOf="@+id/MeanContentRightLayout" android:layout_alignParentTop="true"/>
+    <TextView android:textSize="20sp" android:gravity="center_vertical" android:id="@+id/MeanTitleTextView" android:paddingTop="4dp" android:focusable="false" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minHeight="@dimen/title_textview_minheight" android:layout_toLeftOf="@+id/MeanContentRightLayout" android:layout_below="@+id/EmptyViewTitleTop" android:layout_alignParentLeft="true"/>
+    <RelativeLayout android:gravity="center" android:id="@+id/separatorlayout" android:focusable="false" android:layout_width="match_parent" android:layout_height="5dp" android:layout_marginRight="6.6dp" android:layout_toLeftOf="@+id/MeanContentRightLayout" android:layout_below="@+id/MeanTitleTextView">
+        <ImageView android:id="@+id/separator" android:background="@color/mean_line_color_sel" android:focusable="false" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <ImageView android:background="@color/mean_line_color" android:focusable="false" android:layout_width="match_parent" android:layout_height="0.6dp" android:layout_marginTop="2dp"/>
+    </RelativeLayout>
+    <ImageView android:id="@+id/bookmark" android:background="@drawable/bookmark_long" android:focusable="false" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="2.6dp" android:layout_below="@+id/EmptyViewTitleTop" android:layout_alignParentRight="true"/>
+    <LinearLayout android:orientation="vertical" android:id="@+id/MeanContentLinearLayout" android:focusable="false" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_toLeftOf="@+id/MeanContentRightLayout" android:layout_above="@+id/MeanTTSLayout" android:layout_below="@+id/separatorlayout">
+        <com.diotek.diodict.mean.ExtendScrollView android:id="@+id/scrollview" android:paddingTop="6.6dp" android:paddingBottom="6.6dp" android:nextFocusUp="@+id/SearchEditText" android:nextFocusDown="@+id/USOnceBtn" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_toLeftOf="@+id/MeanContentRightLayout" android:layout_above="@+id/MeanTTSLayout">
+            <com.diotek.diodict.mean.ExtendTextView android:linksClickable="false" android:id="@+id/MeanContentTextView" android:paddingRight="6.6dp" android:paddingBottom="6.6dp" android:nextFocusUp="@+id/SearchEditText" android:nextFocusDown="@+id/USOnceBtn" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="5dp" marker_enable="true"/>
+        </com.diotek.diodict.mean.ExtendScrollView>
+        <View android:id="@+id/MeanContentBottomView" android:clickable="true" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    </LinearLayout>
+    <include layout="@layout/mean_tts_layout"/>
+    <RelativeLayout android:id="@+id/MeanContentRightLayout" android:focusable="false" android:visibility="gone" android:layout_width="@dimen/tabview_toppadding_width" android:layout_height="match_parent" android:layout_alignParentTop="true" android:layout_alignParentRight="true">
+        <include layout="@layout/mean_content_tabview_layout"/>
+    </RelativeLayout>
+    <include layout="@layout/mean_toolbar_layout"/>
+    <ImageView android:id="@+id/bookmark_wide_meanview" android:focusable="false" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="37.3dp" android:layout_marginRight="12dp" android:layout_alignParentTop="true" android:layout_alignParentRight="true"/>
+</RelativeLayout>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center_vertical" android:paddingRight="0dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <com.diotek.diodict.keyboard.CustomKeyboardView android:id="@+id/keyboardView" android:background="@drawable/kbd_bg" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:keyTextSize="24sp"/>
+</FrameLayout>

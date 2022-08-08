@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center_horizontal" android:orientation="vertical" android:id="@+id/NotifyAllinAllEngkor" android:layout_width="match_parent" android:layout_height="match_parent">
+    <android.gesture.GestureOverlayView android:id="@+id/dicNotiGesturesOverlay" android:layout_width="match_parent" android:layout_height="70dp" android:gestureColor="@drawable/trans" android:gestureStrokeType="multiple">
+        <RelativeLayout android:background="@drawable/help_abbbar" android:layout_width="match_parent" android:layout_height="70dp">
+            <RelativeLayout android:id="@+id/notifyTextViewLayout" android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:textSize="20sp" android:textColor="@color/notify_center_color" android:gravity="center" android:id="@+id/notifyCenterTextView" android:layout_width="@dimen/notify_title_center_width" android:layout_height="match_parent" android:text="CenterDict" android:layout_centerHorizontal="true"/>
+                <TextView android:textSize="20sp" android:textColor="#ff825c49" android:gravity="center" android:id="@+id/notifyLeftTextView" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_marginLeft="-150dp" android:text="LeftDict" android:layout_toLeftOf="@+id/notifyCenterTextView" android:layout_alignParentLeft="true"/>
+                <TextView android:textSize="20sp" android:textColor="#ff825c49" android:gravity="center" android:id="@+id/notifyRightTextView" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_marginRight="-150dp" android:text="RightDict" android:layout_toRightOf="@+id/notifyCenterTextView" android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </android.gesture.GestureOverlayView>
+    <WebView android:gravity="center" android:id="@+id/notifyWebView" android:paddingLeft="20dp" android:paddingTop="5dp" android:paddingBottom="5dp" android:layout_width="match_parent" android:layout_height="match_parent"/>
+</LinearLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="bottom|right" android:id="@+id/HistoryRightLayout" android:paddingLeft="@dimen/right_layout_paddingLeft" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:id="@+id/MeanContentLayout" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_toLeftOf="@+id/MeanTabView" android:layout_above="@+id/MeanTTSLayout">
+        <include layout="@layout/mean_content_layout"/>
+    </LinearLayout>
+</RelativeLayout>

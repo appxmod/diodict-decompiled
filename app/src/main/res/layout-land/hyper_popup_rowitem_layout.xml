@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="@dimen/hyper_list_row_height">
+    <ImageView android:id="@+id/hyper_list_top_line" android:layout_width="match_parent" android:layout_height="wrap_content" android:src="@drawable/hyper_line"/>
+    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="match_parent">
+        <com.diotek.diodict.uitool.ChangeFontTextView android:textSize="@dimen/hyper_list_text_size" android:textColor="@color/hyper_list_item_color" android:ellipsize="none" android:gravity="center" android:layout_gravity="center" android:id="@+id/word" android:layout_width="match_parent" android:layout_height="wrap_content" android:singleLine="true" android:layout_weight="1"/>
+        <ImageView android:id="@+id/vertical_line" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/hyper_vertical_line"/>
+    </LinearLayout>
+    <ImageView android:id="@+id/hyper_list_bottom_line" android:layout_width="match_parent" android:layout_height="wrap_content" android:src="@drawable/hyper_line"/>
+</LinearLayout>

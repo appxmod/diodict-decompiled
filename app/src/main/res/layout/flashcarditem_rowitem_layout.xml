@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:background="@drawable/listview_row_background" android:paddingLeft="10.6dp" android:paddingRight="6.6dp" android:layout_width="match_parent" android:layout_height="39.3dp">
+    <ImageView android:id="@+id/dictIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="8dp" android:layout_alignParentLeft="true" android:layout_centerVertical="true"/>
+    <com.diotek.diodict.uitool.ChangeFontTextView android:textSize="@dimen/list_font_size" android:textColor="#ff000000" android:ellipsize="none" android:gravity="center_vertical" android:id="@+id/word" android:background="#00000000" android:layout_width="match_parent" android:layout_height="39.3dp" android:singleLine="true" android:layout_toRightOf="@+id/dictIcon"/>
+    <ImageView android:id="@+id/memo" android:background="@drawable/memo_skin_01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_centerVertical="true"/>
+</RelativeLayout>

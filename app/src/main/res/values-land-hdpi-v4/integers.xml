@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="flashcard_count_perpage">4</integer>
+    <integer name="cradletab_height">138</integer>
+</resources>

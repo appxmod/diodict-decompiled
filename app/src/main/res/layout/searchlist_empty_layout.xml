@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center" android:id="@+id/EmptyLayout" android:paddingTop="@dimen/searchmethod_infopopup_paddingTop" android:focusable="false" android:visibility="gone" android:clickable="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_centerInParent="true">
+    <LinearLayout android:orientation="vertical" android:id="@+id/parents" android:layout_width="293.2969dp" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="horizontal" android:id="@+id/parents_sub_one" android:background="@drawable/empty_info_bg_top" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:background="@drawable/empty_info_tag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8dp" android:layout_marginRight="6dp"/>
+            <TextView android:textSize="13.33sp" android:textColor="@color/empty_title_text_color" android:layout_gravity="bottom" android:id="@+id/empty_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hangulro_title"/>
+        </LinearLayout>
+        <LinearLayout android:id="@+id/parents_sub_two" android:background="@drawable/empty_info_bg_m" android:paddingTop="3dp" android:paddingBottom="3dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="10.66sp" android:textColor="@color/empty_title_text_color" android:layout_gravity="bottom" android:id="@+id/empty_info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="8dp" android:text="@string/hangulro_info"/>
+        </LinearLayout>
+        <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@+id/parents_sub_three" android:background="@drawable/empty_info_bg_bt" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:textSize="10.66sp" android:textColor="@color/empty_common_text_color" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/empty_common_prev_text"/>
+            <ImageView android:layout_gravity="center_vertical" android:background="@drawable/empty_info_smic" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <TextView android:textSize="10.66sp" android:textColor="@color/empty_common_text_color" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/empty_common_next_text"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

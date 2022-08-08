@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="resultwordlayout_marginTop">30dp</dimen>
+    <dimen name="restudybutton_marginTop">5dp</dimen>
+    <dimen name="linegap_marginTop">9dp</dimen>
+    <dimen name="settingtheme_height">250dp</dimen>
+</resources>

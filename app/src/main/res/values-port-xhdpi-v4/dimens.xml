@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cradlecontentmean_marginTop">25dp</dimen>
+    <dimen name="cradlecontentmean_marginBottom">15dp</dimen>
+    <dimen name="cradlecontentmean_horizontal_margin">34dp</dimen>
+    <dimen name="studyinfotext_heignt">30dp</dimen>
+    <dimen name="studycontentmean_marginBottom">5dp</dimen>
+    <dimen name="studychoicelayout_horizontal_margin">14dp</dimen>
+    <dimen name="resultwordlayout_marginTop">0dp</dimen>
+    <dimen name="restudybutton_marginTop">5dp</dimen>
+    <dimen name="resultchoicelayout_vertical_margin">7dp</dimen>
+    <dimen name="resultchoicelayout_height">102dp</dimen>
+    <dimen name="linegap_marginTop">9dp</dimen>
+</resources>

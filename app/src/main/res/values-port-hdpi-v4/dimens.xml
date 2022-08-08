@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cradlecontentmean_marginTop">16.6dp</dimen>
+    <dimen name="cradlecontentmean_marginBottom">0dp</dimen>
+    <dimen name="cradlecontentmean_horizontal_margin">10.6dp</dimen>
+    <dimen name="studyinfotext_heignt">26.6dp</dimen>
+    <dimen name="studycontentmean_marginBottom">0dp</dimen>
+    <dimen name="studychoicelayout_horizontal_margin">10.6dp</dimen>
+    <dimen name="resultwordlayout_marginTop">0dp</dimen>
+    <dimen name="resultwordlayout_paddingTop">30dp</dimen>
+    <dimen name="resultwordcount_marginTop">0dp</dimen>
+    <dimen name="restudybutton_marginTop">0dp</dimen>
+    <dimen name="restudybutton_marginBottom">5dp</dimen>
+    <dimen name="resultchoicelayout_vertical_margin">6.6dp</dimen>
+    <dimen name="resultchoicelayout_height">83.6dp</dimen>
+    <dimen name="dictation_ani_height">177.3dp</dimen>
+    <dimen name="cradlecontentmean_marginRight">90.6dp</dimen>
+</resources>

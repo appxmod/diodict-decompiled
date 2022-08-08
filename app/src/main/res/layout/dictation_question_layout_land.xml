@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/DictationContentLayout_land" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:orientation="horizontal" android:id="@+id/DictationBottomLayout_land" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_alignParentBottom="true">
+        <RelativeLayout android:id="@+id/DictationPaperLayout" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="5">
+            <TextView android:textSize="12.6sp" android:textColor="@color/change_popup_titlecolor" android:id="@+id/correctCountTextView_land" android:background="@drawable/dictation_count_bg" android:focusable="false" android:layout_width="60dp" android:layout_height="wrap_content" android:layout_marginLeft="9dp" android:layout_marginTop="7dp" android:layout_marginRight="2.3dp" android:text="0" android:drawableLeft="@drawable/dictation_correct_icon" android:drawablePadding="4dp"/>
+            <TextView android:textSize="12.6sp" android:textColor="@color/change_popup_titlecolor" android:id="@+id/wrongCountTextView_land" android:background="@drawable/dictation_count_bg" android:focusable="false" android:layout_width="60dp" android:layout_height="wrap_content" android:layout_marginTop="7dp" android:text="0" android:drawableLeft="@drawable/dictation_wrong_icon" android:drawablePadding="4dp" android:layout_toRightOf="@+id/correctCountTextView_land"/>
+            <RelativeLayout android:id="@+id/DictationMeanPaperLayout_land" android:paddingTop="10dp" android:focusable="false" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="-30dp" android:layout_below="@+id/DictationKeywordPaperRootLayout_land">
+                <RelativeLayout android:id="@+id/DictationInnerMeanPaperLayout_land" android:background="@drawable/meanpaper_bg" android:focusable="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="50dp">
+                    <com.diotek.diodict.mean.ExtendScrollView android:id="@+id/DictationMeanScrollView_land" android:paddingTop="4.5dp" android:paddingBottom="3dp" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true">
+                        <com.diotek.diodict.mean.ExtendTextView android:id="@+id/DictationMeanContentView_land" android:paddingLeft="10dp" android:focusable="false" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginRight="@dimen/dictationmean_marginLeft"/>
+                    </com.diotek.diodict.mean.ExtendScrollView>
+                </RelativeLayout>
+                <RadioButton android:gravity="top" android:id="@+id/ShowMeanBtn_land" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/btn_showmean" android:layout_alignRight="@+id/DictationInnerMeanPaperLayout_land" android:layout_alignBottom="@+id/DictationInnerMeanPaperLayout_land"/>
+            </RelativeLayout>
+            <RelativeLayout android:gravity="center" android:id="@+id/DictationKeywordPaperRootLayout_land" android:background="@drawable/dictation_bg" android:paddingTop="40dp" android:paddingBottom="21dp" android:layout_width="match_parent" android:layout_height="150dp">
+                <ScrollView android:gravity="center" android:id="@+id/DictationKeywordScrollView_land" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <RelativeLayout android:gravity="center" android:id="@+id/DictationKeywordPaperLayout_land" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                </ScrollView>
+            </RelativeLayout>
+            <RelativeLayout android:gravity="center" android:id="@+id/wrapperLayout_land" android:layout_width="match_parent" android:layout_height="177.3dp">
+                <ImageView android:id="@+id/DictationCorrectImage_land" android:background="@drawable/study_anim_correct_7" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true"/>
+                <ImageView android:id="@+id/DictationWrongImage_land" android:background="@drawable/study_anim_wrong_7" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true"/>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="wrap_content" android:layout_height="20dp" android:layout_marginTop="5dp" android:layout_alignParentTop="true" android:layout_alignParentRight="true">
+                <TextView android:textSize="13.3sp" android:textColor="@color/textColor_onBlackBackground" android:id="@+id/Dictation_WordCount_land" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="9.3dp" android:text="0/0" android:layout_alignParentRight="true" android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+            <Button android:textSize="20dp" android:textColor="#ffffffff" android:gravity="center_horizontal" android:id="@+id/DictationStartBtn_land" android:background="@drawable/dictation_start" android:layout_width="160dp" android:layout_height="36dp" android:layout_marginTop="70dp" android:text="@string/start" android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+        <RelativeLayout android:id="@+id/DictationBoardLayout_land" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="7">
+            <View android:id="@+id/boardBgView_land" android:background="@drawable/board_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_alignParentBottom="true"/>
+            <com.diotek.diodict.uitool.RecognizeView android:id="@+id/recognizeView_land" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_margin="7.6dp"/>
+            <RelativeLayout android:id="@+id/wrapRecognizeLayout_land" android:background="@drawable/board_bg" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_alignParentBottom="true"/>
+            <ImageButton android:id="@+id/DelBtn_land" android:background="@drawable/btn01" android:layout_width="66.6dp" android:layout_height="29.3dp" android:layout_marginBottom="12dp" android:src="@drawable/back" android:layout_toLeftOf="@+id/passBtn_land" android:layout_alignParentBottom="true"/>
+            <Button android:textColor="@color/textColor_White" android:gravity="center" android:id="@+id/passBtn_land" android:background="@drawable/btn01" android:layout_width="66.6dp" android:layout_height="29.3dp" android:layout_marginBottom="12dp" android:text="@string/pass" android:layout_toLeftOf="@+id/OkBtn_land" android:layout_alignParentBottom="true" android:layout_centerInParent="true"/>
+            <Button android:textColor="@color/textColor_Black" android:gravity="center" android:id="@+id/OkBtn_land" android:background="@drawable/btn02" android:layout_width="66.6dp" android:layout_height="29.3dp" android:layout_marginRight="10.6dp" android:layout_marginBottom="12dp" android:text="@string/ok" android:layout_alignParentRight="true" android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:id="@+id/HistoryLeftLayout" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@+id/SelectAllLayout" android:paddingLeft="8dp" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <CheckBox android:id="@+id/selectAll" android:focusable="false" android:clickable="false" android:layout_width="22.6dp" android:layout_height="wrap_content" android:button="@drawable/check"/>
+        <TextView android:textSize="13.3sp" android:textStyle="bold" android:textColor="#ff412819" android:gravity="center_vertical" android:id="@+id/SelectAllTextView" android:background="#ffffffff" android:focusable="true" android:layout_width="match_parent" android:layout_height="39.3dp" android:layout_marginLeft="5.3dp" android:text="@string/select_all"/>
+    </LinearLayout>
+    <ListView android:id="@+id/HistoryListView" android:fadingEdge="none" android:layout_width="match_parent" android:layout_height="match_parent" android:cacheColorHint="#00000000" android:divider="@drawable/list_divider" android:layout_below="@+id/SelectAllLayout" android:layout_alignParentRight="true" android:scrollbarFadeDuration="1000" android:fadeScrollbars="true"/>
+    <TextView android:textSize="12sp" android:gravity="center_vertical" android:id="@+id/EmptyTextView" android:paddingLeft="6.6dp" android:paddingTop="20dp" android:paddingRight="6.6dp" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/no_item" android:drawableLeft="@drawable/emark2" android:drawablePadding="2dp" android:layout_below="@+id/SelectAllLayout" android:layout_centerHorizontal="true"/>
+</RelativeLayout>

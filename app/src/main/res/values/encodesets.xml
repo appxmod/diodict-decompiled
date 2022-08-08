@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <encodeset name="DECS_UCS_2LE">0</encodeset>
+    <encodeset name="DECS_UTF8">1</encodeset>
+    <encodeset name="DECS_LATIN_I">2</encodeset>
+    <encodeset name="DECS_CYRILLIC">3</encodeset>
+    <encodeset name="DECS_KSC5601">4</encodeset>
+    <encodeset name="DECS_GB2312">5</encodeset>
+    <encodeset name="DECS_BIG5">6</encodeset>
+    <encodeset name="DECS_SHIFT_JIS">7</encodeset>
+    <encodeset name="DECS_MAX">8</encodeset>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.diotek.diodict.uitool.CheckableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center" android:layout_width="match_parent" android:layout_height="match_parent" android:checkable="@+id/checkbox">
+    <RelativeLayout android:id="@+id/checkableFlashcard" android:layout_width="88dp" android:layout_height="82.6dp">
+        <TextView android:textSize="9sp" android:textStyle="bold" android:textColor="#ff412819" android:gravity="center_horizontal" android:id="@+id/wordbooktitle" android:paddingLeft="16dp" android:paddingTop="9dp" android:paddingRight="8dp" android:layout_width="match_parent" android:layout_height="24dp" android:layout_alignParentTop="true"/>
+        <TextView android:textSize="28dp" android:textStyle="bold" android:textColor="#ff412819" android:gravity="center_horizontal" android:id="@+id/numword" android:paddingTop="6dp" android:paddingBottom="15.3dp" android:layout_width="match_parent" android:layout_height="61.8dp" android:layout_below="@+id/wordbooktitle"/>
+        <CheckBox android:id="@+id/checkbox" android:focusable="false" android:clickable="false" android:layout_width="22.6dp" android:layout_height="22.6dp" android:button="@drawable/check" android:layout_alignParentRight="true" android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+</com.diotek.diodict.uitool.CheckableLayout>

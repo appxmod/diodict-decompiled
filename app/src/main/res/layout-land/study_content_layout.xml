@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="fill_vertical" android:id="@+id/StudyContentLayout" android:background="@drawable/flashcard_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:id="@+id/StudyContentTopLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true">
+        <ImageButton android:id="@+id/SoundBtn" android:background="@drawable/btn" android:layout_width="80dp" android:layout_height="35dp" android:layout_marginLeft="8dp" android:src="@drawable/icon_sound" android:layout_alignParentLeft="true" android:layout_centerVertical="true"/>
+        <LinearLayout android:orientation="horizontal" android:id="@+id/StudyInfoLayout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+            <ImageView android:id="@+id/emark" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:src="@drawable/emark2"/>
+            <TextView android:textSize="12dp" android:textColor="@color/study_top_textColor" android:gravity="center" android:id="@+id/StudyContentInfoTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="140dp" android:text="@string/study_content_info" android:maxLines="2" android:singleLine="false"/>
+        </LinearLayout>
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.6dp" android:layout_alignParentRight="true">
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/CradleBtn" android:background="@drawable/btn_cradle" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:text="@string/cradle" android:singleLine="true"/>
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/StudyBtn" android:background="@drawable/btn_study_sel" android:paddingBottom="8dp" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/flashcard_tabbtn_interval" android:text="@string/study" android:layout_toRightOf="@+id/CradleBtn"/>
+            <Button android:textSize="@dimen/flashcard_tabbtn_textsize" android:textColor="#ff412819" android:gravity="bottom|center_horizontal" android:id="@+id/DictationBtn" android:background="@drawable/btn_dictation" android:paddingBottom="8dp" android:clickable="false" android:layout_width="@dimen/flashcard_tabbtn_width" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/flashcard_tabbtn_interval" android:text="@string/dictation" android:layout_toRightOf="@+id/StudyBtn"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/StudyContentBottomLayout" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_below="@+id/StudyContentTopLayout">
+        <include layout="@layout/study_question_layout"/>
+        <include layout="@layout/study_answer_layout"/>
+    </RelativeLayout>
+</RelativeLayout>

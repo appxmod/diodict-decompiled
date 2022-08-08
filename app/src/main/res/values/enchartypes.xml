@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <enchartype name="DIO_CT_ENGLISH0">0</enchartype>
+    <enchartype name="DIO_CT_1BYTENUMBER">1</enchartype>
+    <enchartype name="DIO_CT_1BYTESYMBOL">2</enchartype>
+    <enchartype name="DIO_CT_KOREAN">3</enchartype>
+    <enchartype name="DIO_CT_CHINESE">4</enchartype>
+    <enchartype name="DIO_CT_JAPANESE">5</enchartype>
+    <enchartype name="DIO_CT_CYRILLIC">6</enchartype>
+    <enchartype name="DIO_CT_2BYTENUMBER">7</enchartype>
+    <enchartype name="DIO_CT_2BYTESYMBOL">8</enchartype>
+    <enchartype name="DIO_CT_ARABIC">9</enchartype>
+    <enchartype name="DIO_CT_THAI">10</enchartype>
+    <enchartype name="DIO_CT_HINDI">11</enchartype>
+    <enchartype name="DIO_CT_GREEK">12</enchartype>
+    <enchartype name="DIO_CT_UNKNOWN">13</enchartype>
+    <enchartype name="DIO_CT_MAX">14</enchartype>
+</resources>
