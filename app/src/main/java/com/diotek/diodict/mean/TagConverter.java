@@ -325,9 +325,9 @@ public class TagConverter {
 								int end_index2 = TagConverter.this.mSource.indexOf("%l06", TagConverter.this.mSrcIndex);
 								url = TagConverter.this.mSource.substring(TagConverter.this.mSrcIndex, end_index2);
 								TagConverter.this.mSrcIndex = end_index2 + 4;
-								continue;
+								continue; //
 							}
-							if (inner_tag == 2821) {
+							else if (inner_tag == 2821) {
 								TagConverter.access$812(TagConverter.this, 4);
 								TagConverter.this.mSpannableBuilder.append((CharSequence) TagConverter.this.mStringBuilder);
 								TagConverter.this.mStringBuilder.delete(0, TagConverter.this.mStringBuilder.length());
@@ -343,7 +343,7 @@ public class TagConverter {
 									return;
 								}
 							}
-							if (inner_tag > 0) {
+							else if (inner_tag > 0) {
 								boolean isStart = TagConverter.this.mSource.codePointAt(TagConverter.this.mSrcIndex + 1) < 96;
 								int value = (65280 & inner_tag) > 0 ? inner_tag >> 8 : inner_tag;
 								TagConverter.access$812(TagConverter.this, TagConverter.this.mTagLength[value] + 1);
@@ -355,7 +355,7 @@ public class TagConverter {
 									TagConverter.this.mTagHandler[value].handleTag_End(inner_tag);
 									TagConverter.this.StyleStack_Pop(tag);
 								}
-								continue;
+								continue; //
 							}
 						}
 						TagConverter.this.mStringBuilder.appendCodePoint(TagConverter.this.mSource.codePointAt(TagConverter.access$808(TagConverter.this)));
