@@ -1439,12 +1439,25 @@ public class DictationActivity extends BaseActivity {
     private void setRecogInputType() {
         // throw new UnsupportedOperationException("Method not decompiled: com.diotek.diodict.DictationActivity.setRecogInputType():void");
 		System.out.println("fatal setRecogInputType!"+mInputWordPos);
-		int correctWordPos = this.mInputWordPos;
-		while (isContainSymbol(correctWordPos) && correctWordPos >= 0 && correctWordPos < this.mCorrectWord.length()) {
-			correctWordPos++;
-		}
+//		int correctWordPos = this.mInputWordPos;
+//		while (isContainSymbol(correctWordPos) && correctWordPos >= 0 && correctWordPos < this.mCorrectWord.length()) {
+//			correctWordPos++;
+//		}
 		// 追加???
 		//this.mInputWordPos = correctWordPos;
+		String str;
+		int i;
+		for (i = this.mInputWordPos; isContainSymbol(i) && i >= 0 && i < this.mCorrectWord.length(); i++);
+		if (i >= 0 && i < this.mCorrectWord.length()) {
+			str = "" + this.mCorrectWord.charAt(i);
+			if (DictUtils.isFirstNumber(str)) {
+				this.mRecognizeView.SetRecogMode(6);
+				return;
+			}
+		} else {
+			return;
+		}
+		setRecogInputTypeWithCodePage(DictUtils.getCodePage(str), str);
 	}
 
     private void setRecogInputTypeWithCodePage(int codepage, String word) {
