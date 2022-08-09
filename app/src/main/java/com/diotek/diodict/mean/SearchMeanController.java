@@ -30,7 +30,7 @@ public class SearchMeanController extends BaseMeanController {
                     return;
                 }
                 SearchMeanController.this.mDicType = nDicType;
-                SearchMeanController.this.mEngine.setNativeDicType(SearchMeanController.this.mDicType);
+                SearchMeanController.this.mEngine.setDicType(nDicType);
                 SearchMeanController.this.mWord = SearchMeanController.this.mEngine.getResultListKeywordByPos(SearchMeanController.this.mWordPos, SearchMeanController.this.mRunnableHyper);
                 if (SearchMeanController.this.mWord == null) {
                     SearchMeanController.this.refreshEmptyView();

@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.Toast;
+
+import com.diotek.diodict.CMN;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict3.phone.samsung.chn.R;
@@ -177,10 +179,13 @@ public class EngineManager3rd {
     }
 
     public void setDicType(int nDicType) {
-        setCurDict(nDicType);
-        if (nDicType != 65520) {
-            setNativeDicType(nDicType);
-        }
+		if (mCurDicType!=nDicType)
+		{
+			setCurDict(nDicType);
+			if (nDicType != 65520) {
+				setNativeDicType(nDicType);
+			}
+		}
     }
 
     public void setNativeDicType(int nDicType) {
@@ -203,39 +208,39 @@ public class EngineManager3rd {
                 MSG.l(2, "DioDict_3_for_Android (EngineManger3rd.getExistDBList() No Exist DB : " + dbfullpath);
             }
             if (dicts[i].intValue() == 65520 && templist.size() > 2) {
-                templist.add(Integer.valueOf((int) DictDBManager.DEDT_TOTAL_SEARCH));
+                templist.add((int) DictDBManager.DEDT_TOTAL_SEARCH);
             }
         }
         return templist;
     }
-
-    public int getStartDict(int lastDicType) {
-        int nDicTypePos = -1;
-        Integer[] supportDicts = getSupportDictionary();
-        if (supportDicts.length == 0) {
-            return -1;
-        }
-        if (lastDicType == -1) {
-            DictUtils.setLastDictToPreference(this.mContext, supportDicts[0].intValue());
-            return supportDicts[0].intValue();
-        }
-        int i = 0;
-        while (true) {
-            if (i >= supportDicts.length) {
-                break;
-            } else if (lastDicType != supportDicts[i].intValue()) {
-                i++;
-            } else {
-                nDicTypePos = i;
-                break;
-            }
-        }
-        if (nDicTypePos == -1 || supportDicts[nDicTypePos].intValue() == 65520) {
-            DictUtils.setLastDictToPreference(this.mContext, supportDicts[0].intValue());
-            return supportDicts[0].intValue();
-        }
-        return supportDicts[nDicTypePos].intValue();
-    }
+	
+	public int getStartDict(int lastDicType) { // pasted from jdui
+		int nDicTypePos = -1;
+		Integer[] supportDicts = getSupportDictionary();
+		if (supportDicts.length == 0) {
+			return nDicTypePos;
+		}
+		if (lastDicType == -1) {
+			DictUtils.setLastDictToPreference(this.mContext, supportDicts[0]);
+			return supportDicts[0];
+		}
+		nDicTypePos = 0;
+		while (true) {
+			int b = -1;
+			if (nDicTypePos < supportDicts.length)
+				if (lastDicType == supportDicts[nDicTypePos]) {
+					b = nDicTypePos;
+				} else {
+					nDicTypePos++;
+					continue;
+				}
+			if (b == -1 || supportDicts[b] == 65520) {
+				DictUtils.setLastDictToPreference(this.mContext, supportDicts[0]);
+				return supportDicts[0];
+			}
+			return supportDicts[b];
+		}
+	}
 
     public boolean setSupportDictionary() {
         ArrayList<Integer> tempMainList = new ArrayList<>();
@@ -669,10 +674,17 @@ public class EngineManager3rd {
         String str = DictUtils.convertByteToString(array, dicType, false);
         return str;
     }
-
+	
+	//synchronized
     public String getMeaning(String ketyword, int suid, int dicType, int enDispMode, int bufsize, boolean isConvertSym, boolean isKeepTag, int nMode) {
         byte[] searchwordbyte = convertToEngineSearchCharSet(ketyword, dicType);
-        byte[] array = EngineNative3rd.LibGetMeaning(dicType, enDispMode, searchwordbyte, suid, bufsize, isConvertSym, isKeepTag);
+//		CMN.Log("LibGetMeaning::", Thread.currentThread().getId(), ketyword, searchwordbyte==null, dicType, enDispMode, suid, bufsize, isConvertSym, isKeepTag);
+//		try {
+//			throw new RuntimeException();
+//		} catch (RuntimeException e) {
+//			CMN.Log(e);
+//		}
+		byte[] array = EngineNative3rd.LibGetMeaning(dicType, enDispMode, searchwordbyte, suid, bufsize, isConvertSym, isKeepTag);
         String str = DictUtils.convertByteToString(array, dicType, false);
         if (nMode == 1) {
             String correctWord = DictUtils.makeCorrectWord(ketyword);
@@ -689,11 +701,12 @@ public class EngineManager3rd {
             }
         }
         if (DictDBManager.isIdiomDictionary(dicType)) {
-            return str.replace("%M", "%M%D") + "%d";
+			return str.replace("%M", "%M%D") + "%d";
         }
         if (DictDBManager.isExampleDictionary(dicType)) {
-            return str.replace("%M", "%M%E") + "%e";
+			return str.replace("%M", "%M%E") + "%e";
         }
+		//CMN.Log("LibGetMeaning="+str);
         return str;
     }
 

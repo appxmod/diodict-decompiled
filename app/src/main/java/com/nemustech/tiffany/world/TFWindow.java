@@ -78,22 +78,22 @@ public class TFWindow extends Window {
 		return 0;
 	}
 	
-	@Override
+	//@Override
 	public int getStatusBarColor() {
 		return 0;
 	}
 	
-	@Override
+	//@Override
 	public void setStatusBarColor(int i) {
 	
 	}
 	
-	@Override
+	//@Override
 	public int getNavigationBarColor() {
 		return 0;
 	}
 	
-	@Override
+	//@Override
 	public void setNavigationBarColor(int i) {
 	
 	}
