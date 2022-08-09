@@ -386,6 +386,7 @@ public class ListMeanViewActivity extends BaseActivity {
     }
 
     public void showHideTTSLayout(boolean bShow) {
+		bShow = true;
         int nTTSFisrtBtnResId;
         int nTTSSecondBtnResId;
         Integer[] supportTTS;

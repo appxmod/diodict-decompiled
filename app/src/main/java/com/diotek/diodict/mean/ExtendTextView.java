@@ -1200,10 +1200,10 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             tts.setOnClickListener(this.mTextSelectPopupOnClickListener);
             tts_us.setOnClickListener(this.mTextSelectPopupOnClickListener);
             tts_uk.setOnClickListener(this.mTextSelectPopupOnClickListener);
-//            if (Dependency.getLocaleName().contains("China")) {
-//                this.wiki.setVisibility(View.GONE);
-//                this.bWikiVisible = false;
-//            }
+            if (Dependency.getLocaleName().contains("China")) {
+                this.wiki.setVisibility(View.GONE);
+                this.bWikiVisible = false;
+            }
             float density = CommonUtils.getDeviceDensity(this.mContext);
             String ttsWord = "";
             if (this.mSelectTextArea.isTextSelected()) {
