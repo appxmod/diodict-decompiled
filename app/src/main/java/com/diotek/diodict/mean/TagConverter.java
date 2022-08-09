@@ -287,7 +287,10 @@ public class TagConverter {
 	private TagHandler mTagHandler_L = new TagHandler() { // from class: com.diotek.diodict.mean.TagConverter.11
 		@Override // com.diotek.diodict.mean.TagConverter.TagHandler
 		public void handleTag_Start(int tag) {
-			switch (tag & 255) {
+			switch (tag & 0xFF) {
+				default:
+					TagConverter.this.StyleStack_Push(tag, -1, 15);
+					return;
 				case 3:
 					TagConverter.this.WideBlockTag_Start(tag, -1);
 					return;
@@ -305,9 +308,10 @@ public class TagConverter {
 					}
 					TagConverter.this.mSrcIndex = end_index + 4;
 					return;
+				
 				case 5:
-					if (TagConverter.this.mLinkIdxList.size() > 0 && ((DictPos) TagConverter.this.mLinkIdxList.get(TagConverter.this.mLinkIdxList.size() - 1)).end == TagConverter.this.mDstIndex - 1) {
-						TagConverter.this.mSpannableBuilder.append((CharSequence) " ");
+					if (TagConverter.this.mLinkIdxList.size() > 0 && (TagConverter.this.mLinkIdxList.get(TagConverter.this.mLinkIdxList.size() - 1)).end == TagConverter.this.mDstIndex - 1) {
+						TagConverter.this.mSpannableBuilder.append(" ");
 						TagConverter.access$908(TagConverter.this);
 					}
 					String url = null;
@@ -321,7 +325,9 @@ public class TagConverter {
 								int end_index2 = TagConverter.this.mSource.indexOf("%l06", TagConverter.this.mSrcIndex);
 								url = TagConverter.this.mSource.substring(TagConverter.this.mSrcIndex, end_index2);
 								TagConverter.this.mSrcIndex = end_index2 + 4;
-							} else if (inner_tag == 2821) {
+								continue;
+							}
+							if (inner_tag == 2821) {
 								TagConverter.access$812(TagConverter.this, 4);
 								TagConverter.this.mSpannableBuilder.append((CharSequence) TagConverter.this.mStringBuilder);
 								TagConverter.this.mStringBuilder.delete(0, TagConverter.this.mStringBuilder.length());
@@ -336,8 +342,8 @@ public class TagConverter {
 									TagConverter.this.mLinkIdxList.add(item);
 									return;
 								}
-								return;
-							} else if (inner_tag > 0) {
+							}
+							if (inner_tag > 0) {
 								boolean isStart = TagConverter.this.mSource.codePointAt(TagConverter.this.mSrcIndex + 1) < 96;
 								int value = (65280 & inner_tag) > 0 ? inner_tag >> 8 : inner_tag;
 								TagConverter.access$812(TagConverter.this, TagConverter.this.mTagLength[value] + 1);
@@ -353,22 +359,19 @@ public class TagConverter {
 						}
 						TagConverter.this.mStringBuilder.appendCodePoint(TagConverter.this.mSource.codePointAt(TagConverter.access$808(TagConverter.this)));
 						TagConverter.access$908(TagConverter.this);
+						
 					}
-					return;
 				case 6:
 					Log.e("TagConverter", "File Link parsing error");
-					return;
-				case 7:
-				default:
-					TagConverter.this.StyleStack_Push(tag, -1, 15);
 					return;
 				case 8:
 					TagConverter.this.BlockTag_Start(tag, -1);
 					return;
 				case 9:
-					TagConverter.this.mSrcIndex = TagConverter.this.mSource.indexOf("%l09", TagConverter.this.mSrcIndex) + 4;
-					return;
+					break;
 			}
+			tag = TagConverter.this.mSource.indexOf("%l09", TagConverter.this.mSrcIndex);
+			TagConverter.access$802(TagConverter.this, tag + 4);
 		}
 		
 		@Override // com.diotek.diodict.mean.TagConverter.TagHandler
@@ -398,7 +401,6 @@ public class TagConverter {
 				}
 				return;
 			}
-			Log.d("TagConverter", "Tag Missing L");
 		}
 	};
     private TagHandler mTagHandler_M = new TagHandler() { // from class: com.diotek.diodict.mean.TagConverter.12
