@@ -808,13 +808,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     @Override // android.widget.TextView, android.view.View
     public boolean onTouchEvent(MotionEvent event) {
         if (!this.mMarkerable && !isActiveTextSelectGrip()) {
-            if (event.getAction() == 3) {
-                event.setAction(1);
+            if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                //event.setAction(MotionEvent.ACTION_UP);
                 boolean retValue = this.mGestureDetector.onTouchEvent(event);
                 if (retValue) {
                     return retValue;
                 }
-                event.setAction(3);
+                //event.setAction(MotionEvent.ACTION_CANCEL);
             } else {
                 boolean retValue2 = this.mGestureDetector.onTouchEvent(event);
                 if (retValue2) {
@@ -824,13 +824,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             return super.onTouchEvent(event);
         }
         if (!this.mIsMarkerMode && !this.mTextLineSelect && !isActiveTextSelectGrip()) {
-            if (event.getAction() == 3) {
-                event.setAction(1);
+            if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                //event.setAction(MotionEvent.ACTION_UP);
                 boolean retValue3 = this.mGestureDetector.onTouchEvent(event);
                 if (retValue3) {
                     return retValue3;
                 }
-                event.setAction(3);
+                //event.setAction(MotionEvent.ACTION_CANCEL);
             } else {
                 boolean retValue4 = this.mGestureDetector.onTouchEvent(event);
                 if (retValue4) {
