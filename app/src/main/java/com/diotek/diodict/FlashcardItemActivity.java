@@ -1031,7 +1031,7 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         if (this.mCopyToFlashcardPopLayout.getVisibility() == 0) {
             hideFlashcardPopup();
             return true;
-        } else if (this.mMainMeanContentTextView.isActiveTextSelectGrip()) {
+        } else if (this.mMainMeanContentTextView.gripShowing()) {
             this.mMainMeanContentTextView.initTextSelect();
             this.mMainMeanContentTextView.forceInvalidate();
             return true;

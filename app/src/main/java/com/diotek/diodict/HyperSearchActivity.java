@@ -302,7 +302,7 @@ public class HyperSearchActivity extends HyperCommonActivity {
             showCopyToFlashcardLayout(false);
             this.mSaveBtn.setSelected(false);
             return true;
-        } else if (this.mHyperDetailMeanContentTextView.isActiveTextSelectGrip()) {
+        } else if (this.mHyperDetailMeanContentTextView.gripShowing()) {
             this.mHyperDetailMeanContentTextView.initTextSelect();
             this.mHyperDetailMeanContentTextView.forceInvalidate();
             return true;

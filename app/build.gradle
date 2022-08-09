@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 30
     // buildToolsVersion "23.1"
     // buildToolsVersion "30.0.2"
 

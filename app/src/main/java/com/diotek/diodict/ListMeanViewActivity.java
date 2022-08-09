@@ -172,7 +172,7 @@ public class ListMeanViewActivity extends BaseActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         this.mOrientation = newConfig.orientation;
-        if (this.mMainMeanContentTextView.isActiveTextSelectGrip()) {
+        if (this.mMainMeanContentTextView.gripShowing()) {
             this.mMainMeanContentTextView.initTextSelect();
         }
     }
@@ -335,7 +335,7 @@ public class ListMeanViewActivity extends BaseActivity {
             }
             this.mBaseMeanController.setBookmarkImage(this.mMainMeanBookmarkImageView);
         }
-        if (this.mMainMeanContentTextView != null && this.mMainMeanContentTextView.isActiveTextSelectGrip()) {
+        if (this.mMainMeanContentTextView != null && this.mMainMeanContentTextView.gripShowing()) {
             this.mMainMeanContentTextView.initTextSelect();
             this.mMainMeanContentTextView.forceInvalidate();
         }

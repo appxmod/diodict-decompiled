@@ -1275,7 +1275,7 @@ public class SearchListActivity extends ListMeanViewActivity {
                 if (this.mLayoutMode != 0) {
                     dismissFlashcardCopyPopup(false);
                     dismissMarkerColorChangePopup();
-                    if (this.mMainMeanContentTextView.isActiveTextSelectGrip()) {
+                    if (this.mMainMeanContentTextView.gripShowing()) {
                         initSelection();
                     }
                     setSmallMeanView();
@@ -2077,7 +2077,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             if (isTTSRepeat()) {
                 dismissTTSRepeat();
                 return true;
-            } else if (this.mMainMeanContentTextView.isActiveTextSelectGrip()) {
+            } else if (this.mMainMeanContentTextView.gripShowing()) {
                 initSelection();
                 return true;
             } else if (this.mHyperSimpleViewModule != null && this.mHyperSimpleViewModule.isShowingHyperDialogPopup()) {

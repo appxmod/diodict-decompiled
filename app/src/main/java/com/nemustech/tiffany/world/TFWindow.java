@@ -98,6 +98,16 @@ public class TFWindow extends Window {
 	
 	}
 	
+	@Override
+	public void setDecorCaptionShade(int decorCaptionShade) {
+	
+	}
+	
+	@Override
+	public void setResizingCaptionDrawable(Drawable drawable) {
+	
+	}
+	
 	@Override // android.view.Window
 	public boolean isFloating() {
 		return false;

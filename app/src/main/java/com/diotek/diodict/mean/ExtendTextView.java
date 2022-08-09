@@ -200,8 +200,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         this.GRIP_RIGHT = 2;
         this.GRIP_H_MASK = 15;
         this.GRIP_UP = 268435456;
-        this.GRIP_DOWN = 536870912;
-        this.GRIP_V_MASK = -268435456;
+        this.GRIP_DOWN = 0x20000000;
+        this.GRIP_V_MASK = 0xF0000000;
         this.mLeftGripMode = 0;
         this.mRightGripMode = 0;
         this.TEXT_SELECT_NONE_GRIP = -1;
@@ -290,8 +290,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         this.GRIP_RIGHT = 2;
         this.GRIP_H_MASK = 15;
         this.GRIP_UP = 268435456;
-        this.GRIP_DOWN = 536870912;
-        this.GRIP_V_MASK = -268435456;
+        this.GRIP_DOWN = 0x20000000;
+        this.GRIP_V_MASK = 0xF0000000;
         this.mLeftGripMode = 0;
         this.mRightGripMode = 0;
         this.TEXT_SELECT_NONE_GRIP = -1;
@@ -587,9 +587,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         this.mTextSelectLeftGrip.getContentView().getLocationOnScreen(xy);
         int viewWidth = this.mTextSelectLeftGrip.getContentView().getWidth();
         int viewHeight = this.mTextSelectLeftGrip.getContentView().getHeight();
-        int gripLeftVeticalMode = this.mLeftGripMode & (-268435456);
-        int gripRightVeticalMode = this.mRightGripMode & (-268435456);
-        if (gripLeftVeticalMode == 536870912) {
+        int gripLeftVeticalMode = this.mLeftGripMode & (0xF0000000);
+        int gripRightVeticalMode = this.mRightGripMode & (0xF0000000);
+        if (gripLeftVeticalMode == 0x20000000) {
             Rect.left = xy[0];
             Rect.top = xy[1] + 20;
             Rect.right = Rect.left + viewWidth;
@@ -606,7 +606,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         this.mTextSelectRightGrip.getContentView().getLocationOnScreen(xy);
         int viewWidth2 = this.mTextSelectRightGrip.getContentView().getWidth();
         int viewHeight2 = this.mTextSelectRightGrip.getContentView().getHeight();
-        if (gripRightVeticalMode == 536870912) {
+        if (gripRightVeticalMode == 0x20000000) {
             Rect.left = xy[0];
             Rect.top = xy[1] + 20;
             Rect.right = Rect.left + viewWidth2;
@@ -620,8 +620,11 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         return Rect.contains(x, y) ? 1 : -1;
     }
 
-    public boolean isActiveTextSelectGrip() {
-        return this.mTextSelectLeftGrip != null && this.mTextSelectLeftGrip.isShowing() && this.mTextSelectRightGrip != null && this.mTextSelectRightGrip.isShowing();
+    public boolean gripShowing() {
+        return this.mTextSelectLeftGrip != null
+				&& this.mTextSelectLeftGrip.isShowing()
+				&& this.mTextSelectRightGrip != null
+				&& this.mTextSelectRightGrip.isShowing();
     }
 
     private boolean isContainsOffset(int x, int y) {
@@ -644,6 +647,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     private boolean onTouchEventForGrip(MotionEvent event) {
+		//CMN.Log("onTouchEventForGrip::", event.getActionMasked(), mIsEnableTextSelect, gripShowing());
         int y;
         int x;
         int y2;
@@ -655,8 +659,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         if (this.mIsIntercept > 0) {
             y3 += this.mIsIntercept;
         }
-        switch (event.getAction()) {
-            case 0:
+        switch (event.getActionMasked()) {
+			case MotionEvent.ACTION_DOWN:
                 if (!this.mIsEnableTextSelect) {
                     return true;
                 }
@@ -664,13 +668,14 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                 getLocationInTextView(location, x3, y3);
                 this.mPopupBaseX = 0;
                 this.mPopupBaseY = location[1];
-                if (isActiveTextSelectGrip()) {
+                if (gripShowing()) {
                     int[] locInParents = new int[2];
                     getLocationInParentsView(locInParents, x3, y3);
                     int fx = locInParents[0];
                     int fy = locInParents[1];
                     this.mActivityGrip = getSelectTextSelectGrip(fx, fy);
-                    if (this.mActivityGrip != -1) {
+					//CMN.Log("mActivityGrip::", mActivityGrip);
+					if (this.mActivityGrip != -1) {
                         this.mHandler.removeCallbacks(this.mRunnableDismissTextSelectGrip);
                         hideTextSelectActionMenu();
                         setFocuseTextSelectGrip(this.mActivityGrip, true);
@@ -680,11 +685,12 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                     }
                 }
                 break;
-            case 1:
+			case MotionEvent.ACTION_UP:
                 if (!this.mIsEnableTextSelect) {
                     startFlickLeft();
                     return true;
-                } else if (isActiveTextSelectGrip() && this.mActivityGrip != -1) {
+                }
+				else if (gripShowing() && this.mActivityGrip != -1) {
                     int oldSelectAreaStart = this.mSelectTextArea.start;
                     int oldSelectAreaEnd = this.mSelectTextArea.end;
                     Layout layout = super.getLayout();
@@ -697,7 +703,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                     getLocationInTextView(sxy, 0, sy);
                     setFocuseTextSelectGrip(this.mActivityGrip, false);
                     if (this.mActivityGrip == 0) {
-                        if ((this.mLeftGripMode & 536870912) == 536870912) {
+                        if ((this.mLeftGripMode & 0x20000000) == 0x20000000) {
                             y2 = (int) (y3 - (this.mGripHeight / 1.2f));
                         } else {
                             y2 = (int) (y3 + (this.mGripHeight / 1.2f));
@@ -725,7 +731,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                             this.mSelectTextArea.start = foff;
                         }
                     } else {
-                        if ((this.mRightGripMode & 536870912) == 536870912) {
+                        if ((this.mRightGripMode & 0x20000000) == 0x20000000) {
                             y = (int) (y3 - (this.mGripHeight / 1.2f));
                         } else {
                             y = (int) (y3 + (this.mGripHeight / 1.2f));
@@ -760,28 +766,29 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                     if (this.mSelectTextArea.isTextSelected()) {
                         getTextSelectGripPosition(this.mSelectTextArea.start, this.mSelectTextArea.end, this.mLeftGripPosition, this.mRightGripPosition);
                         showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
-                        showTextSelectPopupMenu();
+                        showMenu();
                         invalidate();
                     }
                     return true;
-                } else if (isActiveTextSelectGrip() && isContainsOffset(x3, y3) && this.mTextSelectPopupMenu != null && !this.mTextSelectPopupMenu.isShowing()) {
-                    showTextSelectPopupMenu();
+                }
+				else if (gripShowing() && isContainsOffset(x3, y3) && this.mTextSelectPopupMenu != null && !this.mTextSelectPopupMenu.isShowing()) {
+                    showMenu();
                     return true;
                 }
                 break;
-            case 2:
+			case MotionEvent.ACTION_MOVE:
                 if (!this.mIsEnableTextSelect) {
                     return true;
                 }
-                if (isActiveTextSelectGrip() && this.mActivityGrip != -1) {
+                if (gripShowing() && this.mActivityGrip != -1) {
                     getLocationInParentsView(new int[2], x3, y3);
                     if (this.mActivityGrip == 0) {
-                        gripVeticalMode = this.mLeftGripMode & (-268435456);
+                        gripVeticalMode = this.mLeftGripMode & (0xF0000000);
                     } else {
-                        gripVeticalMode = this.mRightGripMode & (-268435456);
+                        gripVeticalMode = this.mRightGripMode & (0xF0000000);
                     }
                     int moveToX = x3 - (this.mGripWidth / 2);
-                    if (gripVeticalMode == 536870912) {
+                    if (gripVeticalMode == 0x20000000) {
                         moveToY = (int) (y3 - (this.mGripHeight / 1.2f));
                     } else {
                         moveToY = y3 - (this.mGripHeight / 6);
@@ -809,8 +816,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 	
 	@Override // android.view.GestureDetector.OnGestureListener
 	public boolean onFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-		if (!this.mMarkerable && !isActiveTextSelectGrip()
-				|| !this.mIsMarkerMode && !this.mTextLineSelect && !isActiveTextSelectGrip()) {
+		if (!this.mMarkerable && !gripShowing()
+				|| !this.mIsMarkerMode && !this.mTextLineSelect && !gripShowing()) {
 			float absX = Math.abs(velocityX);
 			float absY = Math.abs(velocityY);
 			float deltaX = me2.getX() - me1.getX();
@@ -828,6 +835,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 	
     @Override // android.widget.TextView, android.view.View
     public boolean onTouchEvent(MotionEvent event) {
+		//CMN.Log("onTouchEvent::", event.getActionMasked(), "gripShowing="+gripShowing());
 		int action = event.getActionMasked();
 		if (action!=MotionEvent.ACTION_POINTER_DOWN && action!=MotionEvent.ACTION_POINTER_UP) {
 			try {
@@ -841,13 +849,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				CMN.Log(e);
 			}
 		}
-		if (this.mMarkerable || isActiveTextSelectGrip()) {
-			if (this.isRemoveMode && this.mIsMarkerMode) {
+		if (this.mMarkerable || gripShowing()) {
+			/*if (this.isRemoveMode && this.mIsMarkerMode) {
 				handleRemoveMarker(event);
 				return true;
 			} else if (this.mIsMarkerMode) {
 				return onTouchEventInLocalForLineSelect(event);
-			} else {
+			} else*/ {
 				if (onTouchEventForGrip(event)) {
 					return true;
 				}
@@ -870,7 +878,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         Layout layout = super.getLayout();
         int line = layout.getLineForVertical(fy);
         int off = layout.getOffsetForHorizontal(line, fx);
-        switch (event.getAction()) {
+        switch (event.getActionMasked()) {
             case 0:
                 this.mRemoveTextArea.start = off;
                 this.mRemoveTextArea.start_line = line;
@@ -935,7 +943,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         if (y > ty) {
             off = -1;
         }
-        switch (event.getAction()) {
+        switch (event.getActionMasked()) {
             case 0:
                 this.mSelectTextArea.start = off;
                 this.mSelectTextArea.start_line = line;
@@ -1031,7 +1039,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
         TagConverter.DictPos pos = this.mTagConverterCallback.isLinkOffset(off);
         if (pos != null) {
-            if (event.getAction() == 1) {
+            if (event.getActionMasked() == 1) {
                 saveMarkerObject();
                 initTextSelect();
                 this.mSelectTextArea.start = pos.start;
@@ -1040,12 +1048,12 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             }
             return super.onTouchEvent(event);
         }
-        switch (event.getAction()) {
+        switch (event.getActionMasked()) {
             case 1:
                 if (off != -1 && startClick(off)) {
                     getTextSelectGripPosition(this.mSelectTextArea.start, this.mSelectTextArea.end, this.mLeftGripPosition, this.mRightGripPosition);
                     showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
-                    showTextSelectPopupMenu();
+                    showMenu();
                     invalidate();
                 } else if (off == -1) {
                     this.mSelectTextArea.init();
@@ -1196,7 +1204,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private void drawSelectingTextArea(Canvas canvas) {
         List<Rect> tR;
         int color = this.mTextSelectColor;
-        if (this.mMoving && !isActiveTextSelectGrip() && this.mSelectTextArea.isTextSelecting() && (tR = getRectOfSelectedTextOffset(this.mSelectTextArea.start, this.mSelectTextArea.move)) != null && tR.size() > 0) {
+        if (this.mMoving && !gripShowing() && this.mSelectTextArea.isTextSelecting() && (tR = getRectOfSelectedTextOffset(this.mSelectTextArea.start, this.mSelectTextArea.move)) != null && tR.size() > 0) {
             for (int j = 0; j < tR.size(); j++) {
                 Rect r = tR.get(j);
                 if (this.mIsMarkerMode) {
@@ -1252,18 +1260,18 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
     }
 
-    public void makeTextSelectPopupMenu() {
+    public void makeMenu() {
         if (this.mContext != null) {
             if (this.mTextSelectPopupMenu == null) {
                 this.mTextSelectPopupMenu = new PopupWindow(this.mContext);
-                this.mTextSelectPopupMenu.setTouchable(true);
+				this.mTextSelectPopupMenu.setTouchable(true);
                 this.mTextSelectPopupMenu.setClippingEnabled(false);
                 this.mTextSelectPopupMenu.setBackgroundDrawable(null);
-                this.mTextSelectPopupMenu.setOutsideTouchable(true);
                 this.mTextSelectPopupMenu.setBackgroundDrawable(new ColorDrawable(0));
             }
             LayoutInflater inflate = (LayoutInflater) getContext().getSystemService("layout_inflater");
-            this.mTextSelectPopupMenu.setFocusable(true);
+            this.mTextSelectPopupMenu.setFocusable(false);
+			this.mTextSelectPopupMenu.setOutsideTouchable(true);
             this.mPopupContent = (LinearLayout) inflate.inflate(R.layout.mean_menu_control_popup, (ViewGroup) null);
             this.mTextSelectPopupMenu.setContentView(this.mPopupContent);
             ((Button) this.mPopupContent.findViewById(R.id.popup_copy)).setOnClickListener(this.mTextSelectPopupOnClickListener);
@@ -1356,11 +1364,12 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
     }
 
-    public void showTextSelectPopupMenu() {
+    public void showMenu() {
         if (this.mScrollView == null) {
             setScrollView();
         }
-        makeTextSelectPopupMenu();
+        makeMenu();
+		//if(false)
         if (this.mScrollView != null && this.mTextSelectPopupMenu != null) {
             if (this.mPopupMenuOffsetInWindow == null) {
                 this.mPopupMenuOffsetInWindow = new int[2];
@@ -1405,7 +1414,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     public boolean isIntercepteScrollTouchEvent() {
-        return this.mSelectTextArea.isTextSelected() && isActiveTextSelectGrip();
+        return this.mSelectTextArea.isTextSelected() && gripShowing();
     }
 
     public boolean isSelectedText() {
@@ -1638,13 +1647,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         int checkStartTop = (startLineTop - this.mGripHeight) - scollY;
         int checkStartBottom = ((startLineBottom - scollY) + this.mGripHeight) - 20;
         if (checkStartTop < 0) {
-            this.mLeftGripMode |= 536870912;
+            this.mLeftGripMode |= 0x20000000;
         } else if (checkStartBottom > checkHeight) {
             this.mLeftGripMode |= 268435456;
         } else {
-            this.mLeftGripMode |= 536870912;
+            this.mLeftGripMode |= 0x20000000;
         }
-        if ((this.mLeftGripMode & 536870912) == 536870912) {
+        if ((this.mLeftGripMode & 0x20000000) == 0x20000000) {
             leftXY[1] = startLineBottom - 20;
         } else {
             leftXY[1] = (startLineTop - this.mGripHeight) + 20;
@@ -1652,13 +1661,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         int checkEndTop = (endLineTop - this.mGripHeight) - scollY;
         int checkEndBottom = ((endLineBottom - scollY) + this.mGripHeight) - 20;
         if (checkEndTop < 0) {
-            this.mRightGripMode |= 536870912;
+            this.mRightGripMode |= 0x20000000;
         } else if (checkEndBottom > checkHeight) {
             this.mRightGripMode |= 268435456;
         } else {
-            this.mRightGripMode |= 536870912;
+            this.mRightGripMode |= 0x20000000;
         }
-        if ((this.mRightGripMode & 536870912) == 536870912) {
+        if ((this.mRightGripMode & 0x20000000) == 0x20000000) {
             rightXY[1] = endLineBottom - 20;
         } else {
             rightXY[1] = (endLineTop - this.mGripHeight) + 20;
@@ -1673,10 +1682,10 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
     }
 
-    private PopupWindow makeTextSelectGrip(int gripKinds) {
+    private PopupWindow makeGrip(int gripKinds) {
         int contentViewId;
         if (gripKinds == 0) {
-            if ((this.mLeftGripMode & 536870912) == 536870912) {
+            if ((this.mLeftGripMode & 0x20000000) == 0x20000000) {
                 if ((this.mLeftGripMode & 1) == 1) {
                     contentViewId = R.layout.leftgrip_down;
                 } else {
@@ -1687,7 +1696,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             } else {
                 contentViewId = R.layout.rightgrip_up;
             }
-        } else if ((this.mRightGripMode & 536870912) == 536870912) {
+        } else if ((this.mRightGripMode & 0x20000000) == 0x20000000) {
             if ((this.mRightGripMode & 1) == 1) {
                 contentViewId = R.layout.leftgrip_down;
             } else {
@@ -1701,9 +1710,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         PopupWindow grip = new PopupWindow(this.mContext);
         grip.setTouchable(false);
         grip.setFocusable(false);
+		grip.setOutsideTouchable(false);
         grip.setClippingEnabled(false);
         grip.setBackgroundDrawable(null);
-        grip.setOutsideTouchable(true);
         LayoutInflater inflate = (LayoutInflater) getContext().getSystemService("layout_inflater");
         ImageView imv = (ImageView) inflate.inflate(contentViewId, (ViewGroup) null);
         grip.setContentView(imv);
@@ -1758,10 +1767,10 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private void showTextSelectGrip(int[] left, int[] right) {
         this.mHandler.removeCallbacks(this.mRunnableDismissTextSelectGrip);
         if (this.mTextSelectLeftGrip == null) {
-            this.mTextSelectLeftGrip = makeTextSelectGrip(0);
+            this.mTextSelectLeftGrip = makeGrip(0);
         }
         if (this.mTextSelectRightGrip == null) {
-            this.mTextSelectRightGrip = makeTextSelectGrip(1);
+            this.mTextSelectRightGrip = makeGrip(1);
         }
         if (this.mTextSelectGripOffsetInWindow == null) {
             this.mTextSelectGripOffsetInWindow = new int[2];

@@ -1262,7 +1262,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
     }
 
     protected void closePopupWindow() {
-        if (this.mHyperDetailMeanContentTextView != null && this.mHyperDetailMeanContentTextView.isActiveTextSelectGrip()) {
+        if (this.mHyperDetailMeanContentTextView != null && this.mHyperDetailMeanContentTextView.gripShowing()) {
             this.mHyperDetailMeanContentTextView.initTextSelect();
         }
         if (this.mMarkerColorChangePopup != null) {
