@@ -829,7 +829,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     @Override // android.widget.TextView, android.view.View
     public boolean onTouchEvent(MotionEvent event) {
 		int action = event.getActionMasked();
-		if (action!=MotionEvent.ACTION_POINTER_DOWN) {
+		if (action!=MotionEvent.ACTION_POINTER_DOWN && action!=MotionEvent.ACTION_POINTER_UP) {
 			try {
 				boolean flingEvent = this.flingDetector.onTouchEvent(event);
 				// CMN.Log("flingEvent::", flingEvent, event.getActionMasked());
