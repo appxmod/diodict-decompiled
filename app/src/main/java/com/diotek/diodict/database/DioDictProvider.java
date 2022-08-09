@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.os.Environment;
+
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict3.DioDict3R;
 
@@ -126,7 +128,7 @@ public class DioDictProvider extends ContentProvider {
         static final String QUERY_CHECK_START = "SELECT name FROM sqlite_master WHERE type='table' AND name='";
 
         public diodictDBHelper(Context context) {
-            super(context, DictInfo.DIODICTDATANAME, (SQLiteDatabase.CursorFactory) null, 1);
+            super(context, Environment.getExternalStorageDirectory().getPath()+"/DioDict3B/databases/"+DictInfo.DIODICTDATANAME, (SQLiteDatabase.CursorFactory) null, 1);
         }
 
         @Override // android.database.sqlite.SQLiteOpenHelper
