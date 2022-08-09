@@ -184,7 +184,7 @@ public class FlashcardActivity extends BaseActivity {
                 } else if (FlashcardActivity.this.mEdittextEditWordbookName != null) {
                     FlashcardActivity.this.mEdittextEditWordbookName.setText("");
                 }
-                FlashcardActivity.this.mInputWordBookName.setVisibility(0);
+                FlashcardActivity.this.mInputWordBookName.setVisibility(View.VISIBLE);
             }
         }
     };
@@ -198,7 +198,7 @@ public class FlashcardActivity extends BaseActivity {
         public void afterTextChanged(Editable s) {
             FlashcardActivity.this.mBackupCardName = s.toString();
             if (FlashcardActivity.this.mBackupCardName.length() == 0 && FlashcardActivity.this.mInputWordBookName != null) {
-                FlashcardActivity.this.mInputWordBookName.setVisibility(0);
+                FlashcardActivity.this.mInputWordBookName.setVisibility(View.VISIBLE);
             }
         }
 
@@ -823,7 +823,7 @@ public class FlashcardActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: private */
     public void hideEditMessage() {
         if (this.mInputWordBookName != null) {
-            this.mInputWordBookName.setVisibility(8);
+            this.mInputWordBookName.setVisibility(View.GONE);
         }
     }
 

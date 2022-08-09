@@ -212,7 +212,7 @@ public class HyperSearchActivity extends HyperCommonActivity {
         if (this.mEngine.getSupportMainDictionary().length > 1) {
             this.mChangeDictionaryBtn.setOnClickListener(this.mFinishOnClickListener);
         } else {
-            this.mChangeDictionaryBtn.setVisibility(8);
+            this.mChangeDictionaryBtn.setVisibility(View.GONE);
             this.mEnableChangeDict = false;
         }
         this.mChangeLanguageBtn.setOnClickListener(this.mFinishOnClickListener);
@@ -223,17 +223,17 @@ public class HyperSearchActivity extends HyperCommonActivity {
         this.mVoiceSearchBtn.setOnClickListener(this.mFinishOnClickListener);
         int nDicType = DictUtils.getSearchLastDictFromPreference(this);
         if (this.mShowChangeDict) {
-            this.mChangeLanguageBtn.setVisibility(0);
+            this.mChangeLanguageBtn.setVisibility(View.VISIBLE);
         }
         if (this.mShowSearch) {
-            this.mSearchWordBtn.setVisibility(0);
+            this.mSearchWordBtn.setVisibility(View.VISIBLE);
         }
         if (this.mTitle != null && this.mSearchDBNameTextView != null) {
             this.mSearchDBNameTextView.setText(this.mTitle);
         }
         if (this.mInputWord == null || this.mInputWord.length() == 0) {
             ImageButton clearBtn = (ImageButton) findViewById(R.id.ClearBtn);
-            clearBtn.setVisibility(8);
+            clearBtn.setVisibility(View.GONE);
         }
         if (this.mSearchEditText != null) {
             this.mSearchEditText.setHint(DictDBManager.getCurDictHint(nDicType));
@@ -264,11 +264,11 @@ public class HyperSearchActivity extends HyperCommonActivity {
         }
         if (this.mVoiceSearchBtn != null && !this.mUseVoiceSearch) {
             if (nVisible == 0) {
-                this.mVoiceSearchBtn.setVisibility(8);
+                this.mVoiceSearchBtn.setVisibility(View.GONE);
                 this.mSearchWordBtn.setBackgroundResource(R.drawable.searchbtn_end);
                 return;
             }
-            this.mVoiceSearchBtn.setVisibility(0);
+            this.mVoiceSearchBtn.setVisibility(View.VISIBLE);
             this.mVoiceSearchBtn.setBackgroundResource(R.drawable.searchedittext_end);
         }
     }
@@ -283,7 +283,7 @@ public class HyperSearchActivity extends HyperCommonActivity {
         this.mMemoBtn.setOnClickListener(this.mMemoBtnOnClickListner);
         this.mSaveBtn.setOnClickListener(this.mSaveBtnOnClickListener);
         LinearLayout meanToolbarLayout = (LinearLayout) findViewById(R.id.MeanToolbarLayout);
-        meanToolbarLayout.setVisibility(0);
+        meanToolbarLayout.setVisibility(View.VISIBLE);
     }
 
     protected void runHyperDetailExitBtn() {

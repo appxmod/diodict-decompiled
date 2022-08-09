@@ -137,7 +137,7 @@ public class CradleActivity extends BaseActivity {
             CradleActivity.this.mDuration = CradleActivity.this.mTempDuration;
             DictUtils.setDurationTimeToPreference(CradleActivity.this, CradleActivity.this.mDuration);
             CradleActivity.this.setDurationText();
-            CradleActivity.this.mWrapSetDurationLayout.setVisibility(8);
+            CradleActivity.this.mWrapSetDurationLayout.setVisibility(View.GONE);
             CradleActivity.this.setFocasableCradleLayout(true);
             CradleActivity.this.mIsPopupClose = true;
             CradleActivity.this.cradleStart(true);
@@ -146,7 +146,7 @@ public class CradleActivity extends BaseActivity {
     View.OnClickListener mSetDurationCancelBtnOnClickListener = new View.OnClickListener() { // from class: com.diotek.diodict.CradleActivity.4
         @Override // android.view.View.OnClickListener
         public void onClick(View v) {
-            CradleActivity.this.mWrapSetDurationLayout.setVisibility(8);
+            CradleActivity.this.mWrapSetDurationLayout.setVisibility(View.GONE);
             CradleActivity.this.setFocasableCradleLayout(true);
             CradleActivity.this.mIsPopupClose = true;
             CradleActivity.this.cradleStart(true);
@@ -194,13 +194,13 @@ public class CradleActivity extends BaseActivity {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
                 CradleActivity.this.is24HType = true;
-                CradleActivity.this.mClockAMPM.setVisibility(4);
+                CradleActivity.this.mClockAMPM.setVisibility(View.INVISIBLE);
                 CradleActivity.this.mCradleHandler.removeMessages(1);
                 CradleActivity.this.mCradleHandler.sendEmptyMessage(1);
                 return;
             }
             CradleActivity.this.is24HType = false;
-            CradleActivity.this.mClockAMPM.setVisibility(0);
+            CradleActivity.this.mClockAMPM.setVisibility(View.VISIBLE);
             CradleActivity.this.mCradleHandler.removeMessages(1);
             CradleActivity.this.mCradleHandler.sendEmptyMessage(1);
         }
@@ -348,7 +348,7 @@ public class CradleActivity extends BaseActivity {
     View.OnClickListener mWrapSetDurationLayoutOnClickListener = new View.OnClickListener() { // from class: com.diotek.diodict.CradleActivity.24
         @Override // android.view.View.OnClickListener
         public void onClick(View v) {
-            CradleActivity.this.mWrapSetDurationLayout.setVisibility(8);
+            CradleActivity.this.mWrapSetDurationLayout.setVisibility(View.GONE);
             CradleActivity.this.dismissTimePreview();
             CradleActivity.this.mIsPopupClose = true;
             CradleActivity.this.cradleStart(true);
@@ -589,7 +589,7 @@ public class CradleActivity extends BaseActivity {
                     hideWrapSetClockLayout();
                     return true;
                 } else if (this.mWrapSetDurationLayout.getVisibility() == 0) {
-                    this.mWrapSetDurationLayout.setVisibility(8);
+                    this.mWrapSetDurationLayout.setVisibility(View.GONE);
                     setFocasableCradleLayout(true);
                     this.mIsPopupClose = true;
                     cradleStart(true);
@@ -679,9 +679,9 @@ public class CradleActivity extends BaseActivity {
         this.mTimeDurationSeekBar.setOnSeekBarChangeListener(this.mTimeDurationSeekBarOnSeekBarChangeListener);
         this.mTimeDurationSeekBar.setOnTouchListener(this.mTimeDurationSeekBarOnTouchListener);
         if (Dependency.isContainHandWrightReocg() && EngineManager3rd.getSupporTTS() != null) {
-            this.mDictationBtn.setVisibility(0);
+            this.mDictationBtn.setVisibility(View.VISIBLE);
         } else {
-            this.mDictationBtn.setVisibility(8);
+            this.mDictationBtn.setVisibility(View.GONE);
         }
         prepareTimePreviewLayout();
     }
@@ -772,7 +772,7 @@ public class CradleActivity extends BaseActivity {
         this.mCradleHandler.removeMessages(0);
         this.mTimeDurationSeekBar.setPressed(true);
         this.mTimeDurationSeekBar.setProgress(this.mDuration / 1000);
-        this.mWrapSetDurationLayout.setVisibility(0);
+        this.mWrapSetDurationLayout.setVisibility(View.VISIBLE);
         setFocasableCradleLayout(false);
         this.mTimeDurationSeekBar.requestFocus();
         this.mSetDurationOkBtn.setFocusable(true);
@@ -780,7 +780,7 @@ public class CradleActivity extends BaseActivity {
     }
 
     public void runClockBtn() {
-        this.mWrapSetClockLayout.setVisibility(0);
+        this.mWrapSetClockLayout.setVisibility(View.VISIBLE);
         setFocasableCradleLayout(false);
         this.mHour24CheckBox.requestFocus();
     }
@@ -815,7 +815,7 @@ public class CradleActivity extends BaseActivity {
             this.mMeanTabTitleBtn.setSelected(true);
             this.mMeanTabAllBtn.setSelected(false);
         }
-        this.mMeanScrollView.setVisibility(8);
+        this.mMeanScrollView.setVisibility(View.GONE);
         this.mMeanTitleView.setText("");
         this.mMeanController.setTitleViewByPos(this.mCurrentWordPos, 0);
         setSpeakUsUkBtn();
@@ -835,7 +835,7 @@ public class CradleActivity extends BaseActivity {
         }
         this.mMeanTitleView.setText("");
         this.mMeanController.setMeanViewByPos(this.mCurrentWordPos, 0);
-        this.mMeanScrollView.setVisibility(0);
+        this.mMeanScrollView.setVisibility(View.VISIBLE);
         this.mIsTitleOnly = false;
         this.mMeanTitleView.setTextSize(1, this.mMeanController.getTitleFontSize(this.mIsTitleOnly));
     }
@@ -970,7 +970,7 @@ public class CradleActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: private */
     public void hideWrapSetClockLayout() {
         this.mClockLayout.setSelected(false);
-        this.mWrapSetClockLayout.setVisibility(8);
+        this.mWrapSetClockLayout.setVisibility(View.GONE);
         setFocasableCradleLayout(true);
     }
 
@@ -987,17 +987,17 @@ public class CradleActivity extends BaseActivity {
                 nLang = EngineInfo3rd.TTS_CHINESE;
             }
             if (DictUtils.checkExistSecoundTTSFile(nLang)) {
-                this.mUsBtn.setVisibility(0);
-                this.mUkBtn.setVisibility(0);
+                this.mUsBtn.setVisibility(View.VISIBLE);
+                this.mUkBtn.setVisibility(View.VISIBLE);
                 setUsUkBtnChecked();
                 return;
             }
-            this.mUsBtn.setVisibility(4);
-            this.mUkBtn.setVisibility(4);
+            this.mUsBtn.setVisibility(View.INVISIBLE);
+            this.mUkBtn.setVisibility(View.INVISIBLE);
             return;
         }
-        this.mUsBtn.setVisibility(4);
-        this.mUkBtn.setVisibility(4);
+        this.mUsBtn.setVisibility(View.INVISIBLE);
+        this.mUkBtn.setVisibility(View.INVISIBLE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1172,9 +1172,9 @@ public class CradleActivity extends BaseActivity {
     public void setVisiableCradleStartLayout(boolean visiable) {
         if (this.mCradleStartLayout != null) {
             if (visiable) {
-                this.mCradleStartLayout.setVisibility(0);
+                this.mCradleStartLayout.setVisibility(View.VISIBLE);
             } else {
-                this.mCradleStartLayout.setVisibility(8);
+                this.mCradleStartLayout.setVisibility(View.GONE);
             }
             setFocusableCradleStartLayout(visiable);
         }

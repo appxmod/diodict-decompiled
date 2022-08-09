@@ -67,24 +67,24 @@ public class HelpActivity extends BaseActivity {
             if (isChecked) {
                 if (button == HelpActivity.this.mHelpTab1) {
                     HelpActivity.this.mCurrentTab = 0;
-                    HelpActivity.this.mHelpManualLayout.setVisibility(0);
+                    HelpActivity.this.mHelpManualLayout.setVisibility(View.VISIBLE);
                     if (Dependency.isContainHandWrightReocg()) {
-                        HelpActivity.this.mDictationLayout.setVisibility(8);
+                        HelpActivity.this.mDictationLayout.setVisibility(View.GONE);
                     }
-                    HelpActivity.this.mHelpNotiLayout.setVisibility(8);
-                    HelpActivity.this.mAboutLayout.setVisibility(8);
+                    HelpActivity.this.mHelpNotiLayout.setVisibility(View.GONE);
+                    HelpActivity.this.mAboutLayout.setVisibility(View.GONE);
                     HelpActivity.this.mHelpManualLayout.scrollTo(0, 0);
                 } else if (button == HelpActivity.this.mHelpTab2) {
                     HelpActivity.this.mCurrentTab = 1;
-                    HelpActivity.this.mHelpManualLayout.setVisibility(8);
-                    HelpActivity.this.mHelpNotiLayout.setVisibility(0);
-                    HelpActivity.this.mAboutLayout.setVisibility(8);
+                    HelpActivity.this.mHelpManualLayout.setVisibility(View.GONE);
+                    HelpActivity.this.mHelpNotiLayout.setVisibility(View.VISIBLE);
+                    HelpActivity.this.mAboutLayout.setVisibility(View.GONE);
                     HelpActivity.this.mHelpNotiLayout.scrollTo(0, 0);
                 } else if (button == HelpActivity.this.mHelpTab3) {
                     HelpActivity.this.mCurrentTab = 2;
-                    HelpActivity.this.mHelpManualLayout.setVisibility(8);
-                    HelpActivity.this.mHelpNotiLayout.setVisibility(8);
-                    HelpActivity.this.mAboutLayout.setVisibility(0);
+                    HelpActivity.this.mHelpManualLayout.setVisibility(View.GONE);
+                    HelpActivity.this.mHelpNotiLayout.setVisibility(View.GONE);
+                    HelpActivity.this.mAboutLayout.setVisibility(View.VISIBLE);
                     HelpActivity.this.mAboutLayout.scrollTo(0, 0);
                 }
             }
@@ -231,34 +231,34 @@ public class HelpActivity extends BaseActivity {
         LinearLayout mHangloLayout = (LinearLayout) findViewById(R.id.hanguloSearchContent);
         TextView mHangloTitle = (TextView) findViewById(R.id.manualPage1Content05title);
         if (mHangloTitle.getText().equals("")) {
-            mHangloLayout.setVisibility(8);
+            mHangloLayout.setVisibility(View.GONE);
         }
         if (!Dependency.isContainCradleMode()) {
-            ((RelativeLayout) findViewById(R.id.HelpManual3ContentLayout01)).setVisibility(8);
+            ((RelativeLayout) findViewById(R.id.HelpManual3ContentLayout01)).setVisibility(View.GONE);
         }
         if (!Dependency.isContainStudyMode()) {
-            ((RelativeLayout) findViewById(R.id.HelpManual3ContentLayout02)).setVisibility(8);
+            ((RelativeLayout) findViewById(R.id.HelpManual3ContentLayout02)).setVisibility(View.GONE);
         }
         if (!Dependency.isContainHandWrightReocg()) {
-            ((RelativeLayout) findViewById(R.id.HelpManual3ContentLayout03)).setVisibility(8);
+            ((RelativeLayout) findViewById(R.id.HelpManual3ContentLayout03)).setVisibility(View.GONE);
         }
         if (Dependency.getDevice().isLiteVersion() || !Dependency.isContainTTS()) {
-            ((RelativeLayout) findViewById(R.id.HelpManual2ContentLayout04)).setVisibility(8);
+            ((RelativeLayout) findViewById(R.id.HelpManual2ContentLayout04)).setVisibility(View.GONE);
         }
         if (!Dependency.isContainHandWrightReocg() || !Dependency.isContainCradleMode()) {
-            ((ImageView) findViewById(R.id.HelpManual03ContentImageView1)).setVisibility(8);
+            ((ImageView) findViewById(R.id.HelpManual03ContentImageView1)).setVisibility(View.GONE);
             if (!Dependency.isContainStudyMode()) {
-                ((TextView) findViewById(R.id.manual_page3_title)).setVisibility(8);
+                ((TextView) findViewById(R.id.manual_page3_title)).setVisibility(View.GONE);
             }
         }
         if (!Dependency.getLocaleName().contains("Korea")) {
-            ((LinearLayout) findViewById(R.id.exampleSearchContent)).setVisibility(8);
-            ((LinearLayout) findViewById(R.id.parseSearchContent)).setVisibility(8);
-            ((LinearLayout) findViewById(R.id.spellSearchContent)).setVisibility(8);
-            ((TextView) findViewById(R.id.spellSearchContent_ex)).setVisibility(8);
-            ((LinearLayout) findViewById(R.id.hanguloSearchContent)).setVisibility(8);
-            ((LinearLayout) findViewById(R.id.initialSearchContent)).setVisibility(8);
-            ((TextView) findViewById(R.id.initialSearchContent_ex)).setVisibility(8);
+            ((LinearLayout) findViewById(R.id.exampleSearchContent)).setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.parseSearchContent)).setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.spellSearchContent)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.spellSearchContent_ex)).setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.hanguloSearchContent)).setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.initialSearchContent)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.initialSearchContent_ex)).setVisibility(View.GONE);
         }
     }
 
@@ -320,7 +320,7 @@ public class HelpActivity extends BaseActivity {
             }
         }
         if (this.notiInfoList.size() == 0) {
-            this.mHelpTab2.setVisibility(8);
+            this.mHelpTab2.setVisibility(View.GONE);
         } else {
             if ((this.curIdx < 0 || this.curIdx > this.notiInfoList.size() - 1) && this.notiInfoList.size() > 0) {
                 this.curIdx = 0;
@@ -367,7 +367,7 @@ public class HelpActivity extends BaseActivity {
     public void prepareAboutLayout() {
         String copyright;
         RelativeLayout aboutInnerLayout = (RelativeLayout) findViewById(R.id.aboutInnerLayout);
-        aboutInnerLayout.setVisibility(0);
+        aboutInnerLayout.setVisibility(View.VISIBLE);
         TextView builTextView = (TextView) findViewById(R.id.about_buildtextview);
         initializeBuildDate(builTextView);
         Integer[] ShowDictList = this.mEngine.getSupportDictionary();

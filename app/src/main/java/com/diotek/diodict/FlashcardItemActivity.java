@@ -717,17 +717,17 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         if (Dependency.isContainCradleMode()) {
             this.mFlashcardItemCradleBtn.setOnClickListener(this.mFlashcardItemCradleBtnOnClickListener);
         } else {
-            this.mFlashcardItemCradleBtn.setVisibility(8);
+            this.mFlashcardItemCradleBtn.setVisibility(View.GONE);
         }
         if (Dependency.isContainStudyMode()) {
             this.mFlashcardItemStudyBtn.setOnClickListener(this.mFlashcardItemStudyBtnOnClickListener);
         } else {
-            this.mFlashcardItemStudyBtn.setVisibility(8);
+            this.mFlashcardItemStudyBtn.setVisibility(View.GONE);
         }
         if (Dependency.isContainDictationMode()) {
             this.mFlashcardItemDictationBtn.setOnClickListener(this.mFlashcardItemDictationBtnOnClickListener);
         } else {
-            this.mFlashcardItemDictationBtn.setVisibility(8);
+            this.mFlashcardItemDictationBtn.setVisibility(View.GONE);
         }
     }
 
@@ -773,7 +773,7 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
     public void prepareMeanContentLayout() {
         super.prepareMeanContentLayout(false);
         if (this.mEmptyViewTitleTop != null) {
-            this.mEmptyViewTitleTop.setVisibility(8);
+            this.mEmptyViewTitleTop.setVisibility(View.GONE);
         }
         this.mMainRightLayout = (LinearLayout) findViewById(R.id.SearchContentInnerRightLayout);
         this.mStandardInnerLeftLayout = (LinearLayout) findViewById(R.id.SearchContentStandardInnerLeftLayout);
@@ -1152,9 +1152,9 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
 
     public void showHideEmptyTextView(boolean nVisible) {
         if (nVisible) {
-            this.mEmptyTextView.setVisibility(0);
+            this.mEmptyTextView.setVisibility(View.VISIBLE);
         } else {
-            this.mEmptyTextView.setVisibility(8);
+            this.mEmptyTextView.setVisibility(View.GONE);
         }
     }
 
@@ -1327,7 +1327,7 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         this.mMainMeanTitleTextView.setText("");
         this.mMainMeanTitleTextView.requestLayout();
         this.mMainMeanContentTextView.setText("");
-        this.mFlashcardTitleLayout.setVisibility(8);
+        this.mFlashcardTitleLayout.setVisibility(View.GONE);
         if (this.mFlashcardItemCradleBtn != null) {
             this.mFlashcardItemCradleBtn.setEnabled(false);
         }
@@ -1341,21 +1341,21 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
 
     public void showItemsEditLayout(boolean bShow) {
         if (bShow) {
-            this.mFlashcardItemEditBtn.setVisibility(8);
-            this.mFlashcardItemEditSortBtn.setVisibility(8);
-            this.mFlashcardItemEditDeleteBtn.setVisibility(0);
-            this.mFlashcardItemEditCopyBtn.setVisibility(0);
-            this.mFlashcardTitleLayout.setVisibility(8);
-            this.mSelectAllLayout.setVisibility(0);
+            this.mFlashcardItemEditBtn.setVisibility(View.GONE);
+            this.mFlashcardItemEditSortBtn.setVisibility(View.GONE);
+            this.mFlashcardItemEditDeleteBtn.setVisibility(View.VISIBLE);
+            this.mFlashcardItemEditCopyBtn.setVisibility(View.VISIBLE);
+            this.mFlashcardTitleLayout.setVisibility(View.GONE);
+            this.mSelectAllLayout.setVisibility(View.VISIBLE);
             return;
         }
-        this.mFlashcardItemEditBtn.setVisibility(0);
-        this.mFlashcardItemEditSortBtn.setVisibility(0);
-        this.mFlashcardItemEditDeleteBtn.setVisibility(8);
-        this.mFlashcardItemEditCopyBtn.setVisibility(8);
-        this.mFlashcardTitleLayout.setVisibility(0);
+        this.mFlashcardItemEditBtn.setVisibility(View.VISIBLE);
+        this.mFlashcardItemEditSortBtn.setVisibility(View.VISIBLE);
+        this.mFlashcardItemEditDeleteBtn.setVisibility(View.GONE);
+        this.mFlashcardItemEditCopyBtn.setVisibility(View.GONE);
+        this.mFlashcardTitleLayout.setVisibility(View.VISIBLE);
         this.mFlashCardItemEditSelectAllBtn.setChecked(false);
-        this.mSelectAllLayout.setVisibility(8);
+        this.mSelectAllLayout.setVisibility(View.GONE);
     }
 
     public void setSortMode(int sortmode) {
@@ -1406,14 +1406,14 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
             this.mFlashcardItemEditCopyToFlashcardCancel.setClickable(isShow);
         }
         if (isShow) {
-            this.mCopyToFlashcardPopLayout.setVisibility(0);
+            this.mCopyToFlashcardPopLayout.setVisibility(View.VISIBLE);
             if (this.mFlashcardFolderListViewItems.isEmpty()) {
                 this.mAddFlashcardLayout.requestFocus();
             } else {
                 this.mFlashcardGridView.requestFocus();
             }
         } else {
-            this.mCopyToFlashcardPopLayout.setVisibility(8);
+            this.mCopyToFlashcardPopLayout.setVisibility(View.GONE);
         }
         if (bAnimation) {
             if (isShow) {
@@ -1453,7 +1453,7 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         this.mFlashcardItemEditCopyToFlashcardOk.setOnClickListener(this.mFlashcardItemEditCopyToFlashcardOkOnClickListener);
         this.mFlashcardItemEditCopyToFlashcardCancel.setOnClickListener(this.mFlashcardItemEditCopyToFlashcardCancelOnClickListener);
         this.mAddFlashcardLayout.setOnClickListener(this.mAddFlashcardLayoutOnClickListener);
-        this.mCopyToFlashcardPopLayout.findViewById(R.id.emptyFlashcard).setVisibility(8);
+        this.mCopyToFlashcardPopLayout.findViewById(R.id.emptyFlashcard).setVisibility(View.GONE);
         updateWordbookFolderItems(existCheckedList);
         showCopyToFlashcardLayout(true, false, true);
     }

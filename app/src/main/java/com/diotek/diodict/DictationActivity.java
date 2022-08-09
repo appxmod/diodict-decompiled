@@ -869,7 +869,7 @@ public class DictationActivity extends BaseActivity {
     }
 
     public void runDelBtn() {
-        this.mWrapRecognizeLayout.setVisibility(8);
+        this.mWrapRecognizeLayout.setVisibility(View.GONE);
         setCorrectTextView("");
     }
 
@@ -889,7 +889,7 @@ public class DictationActivity extends BaseActivity {
             this.mOkBtn.setEnabled(false);
             this.mPassBtn.setEnabled(false);
             setDictationResult(false);
-            this.mWrapRecognizeLayout.setVisibility(8);
+            this.mWrapRecognizeLayout.setVisibility(View.GONE);
             dictationNextStep(false);
         }
     }
@@ -911,7 +911,7 @@ public class DictationActivity extends BaseActivity {
     public void runOkBtn() {
         if (!this.mIsAnimating) {
             this.mIsAnimating = true;
-            this.mWrapRecognizeLayout.setVisibility(8);
+            this.mWrapRecognizeLayout.setVisibility(View.GONE);
             this.mOkBtn.setEnabled(false);
             this.mPassBtn.setEnabled(false);
             showCurrentWordDictiationResult();
@@ -928,13 +928,13 @@ public class DictationActivity extends BaseActivity {
         RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) this.mInnerMeanPaperLayout.getLayoutParams();
         if (this.mMeanScrollView.getVisibility() == 0) {
             this.mIsShowMeaning = false;
-            this.mMeanScrollView.setVisibility(8);
+            this.mMeanScrollView.setVisibility(View.GONE);
             param.height = -2;
             this.mShowMeanBtn.setChecked(false);
             this.mShowMeanBtn.setHeight(52);
         } else {
             this.mIsShowMeaning = true;
-            this.mMeanScrollView.setVisibility(0);
+            this.mMeanScrollView.setVisibility(View.VISIBLE);
             param.height = this.mMeanScrollHeight;
             this.mShowMeanBtn.setChecked(true);
             this.mShowMeanBtn.setHeight(72);
@@ -945,12 +945,12 @@ public class DictationActivity extends BaseActivity {
     private void restoreShowMean() {
         RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) this.mInnerMeanPaperLayout.getLayoutParams();
         if (!this.mIsShowMeaning) {
-            this.mMeanScrollView.setVisibility(8);
+            this.mMeanScrollView.setVisibility(View.GONE);
             param.height = -2;
             this.mShowMeanBtn.setChecked(false);
             this.mShowMeanBtn.setHeight(52);
         } else {
-            this.mMeanScrollView.setVisibility(0);
+            this.mMeanScrollView.setVisibility(View.VISIBLE);
             param.height = this.mMeanScrollHeight;
             this.mShowMeanBtn.setChecked(true);
             this.mShowMeanBtn.setHeight(72);
@@ -1035,8 +1035,8 @@ public class DictationActivity extends BaseActivity {
 
     private void showResultLayout() {
         initKeywordPaperLayout();
-        this.mQuestionLayout.setVisibility(8);
-        this.mResultLayout.setVisibility(0);
+        this.mQuestionLayout.setVisibility(View.GONE);
+        this.mResultLayout.setVisibility(View.VISIBLE);
         this.mOperationMutex = false;
     }
 
@@ -1051,8 +1051,8 @@ public class DictationActivity extends BaseActivity {
     public void showQuestionLayout() {
         this.mDictationState = 1;
         showListenButton(true);
-        this.mQuestionLayout.setVisibility(0);
-        this.mResultLayout.setVisibility(8);
+        this.mQuestionLayout.setVisibility(View.VISIBLE);
+        this.mResultLayout.setVisibility(View.GONE);
     }
 
     private void reBuildEffectBtn() {
@@ -1363,7 +1363,7 @@ public class DictationActivity extends BaseActivity {
             }
         }
         if (this.mInputWordPos >= this.mCorrectWord.length() && this.mWrapRecognizeLayout != null) {
-            this.mWrapRecognizeLayout.setVisibility(0);
+            this.mWrapRecognizeLayout.setVisibility(View.VISIBLE);
         }
         setRecogInputType();
     }
@@ -1383,20 +1383,20 @@ public class DictationActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: private */
     public void setEnableQuizBtns(boolean bEnable) {
         if (bEnable) {
-            this.mStartBtn.setVisibility(8);
+            this.mStartBtn.setVisibility(View.GONE);
         } else {
-            this.mStartBtn.setVisibility(0);
+            this.mStartBtn.setVisibility(View.VISIBLE);
         }
         if (bEnable) {
             this.mDictationState = 1;
-            this.mShowMeanBtn.setVisibility(0);
-            this.mRecognizeView.setVisibility(0);
-            this.mWrapRecognizeLayout.setVisibility(8);
+            this.mShowMeanBtn.setVisibility(View.VISIBLE);
+            this.mRecognizeView.setVisibility(View.VISIBLE);
+            this.mWrapRecognizeLayout.setVisibility(View.GONE);
         } else {
             this.mDictationState = 0;
-            this.mShowMeanBtn.setVisibility(8);
-            this.mRecognizeView.setVisibility(8);
-            this.mWrapRecognizeLayout.setVisibility(0);
+            this.mShowMeanBtn.setVisibility(View.GONE);
+            this.mRecognizeView.setVisibility(View.GONE);
+            this.mWrapRecognizeLayout.setVisibility(View.VISIBLE);
         }
         this.mListenBtn.setEnabled(bEnable);
         this.mInnerMeanPaperLayout.setEnabled(bEnable);
@@ -1500,23 +1500,23 @@ public class DictationActivity extends BaseActivity {
     }
 
     private void showCorrectImage() {
-        this.mDictationCorrectImage.setVisibility(0);
+        this.mDictationCorrectImage.setVisibility(View.VISIBLE);
     }
 
     private void showWrongImage() {
-        this.mDictationWrongImage.setVisibility(0);
+        this.mDictationWrongImage.setVisibility(View.VISIBLE);
     }
 
     private void hideCorrectWrongImage() {
-        this.mDictationCorrectImage.setVisibility(8);
-        this.mDictationWrongImage.setVisibility(8);
+        this.mDictationCorrectImage.setVisibility(View.GONE);
+        this.mDictationWrongImage.setVisibility(View.GONE);
     }
 
     private void showListenButton(boolean isShow) {
         if (isShow) {
-            this.mListenLayout.setVisibility(0);
+            this.mListenLayout.setVisibility(View.VISIBLE);
         } else {
-            this.mListenLayout.setVisibility(4);
+            this.mListenLayout.setVisibility(View.INVISIBLE);
         }
     }
 

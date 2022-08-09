@@ -383,9 +383,9 @@ public abstract class HyperCommonActivity extends BaseActivity {
             ImageView meanSeparator = (ImageView) HyperCommonActivity.this.findViewById(R.id.separator);
             if (meanSeparator != null) {
                 if (hasFocus) {
-                    meanSeparator.setVisibility(0);
+                    meanSeparator.setVisibility(View.VISIBLE);
                 } else {
-                    meanSeparator.setVisibility(8);
+                    meanSeparator.setVisibility(View.GONE);
                 }
             }
         }
@@ -409,7 +409,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
                 }
                 return;
             }
-            HyperCommonActivity.this.mHyperDetailBookmark.setVisibility(0);
+            HyperCommonActivity.this.mHyperDetailBookmark.setVisibility(View.VISIBLE);
         }
     };
     Runnable mRunSaveFlashcardItem = new Runnable() { // from class: com.diotek.diodict.HyperCommonActivity.27
@@ -474,7 +474,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
                 if (HyperCommonActivity.this.mEdittextWordbookName != null) {
                     HyperCommonActivity.this.mEdittextWordbookName.setText("");
                 }
-                HyperCommonActivity.this.mInputWordbookNameTextView.setVisibility(0);
+                HyperCommonActivity.this.mInputWordbookNameTextView.setVisibility(View.VISIBLE);
             }
         }
     };
@@ -488,7 +488,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
         public void afterTextChanged(Editable s) {
             HyperCommonActivity.this.mBackupCardName = s.toString();
             if (HyperCommonActivity.this.mBackupCardName.length() == 0 && HyperCommonActivity.this.mInputWordbookNameTextView != null) {
-                HyperCommonActivity.this.mInputWordbookNameTextView.setVisibility(0);
+                HyperCommonActivity.this.mInputWordbookNameTextView.setVisibility(View.VISIBLE);
             }
         }
 
@@ -666,7 +666,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
         this.mHyperDetailTabView.getButton(3).setText(getResources().getString(R.string.Example));
         this.mHyperDetailTabView.getButton(0).setSelected(true);
         this.mHyperDetailTabView.setOnClickListener(this.mHyperDetailTabViewOnClickListener);
-        this.mHyperDetailTabView.setVisibility(0);
+        this.mHyperDetailTabView.setVisibility(View.VISIBLE);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -898,10 +898,10 @@ public abstract class HyperCommonActivity extends BaseActivity {
         if (getResources().getConfiguration().orientation == 1) {
             LinearLayout layout = (LinearLayout) findViewById(R.id.HyperMeanMoveBtnLayout);
             if (this.mHyperHistoryList.size() < 2) {
-                layout.setVisibility(8);
+                layout.setVisibility(View.GONE);
                 return;
             } else {
-                layout.setVisibility(0);
+                layout.setVisibility(View.VISIBLE);
                 return;
             }
         }
@@ -909,13 +909,13 @@ public abstract class HyperCommonActivity extends BaseActivity {
         RelativeLayout rightlayout = (RelativeLayout) findViewById(R.id.SearchHyperRightBtnLayout);
         LinearLayout meanttslayout = (LinearLayout) findViewById(R.id.MeanTTSLayout);
         if (this.mHyperHistoryList.size() < 2) {
-            leftlayout.setVisibility(4);
-            rightlayout.setVisibility(4);
+            leftlayout.setVisibility(View.INVISIBLE);
+            rightlayout.setVisibility(View.INVISIBLE);
             meanttslayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.trans));
             return;
         }
-        leftlayout.setVisibility(0);
-        rightlayout.setVisibility(0);
+        leftlayout.setVisibility(View.VISIBLE);
+        rightlayout.setVisibility(View.VISIBLE);
         meanttslayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.hyper_ttslayout_bg_land));
     }
 
@@ -929,7 +929,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
         boolean z = true;
         if (isShow) {
             setClickableMeanToolBar(false);
-            this.mCopyToFlashcardLayout.setVisibility(0);
+            this.mCopyToFlashcardLayout.setVisibility(View.VISIBLE);
             if (this.mFlashcardFolderListViewItems.isEmpty()) {
                 ((RelativeLayout) findViewById(R.id.addCard)).requestFocus();
             } else {
@@ -1128,10 +1128,10 @@ public abstract class HyperCommonActivity extends BaseActivity {
         TextView emptyFlashcardTextView = (TextView) this.mCopyToFlashcardLayout.findViewById(R.id.emptyFlashcard);
         emptyFlashcardTextView.setText(R.string.empty_flashcard);
         if (tCursor == null) {
-            emptyFlashcardTextView.setVisibility(0);
+            emptyFlashcardTextView.setVisibility(View.VISIBLE);
             return;
         }
-        emptyFlashcardTextView.setVisibility(8);
+        emptyFlashcardTextView.setVisibility(View.GONE);
         if (!existCheckedList) {
             this.mCheckedWordbookList = new boolean[tCursor.getCount()];
         }
@@ -1312,7 +1312,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: private */
     public void hideEditMessage() {
         if (this.mInputWordbookNameTextView != null) {
-            this.mInputWordbookNameTextView.setVisibility(8);
+            this.mInputWordbookNameTextView.setVisibility(View.GONE);
         }
     }
 

@@ -88,9 +88,9 @@ public class GridViewAdapter extends SimpleAdapter {
         ((ImageView) v.findViewById(R.id.changedicttype)).setImageDrawable((Drawable) item.get(DictInfo.ListItem_DictIcon));
         ImageView iv = (ImageView) v.findViewById(R.id.currentdicttypecheck);
         if (curDicType == posDicType) {
-            iv.setVisibility(0);
+            iv.setVisibility(View.VISIBLE);
         } else {
-            iv.setVisibility(8);
+            iv.setVisibility(View.GONE);
         }
         return v;
     }
@@ -106,17 +106,17 @@ public class GridViewAdapter extends SimpleAdapter {
         ImageView view_vLine = (ImageView) v.findViewById(R.id.vertical_line);
         if (view_vLine != null) {
             if (position % 2 != 0) {
-                view_vLine.setVisibility(4);
+                view_vLine.setVisibility(View.INVISIBLE);
             } else {
-                view_vLine.setVisibility(0);
+                view_vLine.setVisibility(View.VISIBLE);
             }
         }
         ImageView view_hLine = (ImageView) v.findViewById(R.id.hyper_list_top_line);
         if (view_hLine != null) {
             if (position > 1) {
-                view_hLine.setVisibility(8);
+                view_hLine.setVisibility(View.GONE);
             } else {
-                view_hLine.setVisibility(0);
+                view_hLine.setVisibility(View.VISIBLE);
             }
         }
         ImageView view_hLine_bottom = (ImageView) v.findViewById(R.id.hyper_list_bottom_line);
@@ -126,9 +126,9 @@ public class GridViewAdapter extends SimpleAdapter {
                 bottomStartIndex--;
             }
             if (position >= bottomStartIndex) {
-                view_hLine_bottom.setVisibility(8);
+                view_hLine_bottom.setVisibility(View.GONE);
             } else {
-                view_hLine_bottom.setVisibility(0);
+                view_hLine_bottom.setVisibility(View.VISIBLE);
             }
         }
         return v;
@@ -145,21 +145,21 @@ public class GridViewAdapter extends SimpleAdapter {
         ImageView view_vLine = (ImageView) v.findViewById(R.id.vertical_line);
         if (view_vLine != null) {
             if (position % 2 != 0) {
-                view_vLine.setVisibility(4);
+                view_vLine.setVisibility(View.INVISIBLE);
             } else {
-                view_vLine.setVisibility(0);
+                view_vLine.setVisibility(View.VISIBLE);
             }
         }
         ImageView view_hLine = (ImageView) v.findViewById(R.id.hyper_list_top_line);
         if (view_hLine != null) {
             if (this.mOrientation == 1) {
                 if (position > 1) {
-                    view_hLine.setVisibility(8);
+                    view_hLine.setVisibility(View.GONE);
                 } else {
-                    view_hLine.setVisibility(0);
+                    view_hLine.setVisibility(View.VISIBLE);
                 }
             } else {
-                view_hLine.setVisibility(8);
+                view_hLine.setVisibility(View.GONE);
             }
         }
         ImageView view_hLine_bottom = (ImageView) v.findViewById(R.id.hyper_list_bottom_line);
@@ -169,9 +169,9 @@ public class GridViewAdapter extends SimpleAdapter {
                 bottomStartIndex--;
             }
             if (position >= bottomStartIndex) {
-                view_hLine_bottom.setVisibility(8);
+                view_hLine_bottom.setVisibility(View.GONE);
             } else {
-                view_hLine_bottom.setVisibility(0);
+                view_hLine_bottom.setVisibility(View.VISIBLE);
             }
         }
         return v;
@@ -194,17 +194,17 @@ public class GridViewAdapter extends SimpleAdapter {
             ImageView view_vLine = (ImageView) v.findViewById(R.id.vertical_line);
             if (view_vLine != null) {
                 if (position % 2 != 0) {
-                    view_vLine.setVisibility(4);
+                    view_vLine.setVisibility(View.INVISIBLE);
                 } else {
-                    view_vLine.setVisibility(0);
+                    view_vLine.setVisibility(View.VISIBLE);
                 }
             }
             ImageView view_hLine = (ImageView) v.findViewById(R.id.hyper_list_top_line);
             if (view_hLine != null) {
                 if (position > 1) {
-                    view_hLine.setVisibility(8);
+                    view_hLine.setVisibility(View.GONE);
                 } else {
-                    view_hLine.setVisibility(0);
+                    view_hLine.setVisibility(View.VISIBLE);
                 }
             }
         }

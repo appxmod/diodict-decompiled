@@ -130,7 +130,7 @@ public class HyperFlashcardActivity extends HyperCommonActivity {
         prepareMeanContentLayout();
         prepareFlashcardPopupLayout();
         showSoftInputMethod(false);
-        findViewById(R.id.EmptyViewTitleTop).setVisibility(8);
+        findViewById(R.id.EmptyViewTitleTop).setVisibility(View.GONE);
     }
 
     public void prepareHyperContentTopLayout() {
@@ -148,17 +148,17 @@ public class HyperFlashcardActivity extends HyperCommonActivity {
         if (Dependency.isContainCradleMode()) {
             this.mFlashcardItemCradleBtn.setOnClickListener(this.mFlashcardItemCradleBtnOnClickListener);
         } else {
-            this.mFlashcardItemCradleBtn.setVisibility(8);
+            this.mFlashcardItemCradleBtn.setVisibility(View.GONE);
         }
         if (Dependency.isContainStudyMode()) {
             this.mFlashcardItemStudyBtn.setOnClickListener(this.mFlashcardItemStudyBtnOnClickListener);
         } else {
-            this.mFlashcardItemStudyBtn.setVisibility(8);
+            this.mFlashcardItemStudyBtn.setVisibility(View.GONE);
         }
         if (Dependency.isContainDictationMode()) {
             this.mFlashcardItemDictationBtn.setOnClickListener(this.mFlashcardItemDictationBtnOnClickListener);
         } else {
-            this.mFlashcardItemDictationBtn.setVisibility(8);
+            this.mFlashcardItemDictationBtn.setVisibility(View.GONE);
         }
     }
 
@@ -173,16 +173,16 @@ public class HyperFlashcardActivity extends HyperCommonActivity {
         this.mFlashcardItemEditDeleteBtn.setOnClickListener(this.mFlashcardItemEditDeleteBtnOnClickListener);
         this.mFlashcardItemEditCopyBtn.setOnClickListener(this.mFlashcardItemEditCopyBtnOnClickListener);
         if (this.mIsBackgroundCheckedList) {
-            this.mFlashcardItemEditBtn.setVisibility(8);
-            this.mFlashcardItemEditSortBtn.setVisibility(8);
-            this.mFlashcardItemEditDeleteBtn.setVisibility(0);
-            this.mFlashcardItemEditCopyBtn.setVisibility(0);
+            this.mFlashcardItemEditBtn.setVisibility(View.GONE);
+            this.mFlashcardItemEditSortBtn.setVisibility(View.GONE);
+            this.mFlashcardItemEditDeleteBtn.setVisibility(View.VISIBLE);
+            this.mFlashcardItemEditCopyBtn.setVisibility(View.VISIBLE);
             return;
         }
-        this.mFlashcardItemEditBtn.setVisibility(0);
-        this.mFlashcardItemEditSortBtn.setVisibility(0);
-        this.mFlashcardItemEditDeleteBtn.setVisibility(8);
-        this.mFlashcardItemEditCopyBtn.setVisibility(8);
+        this.mFlashcardItemEditBtn.setVisibility(View.VISIBLE);
+        this.mFlashcardItemEditSortBtn.setVisibility(View.VISIBLE);
+        this.mFlashcardItemEditDeleteBtn.setVisibility(View.GONE);
+        this.mFlashcardItemEditCopyBtn.setVisibility(View.GONE);
     }
 
     public boolean runKeyCodeBack() {

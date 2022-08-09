@@ -306,21 +306,21 @@ public class MemoActivity extends Activity {
         int memoState;
         int i = this.MEMO_STATE_NONE;
         if (isEditable) {
-            this.mMemoEditLayout.setVisibility(0);
-            this.mMemoSkinLayout.setVisibility(0);
-            this.mMemoNormalLayout.setVisibility(8);
-            this.mDataLayout.setVisibility(0);
-            this.mScrollview.setVisibility(8);
+            this.mMemoEditLayout.setVisibility(View.VISIBLE);
+            this.mMemoSkinLayout.setVisibility(View.VISIBLE);
+            this.mMemoNormalLayout.setVisibility(View.GONE);
+            this.mDataLayout.setVisibility(View.VISIBLE);
+            this.mScrollview.setVisibility(View.GONE);
             this.mMemoDataEditText.setSelection(this.mMemoDataEditText.length());
             this.mMemoDataEditText.requestFocus();
             showHideSystemInputMethod(true);
             memoState = this.MEMO_STATE_EDIT;
         } else {
-            this.mMemoNormalLayout.setVisibility(0);
-            this.mScrollview.setVisibility(0);
-            this.mMemoEditLayout.setVisibility(8);
-            this.mDataLayout.setVisibility(8);
-            this.mMemoSkinLayout.setVisibility(4);
+            this.mMemoNormalLayout.setVisibility(View.VISIBLE);
+            this.mScrollview.setVisibility(View.VISIBLE);
+            this.mMemoEditLayout.setVisibility(View.GONE);
+            this.mDataLayout.setVisibility(View.GONE);
+            this.mMemoSkinLayout.setVisibility(View.INVISIBLE);
             memoState = this.MEMO_STATE_NORMAL;
         }
         Intent intent = getIntent();

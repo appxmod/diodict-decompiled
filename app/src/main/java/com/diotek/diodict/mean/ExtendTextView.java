@@ -181,93 +181,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     public ExtendTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        this.markerEnable = "marker_enable";
-        this.mPopupBaseX = 0;
-        this.mPopupBaseY = 0;
-        this.mGripWidth = 38;
-        this.mGripHeight = 72;
-        this.mTextSelectColor = Color.argb(255, 255, 235, 170);
-        this.mMarkerColor = -16776961;
-        this.mMarkerObj = null;
-        this.mContext = null;
-        this.mMoving = false;
-        this.mHandler = new Handler();
-        this.mLeftGripPosition = new int[2];
-        this.mRightGripPosition = new int[2];
-        this.mMarkerable = false;
-        this.GRIP_LEFT = 1;
-        this.GRIP_RIGHT = 2;
-        this.GRIP_H_MASK = 15;
-        this.GRIP_UP = 268435456;
-        this.GRIP_DOWN = 0x20000000;
-        this.GRIP_V_MASK = 0xF0000000;
-        this.mLeftGripMode = 0;
-        this.mRightGripMode = 0;
-        this.TEXT_SELECT_NONE_GRIP = -1;
-        this.TEXT_SELECT_LEFT_GRIP = 0;
-        this.TEXT_SELECT_RIGHT_GRIP = 1;
-        this.mSelectTextArea = new TextArea();
-        this.mWeightMovingX = 2;
-        this.mWeightMovingY = 1.2f;
-        this.isRemoveMode = false;
-        this.mRemoveTextArea = new TextArea();
-        this.mScrollView = null;
-        this.mMeanLinearLayout = null;
-        this.mDisplayMode = 15;
-        this.SWIPE_THRESHOLD_PIXEL = 100;
-        this.mTextLineSelect = false;
-        this.mIsEnableInvalidate = true;
-        this.mIsEnableTextSelect = false;
-        this.wiki = null;
-        this.google = null;
-        this.bWikiVisible = true;
-        this.mTagConverterCallback = null;
-        this.mIsIntercept = 0;
-        this.mCurDbType = -1;
-        this.mCurKeyword = null;
-        this.mCurSuid = -1;
-        this.VERTICAL_GAP = 10;
-        this.mTextSelectPopupOnClickListener = new View.OnClickListener() { // from class: com.diotek.diodict.mean.ExtendTextView.1
-            @Override // android.view.View.OnClickListener
-            public void onClick(View v) {
-                ExtendTextView.this.dismissTextSelectController();
-                switch (v.getId()) {
-                    case R.id.popup_copy /* 2131100016 */:
-                        ExtendTextView.this.actionClipboardCopy();
-                        return;
-                    case R.id.popup_hyper /* 2131100017 */:
-                        ExtendTextView.this.actionHyperText();
-                        return;
-                    case R.id.popup_google /* 2131100018 */:
-                        ExtendTextView.this.actionGoogleSearch();
-                        return;
-                    case R.id.popup_wiki /* 2131100019 */:
-                        ExtendTextView.this.actionWikiSearch();
-                        return;
-                    case R.id.popup_tts_us /* 2131100020 */:
-                        ExtendTextView.this.actionTTS(1);
-                        return;
-                    case R.id.popup_tts_uk /* 2131100021 */:
-                        ExtendTextView.this.actionTTS(2);
-                        return;
-                    case R.id.popup_tts /* 2131100022 */:
-                        ExtendTextView.this.actionTTS(0);
-                        return;
-                    default:
-                        return;
-                }
-            }
-        };
-        this.mRunnableDismissTextSelectGrip = new Runnable() { // from class: com.diotek.diodict.mean.ExtendTextView.2
-            @Override // java.lang.Runnable
-            public void run() {
-                ExtendTextView.this.dismissTextSelectGrip();
-                ExtendTextView.this.hideTextSelectActionMenu();
-                ExtendTextView.this.invalidate();
-            }
-        };
-        initPrivateAttribute(context, attrs);
+        this(context, attrs, 0);
     }
 
     public ExtendTextView(Context context, AttributeSet attrs, int defStyle) {
@@ -321,28 +235,28 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         this.mTextSelectPopupOnClickListener = new View.OnClickListener() { // from class: com.diotek.diodict.mean.ExtendTextView.1
             @Override // android.view.View.OnClickListener
             public void onClick(View v) {
-                ExtendTextView.this.dismissTextSelectController();
+                // dismissTextSelectController();
                 switch (v.getId()) {
                     case R.id.popup_copy /* 2131100016 */:
-                        ExtendTextView.this.actionClipboardCopy();
+                        actionClipboardCopy();
                         return;
                     case R.id.popup_hyper /* 2131100017 */:
-                        ExtendTextView.this.actionHyperText();
+                        actionHyperText();
                         return;
                     case R.id.popup_google /* 2131100018 */:
-                        ExtendTextView.this.actionGoogleSearch();
+                        actionGoogleSearch();
                         return;
                     case R.id.popup_wiki /* 2131100019 */:
-                        ExtendTextView.this.actionWikiSearch();
+                        actionWikiSearch();
                         return;
                     case R.id.popup_tts_us /* 2131100020 */:
-                        ExtendTextView.this.actionTTS(1);
+                        actionTTS(1);
                         return;
                     case R.id.popup_tts_uk /* 2131100021 */:
-                        ExtendTextView.this.actionTTS(2);
+                        actionTTS(2);
                         return;
                     case R.id.popup_tts /* 2131100022 */:
-                        ExtendTextView.this.actionTTS(0);
+                        actionTTS(0);
                         return;
                     default:
                         return;
@@ -352,9 +266,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         this.mRunnableDismissTextSelectGrip = new Runnable() { // from class: com.diotek.diodict.mean.ExtendTextView.2
             @Override // java.lang.Runnable
             public void run() {
-                ExtendTextView.this.dismissTextSelectGrip();
-                ExtendTextView.this.hideTextSelectActionMenu();
-                ExtendTextView.this.invalidate();
+                dismissTextSelectGrip();
+                hideTextSelectActionMenu();
+                invalidate();
             }
         };
         initPrivateAttribute(context, attrs);
@@ -1286,19 +1200,19 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             tts.setOnClickListener(this.mTextSelectPopupOnClickListener);
             tts_us.setOnClickListener(this.mTextSelectPopupOnClickListener);
             tts_uk.setOnClickListener(this.mTextSelectPopupOnClickListener);
-            if (Dependency.getLocaleName().contains("China")) {
-                this.wiki.setVisibility(8);
-                this.bWikiVisible = false;
-            }
+//            if (Dependency.getLocaleName().contains("China")) {
+//                this.wiki.setVisibility(View.GONE);
+//                this.bWikiVisible = false;
+//            }
             float density = CommonUtils.getDeviceDensity(this.mContext);
             String ttsWord = "";
             if (this.mSelectTextArea.isTextSelected()) {
                 ttsWord = super.getText().subSequence(this.mSelectTextArea.start, this.mSelectTextArea.end).toString();
             }
             if (ttsWord.length() == 0) {
-                tts.setVisibility(8);
-                tts_us.setVisibility(8);
-                tts_uk.setVisibility(8);
+                tts.setVisibility(View.GONE);
+                tts_us.setVisibility(View.GONE);
+                tts_uk.setVisibility(View.GONE);
                 if (this.bWikiVisible) {
                     this.wiki.setBackgroundResource(R.drawable.selectpop_right);
                     this.wiki.setPadding((int) (15.0f * density), 0, (int) (23.0f * density), 0);
@@ -1321,7 +1235,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                 }
                 if (bExist) {
                     if (isEnglish || isChinese) {
-                        tts.setVisibility(8);
+                        tts.setVisibility(View.GONE);
                         if (isEnglish) {
                             tts_us.setImageResource(R.drawable.selectpop_us);
                             tts_uk.setImageResource(R.drawable.selectpop_uk);
@@ -1333,11 +1247,11 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                             tts_us.setImageResource(R.drawable.selectpop_tts);
                             tts_us.setBackgroundResource(R.drawable.selectpop_right);
                             tts_us.setPadding((int) (15.0f * density), 0, (int) (23.0f * density), 0);
-                            tts_uk.setVisibility(8);
+                            tts_uk.setVisibility(View.GONE);
                         }
                     } else {
-                        tts_us.setVisibility(8);
-                        tts_uk.setVisibility(8);
+                        tts_us.setVisibility(View.GONE);
+                        tts_uk.setVisibility(View.GONE);
                     }
                     if (this.bWikiVisible) {
                         this.wiki.setBackgroundResource(R.drawable.selectpop_btn);
@@ -1347,9 +1261,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                         this.google.setPadding((int) (15.0f * density), 0, (int) (15.0f * density), 0);
                     }
                 } else {
-                    tts.setVisibility(8);
-                    tts_us.setVisibility(8);
-                    tts_uk.setVisibility(8);
+                    tts.setVisibility(View.GONE);
+                    tts_us.setVisibility(View.GONE);
+                    tts_uk.setVisibility(View.GONE);
                     if (this.bWikiVisible) {
                         this.wiki.setBackgroundResource(R.drawable.selectpop_right);
                         this.wiki.setPadding((int) (15.0f * density), 0, (int) (23.0f * density), 0);
@@ -1475,9 +1389,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             if (this.mGoogleSearchCallback != null) {
                 this.mGoogleSearchCallback.run(this.mSelectedText.toString());
             }
-            initializeSelectTextArea();
-            dismissTextSelectGrip();
-            invalidate();
+//            initializeSelectTextArea();
+//            dismissTextSelectGrip();
+//            invalidate();
         }
     }
 
@@ -1487,9 +1401,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             if (this.mWikiSearchCallback != null) {
                 this.mWikiSearchCallback.run(this.mSelectedText.toString());
             }
-            initializeSelectTextArea();
-            dismissTextSelectGrip();
-            invalidate();
+//            initializeSelectTextArea();
+//            dismissTextSelectGrip();
+//            invalidate();
         }
     }
 
@@ -1505,9 +1419,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             } else {
                 CommonUtils.playTTS(0, this.mCurKeyword, this.mSelectedText.toString(), this.mCurDbType, 1);
             }
-            initializeSelectTextArea();
-            dismissTextSelectGrip();
-            invalidate();
+//            initializeSelectTextArea();
+//            dismissTextSelectGrip();
+//            invalidate();
         }
     }
 
@@ -1518,9 +1432,10 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             if (clipboard != null) {
                 clipboard.setText(this.mSelectedText.toString());
             }
-            initializeSelectTextArea();
-            dismissTextSelectGrip();
-            invalidate();
+			dismissTextSelectController();
+//            initializeSelectTextArea();
+//            dismissTextSelectGrip();
+//            invalidate();
         }
     }
 

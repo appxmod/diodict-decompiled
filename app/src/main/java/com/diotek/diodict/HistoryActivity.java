@@ -485,7 +485,7 @@ public class HistoryActivity extends ListMeanViewActivity {
                 }
                 return;
             }
-            HistoryActivity.this.mMainMeanBookmarkImageView.setVisibility(0);
+            HistoryActivity.this.mMainMeanBookmarkImageView.setVisibility(View.VISIBLE);
         }
     };
 
@@ -725,10 +725,10 @@ public class HistoryActivity extends ListMeanViewActivity {
         this.mMemoBtn = (ImageButton) findViewById(R.id.MemoBtn);
         this.mSaveBtn = (ImageButton) findViewById(R.id.SaveBtn);
         this.mSaveBtn.setOnClickListener(this.mSaveBtnOnClickListener);
-        this.mMarkerBtn.setVisibility(8);
-        this.mFontBtn.setVisibility(8);
-        this.mMemoBtn.setVisibility(8);
-        this.mSaveBtn.setVisibility(0);
+        this.mMarkerBtn.setVisibility(View.GONE);
+        this.mFontBtn.setVisibility(View.GONE);
+        this.mMemoBtn.setVisibility(View.GONE);
+        this.mSaveBtn.setVisibility(View.VISIBLE);
     }
 
     public void prepareMeanContentLayout() {
@@ -1248,26 +1248,26 @@ public class HistoryActivity extends ListMeanViewActivity {
         }
         this.mHistoryItemEditBtn.setEnabled(false);
         this.mHistoryItemSortBtn.setEnabled(false);
-        this.mHistoryItemSortBtn.setVisibility(0);
+        this.mHistoryItemSortBtn.setVisibility(View.VISIBLE);
         this.mMainMeanTitleTextView.setText("");
         this.mMainMeanTitleTextView.requestLayout();
         this.mMainMeanContentTextView.setText("");
-        this.mSelectAllLayout.setVisibility(8);
+        this.mSelectAllLayout.setVisibility(View.GONE);
         this.mSaveBtn.setEnabled(false);
     }
 
     public void showItemsEditLayout(boolean bShow) {
         if (bShow) {
-            this.mHistoryItemEditBtn.setVisibility(8);
-            this.mHistoryItemSortBtn.setVisibility(8);
-            this.mHistoryItemDeleteBtn.setVisibility(0);
-            this.mSelectAllLayout.setVisibility(0);
+            this.mHistoryItemEditBtn.setVisibility(View.GONE);
+            this.mHistoryItemSortBtn.setVisibility(View.GONE);
+            this.mHistoryItemDeleteBtn.setVisibility(View.VISIBLE);
+            this.mSelectAllLayout.setVisibility(View.VISIBLE);
             return;
         }
-        this.mHistoryItemEditBtn.setVisibility(0);
-        this.mHistoryItemSortBtn.setVisibility(0);
-        this.mHistoryItemDeleteBtn.setVisibility(8);
-        this.mSelectAllLayout.setVisibility(8);
+        this.mHistoryItemEditBtn.setVisibility(View.VISIBLE);
+        this.mHistoryItemSortBtn.setVisibility(View.VISIBLE);
+        this.mHistoryItemDeleteBtn.setVisibility(View.GONE);
+        this.mSelectAllLayout.setVisibility(View.GONE);
     }
 
     public void setSortMode(int sortmode) {
@@ -1283,14 +1283,14 @@ public class HistoryActivity extends ListMeanViewActivity {
     private int showCopyToFlashcardLayout(boolean isShow) {
         boolean z = true;
         if (isShow) {
-            this.mCopyToFlashcardPopLayout.setVisibility(0);
+            this.mCopyToFlashcardPopLayout.setVisibility(View.VISIBLE);
             if (this.mFlashcardFolderListViewItems.isEmpty()) {
                 ((RelativeLayout) findViewById(R.id.addCard)).requestFocus();
             } else {
                 this.mFlashcardGridView.requestFocus();
             }
         } else {
-            this.mCopyToFlashcardPopLayout.setVisibility(8);
+            this.mCopyToFlashcardPopLayout.setVisibility(View.GONE);
         }
         if (isShow) {
             LayoutTransition.trasition(this.mCopyToFlashcardPopLayout, isShow, LayoutTransition.DIRECT_RIGHT_TO_LEFT, 250, false, !isShow);
@@ -1339,10 +1339,10 @@ public class HistoryActivity extends ListMeanViewActivity {
         TextView emptyFlashcardTextView = (TextView) this.mCopyToFlashcardPopLayout.findViewById(R.id.emptyFlashcard);
         emptyFlashcardTextView.setText(R.string.empty_flashcard);
         if (tCursor == null) {
-            emptyFlashcardTextView.setVisibility(0);
+            emptyFlashcardTextView.setVisibility(View.VISIBLE);
             return;
         }
-        emptyFlashcardTextView.setVisibility(8);
+        emptyFlashcardTextView.setVisibility(View.GONE);
         if (!existCheckedList) {
             this.mCheckedWordbookList = new boolean[tCursor.getCount()];
         }

@@ -94,7 +94,7 @@ public class TiffanyTransition {
                 break;
             case 13:
                 if (this.mToView != null) {
-                    this.mToView.setVisibility(4);
+                    this.mToView.setVisibility(View.INVISIBLE);
                 }
                 this.mEffect.addView(this.mToView, 0);
                 this.mEffect.setEffectParam(DictUtils.DIODICT_SETTING_PREF_RECOG_TIME_DEFAULT_VALUE, defaultDuration);

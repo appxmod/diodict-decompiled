@@ -112,7 +112,7 @@ public class FileLinkTagViewManager {
         if (this.mLinkTextPopup == null) {
             PopupContent.setOnKeyListenerCallback(this.mCustomPopupLinearLayoutOnKeyListenerCallback);
             this.mLinkTextPopup = CommonUtils.makeWindowWithPopupWindow(ctx, 0, PopupContent, ctx.getResources().getDrawable(R.drawable.trans), null, true);
-            ((Button) PopupContent.findViewById(R.id.hyper_detail)).setVisibility(8);
+            ((Button) PopupContent.findViewById(R.id.hyper_detail)).setVisibility(View.GONE);
             PopupContent.setOnClickListener(this.mHyperDialogPopupOnClickListener);
             this.mLinkTextPopup.setOnDismissListener(this.mLinkTextPopupOnDismissListener);
             ScrollView scrollView = (ScrollView) PopupContent.findViewById(R.id.hyper_scrollview);

@@ -1,6 +1,7 @@
 package com.diotek.diodict.anim;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -33,7 +34,7 @@ public class LayoutTransition {
             boolean z = true;
             if (LayoutTransition.mAnimationPanel != null && !LayoutTransition.misEnter) {
                 if (LayoutTransition.isPanelDissmiss) {
-                    LayoutTransition.mAnimationPanel.setVisibility(8);
+                    LayoutTransition.mAnimationPanel.setVisibility(View.GONE);
                 }
                 ViewGroup unused = LayoutTransition.mAnimationPanel = null;
                 if (LayoutTransition.mStiker && LayoutTransition.stikerCallback != null) {

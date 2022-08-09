@@ -466,9 +466,9 @@ public class RecognizeView extends View {
 
     public void showHideCandidateWindow(boolean bShow) {
         if (bShow) {
-            this.m_CandidateLayout.setVisibility(0);
+            this.m_CandidateLayout.setVisibility(View.VISIBLE);
         } else {
-            this.m_CandidateLayout.setVisibility(8);
+            this.m_CandidateLayout.setVisibility(View.GONE);
         }
     }
 

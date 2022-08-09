@@ -309,7 +309,7 @@ public abstract class BaseActivity extends Activity {
                 FontFitTextView tv = (FontFitTextView) findViewById(R.id.authTestText);
                 String str = tv.getText().toString() + TimeLimitAuth.getTimelimitDate();
                 tv.setText(str);
-                tv.setVisibility(0);
+                tv.setVisibility(View.VISIBLE);
             }
             this.mSearchDBNameTextView = (TextView) findViewById(R.id.title_text);
         }

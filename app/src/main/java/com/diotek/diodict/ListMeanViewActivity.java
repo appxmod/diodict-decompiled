@@ -98,7 +98,7 @@ public class ListMeanViewActivity extends BaseActivity {
                 if (ListMeanViewActivity.this.mEdittextWordbookName != null) {
                     ListMeanViewActivity.this.mEdittextWordbookName.setText("");
                 }
-                ListMeanViewActivity.this.mInputWordbookNameTextView.setVisibility(0);
+                ListMeanViewActivity.this.mInputWordbookNameTextView.setVisibility(View.VISIBLE);
             }
         }
     };
@@ -112,7 +112,7 @@ public class ListMeanViewActivity extends BaseActivity {
         public void afterTextChanged(Editable s) {
             ListMeanViewActivity.this.mBackupCardName = s.toString();
             if (ListMeanViewActivity.this.mBackupCardName.length() == 0 && ListMeanViewActivity.this.mInputWordbookNameTextView != null) {
-                ListMeanViewActivity.this.mInputWordbookNameTextView.setVisibility(0);
+                ListMeanViewActivity.this.mInputWordbookNameTextView.setVisibility(View.VISIBLE);
             }
         }
 
@@ -126,9 +126,9 @@ public class ListMeanViewActivity extends BaseActivity {
             ImageView meanSeparator = (ImageView) ListMeanViewActivity.this.findViewById(R.id.separator);
             if (meanSeparator != null) {
                 if (hasFocus) {
-                    meanSeparator.setVisibility(0);
+                    meanSeparator.setVisibility(View.VISIBLE);
                 } else {
-                    meanSeparator.setVisibility(8);
+                    meanSeparator.setVisibility(View.GONE);
                 }
             }
         }
@@ -286,7 +286,7 @@ public class ListMeanViewActivity extends BaseActivity {
 
     protected void onMeanViewExtensionEnd() {
         if (this.mLayoutMode == 1) {
-            this.mStandardInnerLeftLayout.setVisibility(8);
+            this.mStandardInnerLeftLayout.setVisibility(View.GONE);
             this.mMainMeanContentTextView.setEnableTextSelect(true);
             Animation ani = this.mMainRightLayout.getAnimation();
             if (ani != null) {
@@ -317,21 +317,21 @@ public class ListMeanViewActivity extends BaseActivity {
         CommonUtils.stopTTS();
         this.mLayoutMode = 0;
         this.mMainMeanContentTextView.setEnableTextSelect(false);
-        this.mListLayout.setVisibility(0);
+        this.mListLayout.setVisibility(View.VISIBLE);
         if (this.mMeanToolbarLayout != null) {
-            this.mMeanToolbarLayout.setVisibility(8);
+            this.mMeanToolbarLayout.setVisibility(View.GONE);
         }
         showHideTTSLayout(false);
-        this.mStandardInnerLeftLayout.setVisibility(0);
-        this.mMeanTabLayout.setVisibility(8);
+        this.mStandardInnerLeftLayout.setVisibility(View.VISIBLE);
+        this.mMeanTabLayout.setVisibility(View.GONE);
         showHideEmptyViewTitleTop(false);
         this.mMainRightLayout.setBackgroundResource(R.drawable.search_content_right_bg2);
         ((LinearLayout.LayoutParams) this.mStandardInnerLeftLayout.getLayoutParams()).weight = LayoutTransition.getMinMeaningWeight(getApplicationContext());
         if (this.mMainMeanBookmarkImageView != null) {
             this.mMainMeanBookmarkImageView = this.mBookmarkImageViewNormal;
             if (this.mBookmarkImageViewLandExtension.getVisibility() == 0) {
-                this.mBookmarkImageViewLandExtension.setVisibility(8);
-                this.mMainMeanBookmarkImageView.setVisibility(0);
+                this.mBookmarkImageViewLandExtension.setVisibility(View.GONE);
+                this.mMainMeanBookmarkImageView.setVisibility(View.VISIBLE);
             }
             this.mBaseMeanController.setBookmarkImage(this.mMainMeanBookmarkImageView);
         }
@@ -347,24 +347,24 @@ public class ListMeanViewActivity extends BaseActivity {
     public void setWideMeanView(boolean isDirect) {
         this.mLayoutMode = 1;
         if (isDirect) {
-            this.mStandardInnerLeftLayout.setVisibility(8);
+            this.mStandardInnerLeftLayout.setVisibility(View.GONE);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) this.mStandardInnerLeftLayout.getLayoutParams();
             params.weight = 0.0f;
             this.mMainMeanContentTextView.setEnableTextSelect(true);
         }
         checkSymbolKeyword();
-        this.mListLayout.setVisibility(8);
+        this.mListLayout.setVisibility(View.GONE);
         if (this.mMeanToolbarLayout != null) {
-            this.mMeanToolbarLayout.setVisibility(0);
+            this.mMeanToolbarLayout.setVisibility(View.VISIBLE);
         }
         showHideTTSLayout(true);
-        this.mMeanTabLayout.setVisibility(0);
+        this.mMeanTabLayout.setVisibility(View.VISIBLE);
         showHideEmptyViewTitleTop(true);
         this.mMainRightLayout.setBackgroundResource(R.drawable.search_content_right_bg);
         if (this.mMainMeanBookmarkImageView != null) {
             if (this.mMainMeanBookmarkImageView.getVisibility() == 0) {
-                this.mBookmarkImageViewNormal.setVisibility(8);
-                this.mBookmarkImageViewLandExtension.setVisibility(0);
+                this.mBookmarkImageViewNormal.setVisibility(View.GONE);
+                this.mBookmarkImageViewLandExtension.setVisibility(View.VISIBLE);
             }
             this.mMainMeanBookmarkImageView = this.mBookmarkImageViewLandExtension;
             this.mBaseMeanController.setBookmarkImage(this.mMainMeanBookmarkImageView);
@@ -548,9 +548,9 @@ public class ListMeanViewActivity extends BaseActivity {
     private void showHideEmptyViewTitleTop(boolean bExtensionView) {
         if (this.mEmptyViewTitleTop != null) {
             if (this.mMeanToolbarLayout != null && bExtensionView) {
-                this.mEmptyViewTitleTop.setVisibility(0);
+                this.mEmptyViewTitleTop.setVisibility(View.VISIBLE);
             } else {
-                this.mEmptyViewTitleTop.setVisibility(8);
+                this.mEmptyViewTitleTop.setVisibility(View.GONE);
             }
             if (this.mMeanToolbarLayout != null) {
                 this.mMeanToolbarLayout.requestLayout();
@@ -586,7 +586,7 @@ public class ListMeanViewActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: private */
     public void hideEditMessage() {
         if (this.mInputWordbookNameTextView != null) {
-            this.mInputWordbookNameTextView.setVisibility(8);
+            this.mInputWordbookNameTextView.setVisibility(View.GONE);
         }
     }
 

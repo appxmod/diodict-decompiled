@@ -83,10 +83,10 @@ public class WordListAdapter extends ArrayAdapter<HashMap<String, Object>> {
         ImageView dictIcon = (ImageView) v.findViewById(R.id.dictIcon);
         if (dictIcon != null) {
             if (IsTotalSearchList || this.mTextViewResourceId != R.layout.search_rowitem_layout) {
-                dictIcon.setVisibility(0);
+                dictIcon.setVisibility(View.VISIBLE);
                 dictIcon.setBackgroundDrawable(DictDBManager.getDictListIcon(nDictType));
             } else {
-                dictIcon.setVisibility(8);
+                dictIcon.setVisibility(View.GONE);
             }
         }
         ImageView memoIcon = (ImageView) v.findViewById(R.id.memo);
@@ -99,12 +99,12 @@ public class WordListAdapter extends ArrayAdapter<HashMap<String, Object>> {
                     int skin = c.getInt(nSkinIdx);
                     c.close();
                     memoIcon.setBackgroundResource(getMemoSkinResourceId(skin));
-                    memoIcon.setVisibility(0);
+                    memoIcon.setVisibility(View.VISIBLE);
                     memoIcon.setOnClickListener(this.mMemoClickListener);
                     memoIcon.setTag(Integer.valueOf(position));
                 }
             } else {
-                memoIcon.setVisibility(8);
+                memoIcon.setVisibility(View.GONE);
             }
         }
         ChangeFontTextView wordtextView = (ChangeFontTextView) v.findViewById(R.id.word);

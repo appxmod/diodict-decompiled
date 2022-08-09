@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import com.nemustech.tiffany.world.ITFServiceFrom;
@@ -36,10 +37,10 @@ public class TFService extends Service {
                     }
                     return;
                 case 2:
-                    TFService.mImageView.setVisibility(0);
+                    TFService.mImageView.setVisibility(View.VISIBLE);
                     return;
                 case 3:
-                    TFService.mImageView.setVisibility(4);
+                    TFService.mImageView.setVisibility(View.INVISIBLE);
                     return;
                 default:
                     super.handleMessage(msg);
@@ -121,7 +122,7 @@ public class TFService extends Service {
             lp.width = this.mWindowMgr.getDefaultDisplay().getWidth();
             lp.height = this.mWindowMgr.getDefaultDisplay().getHeight() - TFUtils.getStatusBarHeight(this);
             this.mWindowMgr.addView(mImageView, lp);
-            mImageView.setVisibility(4);
+            mImageView.setVisibility(View.INVISIBLE);
             mSetView = true;
         }
     }

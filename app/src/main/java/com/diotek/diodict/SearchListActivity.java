@@ -215,7 +215,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         @Override // android.view.View.OnTouchListener
         public boolean onTouch(View arg0, MotionEvent me) {
             if (me.getAction() == 0) {
-                SearchListActivity.this.mMainEmptyLayout.setVisibility(8);
+                SearchListActivity.this.mMainEmptyLayout.setVisibility(View.GONE);
                 return false;
             }
             return false;
@@ -278,7 +278,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             RelativeLayout guideView = (RelativeLayout) SearchListActivity.this.findViewById(R.id.search_guide_layout);
             if (guideView != null && guideView.getVisibility() == 0) {
-                guideView.setVisibility(8);
+                guideView.setVisibility(View.GONE);
                 return false;
             }
             int action = event.getAction();
@@ -631,7 +631,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             SearchListActivity.this.mWillSearchText = "";
             SearchListActivity.this.AutoChangeLanguage("", true, true);
             SearchListActivity.this.mCurrentSearchMethod = SearchListActivity.this.mSearchMethodWord;
-            SearchListActivity.this.mSearchWordBtn.setVisibility(8);
+            SearchListActivity.this.mSearchWordBtn.setVisibility(View.GONE);
             SearchListActivity.this.setEnableSaveButton(true);
             if (SearchListActivity.this.mLayoutMode == 1) {
                 SearchListActivity.this.setSmallMeanView();
@@ -865,9 +865,9 @@ public class SearchListActivity extends ListMeanViewActivity {
             ImageView meanSeparator = (ImageView) SearchListActivity.this.findViewById(R.id.separator);
             if (meanSeparator != null) {
                 if (hasFocus) {
-                    meanSeparator.setVisibility(0);
+                    meanSeparator.setVisibility(View.VISIBLE);
                 } else {
-                    meanSeparator.setVisibility(8);
+                    meanSeparator.setVisibility(View.GONE);
                 }
             }
         }
@@ -971,7 +971,7 @@ public class SearchListActivity extends ListMeanViewActivity {
                 }
                 return;
             }
-            SearchListActivity.this.mMainMeanBookmarkImageView.setVisibility(0);
+            SearchListActivity.this.mMainMeanBookmarkImageView.setVisibility(View.VISIBLE);
         }
     };
     private BaseMeanController.MeanControllerCallback mTTSLayoutCallback = new BaseMeanController.MeanControllerCallback() { // from class: com.diotek.diodict.SearchListActivity.73
@@ -1234,7 +1234,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             }
             this.mTabViewPos = 0;
             if (this.mLayoutMode == 1) {
-                this.mGestures.setVisibility(8);
+                this.mGestures.setVisibility(View.GONE);
                 setWideMeanView(true);
                 if (this.mEngine.getCurDict() == 65520) {
                     runCallBackTTSLayout = true;
@@ -1361,7 +1361,7 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     @Override // com.diotek.diodict.ListMeanViewActivity
 	public void setSmallMeanView() {
-        this.mGestures.setVisibility(0);
+        this.mGestures.setVisibility(View.VISIBLE);
         super.setSmallMeanView();
     }
 
@@ -1446,7 +1446,7 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     @Override // com.diotek.diodict.ListMeanViewActivity
 	public void onMeanViewExtensionStart() {
-        this.mGestures.setVisibility(8);
+        this.mGestures.setVisibility(View.GONE);
         if (Dependency.isContainHandWrightReocg()) {
             this.mCandiBox.hide();
         }
@@ -1459,14 +1459,14 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     @Override // com.diotek.diodict.ListMeanViewActivity
 	public void onMeanViewReductionStart() {
-        this.mGestures.setVisibility(0);
+        this.mGestures.setVisibility(View.VISIBLE);
         super.onMeanViewReductionStart();
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity, android.app.Activity, android.view.KeyEvent.Callback
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (isVisiableView(this.mSearchListEmptyLayout) && isVisiableView(this.mMainEmptyLayout)) {
-            this.mMainEmptyLayout.setVisibility(8);
+            this.mMainEmptyLayout.setVisibility(View.GONE);
         }
         switch (keyCode) {
             case 4:
@@ -1672,7 +1672,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         if (this.mEngine.getSupportMainDictionary().length > 1) {
             this.mChangeDictionaryBtn.setOnClickListener(this.mChangeDictionaryBtnOnClickListener);
         } else {
-            this.mChangeDictionaryBtn.setVisibility(8);
+            this.mChangeDictionaryBtn.setVisibility(View.GONE);
             this.mEnableChangeDict = false;
         }
         this.mChangeLanguageBtn = (ImageButton) findViewById(R.id.ChangeLanguageBtn);
@@ -1702,7 +1702,7 @@ public class SearchListActivity extends ListMeanViewActivity {
                 @Override // android.view.View.OnTouchListener
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == 1) {
-                        ((RelativeLayout) SearchListActivity.this.findViewById(R.id.search_guide_layout)).setVisibility(8);
+                        ((RelativeLayout) SearchListActivity.this.findViewById(R.id.search_guide_layout)).setVisibility(View.GONE);
                         SearchListActivity.this.showSoftInputMethod(true);
                     }
                     return true;
@@ -1718,7 +1718,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         List<ResolveInfo> activities = pm.queryIntentActivities(new Intent("android.speech.action.RECOGNIZE_SPEECH"), 0);
         this.mVoiceSearchBtn = (ImageButton) findViewById(R.id.VoiceSearchBtn);
         if (activities.size() != 0 && !DictDBManager.isOldKorDict(this.mEngine.getCurDict()) && !Build.MODEL.equals("sdk") && !Dependency.isChina()) {
-            this.mVoiceSearchBtn.setVisibility(0);
+            this.mVoiceSearchBtn.setVisibility(View.VISIBLE);
             this.mVoiceSearchBtn.setFocusable(true);
             this.mVoiceSearchBtn.setEnabled(true);
             this.mVoiceSearchBtn.setOnClickListener(this.mVoiceSearchOnClickListener);
@@ -1851,7 +1851,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         this.mChangeDictPopupExitBtn.setOnClickListener(this.mChangeDictPopupExitBtnOnClickListener);
         updateChangeDictPopupItems();
         this.mChangeDictPopupGridView.createChangeDictPageGridView(this.mChangeDictPopupItems, 6);
-        this.mChangeDictPopupLayout.setVisibility(8);
+        this.mChangeDictPopupLayout.setVisibility(View.GONE);
     }
 
     public void prepareChangeDictLitePopupLayout() {
@@ -2103,13 +2103,13 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     public void runChangeDictPopupExitBtn() {
         setFocusableChangeDictionary(false);
-        this.mChangeDictPopupLayout.setVisibility(8);
+        this.mChangeDictPopupLayout.setVisibility(View.GONE);
     }
 
     public boolean runKeyCodeBack() {
         if (this.mChangeDictPopupLayout.getVisibility() == 0) {
             setFocusableChangeDictionary(false);
-            this.mChangeDictPopupLayout.setVisibility(8);
+            this.mChangeDictPopupLayout.setVisibility(View.GONE);
             return true;
         } else if (dismissFlashcardCopyPopup(true)) {
             return true;
@@ -2140,7 +2140,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     public void runChangeDictionaryBtn() {
         initPopupControll();
         this.mChangeDictPopupLayout.bringToFront();
-        this.mChangeDictPopupLayout.setVisibility(0);
+        this.mChangeDictPopupLayout.setVisibility(View.VISIBLE);
         showSoftInputMethod(false);
         this.mChangeDictPopupGridView.notifyAllGridViewAdapter();
         this.mHandler.postDelayed(this.setFocusableChangeDictionary, 300L);
@@ -2566,7 +2566,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         for (int i = 0; i < layout.getChildCount(); i++) {
             TextView view = (TextView) layout.getChildAt(i);
             view.setSelected(false);
-            view.setVisibility(8);
+            view.setVisibility(View.GONE);
         }
         for (int i2 = 0; i2 < this.mEngine.getSupportSearchMethodInfo().length; i2++) {
             EngineManager3rd.SearchMethodInfo searchMethodInfo = this.mEngine.getSupportSearchMethodInfo()[i2];
@@ -2764,11 +2764,11 @@ public class SearchListActivity extends ListMeanViewActivity {
             if (cnt == 1) {
                 ((LinearLayout) findViewById(R.id.SearchMethodLayout)).setClickable(false);
                 ((LinearLayout) findViewById(R.id.SearchMethodLayout)).setFocusable(false);
-                this.mSearchMethodArrowBtn.setVisibility(8);
+                this.mSearchMethodArrowBtn.setVisibility(View.GONE);
             } else {
                 ((LinearLayout) findViewById(R.id.SearchMethodLayout)).setClickable(true);
                 ((LinearLayout) findViewById(R.id.SearchMethodLayout)).setFocusable(true);
-                this.mSearchMethodArrowBtn.setVisibility(0);
+                this.mSearchMethodArrowBtn.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -2781,13 +2781,13 @@ public class SearchListActivity extends ListMeanViewActivity {
         }
         if (this.mVoiceSearchBtn != null && !this.mUseVoiceSearch) {
             if (bVisible) {
-                this.mVoiceSearchBtn.setVisibility(8);
+                this.mVoiceSearchBtn.setVisibility(View.GONE);
                 this.mVoiceSearchBtn.setEnabled(false);
                 this.mVoiceSearchBtn.setFocusable(false);
                 this.mSearchWordBtn.setBackgroundResource(R.drawable.searchbtn_end);
                 return;
             }
-            this.mVoiceSearchBtn.setVisibility(0);
+            this.mVoiceSearchBtn.setVisibility(View.VISIBLE);
             this.mVoiceSearchBtn.setEnabled(false);
             this.mVoiceSearchBtn.setFocusable(false);
             this.mVoiceSearchBtn.setBackgroundResource(R.drawable.searchedittext_end_f);
@@ -2805,23 +2805,23 @@ public class SearchListActivity extends ListMeanViewActivity {
             setEmptyInfomation();
             if (this.mMainEmptyLayout != null) {
                 if (this.mEngine.getCurrentSearchMethodId() == 1) {
-                    this.mMainEmptyLayout.setVisibility(8);
+                    this.mMainEmptyLayout.setVisibility(View.GONE);
                     this.mMainMeanContentTextView.setFocusable(true);
                 } else {
-                    this.mMainEmptyLayout.setVisibility(0);
+                    this.mMainEmptyLayout.setVisibility(View.VISIBLE);
                     this.mMainMeanContentTextView.setFocusable(false);
                 }
             }
             if (this.mSearchListEmptyLayout != null && this.mSearchListEmptyLayout.getVisibility() == 8) {
-                this.mSearchListEmptyLayout.setVisibility(0);
+                this.mSearchListEmptyLayout.setVisibility(View.VISIBLE);
                 this.mSearchListEmptyLayout.setFocusable(false);
             }
         } else {
             if (this.mMainEmptyLayout != null && this.mMainEmptyLayout.getVisibility() == 0) {
-                this.mMainEmptyLayout.setVisibility(8);
+                this.mMainEmptyLayout.setVisibility(View.GONE);
             }
             if (this.mSearchListEmptyLayout != null && this.mSearchListEmptyLayout.getVisibility() == 0) {
-                this.mSearchListEmptyLayout.setVisibility(8);
+                this.mSearchListEmptyLayout.setVisibility(View.GONE);
             }
         }
         if (nVisible) {
@@ -3097,7 +3097,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     private boolean dismissFlashcardCopyPopup(boolean bAnimation) {
         if (this.mCopyToFlashcardLayout.getVisibility() == 0) {
             showCopyToFlashcardLayout(false, false, bAnimation);
-            this.mCopyToFlashcardLayout.setVisibility(8);
+            this.mCopyToFlashcardLayout.setVisibility(View.GONE);
             this.mSaveBtn.setSelected(false);
             return true;
         }
@@ -3441,7 +3441,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         this.mFlashcardItemEditCopyToFlashcardCancel.setClickable(isShow);
         if (isShow) {
             setClickableMeanToolBar(false);
-            this.mCopyToFlashcardLayout.setVisibility(0);
+            this.mCopyToFlashcardLayout.setVisibility(View.VISIBLE);
         } else {
             setClickableMeanToolBar(true);
         }
@@ -3449,9 +3449,9 @@ public class SearchListActivity extends ListMeanViewActivity {
         if (bAnimation) {
             LayoutTransition.trasition(this.mCopyToFlashcardLayout, isShow, LayoutTransition.DIRECT_RIGHT_TO_LEFT, 250, false, !isShow);
         } else if (isShow) {
-            this.mCopyToFlashcardLayout.setVisibility(0);
+            this.mCopyToFlashcardLayout.setVisibility(View.VISIBLE);
         } else {
-            this.mCopyToFlashcardLayout.setVisibility(8);
+            this.mCopyToFlashcardLayout.setVisibility(View.GONE);
         }
         if (sticker) {
             this.mHandler.postDelayed(this.mRunTiffanyStiker, (long) SEARCH_TIME_DELAY);
@@ -3596,11 +3596,11 @@ public class SearchListActivity extends ListMeanViewActivity {
         TextView emptyFlashcardTextView = (TextView) this.mCopyToFlashcardLayout.findViewById(R.id.emptyFlashcard);
         emptyFlashcardTextView.setText(R.string.empty_flashcard);
         if (tCursor == null) {
-            emptyFlashcardTextView.setVisibility(0);
+            emptyFlashcardTextView.setVisibility(View.VISIBLE);
             this.mCheckedWordbookList = null;
             return;
         }
-        emptyFlashcardTextView.setVisibility(8);
+        emptyFlashcardTextView.setVisibility(View.GONE);
         if (!existCheckedList) {
             this.mCheckedWordbookList = new boolean[tCursor.getCount()];
         }
@@ -3818,9 +3818,9 @@ public class SearchListActivity extends ListMeanViewActivity {
     private void showHideChangeLanguage() {
         int nDicType = DictDBManager.getAutoDicType(this.mEngine.getCurDict(), true, "");
         if (nDicType != this.mEngine.getCurDict()) {
-            this.mChangeLanguageBtn.setVisibility(0);
+            this.mChangeLanguageBtn.setVisibility(View.VISIBLE);
         } else {
-            this.mChangeLanguageBtn.setVisibility(8);
+            this.mChangeLanguageBtn.setVisibility(View.GONE);
         }
         setChangeLanguagBtn(this.mEngine.getCurDict());
     }
@@ -3829,9 +3829,9 @@ public class SearchListActivity extends ListMeanViewActivity {
     public void showClearButton(String str) {
         if (this.mClearBtn != null) {
             if (str.length() > 0) {
-                this.mClearBtn.setVisibility(0);
+                this.mClearBtn.setVisibility(View.VISIBLE);
             } else {
-                this.mClearBtn.setVisibility(4);
+                this.mClearBtn.setVisibility(View.INVISIBLE);
             }
         }
     }

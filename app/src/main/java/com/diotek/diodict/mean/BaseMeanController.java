@@ -337,7 +337,7 @@ public abstract class BaseMeanController {
             this.mContentTextView.setText("");
         }
         if (this.mBookmark != null) {
-            this.mBookmark.setVisibility(4);
+            this.mBookmark.setVisibility(View.INVISIBLE);
         }
         setTabViewEnable(false);
     }
@@ -361,10 +361,10 @@ public abstract class BaseMeanController {
             return false;
         }
         if (DioDictDatabase.existWordbookItem(this.mContext, this.mDicType, this.mWord, this.mSUID, -1)) {
-            this.mBookmark.setVisibility(0);
+            this.mBookmark.setVisibility(View.VISIBLE);
             return true;
         }
-        this.mBookmark.setVisibility(4);
+        this.mBookmark.setVisibility(View.INVISIBLE);
         return false;
     }
 
@@ -614,25 +614,25 @@ public abstract class BaseMeanController {
             LinearLayout tmpBtnLayout = this.mTabView.getButtonLayout(1);
             if (tmpBtnLayout != null) {
                 if (isAvailable_Mean()) {
-                    tmpBtnLayout.setVisibility(0);
+                    tmpBtnLayout.setVisibility(View.VISIBLE);
                 } else {
-                    tmpBtnLayout.setVisibility(8);
+                    tmpBtnLayout.setVisibility(View.GONE);
                 }
             }
             LinearLayout tmpBtnLayout2 = this.mTabView.getButtonLayout(2);
             if (tmpBtnLayout2 != null) {
                 if (isAvailable_Idiom()) {
-                    tmpBtnLayout2.setVisibility(0);
+                    tmpBtnLayout2.setVisibility(View.VISIBLE);
                 } else {
-                    tmpBtnLayout2.setVisibility(8);
+                    tmpBtnLayout2.setVisibility(View.GONE);
                 }
             }
             LinearLayout tmpBtnLayout3 = this.mTabView.getButtonLayout(3);
             if (tmpBtnLayout3 != null) {
                 if (isAvailable_Example()) {
-                    tmpBtnLayout3.setVisibility(0);
+                    tmpBtnLayout3.setVisibility(View.VISIBLE);
                 } else {
-                    tmpBtnLayout3.setVisibility(8);
+                    tmpBtnLayout3.setVisibility(View.GONE);
                 }
             }
             TextImageButton AllBtn = this.mTabView.getButton(0);

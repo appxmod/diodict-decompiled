@@ -124,19 +124,19 @@ public class HyperHistoryActivity extends HyperCommonActivity {
         this.mHistoryItemDeleteBtn.setOnClickListener(this.mHistoryItemDeleteBtnOnClickListener);
         this.mSaveBtn.setOnClickListener(this.mSaveBtnOnClickListener);
         LinearLayout meanToolbarLayout = (LinearLayout) findViewById(R.id.MeanToolbarLayout);
-        this.mMarkerBtn.setVisibility(8);
-        this.mFontBtn.setVisibility(8);
-        this.mMemoBtn.setVisibility(8);
-        meanToolbarLayout.setVisibility(0);
+        this.mMarkerBtn.setVisibility(View.GONE);
+        this.mFontBtn.setVisibility(View.GONE);
+        this.mMemoBtn.setVisibility(View.GONE);
+        meanToolbarLayout.setVisibility(View.VISIBLE);
         if (this.mIsBackgroundCheckedList) {
-            this.mHistoryItemEditBtn.setVisibility(8);
-            this.mHistoryItemSortBtn.setVisibility(8);
-            this.mHistoryItemDeleteBtn.setVisibility(0);
+            this.mHistoryItemEditBtn.setVisibility(View.GONE);
+            this.mHistoryItemSortBtn.setVisibility(View.GONE);
+            this.mHistoryItemDeleteBtn.setVisibility(View.VISIBLE);
             return;
         }
-        this.mHistoryItemEditBtn.setVisibility(0);
-        this.mHistoryItemSortBtn.setVisibility(0);
-        this.mHistoryItemDeleteBtn.setVisibility(8);
+        this.mHistoryItemEditBtn.setVisibility(View.VISIBLE);
+        this.mHistoryItemSortBtn.setVisibility(View.VISIBLE);
+        this.mHistoryItemDeleteBtn.setVisibility(View.GONE);
     }
 
     public boolean runKeyCodeBack() {

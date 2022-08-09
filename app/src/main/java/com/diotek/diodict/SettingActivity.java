@@ -350,7 +350,7 @@ public class SettingActivity extends BaseActivity {
     private void activeLayoutByDevice() {
         if (!Dependency.isContainHandWrightReocg()) {
             RelativeLayout recogTimeLayout = (RelativeLayout) findViewById(R.id.recogTime);
-            recogTimeLayout.setVisibility(8);
+            recogTimeLayout.setVisibility(View.GONE);
             return;
         }
         this.nVisibleLayoutCnt++;

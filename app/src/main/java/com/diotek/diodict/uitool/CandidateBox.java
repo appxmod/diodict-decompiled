@@ -94,12 +94,12 @@ public class CandidateBox {
     }
 
     public void show() {
-        this.mBox.setVisibility(0);
+        this.mBox.setVisibility(View.VISIBLE);
         this.isShow = true;
     }
 
     public void hide() {
-        this.mBox.setVisibility(8);
+        this.mBox.setVisibility(View.GONE);
         this.isShow = false;
         initCandiStringList();
     }

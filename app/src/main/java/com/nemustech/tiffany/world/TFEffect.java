@@ -85,8 +85,8 @@ public class TFEffect {
             TFEffect.this.mDecorLayout.setBackgroundColor(Color.argb(0, 0, 0, 0));
             if (TFEffect.this.mChildView[TFEffect.this.mStartIndex] != null && TFEffect.this.mChildView[TFEffect.this.mEndIndex] != null) {
                 TFEffect.this.mChildView[TFEffect.this.mEndIndex].bringToFront();
-                TFEffect.this.mChildView[TFEffect.this.mEndIndex].setVisibility(0);
-                TFEffect.this.mChildView[TFEffect.this.mStartIndex].setVisibility(4);
+                TFEffect.this.mChildView[TFEffect.this.mEndIndex].setVisibility(View.VISIBLE);
+                TFEffect.this.mChildView[TFEffect.this.mStartIndex].setVisibility(View.INVISIBLE);
             }
             TFEffect.this.mHandler.post(new Runnable() { // from class: com.nemustech.tiffany.world.TFEffect.17.1
                 @Override // java.lang.Runnable
@@ -415,8 +415,8 @@ public class TFEffect {
         this.mWorld.setRenderAffinity(2);
         if (this.mChildView[this.mStartIndex] != null && this.mChildView[this.mEndIndex] != null && !this.mTranslucent) {
             this.mChildView[this.mEndIndex].bringToFront();
-            this.mChildView[this.mEndIndex].setVisibility(0);
-            this.mChildView[this.mStartIndex].setVisibility(4);
+            this.mChildView[this.mEndIndex].setVisibility(View.VISIBLE);
+            this.mChildView[this.mStartIndex].setVisibility(View.INVISIBLE);
         }
         this.mHandler.post(new AnonymousClass1(modelsToDetach));
     }
@@ -679,11 +679,11 @@ public class TFEffect {
                         TFEffect.this.mAnimationEventListener.onAnimationStart(TFEffect.this.mEffectKind, TFEffect.this.mReverse);
                     }
                     if (TFEffect.this.mChildView[TFEffect.this.mStartIndex] != null) {
-                        TFEffect.this.mChildView[TFEffect.this.mStartIndex].setVisibility(4);
+                        TFEffect.this.mChildView[TFEffect.this.mStartIndex].setVisibility(View.INVISIBLE);
                     }
                     if (TFEffect.this.mOneWayAnimation && TFEffect.this.mChildView[1] != null) {
                         TFEffect.this.mChildView[1].bringToFront();
-                        TFEffect.this.mChildView[1].setVisibility(0);
+                        TFEffect.this.mChildView[1].setVisibility(View.VISIBLE);
                     }
                     TFEffect.this.mSurfaceView.setBackgroundDrawable(null);
                 }
@@ -1210,7 +1210,7 @@ public class TFEffect {
                             @Override // java.lang.Runnable
                             public void run() {
                                 TFEffect.this.mChildView[TFEffect.this.mEndIndex].bringToFront();
-                                TFEffect.this.mChildView[TFEffect.this.mEndIndex].setVisibility(0);
+                                TFEffect.this.mChildView[TFEffect.this.mEndIndex].setVisibility(View.VISIBLE);
                             }
                         });
                     }
@@ -1226,7 +1226,7 @@ public class TFEffect {
                                                 @Override // java.lang.Runnable
                                                 public void run() {
                                                     TFEffect.this.mChildView[TFEffect.this.mEndIndex].bringToFront();
-                                                    TFEffect.this.mChildView[TFEffect.this.mEndIndex].setVisibility(0);
+                                                    TFEffect.this.mChildView[TFEffect.this.mEndIndex].setVisibility(View.VISIBLE);
                                                 }
                                             });
                                         }
@@ -1346,9 +1346,9 @@ public class TFEffect {
                     TFEffect.this.mHandler.post(new Runnable() { // from class: com.nemustech.tiffany.world.TFEffect.16.1
                         @Override // java.lang.Runnable
                         public void run() {
-                            TFEffect.this.mChildView[1].setVisibility(4);
+                            TFEffect.this.mChildView[1].setVisibility(View.INVISIBLE);
                             TFEffect.this.mChildView[0].bringToFront();
-                            TFEffect.this.mChildView[0].setVisibility(0);
+                            TFEffect.this.mChildView[0].setVisibility(View.VISIBLE);
                         }
                     });
                 }
@@ -1549,7 +1549,7 @@ public class TFEffect {
                         @Override // java.lang.Runnable
                         public void run() {
                             TFEffect.this.mChildView[0].bringToFront();
-                            TFEffect.this.mChildView[0].setVisibility(0);
+                            TFEffect.this.mChildView[0].setVisibility(View.VISIBLE);
                         }
                     });
                 }
@@ -1578,9 +1578,9 @@ public class TFEffect {
                     TFEffect.this.mHandler.post(new Runnable() { // from class: com.nemustech.tiffany.world.TFEffect.25.1
                         @Override // java.lang.Runnable
                         public void run() {
-                            TFEffect.this.mChildView[1].setVisibility(4);
+                            TFEffect.this.mChildView[1].setVisibility(View.INVISIBLE);
                             TFEffect.this.mChildView[0].bringToFront();
-                            TFEffect.this.mChildView[0].setVisibility(0);
+                            TFEffect.this.mChildView[0].setVisibility(View.VISIBLE);
                         }
                     });
                 }
@@ -2125,7 +2125,7 @@ public class TFEffect {
         Window popupWindow = dlg.getWindow();
         final View decorView = popupWindow.getDecorView();
         decorView.setDrawingCacheEnabled(true);
-        decorView.setVisibility(4);
+        decorView.setVisibility(View.INVISIBLE);
         this.mHandler.post(new Runnable() { // from class: com.nemustech.tiffany.world.TFEffect.31
             @Override // java.lang.Runnable
             public void run() {

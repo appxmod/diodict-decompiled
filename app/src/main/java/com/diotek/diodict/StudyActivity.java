@@ -125,7 +125,7 @@ public class StudyActivity extends BaseActivity {
                 default:
                     return;
                 case 4:
-                    StudyActivity.this.mNextBtn.setVisibility(4);
+                    StudyActivity.this.mNextBtn.setVisibility(View.INVISIBLE);
                     StudyActivity.this.showInfoText(0);
                     if (StudyActivity.this.mCurrentWordPos == StudyActivity.this.mStudyTotalWordCount) {
                         StudyActivity.this.mStudyHandler.sendEmptyMessage(2);
@@ -139,7 +139,7 @@ public class StudyActivity extends BaseActivity {
                     StudyActivity.this.mMeanController.setNextTitleView();
                     StudyActivity.this.mMeanWordCount.setText((StudyActivity.this.mCurrentWordPos + 1) + "/" + StudyActivity.this.mStudyTotalWordCount);
                     StudyActivity.this.setAnswerBtnClick(true);
-                    StudyActivity.this.mMeanWordCount.setVisibility(0);
+                    StudyActivity.this.mMeanWordCount.setVisibility(View.VISIBLE);
                     StudyActivity.this.speakTTS();
                     return;
                 case 5:
@@ -147,7 +147,7 @@ public class StudyActivity extends BaseActivity {
                     StudyActivity.this.showMeanView();
                     return;
                 case 6:
-                    StudyActivity.this.mNextBtn.setVisibility(4);
+                    StudyActivity.this.mNextBtn.setVisibility(View.INVISIBLE);
                     if (StudyActivity.this.mCurrentWordPos >= StudyActivity.this.mStudyTotalWordCount) {
                         if (StudyActivity.this.mCurrentWordPos == StudyActivity.this.mStudyTotalWordCount) {
                             StudyActivity.this.hideQuestionContentImageView();
@@ -163,7 +163,7 @@ public class StudyActivity extends BaseActivity {
                     StudyActivity.this.mMeanController.setTitleViewByPos(((Integer) StudyActivity.this.mStudyList.get(StudyActivity.this.mCurrentWordPos)).intValue(), 0);
                     StudyActivity.this.mMeanWordCount.setText((StudyActivity.this.mCurrentWordPos + 1) + "/" + StudyActivity.this.mStudyTotalWordCount);
                     StudyActivity.this.setAnswerBtnClick(true);
-                    StudyActivity.this.mMeanWordCount.setVisibility(0);
+                    StudyActivity.this.mMeanWordCount.setVisibility(View.VISIBLE);
                     StudyActivity.this.speakTTS();
                     return;
             }
@@ -324,7 +324,7 @@ public class StudyActivity extends BaseActivity {
         @Override // com.diotek.diodict.mean.ExtendTextView.AfterSetMeanViewCallback
         public int afterSetMean() {
             if (StudyActivity.this.mNextBtn != null) {
-                StudyActivity.this.mNextBtn.setVisibility(0);
+                StudyActivity.this.mNextBtn.setVisibility(View.VISIBLE);
             }
             StudyActivity.this.setSpeakUsUkBtn();
             StudyActivity.this.speakTTS();
@@ -488,7 +488,7 @@ public class StudyActivity extends BaseActivity {
         if (Dependency.isContainCradleMode()) {
             this.mCradleBtn = (Button) findViewById(R.id.CradleBtn);
         } else {
-            findViewById(R.id.CradleBtn).setVisibility(8);
+            findViewById(R.id.CradleBtn).setVisibility(View.GONE);
         }
         this.mStudyBtn = (Button) findViewById(R.id.StudyBtn);
         this.mDictationBtn = (Button) findViewById(R.id.DictationBtn);
@@ -499,7 +499,7 @@ public class StudyActivity extends BaseActivity {
         }
         this.mDictationBtn.setOnClickListener(this.mDictationBtnOnClickListener);
         if (!Dependency.isContainHandWrightReocg() || EngineManager3rd.getSupporTTS() == null) {
-            this.mDictationBtn.setVisibility(8);
+            this.mDictationBtn.setVisibility(View.GONE);
         }
         prepareContentEffectBtn();
     }
@@ -544,9 +544,9 @@ public class StudyActivity extends BaseActivity {
         this.mMeanWordCount.setText(String.valueOf(this.mWordCount - this.mCurrentWordPos) + "/" + this.mWordCount);
         setUsUkBtnChecked();
         if (!Dependency.isContainTTS()) {
-            this.mSpeakerOnOffBtn.setVisibility(8);
-            this.mUsBtn.setVisibility(8);
-            this.mUkBtn.setVisibility(8);
+            this.mSpeakerOnOffBtn.setVisibility(View.GONE);
+            this.mUsBtn.setVisibility(View.GONE);
+            this.mUkBtn.setVisibility(View.GONE);
         }
         prepareStudyInfoLayout();
     }
@@ -602,7 +602,7 @@ public class StudyActivity extends BaseActivity {
                 if (CommonUtils.isQVGADevice(this)) {
                     ImageView resultImage = (ImageView) findViewById(R.id.ResultStateImageView);
                     if (resultImage != null) {
-                        resultImage.setVisibility(8);
+                        resultImage.setVisibility(View.GONE);
                     }
                     RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) layout.getLayoutParams();
                     if (param != null) {
@@ -675,15 +675,15 @@ public class StudyActivity extends BaseActivity {
         } else {
             prepareMeanController(this.mStudyList.get(this.mCurrentWordPos).intValue());
             this.mMeanController.setTitleViewByPos(this.mStudyList.get(this.mCurrentWordPos).intValue(), 0);
-            this.mQuestionLayout.setVisibility(0);
-            this.mNextBtn.setVisibility(4);
-            this.mMeanWordCount.setVisibility(0);
+            this.mQuestionLayout.setVisibility(View.VISIBLE);
+            this.mNextBtn.setVisibility(View.INVISIBLE);
+            this.mMeanWordCount.setVisibility(View.VISIBLE);
             this.mMeanWordCount.setText((this.mCurrentWordPos + 1) + "/" + this.mStudyTotalWordCount);
             showInfoText(0);
             setSpeakUsUkBtn();
             speakTTS();
         }
-        this.mAnswerLayout.setVisibility(8);
+        this.mAnswerLayout.setVisibility(View.GONE);
         setAnswerBtnClick(true);
     }
 
@@ -691,8 +691,8 @@ public class StudyActivity extends BaseActivity {
         if (answer == 1) {
             playFeedback(0);
             setAnswerBtnClick(false);
-            this.mCorrectImageView.setVisibility(0);
-            this.mCorrectDioboy.setVisibility(0);
+            this.mCorrectImageView.setVisibility(View.VISIBLE);
+            this.mCorrectDioboy.setVisibility(View.VISIBLE);
             this.mCorrectAnswerCount++;
             if (this.mCurrentWordPos < this.mStudyList.size()) {
                 List<Integer> list = this.mStudyCorrectPosList;
@@ -704,8 +704,8 @@ public class StudyActivity extends BaseActivity {
         } else if (answer == 2) {
             playFeedback(1);
             setAnswerBtnClick(false);
-            this.mWrongImageView.setVisibility(0);
-            this.mWrongDioboy.setVisibility(0);
+            this.mWrongImageView.setVisibility(View.VISIBLE);
+            this.mWrongDioboy.setVisibility(View.VISIBLE);
             this.mWrongAnswerCount++;
             if (this.mCurrentWordPos < this.mStudyList.size()) {
                 List<Integer> list3 = this.mStudyWrongPosList;
@@ -715,7 +715,7 @@ public class StudyActivity extends BaseActivity {
                 list3.add(list4.get(i2));
             }
         }
-        this.mMeanWordCount.setVisibility(8);
+        this.mMeanWordCount.setVisibility(View.GONE);
         sendMessages();
     }
 
@@ -826,8 +826,8 @@ public class StudyActivity extends BaseActivity {
 
     public void setResultLayout(boolean playResultSound) {
         this.mStateStudy = 1;
-        this.mQuestionLayout.setVisibility(8);
-        this.mAnswerLayout.setVisibility(0);
+        this.mQuestionLayout.setVisibility(View.GONE);
+        this.mAnswerLayout.setVisibility(View.VISIBLE);
         showInfoText(4);
         int correctWordCount = this.mStudyCorrectPosList == null ? 0 : this.mStudyCorrectPosList.size();
         int wrongWordCount = this.mStudyWrongPosList == null ? 0 : this.mStudyWrongPosList.size();
@@ -868,30 +868,30 @@ public class StudyActivity extends BaseActivity {
     }
 
     public void hideQuestionContentImageView() {
-        this.mCorrectImageView.setVisibility(8);
-        this.mWrongImageView.setVisibility(8);
-        this.mCorrectDioboy.setVisibility(8);
-        this.mWrongDioboy.setVisibility(8);
+        this.mCorrectImageView.setVisibility(View.GONE);
+        this.mWrongImageView.setVisibility(View.GONE);
+        this.mCorrectDioboy.setVisibility(View.GONE);
+        this.mWrongDioboy.setVisibility(View.GONE);
     }
 
     public void hideMeanView() {
         this.mIsTitleOnly = true;
-        this.mMeanInfoTextView.setVisibility(0);
-        this.mCorrectBtn.setVisibility(0);
-        this.mWrongBtn.setVisibility(0);
-        this.mMeanScrollView.setVisibility(8);
+        this.mMeanInfoTextView.setVisibility(View.VISIBLE);
+        this.mCorrectBtn.setVisibility(View.VISIBLE);
+        this.mWrongBtn.setVisibility(View.VISIBLE);
+        this.mMeanScrollView.setVisibility(View.GONE);
     }
 
     public void showMeanView() {
         this.mIsTitleOnly = false;
         showInfoText(4);
         this.mMeanTitleView.setText("");
-        this.mMeanInfoTextView.setVisibility(8);
-        this.mCorrectBtn.setVisibility(4);
-        this.mWrongBtn.setVisibility(4);
+        this.mMeanInfoTextView.setVisibility(View.GONE);
+        this.mCorrectBtn.setVisibility(View.INVISIBLE);
+        this.mWrongBtn.setVisibility(View.INVISIBLE);
         this.mMeanController.setMeanViewByPos(this.mStudyList.get(this.mCurrentWordPos - 1).intValue(), 0);
-        this.mMeanScrollView.setVisibility(0);
-        this.mMeanWordCount.setVisibility(8);
+        this.mMeanScrollView.setVisibility(View.VISIBLE);
+        this.mMeanWordCount.setVisibility(View.GONE);
         this.mMeanTitleView.setTextSize(1, this.mMeanController.getTitleFontSize(this.mIsTitleOnly));
         this.mMeanTitleView.requestLayout();
     }
@@ -958,17 +958,17 @@ public class StudyActivity extends BaseActivity {
                 nLang = EngineInfo3rd.TTS_CHINESE;
             }
             if (DictUtils.checkExistSecoundTTSFile(nLang)) {
-                this.mUsBtn.setVisibility(0);
-                this.mUkBtn.setVisibility(0);
+                this.mUsBtn.setVisibility(View.VISIBLE);
+                this.mUkBtn.setVisibility(View.VISIBLE);
                 setUsUkBtnChecked();
                 return;
             }
-            this.mUsBtn.setVisibility(4);
-            this.mUkBtn.setVisibility(4);
+            this.mUsBtn.setVisibility(View.INVISIBLE);
+            this.mUkBtn.setVisibility(View.INVISIBLE);
             return;
         }
-        this.mUsBtn.setVisibility(4);
-        this.mUkBtn.setVisibility(4);
+        this.mUsBtn.setVisibility(View.INVISIBLE);
+        this.mUkBtn.setVisibility(View.INVISIBLE);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1001,7 +1001,7 @@ public class StudyActivity extends BaseActivity {
                     if ((!this.mIsSpeakOn) != this.mSpeakerOnOffBtn.isChecked()) {
                         this.mSpeakerOnOffBtn.setChecked(!this.mIsSpeakOn);
                     }
-                    this.mSpeakerOnOffBtn.setVisibility(0);
+                    this.mSpeakerOnOffBtn.setVisibility(View.VISIBLE);
                     switch (codepage) {
                         case 0:
                         case DictInfo.CP_1250 /* 1250 */:
@@ -1024,7 +1024,7 @@ public class StudyActivity extends BaseActivity {
                     }
                 }
                 showUsUkBtn(false);
-                this.mSpeakerOnOffBtn.setVisibility(4);
+                this.mSpeakerOnOffBtn.setVisibility(View.INVISIBLE);
             }
         }
     }
