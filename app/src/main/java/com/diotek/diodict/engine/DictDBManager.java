@@ -1040,4 +1040,9 @@ public class DictDBManager {
         }
         return false;
     }
+	
+	public static boolean isOxfordChineseTrad(int nDicType) {
+		return false;//nDicType == mContext.getResources().getInteger(R.dbtype.DEDT_OXFORD_ENGTOTRAD) || nDicType == mContext.getResources().getInteger(R.dbtype.DEDT_OXFORD_TRADTOENG) || nDicType == mContext.getResources().getInteger(R.dbtype.DEDT_OXFORD_PINYIN_TRADTOENG) || nDicType == mContext.getResources().getInteger(R.dbtype.DEDT_OXFORD_ZHUYIN_TRADTOENG);
+	}
+	
 }

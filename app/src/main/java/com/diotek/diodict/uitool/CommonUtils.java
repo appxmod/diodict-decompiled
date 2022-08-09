@@ -134,8 +134,22 @@ public class CommonUtils {
     public static boolean isPlaying() {
         return TTSEngine.isPlaying();
     }
-
-    public static int getTTSLanguage(String word, int dbType) {
+	
+	private static final String TILDE = "~";
+	
+	public static int getTTSLanguage(String keyword, String word, int dbType) {
+		if (word == null || word.isEmpty() || keyword == null || keyword.isEmpty()) {
+			return 0;
+		}
+		String ttsWord = word;
+		if (word.contains(TILDE)) {
+			ttsWord = ttsWord.replace(TILDE, keyword);
+		}
+		int Language = getTTSLanguage(ttsWord, dbType);
+		return Language;
+	}
+	
+	public static int getTTSLanguage(String word, int dbType) {
         int Language = -1;
         if (word == null || word.length() == 0) {
             return -1;
@@ -604,4 +618,11 @@ public class CommonUtils {
         }
         return mDensity;
     }
+	
+	public static void setNextWordCallback(TTSEngine.OnTTSPlayed callback) {
+		if (Dependency.isContainTTS()/* && BaseActivity.mTTSEngine != null*/) {
+			TTSEngine.setNextWordCallback(callback);
+		}
+	}
+	
 }

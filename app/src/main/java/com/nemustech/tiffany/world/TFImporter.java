@@ -390,6 +390,7 @@ public abstract class TFImporter {
         }
 
         protected void expandLines() {
+			System.out.println("expandLines::");
             float[][] old = this.mLines;
             int len = old != null ? old.length : 0;
             this.mLines = new float[len + 256][];
@@ -455,6 +456,7 @@ public abstract class TFImporter {
         }
 
         protected void expandLines() {
+			System.out.println("expandLines::");
             int[][] old = this.mLines;
             int len = old != null ? old.length : 0;
             this.mLines = new int[len + 256][];
@@ -520,6 +522,7 @@ public abstract class TFImporter {
         }
 
         protected void expandLines() {
+			System.out.println("expandLines::");
             short[][] old = this.mLines;
             int len = old != null ? old.length : 0;
             this.mLines = new short[len + 256][];

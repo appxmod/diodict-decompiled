@@ -629,6 +629,7 @@ public class DictUtils {
 	
 	
 	public static int getCodePage(char ch) {
+		System.out.println("getCodePage!!!"+ch);
         if (ch == '[' || ch == '(' || ch == 173 || ch == 175 || ch == 183 || ch == 168 || ch == 183 || ch == 176 || ch == 180 || ch == 184) {
             return -1;
         }

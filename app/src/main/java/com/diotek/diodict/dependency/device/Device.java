@@ -107,4 +107,8 @@ public abstract class Device {
     public boolean checkFocusableModel() {
         return Build.MODEL.equals("GT-B9120") || Build.MODEL.equals("GT-B5330");
     }
+	
+	public boolean useTTSDownload() {
+		return false;
+	}
 }

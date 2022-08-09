@@ -2,6 +2,10 @@ package com.diotek.diodict.engine;
 
 import android.app.AlertDialog;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /* loaded from: classes.dex */
 public class DictInfo {
     public static final int CP_1250 = 1250;
@@ -172,4 +176,8 @@ public class DictInfo {
     public static String mCurrentDBName = null;
     public static int mDictationResId = -1895825408;
     public static int MAX_HYPERTEXTWORD_LENGTH = 50;
+	
+	public static List<Integer> getAllTTSTable() {
+		return new ArrayList<Integer>();
+	}
 }

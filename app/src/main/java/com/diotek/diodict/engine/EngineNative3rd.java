@@ -204,6 +204,7 @@ public class EngineNative3rd {
         } catch (UnsatisfiedLinkError e) {
             Log.e("JNI", "Warning: Could not load " + DictInfo.DIODICT_LIB_NAME);
             setLastErr(-1);
+			e.printStackTrace();
         }
     }
 

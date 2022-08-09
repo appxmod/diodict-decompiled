@@ -135,6 +135,7 @@ public abstract class TFSingleEffect3D {
     }
 
     public void layoutModelOverView(TFModel m, View v) {
+		System.out.println("layoutModelOverView::");
 		int[] tmp = {0,0};
 		v.getLocationInWindow(tmp);
         int[] uiCoord = {0, 0, v.getWidth(), v.getHeight()};
