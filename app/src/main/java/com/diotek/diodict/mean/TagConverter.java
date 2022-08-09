@@ -355,6 +355,7 @@ public class TagConverter {
 									TagConverter.this.mTagHandler[value].handleTag_End(inner_tag);
 									TagConverter.this.StyleStack_Pop(tag);
 								}
+								continue;
 							}
 						}
 						TagConverter.this.mStringBuilder.appendCodePoint(TagConverter.this.mSource.codePointAt(TagConverter.access$808(TagConverter.this)));
