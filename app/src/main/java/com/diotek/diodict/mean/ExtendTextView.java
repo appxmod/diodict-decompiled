@@ -31,6 +31,7 @@ import com.diotek.diodict.database.DioDictDatabase;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.engine.DictUtils;
 import com.diotek.diodict.uitool.CommonUtils;
+import com.diotek.diodict.utils.GlobalOptions;
 import com.diotek.diodict3.phone.samsung.chn.R;
 import java.util.ArrayList;
 import java.util.List;
@@ -1301,12 +1302,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                 this.mPopupBaseX = super.getWidth() - popupWidth;
             }
             if (this.mTextSelectRightGrip != null && this.mTextSelectRightGrip.isShowing()) {
+				final int pad = (int) (18 * GlobalOptions.density);
                 if ((this.mLeftGripPosition[1] - popupHeight) - this.mScrollView.getScrollY() > 0) {
-                    this.mPopupBaseY = (this.mLeftGripPosition[1] - popupHeight) - 10;
+                    this.mPopupBaseY = (this.mLeftGripPosition[1] - popupHeight) - pad;
                 } else if ((this.mRightGripPosition[1] - this.mScrollView.getScrollY()) + popupHeight + this.mGripHeight < this.mScrollView.getHeight()) {
-                    this.mPopupBaseY = this.mRightGripPosition[1] + this.mGripHeight + 10;
+                    this.mPopupBaseY = this.mRightGripPosition[1] + this.mGripHeight + pad;
                 } else {
-                    this.mPopupBaseY = (this.mLeftGripPosition[1] - popupHeight) - 10;
+                    this.mPopupBaseY = (this.mLeftGripPosition[1] - popupHeight) - pad;
                 }
             }
             if (this.mTextSelectPopupMenu != null) {

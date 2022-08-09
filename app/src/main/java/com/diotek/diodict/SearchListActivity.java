@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -1008,6 +1009,12 @@ public class SearchListActivity extends ListMeanViewActivity {
             });
         }
         initActivity(true);
+	
+		if (GlobalOptions.density==0) {
+			DisplayMetrics dm = new DisplayMetrics();
+			getDisplay().getMetrics(dm);
+			GlobalOptions.density = dm.density;
+		}
 		
 		// automatically dismiss the text relocation dialog
 		if (!GlobalOptions.hideTextRecDlg) {
