@@ -14,6 +14,7 @@ import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.mean.CodeBlock;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.uitool.CommonUtils;
+import com.diotek.diodict.utils.CMN;
 import com.diotek.diodict3.phone.samsung.chn.R;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,6 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /* loaded from: classes.dex */
@@ -515,79 +517,15 @@ public class DictUtils {
         To view partially-correct code enable 'Show inconsistent code' option in preferences
     */
     public static int getCodePage(java.lang.String word) {
-		int ret = getCodePage_real(word);
-		System.out.println("fatal getCodePage!"+word+" = "+ret);
-		return ret;
-	}
-	
-    public static int getCodePage_real(java.lang.String word) {
-//        throw new UnsupportedOperationException("Method not decompiled: com.diotek.diodict.engine.DictUtils.getCodePage(java.lang.String):int");
-//		int codepage = -1;
-//		boolean bSpecialChar = false;
-//		int len = word.length();
-//		for (int i = 0; i < len; i++) {
-//			char c = word.charAt(i);
-//			if (c != '[' && c != '(' && c != 173 && c != 175 && c != 183 && c != 168 && c != 183 && c != 176 && c != 180 && c != 184) {
-//				if ((c >= 192 && c <= 255) || ((c >= 256 && c <= 679) || ((c >= 7680 && c <= 7935) || c == 8491 || (c >= 7263 && c <= 7272)))) {
-//					codepage = DictInfo.CP_LT1;
-//					break;
-//				}
-//			} else {
-//				break;
-//			}
-//		}
-//		final char test = 'A';
-//		if (!ISLATIN_CP(codepage)) {
-//			codepage = DictInfo.CP_CHN;
-//			int i = 0;
-//			while (i<len) {
-//				char c = word.charAt(i);
-//				if ((c < 4352 || c > 4607) && ((c < 12592 || c > 12687) && (c < 44032 || c > 55215))) {
-//					if ((c < 11904 || c > 12031) && ((c < 12544 || c > 12591) && ((c < 12704 || c > 12735) && ((c < 13312 || c > 19903) && ((c < 19968 || c > 40879) && ((c < 63744 || c > 64050) && c != 64132 && c != 64133 && c != 64147 && c != 64148 && c != 64150 && ((c < 64177 || c > 64255) && ((c < 63639 || c > 63686) && ((c < 63688 || c > 63725) && ((c < 63728 || c > 63729) && ((c < 63732 || c > 63743) && ((c < 6144 || c > 7254) && ((c < 57554 || c > 57555) && c != 63537))))))))))))) {
-//						if ((c < 12352 || c > 12447) && (c < 12448 || c > 12543)) {
-//							if (c >= 1024 && c <= 1279) {
-//								codepage = DictInfo.CP_CRL;
-//								break;
-//							} else if ((c < 'A' || c > 'Z') && ((c < 'a' || c > 'z') && ((c < 192 || c > 246) && ((c < 248 || c > 255) && !isDioSymbolAlphabet(c))))) {
-//								if (c >= '!' && c <= '~') {
-//									bSpecialChar = true;
-//								}
-//							}
-//						}
-//					}
-//				}
-//				i++;
-//			}
-//		}
-//		if (codepage != 0 && codepage != DictInfo.CP_CHN && codepage != 932 && codepage != 949 && !ISLATIN_CP(codepage) && codepage != 21866) {
-//			if (bSpecialChar) {
-//				return 0;
-//			}
-//			return -1;
-//		}
-//		return DictInfo.CP_KOR;
-//		int cp = DictInfo.CP_LT1;
-//		for (int i = 0; i < word.length(); i++) {
-//			char c = word.charAt(i);
-//			int typ = Character.getType(c);
-//			if (typ == Character.LOWERCASE_LETTER || typ == Character.UPPERCASE_LETTER) {
-//
-//			} else {
-//				cp = getCodePage(c);
-//				if (cp==DictInfo.CP_KOR) {
-//					cp = DictInfo.CP_KOR;
-//					break;
-//				}
-//				if (cp==DictInfo.CP_CHN) {
-//					cp = DictInfo.CP_CHN;
-//				}
-//			}
-//		}
-//		return cp;
 		if (patternKor.matcher(word).find()) {
 			return DictInfo.CP_KOR;
 		}
-		if (patternHan.matcher(word).find()) {
+		Matcher m = patternHan.matcher(word);
+		if (m.find()) {
+			int st = m.start();
+			if (patternEn.matcher(word.substring(0, st)).find()) {
+				return DictInfo.CP_LT1;
+			}
 			return DictInfo.CP_CHN;
 		}
 		return DictInfo.CP_LT1;
@@ -595,6 +533,7 @@ public class DictUtils {
 	
 	final static Pattern patternKor = Pattern.compile("\\p{IsHangul}");
 	final static Pattern patternHan = Pattern.compile("\\p{IsHan}");
+	final static Pattern patternEn = Pattern.compile("[a-zA-Z]");
 	
 	
 	public static boolean isLatinCP(int codepage) {
