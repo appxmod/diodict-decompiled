@@ -1334,7 +1334,7 @@ public class TagConverter {
             } else {
 				int v1 = this.mDspIdxList.size() - 1<0?-100 : this.mDspIdxList.get(this.mDspIdxList.size() - 1).display_mask;
 				int v2 = this.mStyleStack.size() - 2<0?-100 :  this.mStyleStack.get(this.mStyleStack.size() - 2).dspMode;
-				if (v1 != v2/* && v1!=-100 && v2!=-100*/) {
+				if (v1 != v2 && v1!=-100 && v2!=-100) {
 					this.mDspIdxList.get(this.mDspIdxList.size() - 1).end = this.mDstIndex - 1;
 					DictPos item2 = new DictPos();
 					item2.display_mask = this.mStyleStack.get(this.mStyleStack.size() - 2).dspMode;
