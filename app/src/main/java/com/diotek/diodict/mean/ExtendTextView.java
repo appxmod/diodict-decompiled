@@ -25,10 +25,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.diotek.diodict.CMN;
 import com.diotek.diodict.database.DioDictDatabase;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.engine.DictUtils;
-import com.diotek.diodict.mean.TagConverter;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict3.phone.samsung.chn.R;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private int mCurSuid;
     private int mDisplayMode;
     protected AfterSetMeanViewCallback mFinishDrawMeanCallback;
-    private GestureDetector mGestureDetector;
+    private GestureDetector flingDetector;
     private ExtendTextCallback mGoogleSearchCallback;
     private int mGripHeight;
     private int mGripWidth;
@@ -535,7 +536,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
         initializeSelectTextArea();
         this.mSelectTextMode = 0;
-        this.mGestureDetector = new GestureDetector(context, this);
+        this.flingDetector = new GestureDetector(context, this);
+		this.flingDetector.setIsLongpressEnabled(false);
         this.mSwipeThreshold = (int) (100.0f * getResources().getDisplayMetrics().density);
         this.mTextLineSelect = false;
         this.mGripWidth = getResources().getDimensionPixelSize(R.dimen.mean_extendView_gripWidth);
@@ -804,54 +806,58 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
         return nLine;
     }
-
+	
+	@Override // android.view.GestureDetector.OnGestureListener
+	public boolean onFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
+		if (!this.mMarkerable && !isActiveTextSelectGrip()
+				|| !this.mIsMarkerMode && !this.mTextLineSelect && !isActiveTextSelectGrip()) {
+			float absX = Math.abs(velocityX);
+			float absY = Math.abs(velocityY);
+			float deltaX = me2.getX() - me1.getX();
+			int travelX = getWidth() / 4;
+			if (velocityX > this.mSwipeThreshold && absY < absX && deltaX > travelX) {
+				startFlickRight();
+				return true;
+			} else if (velocityX < (-this.mSwipeThreshold) && absY < absX && deltaX < (-travelX)) {
+				startFlickLeft();
+				return true;
+			}
+		}
+		return false;
+	}
+	
     @Override // android.widget.TextView, android.view.View
     public boolean onTouchEvent(MotionEvent event) {
-        if (!this.mMarkerable && !isActiveTextSelectGrip()) {
-            if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-                //event.setAction(MotionEvent.ACTION_UP);
-                boolean retValue = this.mGestureDetector.onTouchEvent(event);
-                if (retValue) {
-                    return retValue;
-                }
-                //event.setAction(MotionEvent.ACTION_CANCEL);
-            } else {
-                boolean retValue2 = this.mGestureDetector.onTouchEvent(event);
-                if (retValue2) {
-                    return retValue2;
-                }
-            }
-            return super.onTouchEvent(event);
-        }
-        if (!this.mIsMarkerMode && !this.mTextLineSelect && !isActiveTextSelectGrip()) {
-            if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-                //event.setAction(MotionEvent.ACTION_UP);
-                boolean retValue3 = this.mGestureDetector.onTouchEvent(event);
-                if (retValue3) {
-                    return retValue3;
-                }
-                //event.setAction(MotionEvent.ACTION_CANCEL);
-            } else {
-                boolean retValue4 = this.mGestureDetector.onTouchEvent(event);
-                if (retValue4) {
-                    return retValue4;
-                }
-            }
-        }
-        if (this.isRemoveMode && this.mIsMarkerMode) {
-            handleRemoveMarker(event);
-            return true;
-        } else if (this.mIsMarkerMode) {
-            return onTouchEventInLocalForLineSelect(event);
-        } else {
-            if (onTouchEventForGrip(event)) {
-                return true;
-            }
-            if (this.mTextLineSelect) {
-                return onTouchEventInLocalForLineSelect(event);
-            }
-            return onTouchEventInLocalForWordSelect(event);
-        }
+		int action = event.getActionMasked();
+		if (action!=MotionEvent.ACTION_POINTER_DOWN) {
+			try {
+				boolean flingEvent = this.flingDetector.onTouchEvent(event);
+				// CMN.Log("flingEvent::", flingEvent, event.getActionMasked());
+				if (flingEvent) {
+					//this.flingDetector = new GestureDetector(getContext(), this);
+					return flingEvent;
+				}
+			} catch (Exception e) {
+				CMN.Log(e);
+			}
+		}
+		if (this.mMarkerable || isActiveTextSelectGrip()) {
+			if (this.isRemoveMode && this.mIsMarkerMode) {
+				handleRemoveMarker(event);
+				return true;
+			} else if (this.mIsMarkerMode) {
+				return onTouchEventInLocalForLineSelect(event);
+			} else {
+				if (onTouchEventForGrip(event)) {
+					return true;
+				}
+				if (this.mTextLineSelect) {
+					return onTouchEventInLocalForLineSelect(event);
+				}
+				return onTouchEventInLocalForWordSelect(event);
+			}
+		}
+		return super.onTouchEvent(event);
     }
 
     private void handleRemoveMarker(MotionEvent event) {
@@ -1844,23 +1850,6 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     @Override // android.view.GestureDetector.OnGestureListener
     public boolean onDown(MotionEvent arg0) {
         return false;
-    }
-
-    @Override // android.view.GestureDetector.OnGestureListener
-    public boolean onFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-        float absX = Math.abs(velocityX);
-        float absY = Math.abs(velocityY);
-        float deltaX = me2.getX() - me1.getX();
-        int travelX = getWidth() / 4;
-        if (velocityX > this.mSwipeThreshold && absY < absX && deltaX > travelX) {
-            startFlickRight();
-            return true;
-        } else if (velocityX < (-this.mSwipeThreshold) && absY < absX && deltaX < (-travelX)) {
-            startFlickLeft();
-            return true;
-        } else {
-            return false;
-        }
     }
 
     private void startFlickLeft() {
