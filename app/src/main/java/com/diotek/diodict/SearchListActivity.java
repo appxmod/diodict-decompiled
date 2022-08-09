@@ -39,6 +39,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -83,6 +84,9 @@ import com.diotek.diodict.uitool.TabView;
 import com.diotek.diodict.uitool.TextImageButton;
 import com.diotek.diodict.uitool.UITools;
 import com.diotek.diodict.uitool.WordListAdapter;
+import com.diotek.diodict.utils.CMN;
+import com.diotek.diodict.utils.F1ag;
+import com.diotek.diodict.utils.GlobalOptions;
 import com.diotek.diodict3.phone.DioAuthActivity;
 import com.diotek.diodict3.phone.samsung.chn.R;
 import java.util.ArrayList;
@@ -1004,6 +1008,42 @@ public class SearchListActivity extends ListMeanViewActivity {
             });
         }
         initActivity(true);
+		
+		// automatically dismiss the text relocation dialog
+		if (!GlobalOptions.hideTextRecDlg) {
+			GlobalOptions.hideTextRecDlg = true;
+			F1ag fag = new F1ag();
+			Runnable findWndRun = new Runnable() {
+				@Override
+				public void run() {
+					//ViewUtils.logAllViews();
+					//mHandler.postDelayed(this, 1000);
+					try {
+						List<View> wnds = ViewUtils.getWindowManagerViews(SearchListActivity.this);
+						if (wnds.size()>=3) {
+							for (int i = 0; i < wnds.size(); i++) {
+								View sv = ((ViewGroup)wnds.get(i)).getChildAt(0);
+								sv = ViewUtils.getViewItemByClass(sv, 0, FrameLayout.class, FrameLayout.class, View.class, ScrollView.class);
+								// CMN.Log("wnds.get(i)::", wnds.get(i), wnds.get(i) instanceof ViewGroup);
+								if (sv!=null) {
+									sv = sv.findViewById(android.R.id.button1);
+									if (sv!=null) {
+										sv.performClick();
+										return;
+									}
+								}
+							}
+						}
+					} catch (Exception e) {
+						CMN.debug(e);
+					}
+					if (fag.val++<3) {
+						mHandler.postDelayed(this, 250);
+					}
+				}
+			};
+			mHandler.postDelayed(findWndRun, 200);
+		}
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity

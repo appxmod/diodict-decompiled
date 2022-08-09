@@ -26,7 +26,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.diotek.diodict.CMN;
+import com.diotek.diodict.utils.CMN;
 import com.diotek.diodict.database.DioDictDatabase;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.engine.DictUtils;

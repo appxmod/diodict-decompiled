@@ -33,9 +33,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "boolean","isDebug","true"
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            buildConfigField "boolean","isDebug","false"
         }
     }
 
@@ -56,5 +60,16 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.annotation:annotation:1.3.0'
+
     // some dependencies
+
+    compileOnly libs_metaline
+    annotationProcessor libs_metaline
+    testImplementation libs_metaline
+    testAnnotationProcessor libs_metaline
+
+//    api libs_core
+    api libs_clang
+
 }

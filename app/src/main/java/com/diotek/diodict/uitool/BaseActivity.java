@@ -46,6 +46,8 @@ import com.diotek.diodict.engine.EngineNative3rd;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict3.phone.samsung.chn.R;
 
+import java.util.List;
+
 /* loaded from: classes.dex */
 public abstract class BaseActivity extends Activity {
     protected static int FINISH_ACTIVITY = -5;
@@ -54,7 +56,9 @@ public abstract class BaseActivity extends Activity {
     public static final int REQUEST_CODE_HISTORY = 1003;
     public static final int REQUEST_CODE_HYPERSEARCH = 1004;
     public static final int RESET_ALL_ACTIVITY = 1001;
-    protected TextView mSearchDBNameTextView = null;
+	public List<View> wViews;
+	
+	protected TextView mSearchDBNameTextView = null;
     private View mRunnableTTSBtn = null;
     public Handler mHandler = new Handler();
     public TiffanyTransition mTfTrans = null;

@@ -6,7 +6,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.Toast;
 
-import com.diotek.diodict.CMN;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict3.phone.samsung.chn.R;
