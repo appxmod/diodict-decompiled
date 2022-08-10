@@ -789,10 +789,6 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 			orgY = (int) event.getY();
 		}
 		mMarkerable = true;
-//		if (!this.mIsEnableTextSelect) {
-//			startFlickLeft();
-//			return true;
-//		}
 
 //		mTextLineSelect = true;
 //		mIsEnableTextSelect = true;
@@ -815,6 +811,11 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 					return true;
 				}
 			}
+		}
+		if (!mIsEnableTextSelect && !gripShowing() && action==MotionEvent.ACTION_UP){
+			removeCallbacks(longPressTextRun);
+			startFlickLeft();
+			return true;
 		}
 		if(!mIsEnableTextSelect && action==MotionEvent.ACTION_DOWN){
 			// enable text selection for longPress even when the view is collapsed
