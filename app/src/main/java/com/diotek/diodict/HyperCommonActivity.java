@@ -147,7 +147,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
         @Override // com.diotek.diodict.mean.HyperSimpleViewModule.HyperSimpleViewModuleCallback
         public void runExitBtn() {
             if (HyperCommonActivity.this.mHyperDetailMeanContentTextView != null) {
-                HyperCommonActivity.this.mHyperDetailMeanContentTextView.initTextSelect();
+                HyperCommonActivity.this.mHyperDetailMeanContentTextView.clearSelection();
             }
         }
     };
@@ -744,7 +744,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: protected */
     public void runSaveBtn() {
         if (this.mHyperDetailMeanContentTextView != null) {
-            this.mHyperDetailMeanContentTextView.initTextSelect();
+            this.mHyperDetailMeanContentTextView.clearSelection();
             this.mHyperDetailMeanContentTextView.invalidate();
         }
         showFlashcardListPop(false);
@@ -958,7 +958,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
     protected void initPopupControll() {
         dismissMarkerColorChangePopup();
         if (this.mHyperDetailMeanContentTextView != null) {
-            this.mHyperDetailMeanContentTextView.initTextSelect();
+            this.mHyperDetailMeanContentTextView.clearSelection();
             this.mHyperDetailMeanContentTextView.invalidate();
         }
     }
@@ -1232,7 +1232,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: protected */
     public void showSoftInputMethod(boolean isShow) {
         if (this.mHyperDetailMeanContentTextView != null && isShow) {
-            this.mHyperDetailMeanContentTextView.initTextSelect();
+            this.mHyperDetailMeanContentTextView.clearSelection();
             this.mHyperDetailMeanContentTextView.invalidate();
         }
         showHideSystemInputMethod(isShow);
@@ -1263,7 +1263,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
 
     protected void closePopupWindow() {
         if (this.mHyperDetailMeanContentTextView != null && this.mHyperDetailMeanContentTextView.gripShowing()) {
-            this.mHyperDetailMeanContentTextView.initTextSelect();
+            this.mHyperDetailMeanContentTextView.clearSelection();
         }
         if (this.mMarkerColorChangePopup != null) {
             this.mMarkerColorChangePopup.dismiss();

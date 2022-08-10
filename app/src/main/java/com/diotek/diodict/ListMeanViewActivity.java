@@ -40,7 +40,8 @@ public class ListMeanViewActivity extends BaseActivity {
     public static final int LAYOUTMODE_WIDE_MEANVIEW = 1;
     protected int mOrientation;
     BaseMeanController mBaseMeanController = null;
-    protected ExtendTextView mMainMeanContentTextView = null;
+	/** the main textView */
+    protected ExtendTextView mTextView = null;
     protected ExtendScrollView mMainMeanScrollView = null;
     protected Button mUSOnceBtn = null;
     protected ImageButton mUSRepeatBtn = null;
@@ -162,8 +163,8 @@ public class ListMeanViewActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
     public void onResume() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.refreshMarkerObject();
+        if (this.mTextView != null) {
+            this.mTextView.refreshMarkerObject();
         }
         super.onResume();
     }
@@ -172,8 +173,8 @@ public class ListMeanViewActivity extends BaseActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         this.mOrientation = newConfig.orientation;
-        if (this.mMainMeanContentTextView.gripShowing()) {
-            this.mMainMeanContentTextView.initTextSelect();
+        if (this.mTextView.gripShowing()) {
+            this.mTextView.clearSelection();
         }
     }
 
@@ -287,7 +288,7 @@ public class ListMeanViewActivity extends BaseActivity {
     protected void onMeanViewExtensionEnd() {
         if (this.mLayoutMode == 1) {
             this.mStandardInnerLeftLayout.setVisibility(View.GONE);
-            this.mMainMeanContentTextView.setEnableTextSelect(true);
+            this.mTextView.setEnableTextSelect(true);
             Animation ani = this.mMainRightLayout.getAnimation();
             if (ani != null) {
                 ani.setAnimationListener(null);
@@ -316,7 +317,7 @@ public class ListMeanViewActivity extends BaseActivity {
     public void setSmallMeanView() {
         CommonUtils.stopTTS();
         this.mLayoutMode = 0;
-        this.mMainMeanContentTextView.setEnableTextSelect(false);
+        this.mTextView.setEnableTextSelect(false);
         this.mListLayout.setVisibility(View.VISIBLE);
         if (this.mMeanToolbarLayout != null) {
             this.mMeanToolbarLayout.setVisibility(View.GONE);
@@ -335,9 +336,9 @@ public class ListMeanViewActivity extends BaseActivity {
             }
             this.mBaseMeanController.setBookmarkImage(this.mMainMeanBookmarkImageView);
         }
-        if (this.mMainMeanContentTextView != null && this.mMainMeanContentTextView.gripShowing()) {
-            this.mMainMeanContentTextView.initTextSelect();
-            this.mMainMeanContentTextView.forceInvalidate();
+        if (this.mTextView != null && this.mTextView.gripShowing()) {
+            this.mTextView.clearSelection();
+            this.mTextView.forceInvalidate();
         }
         setImageBookMark(false);
         this.mListMeanLayout.requestLayout();
@@ -350,7 +351,7 @@ public class ListMeanViewActivity extends BaseActivity {
             this.mStandardInnerLeftLayout.setVisibility(View.GONE);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) this.mStandardInnerLeftLayout.getLayoutParams();
             params.weight = 0.0f;
-            this.mMainMeanContentTextView.setEnableTextSelect(true);
+            this.mTextView.setEnableTextSelect(true);
         }
         checkSymbolKeyword();
         this.mListLayout.setVisibility(View.GONE);
@@ -522,13 +523,13 @@ public class ListMeanViewActivity extends BaseActivity {
     @Override // com.diotek.diodict.uitool.BaseActivity
     public String getPlayTTSWord(boolean bKeyword) {
         String word = "";
-        if (this.mMainMeanContentTextView != null) {
+        if (this.mTextView != null) {
             if (bKeyword) {
-                word = this.mMainMeanContentTextView.getKeyword();
-            } else if (this.mMainMeanContentTextView.isSelectedText()) {
-                word = this.mMainMeanContentTextView.getSelectedString();
+                word = this.mTextView.getKeyword();
+            } else if (this.mTextView.isSelectedText()) {
+                word = this.mTextView.getSelectedString();
             } else {
-                word = this.mMainMeanContentTextView.getKeyword();
+                word = this.mTextView.getKeyword();
             }
         }
         if (word == null) {
@@ -540,8 +541,8 @@ public class ListMeanViewActivity extends BaseActivity {
 
     @Override // com.diotek.diodict.uitool.BaseActivity
     protected int getPlayTTSDbType() {
-        if (this.mMainMeanContentTextView != null) {
-            return this.mMainMeanContentTextView.getDbtype();
+        if (this.mTextView != null) {
+            return this.mTextView.getDbtype();
         }
         return -1;
     }

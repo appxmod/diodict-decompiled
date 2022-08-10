@@ -162,8 +162,8 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
     TabView.TabViewOnClickListener mMeanTabViewOnClickListener = new TabView.TabViewOnClickListener() { // from class: com.diotek.diodict.FlashcardItemActivity.5
         @Override // com.diotek.diodict.uitool.TabView.TabViewOnClickListener
         public void onClick(View v, int nPos) {
-            if (FlashcardItemActivity.this.mMainMeanContentTextView != null) {
-                FlashcardItemActivity.this.mMainMeanContentTextView.forceScrollStop();
+            if (FlashcardItemActivity.this.mTextView != null) {
+                FlashcardItemActivity.this.mTextView.forceScrollStop();
             }
             FlashcardItemActivity.this.mTabViewPos = nPos;
             FlashcardItemActivity.this.mHandler.removeCallbacks(FlashcardItemActivity.this.mRunnableUpdateTabView);
@@ -435,8 +435,8 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
 
         @Override // com.diotek.diodict.mean.ExtendTextView.ExtendTextCallback
         public boolean run() {
-            if (FlashcardItemActivity.this.mMainMeanContentTextView != null) {
-                FlashcardItemActivity.this.mHyperSimpleViewModule.startHyperSimple(FlashcardItemActivity.this.mMainMeanContentTextView.getSelectedString());
+            if (FlashcardItemActivity.this.mTextView != null) {
+                FlashcardItemActivity.this.mHyperSimpleViewModule.startHyperSimple(FlashcardItemActivity.this.mTextView.getSelectedString());
                 return false;
             }
             return false;
@@ -458,8 +458,8 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
 
         @Override // com.diotek.diodict.mean.HyperSimpleViewModule.HyperSimpleViewModuleCallback
         public void runExitBtn() {
-            if (FlashcardItemActivity.this.mMainMeanContentTextView != null) {
-                FlashcardItemActivity.this.mMainMeanContentTextView.initTextSelect();
+            if (FlashcardItemActivity.this.mTextView != null) {
+                FlashcardItemActivity.this.mTextView.clearSelection();
             }
         }
     };
@@ -472,13 +472,13 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
     View.OnTouchListener mMeanContentBottomViewOnTouchListener = new View.OnTouchListener() { // from class: com.diotek.diodict.FlashcardItemActivity.35
         @Override // android.view.View.OnTouchListener
         public boolean onTouch(View arg0, MotionEvent event) {
-            ScrollView scrollView = (ScrollView) FlashcardItemActivity.this.mMainMeanContentTextView.getParent();
+            ScrollView scrollView = (ScrollView) FlashcardItemActivity.this.mTextView.getParent();
             if (scrollView == null) {
                 return false;
             }
-            int minHeight = FlashcardItemActivity.this.mMainMeanContentTextView.getMeasuredHeight();
+            int minHeight = FlashcardItemActivity.this.mTextView.getMeasuredHeight();
             MotionEvent tmpEvent = MotionEvent.obtain(event.getDownTime(), event.getEventTime(), event.getAction(), event.getX(), event.getY() + minHeight, event.getPressure(), event.getSize(), event.getMetaState(), event.getXPrecision(), event.getYPrecision(), event.getDeviceId(), event.getEdgeFlags());
-            FlashcardItemActivity.this.mMainMeanContentTextView.onTouchEvent(tmpEvent);
+            FlashcardItemActivity.this.mTextView.onTouchEvent(tmpEvent);
             tmpEvent.recycle();
             return false;
         }
@@ -578,8 +578,8 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
     public void onDestroy() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.onDestroy();
+        if (this.mTextView != null) {
+            this.mTextView.onDestroy();
         }
         if (this.mCursorMeanController != null) {
             this.mCursorMeanController.onDestory();
@@ -632,7 +632,7 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
                 if ((this.mSelectAllTextView != null && this.mSelectAllTextView.isFocused()) || (this.mFlashCardItemEditSelectAllBtn != null && this.mFlashCardItemEditSelectAllBtn.isFocused())) {
                     this.mFlashCardItemEditSelectAllBtn.setChecked(!this.mFlashCardItemEditSelectAllBtn.isChecked());
                     return true;
-                } else if ((this.mMainMeanContentTextView != null && this.mMainMeanContentTextView.isFocusable()) || (this.mMainMeanScrollView != null && this.mMainMeanScrollView.isFocusable())) {
+                } else if ((this.mTextView != null && this.mTextView.isFocusable()) || (this.mMainMeanScrollView != null && this.mMainMeanScrollView.isFocusable())) {
                     LayoutTransition.updateLayoutWithExtends(true, this.mStandardInnerLeftLayout, this.mMainRightLayout, this.mAnimationStartCallback, this.mAnimationEndCallback, this);
                     return true;
                 } else if (this.mFileLinkTagViewManager != null && this.mFileLinkTagViewManager.isShowingLinkTextPopup()) {
@@ -779,15 +779,15 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         this.mStandardInnerLeftLayout = (LinearLayout) findViewById(R.id.SearchContentStandardInnerLeftLayout);
         this.mMainMeanTitleTextView = (TextView) findViewById(R.id.MeanTitleTextView);
         prepareMeanContentLayout_byConfiguration(getResources().getConfiguration().orientation);
-        this.mMainMeanContentTextView = (ExtendTextView) findViewById(R.id.MeanContentTextView);
-        this.mMainMeanContentTextView.setOnFocusChangeListener(this.mMainMeanContentTextViewOnFocusChangeListener);
+        this.mTextView = (ExtendTextView) findViewById(R.id.MeanContentTextView);
+        this.mTextView.setOnFocusChangeListener(this.mMainMeanContentTextViewOnFocusChangeListener);
         this.mCopyToFlashcardPopLayout = (RelativeLayout) findViewById(R.id.copyToFlashcardPopLayout);
         this.mFlashcardLeftLayout = (LinearLayout) findViewById(R.id.SearchContentInnerLeftLayout);
         this.mMeanContentBottomView = findViewById(R.id.MeanContentBottomView);
         this.mMeanContentBottomView.setOnTouchListener(this.mMeanContentBottomViewOnTouchListener);
         this.mMainMeanScrollView = (ExtendScrollView) findViewById(R.id.scrollview);
         this.mMainMeanTitleTextView.setFocusable(false);
-        this.mMainMeanContentTextView.setFocusable(true);
+        this.mTextView.setFocusable(true);
         this.mMainMeanScrollView.setFocusable(false);
         this.mMeanContentBottomView.setFocusable(false);
         if (this.mFlashcardLeftLayout != null && getResources().getConfiguration().orientation == 2) {
@@ -800,9 +800,9 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         }
         RelativeLayout parent = (RelativeLayout) findViewById(R.id.FlashcardItemContentRelativeLayout);
         LinearLayout parent_sub = (LinearLayout) findViewById(R.id.MeanContentLayout);
-        this.mFileLinkTagViewManager = new FileLinkTagViewManager(this, this.mEngine, this.mMainMeanContentTextView, parent, parent_sub, this.mThemeModeCallback);
-        this.mCursorMeanController = new CursorMeanController(this, this.mMainMeanTitleTextView, this.mMainMeanContentTextView, null, this.mMeanTabView, this.mEngine, this.mThemeModeCallback, this.mFileLinkTagViewManager, null);
-        this.mHyperSimpleViewModule = new HyperSimpleViewModule(this, this.mHyperSimpleViewModuleCallback, parent, parent_sub, this.mMainMeanContentTextView);
+        this.mFileLinkTagViewManager = new FileLinkTagViewManager(this, this.mEngine, this.mTextView, parent, parent_sub, this.mThemeModeCallback);
+        this.mCursorMeanController = new CursorMeanController(this, this.mMainMeanTitleTextView, this.mTextView, null, this.mMeanTabView, this.mEngine, this.mThemeModeCallback, this.mFileLinkTagViewManager, null);
+        this.mHyperSimpleViewModule = new HyperSimpleViewModule(this, this.mHyperSimpleViewModuleCallback, parent, parent_sub, this.mTextView);
         this.mCursorMeanController.setMeanContentTextViewCallback(this.mStartHyperCallback, this.mAutoUpdateLayoutCallback, true, null);
         this.mBaseMeanController = this.mCursorMeanController;
     }
@@ -890,8 +890,8 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
     }
 
     public void runSearchListView(int nPos, View view) {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.forceScrollStop();
+        if (this.mTextView != null) {
+            this.mTextView.forceScrollStop();
         }
         if (!isHeaderItem(this.mFlashcardItemListViewItems.get(nPos))) {
             if (this.mFlashcardListMode == 0) {
@@ -1031,9 +1031,9 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         if (this.mCopyToFlashcardPopLayout.getVisibility() == 0) {
             hideFlashcardPopup();
             return true;
-        } else if (this.mMainMeanContentTextView.gripShowing()) {
-            this.mMainMeanContentTextView.initTextSelect();
-            this.mMainMeanContentTextView.forceInvalidate();
+        } else if (this.mTextView.gripShowing()) {
+            this.mTextView.clearSelection();
+            this.mTextView.forceInvalidate();
             return true;
         } else if (isTTSRepeat()) {
             dismissTTSRepeat();
@@ -1057,8 +1057,8 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void runnableMeanTabView() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.stopInvilidate();
+        if (this.mTextView != null) {
+            this.mTextView.stopInvilidate();
         }
         runMeanTabView(this.mTabViewPos);
     }
@@ -1194,8 +1194,8 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         if (this.mWordbookFolderName.compareTo(DioDictDatabaseInfo.FOLDERNAME_MEMO) == 0) {
             DioDictDatabase.deleteMemo(this, dbtype, keyword, suid);
         } else if (this.mWordbookFolderName.compareTo(DioDictDatabaseInfo.FOLDERNAME_MARKER) == 0) {
-            if (this.mMainMeanContentTextView != null) {
-                this.mMainMeanContentTextView.removeAllMarker();
+            if (this.mTextView != null) {
+                this.mTextView.removeAllMarker();
             }
             DioDictDatabase.deleteMarker(this, dbtype, keyword, suid);
         } else {
@@ -1326,7 +1326,7 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         this.mFlashcardItemEditSortBtn.requestLayout();
         this.mMainMeanTitleTextView.setText("");
         this.mMainMeanTitleTextView.requestLayout();
-        this.mMainMeanContentTextView.setText("");
+        this.mTextView.setText("");
         this.mFlashcardTitleLayout.setVisibility(View.GONE);
         if (this.mFlashcardItemCradleBtn != null) {
             this.mFlashcardItemCradleBtn.setEnabled(false);
@@ -1639,9 +1639,9 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void initPopupControll() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.initTextSelect();
-            this.mMainMeanContentTextView.invalidate();
+        if (this.mTextView != null) {
+            this.mTextView.clearSelection();
+            this.mTextView.invalidate();
         }
     }
 
@@ -1658,7 +1658,7 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         for (int i = 0; i < this.mMeanTabView.getTotalCount(); i++) {
             this.mMeanTabView.getButton(i).setFocusable(bFocus);
         }
-        this.mMainMeanContentTextView.setFocusable(bFocus);
+        this.mTextView.setFocusable(bFocus);
         this.mFlashcardItemEditDeleteBtn.setFocusable(bFocus);
         this.mFlashcardItemEditCopyBtn.setFocusable(bFocus);
         this.mFlashcardItemEditSortBtn.setFocusable(bFocus);
@@ -1682,7 +1682,7 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
     }
 
     public void setFocusableInLayoutMode(boolean bFocus) {
-        this.mMainMeanContentTextView.setFocusable(bFocus);
+        this.mTextView.setFocusable(bFocus);
         this.mFlashcardItemEditBtn.setFocusable(bFocus);
         this.mFlashcardItemEditSortBtn.setFocusable(bFocus);
         if (this.mFlashcardItemCradleBtn != null) {

@@ -26,6 +26,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.diotek.diodict.utils.CMN;
 import com.diotek.diodict.database.DioDictDatabase;
 import com.diotek.diodict.dependency.Dependency;
@@ -95,28 +97,51 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     int[] mRightGripPosition;
     private Runnable mRunnableDismissTextSelectGrip;
     private ExtendScrollView mScrollView;
-    private TextArea mSelectTextArea;
+    @NonNull private TextArea mSelectionArea = new TextArea();
+	
+	private boolean bAutoRealm = false;
+	// 0=paragraph 1=semi-paragraph 2=word
+	private int mSelectRealmPrefer = 0;
+	// 0=paragraph 1=semi-paragraph 2=word
+	private int mSelectRealmPreferLong = 2;
+	// 0=paragraph 1=semi-paragraph 2=word
+    private int mSelectRealm = mSelectRealmPrefer;
+	
     private int mSelectTextMode;
     private CharSequence mSelectedText;
     private int mStoreCurrentTopOffset;
     private int mSwipeThreshold;
+	
     private ExtendTextCallback mTTSCallback;
     private TagConverterCallback mTagConverterCallback;
+	
     private boolean mTextLineSelect;
     private int mTextSelectColor;
     private int[] mTextSelectGripOffsetInWindow;
+	
     private PopupWindow mTextSelectLeftGrip;
+	private PopupWindow mTextSelectRightGrip;
     private PopupWindow mTextSelectPopupMenu;
+	
     private View.OnClickListener mTextSelectPopupOnClickListener;
-    private PopupWindow mTextSelectRightGrip;
+	
     private ExtendTextCallback mUpdateLayoutCallback;
+	
     private final int mWeightMovingX;
+	
     private final float mWeightMovingY;
+	
     private ExtendTextCallback mWikiSearchCallback;
+	
     final String markerEnable;
+	
+	private boolean bIgnoreNextUp;
+	
     private Button wiki;
-
-    /* loaded from: classes.dex */
+	private int downScrollY;
+	private int orgX, orgY, lastX, lastY;
+	
+	/* loaded from: classes.dex */
     public interface AfterSetMeanViewCallback {
         int afterSetMean();
     }
@@ -212,7 +237,6 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         this.TEXT_SELECT_NONE_GRIP = -1;
         this.TEXT_SELECT_LEFT_GRIP = 0;
         this.TEXT_SELECT_RIGHT_GRIP = 1;
-        this.mSelectTextArea = new TextArea();
         this.mWeightMovingX = 2;
         this.mWeightMovingY = 1.2f;
         this.isRemoveMode = false;
@@ -443,8 +467,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         setTypeface(DictUtils.createfont());
         this.mContext = context;
         this.mIsMarkerMode = false;
-        if (this.mSelectTextArea == null) {
-            this.mSelectTextArea = new TextArea();
+        if (this.mSelectionArea == null) {
+            this.mSelectionArea = new TextArea();
         }
         if (this.mRemoveTextArea == null) {
             this.mRemoveTextArea = new TextArea();
@@ -554,14 +578,14 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         if (y > ty) {
             off = -1;
         }
-        return this.mSelectTextArea.isTextSelected() && this.mSelectTextArea.contains(off);
+        return this.mSelectionArea.isTextSelected() && this.mSelectionArea.contains(off);
     }
 
     public void setEnableTextSelect(boolean isEnableTextSelect) {
         this.mIsEnableTextSelect = isEnableTextSelect;
     }
 
-    private boolean onTouchEventForGrip(MotionEvent event) {
+    private boolean handleTouchGrip(MotionEvent event, int actionMasked) {
 		//CMN.Log("onTouchEventForGrip::", event.getActionMasked(), mIsEnableTextSelect, gripShowing());
         int y;
         int x;
@@ -569,16 +593,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         int x2;
         int gripVeticalMode;
         int moveToY;
-        int x3 = (int) event.getX();
-        int y3 = (int) event.getY();
+        int x3 = lastX = (int) event.getX();
+        int y3 = lastY = (int) event.getY();
         if (this.mIsIntercept > 0) {
             y3 += this.mIsIntercept;
         }
-        switch (event.getActionMasked()) {
+        switch (actionMasked) {
 			case MotionEvent.ACTION_DOWN:
-                if (!this.mIsEnableTextSelect) {
-                    return true;
-                }
                 int[] location = new int[2];
                 getLocationInTextView(location, x3, y3);
                 this.mPopupBaseX = 0;
@@ -595,19 +616,17 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                         hideTextSelectActionMenu();
                         setFocuseTextSelectGrip(this.mActivityGrip, true);
                         return true;
-                    } else if (isContainsOffset(x3, y3)) {
+                    }/* else if (isContainsOffset(x3, y3)) {
                         return true;
-                    }
+                    }*/
                 }
                 break;
 			case MotionEvent.ACTION_UP:
-                if (!this.mIsEnableTextSelect) {
-                    startFlickLeft();
-                    return true;
-                }
-				else if (gripShowing() && this.mActivityGrip != -1) {
-                    int oldSelectAreaStart = this.mSelectTextArea.start;
-                    int oldSelectAreaEnd = this.mSelectTextArea.end;
+				removeCallbacks(longPressTextRun);
+				if(gripShowing() && !bIgnoreNextUp)
+				if (this.mActivityGrip != -1) {
+                    int oldSelectAreaStart = this.mSelectionArea.start;
+                    int oldSelectAreaEnd = this.mSelectionArea.end;
                     Layout layout = super.getLayout();
                     int[] xy = new int[2];
                     int sy = 0;
@@ -639,11 +658,11 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                         if (xy[0] >= lineRight) {
                             foff = lastoff;
                         }
-                        if (this.mSelectTextArea.end < foff) {
-                            this.mSelectTextArea.start = this.mSelectTextArea.end;
-                            this.mSelectTextArea.end = foff;
+                        if (this.mSelectionArea.end < foff) {
+                            this.mSelectionArea.start = this.mSelectionArea.end;
+                            this.mSelectionArea.end = foff;
                         } else {
-                            this.mSelectTextArea.start = foff;
+                            this.mSelectionArea.start = foff;
                         }
                     } else {
                         if ((this.mRightGripMode & 0x20000000) == 0x20000000) {
@@ -667,19 +686,19 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                         if (xy[0] >= lineRight2) {
                             off = lastoff2;
                         }
-                        if (this.mSelectTextArea.start > off) {
-                            this.mSelectTextArea.end = this.mSelectTextArea.start;
-                            this.mSelectTextArea.start = off;
+                        if (this.mSelectionArea.start > off) {
+                            this.mSelectionArea.end = this.mSelectionArea.start;
+                            this.mSelectionArea.start = off;
                         } else {
-                            this.mSelectTextArea.end = off;
+                            this.mSelectionArea.end = off;
                         }
                     }
-                    if (this.mSelectTextArea.start == this.mSelectTextArea.end) {
-                        this.mSelectTextArea.start = oldSelectAreaStart;
-                        this.mSelectTextArea.end = oldSelectAreaEnd;
+                    if (this.mSelectionArea.start == this.mSelectionArea.end) {
+                        this.mSelectionArea.start = oldSelectAreaStart;
+                        this.mSelectionArea.end = oldSelectAreaEnd;
                     }
-                    if (this.mSelectTextArea.isTextSelected()) {
-                        getTextSelectGripPosition(this.mSelectTextArea.start, this.mSelectTextArea.end, this.mLeftGripPosition, this.mRightGripPosition);
+                    if (this.mSelectionArea.isTextSelected()) {
+                        getTextSelectGripPosition(this.mSelectionArea.start, this.mSelectionArea.end, this.mLeftGripPosition, this.mRightGripPosition);
                         showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
                         showMenu();
                         invalidate();
@@ -688,13 +707,10 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                 }
 				else if (gripShowing() && isContainsOffset(x3, y3) && this.mTextSelectPopupMenu != null && !this.mTextSelectPopupMenu.isShowing()) {
                     showMenu();
-                    return true;
+                    //return true;
                 }
                 break;
 			case MotionEvent.ACTION_MOVE:
-                if (!this.mIsEnableTextSelect) {
-                    return true;
-                }
                 if (gripShowing() && this.mActivityGrip != -1) {
                     getLocationInParentsView(new int[2], x3, y3);
                     if (this.mActivityGrip == 0) {
@@ -710,9 +726,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                     }
                     moveToTextSelectGrip(this.mActivityGrip, moveToX, moveToY);
                     return true;
-                } else if (isContainsOffset(x3, y3)) {
+                }/* else if (isContainsOffset(x3, y3)) {
                     return true;
-                }
+                }*/
                 break;
         }
         return false;
@@ -764,21 +780,48 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				CMN.Log(e);
 			}
 		}
-		if (this.mMarkerable || gripShowing()) {
+		if (action==MotionEvent.ACTION_DOWN) {
+			if (this.mScrollView != null)
+				downScrollY = mScrollView.getScrollY();
+			if(bIgnoreNextUp)
+				bIgnoreNextUp = false;
+			orgX = (int) event.getX();
+			orgY = (int) event.getY();
+		}
+		mMarkerable = true;
+//		if (!this.mIsEnableTextSelect) {
+//			startFlickLeft();
+//			return true;
+//		}
+
+//		mTextLineSelect = true;
+//		mIsEnableTextSelect = true;
+		if (this.mMarkerable || mSelectionArea.isTextSelected()) {
 			/*if (this.isRemoveMode && this.mIsMarkerMode) {
 				handleRemoveMarker(event);
 				return true;
 			} else if (this.mIsMarkerMode) {
 				return onTouchEventInLocalForLineSelect(event);
-			} else*/ {
-				if (onTouchEventForGrip(event)) {
+			} else*/
+			if(mIsEnableTextSelect || gripShowing()){
+				if (handleTouchGrip(event, action)) {
+					CMN.Log("onTouchEventForGrip!!!");
 					return true;
 				}
-				if (this.mTextLineSelect) {
-					return onTouchEventInLocalForLineSelect(event);
+//				if (this.mTextLineSelect) {
+//					return onTouchEventInLocalForLineSelect(event);
+//				}
+				if (handleTouchWord(event, action)) {
+					return true;
 				}
-				return onTouchEventInLocalForWordSelect(event);
 			}
+		}
+		if(!mIsEnableTextSelect && action==MotionEvent.ACTION_DOWN){
+			// enable text selection for longPress even when the view is collapsed
+			lastX = orgX;
+			lastY = orgY;
+			removeCallbacks(longPressTextRun);
+			postDelayed(longPressTextRun, 700);
 		}
 		return super.onTouchEvent(event);
     }
@@ -860,30 +903,30 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
         switch (event.getActionMasked()) {
             case 0:
-                this.mSelectTextArea.start = off;
-                this.mSelectTextArea.start_line = line;
+                this.mSelectionArea.start = off;
+                this.mSelectionArea.start_line = line;
                 return true;
             case 1:
                 if (this.mSelectTextMode == 0) {
-                    if (this.mSelectTextArea.start_line == line) {
-                        this.mSelectTextArea.end = off;
-                    } else if (this.mSelectTextArea.start_line >= 0 && this.mSelectTextArea.start_line < layout.getLineCount()) {
-                        this.mSelectTextArea.end = layout.getLineEnd(this.mSelectTextArea.start_line);
+                    if (this.mSelectionArea.start_line == line) {
+                        this.mSelectionArea.end = off;
+                    } else if (this.mSelectionArea.start_line >= 0 && this.mSelectionArea.start_line < layout.getLineCount()) {
+                        this.mSelectionArea.end = layout.getLineEnd(this.mSelectionArea.start_line);
                     }
                 } else {
-                    this.mSelectTextArea.end = off;
+                    this.mSelectionArea.end = off;
                 }
-                if (this.mSelectTextArea.start > this.mSelectTextArea.end) {
-                    int tempOffset = this.mSelectTextArea.end;
-                    this.mSelectTextArea.end = this.mSelectTextArea.start;
-                    this.mSelectTextArea.start = tempOffset;
+                if (this.mSelectionArea.start > this.mSelectionArea.end) {
+                    int tempOffset = this.mSelectionArea.end;
+                    this.mSelectionArea.end = this.mSelectionArea.start;
+                    this.mSelectionArea.start = tempOffset;
                 }
-                if (this.mSelectTextArea.isTextSelected()) {
+                if (this.mSelectionArea.isTextSelected()) {
                     if (this.mTextLineSelect) {
                         if (this.mIsMarkerMode) {
                             actionMarker();
                         } else {
-                            getTextSelectGripPosition(this.mSelectTextArea.start, this.mSelectTextArea.end, this.mLeftGripPosition, this.mRightGripPosition);
+                            getTextSelectGripPosition(this.mSelectionArea.start, this.mSelectionArea.end, this.mLeftGripPosition, this.mRightGripPosition);
                             showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
                         }
                     } else {
@@ -896,15 +939,15 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             case 2:
                 this.mMoving = true;
                 if (this.mSelectTextMode == 0) {
-                    if (this.mSelectTextArea.start_line == line) {
-                        this.mSelectTextArea.move = off;
-                    } else if (this.mSelectTextArea.start_line >= 0 && this.mSelectTextArea.start_line < layout.getLineCount()) {
-                        this.mSelectTextArea.move = layout.getLineEnd(this.mSelectTextArea.start_line);
+                    if (this.mSelectionArea.start_line == line) {
+                        this.mSelectionArea.move = off;
+                    } else if (this.mSelectionArea.start_line >= 0 && this.mSelectionArea.start_line < layout.getLineCount()) {
+                        this.mSelectionArea.move = layout.getLineEnd(this.mSelectionArea.start_line);
                     }
                 } else {
-                    this.mSelectTextArea.move = off;
+                    this.mSelectionArea.move = off;
                 }
-                List<Rect> selectRect = getRectOfSelectedTextOffset(this.mSelectTextArea.start, this.mSelectTextArea.move);
+                List<Rect> selectRect = getRectOfSelectedTextOffset(this.mSelectionArea.start, this.mSelectionArea.move);
                 if (this.mPrevMakerRect != null) {
                     for (int j = 0; j < this.mPrevMakerRect.size(); j++) {
                         Rect r = this.mPrevMakerRect.get(j);
@@ -918,8 +961,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                 this.mPrevMakerRect = selectRect;
                 return true;
             case 3:
-                if (this.mSelectTextArea.start != -1 && this.mSelectTextArea.move != -1 && this.mSelectTextArea.start != this.mSelectTextArea.move) {
-                    this.mSelectTextArea.end = this.mSelectTextArea.move;
+                if (this.mSelectionArea.start != -1 && this.mSelectionArea.move != -1 && this.mSelectionArea.start != this.mSelectionArea.move) {
+                    this.mSelectionArea.end = this.mSelectionArea.move;
                     actionMarker();
                     invalidate();
                     return true;
@@ -929,109 +972,203 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                 return true;
         }
     }
-
-    private boolean onTouchEventInLocalForWordSelect(MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        int[] location = new int[2];
-        getLocationInTextView(location, x, y);
-        int fx = location[0];
-        int fy = location[1];
-        Layout layout = super.getLayout();
-        if (layout == null) {
-            return false;
-        }
-        int line = getLineAdjust(layout.getLineForVertical(fy), layout);
-        int off = layout.getOffsetForHorizontal(line, fx);
-        float lineWidth = layout.getLineWidth(line);
-        this.mMoving = false;
-        if (fx <= lineWidth) {
-            off--;
-        }
-        int ty = layout.getLineBottom(line);
-        if (y > ty) {
-            off = -1;
-        }
-        TagConverter.DictPos pos = this.mTagConverterCallback.isLinkOffset(off);
-        if (pos != null) {
-            if (event.getActionMasked() == 1) {
-                saveMarkerObject();
-                initTextSelect();
-                this.mSelectTextArea.start = pos.start;
-                this.mSelectTextArea.end = pos.end;
-                invalidate();
-            }
-            return super.onTouchEvent(event);
-        }
-        switch (event.getActionMasked()) {
-            case 1:
-                if (off != -1 && startClick(off)) {
-                    getTextSelectGripPosition(this.mSelectTextArea.start, this.mSelectTextArea.end, this.mLeftGripPosition, this.mRightGripPosition);
-                    showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
-                    showMenu();
-                    invalidate();
-                } else if (off == -1) {
-                    this.mSelectTextArea.init();
-                }
-                if (!this.mSelectTextArea.isTextSelected()) {
-                    initTextSelect();
-                    invalidate();
-                    break;
-                }
-                break;
-        }
-        return true;
+	
+	int[] location = new int[2];
+	// event nullable where null indicating longPress
+    private boolean handleTouchWord(MotionEvent event, int action) {
+		if (action==MotionEvent.ACTION_UP && !bIgnoreNextUp) { // 放手了
+			removeCallbacks(longPressTextRun);
+			getLocationInTextView(location, lastX, lastY);
+			int fx = location[0];
+			int fy = location[1];
+			Layout layout = super.getLayout();
+			if (layout == null) {
+				return false;
+			}
+			int line = getLineAdjust(layout.getLineForVertical(fy), layout);
+			int off = layout.getOffsetForHorizontal(line, fx);
+			float lineWidth = layout.getLineWidth(line);
+			this.mMoving = false;
+			if (fx <= lineWidth) {
+				off--;
+			}
+			int ty = layout.getLineBottom(line);
+			if (lastY > ty) {
+				off = -1;
+			}
+			CMN.Log("handleTouchWord::off=", off);
+			if (off != -1) {
+				TagConverter.DictPos pos = this.mTagConverterCallback.isLinkOffset(off);
+				if (pos != null) {
+					saveMarkerObject();
+					clearSelection();
+					this.mSelectionArea.start = pos.start;
+					this.mSelectionArea.end = pos.end;
+					invalidate();
+					return super.onTouchEvent(event);
+				}
+				CMN.Log("startClick::", mSelectionArea.isTextSelected(), mSelectionArea.contains(off));
+				boolean reinitSel = true;
+				if (mSelectionArea.isTextSelected()) {
+					// 如果已经选中
+					if (mSelectionArea.contains(off)) {
+						// 如果点击选取内部，逐步较小选取范围
+						if (bAutoRealm && mSelectRealm + 1 <= 2) {
+							CMN.Log("缩小选区!");
+							mSelectRealm++;
+							clearSelection();
+						} else if(event!=null){
+							reinitSel = false;
+						}
+					} else if (event != null) {
+						CMN.Log("清空选区!");
+						mSelectRealm = mSelectRealmPrefer;
+						clearSelection();
+						reinitSel = false;
+					}
+				}
+				if (reinitSel) selectWordAt(off);
+				// end startClick
+				if (mSelectionArea.isTextSelected()) {
+					getTextSelectGripPosition(this.mSelectionArea.start, this.mSelectionArea.end, this.mLeftGripPosition, this.mRightGripPosition);
+					showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
+					showMenu();
+					invalidate();
+				}
+			} else {
+				this.mSelectionArea.init();
+			}
+			if (!this.mSelectionArea.isTextSelected()) {
+				clearSelection();
+				invalidate();
+			}
+			return true;
+		}
+		else if (action==MotionEvent.ACTION_DOWN) {
+			removeCallbacks(longPressTextRun);
+			postDelayed(longPressTextRun, 700);
+		}
+		return false;
     }
+	
+	Runnable longPressTextRun = new Runnable() {
+		@Override
+		public void run() {
+			if (mScrollView != null && mScrollView.getScrollY()==downScrollY) {
+				boolean enable = mIsEnableTextSelect;
+				if(!enable) setEnableTextSelect(true);
+				CMN.Log("longPressTextRun!!!");
+				//MotionEvent evt = MotionEvent.obtain(0, 0, 0, orgX, orgY, 0);
+				mSelectRealm = mSelectRealmPreferLong;
+				handleTouchWord(null, MotionEvent.ACTION_UP);
+				//evt.recycle();
+				if(!enable) setEnableTextSelect(enable);
+				bIgnoreNextUp = true;
+			}
+		}
+	};
 
-    private boolean startClick(int off) {
-        if (this.mSelectTextArea.isTextSelected()) {
-            if (this.mSelectTextArea.contains(off)) {
-                initTextSelect();
-                return false;
-            }
-            setSelectText(off);
-            return this.mSelectTextArea.isTextSelected();
+    private void selectWordAt(int off) {
+        if (this.mSelectionArea == null) {
+            this.mSelectionArea = new TextArea();
         }
-        setSelectText(off);
-        return this.mSelectTextArea.isTextSelected();
-    }
-
-    private void setSelectText(int off) {
-        if (this.mSelectTextArea == null) {
-            this.mSelectTextArea = new TextArea();
-        }
+		final boolean selWord = mSelectRealm==2;
         CharSequence text = super.getText();
         if (off >= text.length()) {
-            this.mSelectTextArea.init();
-        } else if (isWordSeperator(super.getText().charAt(off))) {
-            this.mSelectTextArea.init();
-        } else {
-            int codeBlock = CodeBlock.getCodeBlock(text.charAt(off));
+            this.mSelectionArea.init();
+			return;
+        }
+		char charAt = text.charAt(off);
+		if ((!selWord || charAt!=' ') && isWordSeperator(charAt)) {
+            this.mSelectionArea.init();
+        }
+		else {
+            int charBlock = CodeBlock.getCodeBlock(charAt), newBlock;
+			// CMN.Log("charBlock::", charBlock);
+			boolean isNewBlock; // reeached text of new language
+			char c;
+			// 左
             for (int i = off; i >= 0; i--) {
-                boolean isCodeBlockDiff = CodeBlock.getCodeBlock(text.charAt(i)) != codeBlock;
-                if (isWordSeperator(text.charAt(i)) || isCodeBlockDiff) {
-                    this.mSelectTextArea.start = i + 1;
-                    break;
+				c = text.charAt(i);
+				 CMN.Log("charBlock::", c, CodeBlock.getCodeBlock(c));
+				if (charBlock==0) {
+					newBlock = CodeBlock.getCodeBlock(c);
+					if (newBlock!=0) {
+						charBlock = newBlock;
+						charAt = c;
+					}
+					isNewBlock = false;
+				} else if((selWord || c!=' ') && (newBlock=CodeBlock.getCodeBlock(c))!=0){
+					isNewBlock =  newBlock != charBlock;
+				} else {
+					isNewBlock = false;
+				}
+				// isNewBlock 计算完毕
+                if (isNewBlock || isWordSeperator(c)) { // 截止
+					if (charAt!=' ' || !selWord) { // 选词时击中词后的空格也算
+						this.mSelectionArea.start = i + 1;
+						break;
+					}
                 }
                 if (i == 0) {
-                    this.mSelectTextArea.start = i;
+                    this.mSelectionArea.start = i;
                 }
             }
-            for (int k = off; k < text.length(); k++) {
-                boolean isCodeBlockDiff2 = CodeBlock.getCodeBlock(text.charAt(k)) != codeBlock;
-                if (isWordSeperator(text.charAt(k)) || isCodeBlockDiff2) {
-                    this.mSelectTextArea.end = k;
+			// 右
+            for (int i = off; i < text.length(); i++) {
+				c = text.charAt(i);
+				if (charBlock==0) {
+					newBlock = CodeBlock.getCodeBlock(c);
+					if (newBlock!=0) {
+						charBlock = newBlock;
+					}
+					isNewBlock = false;
+				} else if((selWord || c!=' ') && (newBlock=CodeBlock.getCodeBlock(c))!=0){
+					isNewBlock =  newBlock != charBlock;
+				} else {
+					isNewBlock = false;
+				}
+				// isNewBlock 计算完毕
+                if (isNewBlock || isWordSeperator(c)) { // 截止
+                    this.mSelectionArea.end = i;
                     return;
                 }
-                if (k == text.length() - 1) {
-                    this.mSelectTextArea.end = text.length();
+                if (i == text.length() - 1) {
+                    this.mSelectionArea.end = text.length();
                 }
             }
         }
     }
-
+	
+    private boolean isSentenceSeperator(char charAt) {
+		return charAt==',' || charAt=='，' || charAt==';' || charAt=='；' || charAt=='.' || charAt=='。'
+				|| charAt=='！' || charAt=='!' || charAt=='？' || charAt=='?';
+	}
+	
     private boolean isWordSeperator(char charAt) {
-        return !CodeBlock.isAlpabetCodeBlock(charAt) && !CodeBlock.isHangulCodeBlock(charAt) && !CodeBlock.isChineseCodeBlock(charAt) && !CodeBlock.isLatin(charAt) && !CodeBlock.isJapan(charAt) && !DictUtils.isDioSymbolAlphabet(charAt);
+		final boolean selWord = mSelectRealm==2;
+		if(charAt==' ') {
+			return selWord;
+		}
+		if(mSelectRealm==0) { // 选中整个同语言的段落
+			if(isSentenceSeperator(charAt)) {
+				return false;
+			}
+			if(charAt=='\r' || charAt=='\n') {
+				return true;
+			}
+			int typ = Character.getType(charAt);
+			if(typ != Character.PARAGRAPH_SEPARATOR && typ != Character.LINE_SEPARATOR) {
+				return false;
+			}
+		}
+        return !CodeBlock.isAlpabetCodeBlock(charAt)
+				&& !CodeBlock.isHangulCodeBlock(charAt)
+				&& !CodeBlock.isChineseCodeBlock(charAt)
+				&& !CodeBlock.isLatin(charAt)
+//				&& (typ!=Character.UPPERCASE_LETTER && typ!=Character.LOWERCASE_LETTER)
+				&& !CodeBlock.isJapan(charAt)
+				&& !DictUtils.isDioSymbolAlphabet(charAt);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1119,7 +1256,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private void drawSelectingTextArea(Canvas canvas) {
         List<Rect> tR;
         int color = this.mTextSelectColor;
-        if (this.mMoving && !gripShowing() && this.mSelectTextArea.isTextSelecting() && (tR = getRectOfSelectedTextOffset(this.mSelectTextArea.start, this.mSelectTextArea.move)) != null && tR.size() > 0) {
+        if (this.mMoving && !gripShowing() && this.mSelectionArea.isTextSelecting() && (tR = getRectOfSelectedTextOffset(this.mSelectionArea.start, this.mSelectionArea.move)) != null && tR.size() > 0) {
             for (int j = 0; j < tR.size(); j++) {
                 Rect r = tR.get(j);
                 if (this.mIsMarkerMode) {
@@ -1133,7 +1270,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private void drawSelectedTextArea(Canvas canvas) {
         List<Rect> tR;
         int color = this.mTextSelectColor;
-        if (!this.mMoving && this.mSelectTextArea.isTextSelected() && (tR = getRectOfSelectedTextOffset(this.mSelectTextArea.start, this.mSelectTextArea.end)) != null && tR.size() > 0) {
+        if (!this.mMoving && this.mSelectionArea.isTextSelected() && (tR = getRectOfSelectedTextOffset(this.mSelectionArea.start, this.mSelectionArea.end)) != null && tR.size() > 0) {
             for (int j = 0; j < tR.size(); j++) {
                 Rect r = tR.get(j);
                 if (this.mIsMarkerMode) {
@@ -1207,8 +1344,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             }
             float density = CommonUtils.getDeviceDensity(this.mContext);
             String ttsWord = "";
-            if (this.mSelectTextArea.isTextSelected()) {
-                ttsWord = super.getText().subSequence(this.mSelectTextArea.start, this.mSelectTextArea.end).toString();
+            if (this.mSelectionArea.isTextSelected()) {
+                ttsWord = super.getText().subSequence(this.mSelectionArea.start, this.mSelectionArea.end).toString();
             }
             if (ttsWord.length() == 0) {
                 tts.setVisibility(View.GONE);
@@ -1330,19 +1467,19 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     public boolean isIntercepteScrollTouchEvent() {
-        return this.mSelectTextArea.isTextSelected() && gripShowing();
+        return this.mSelectionArea.isTextSelected() && gripShowing();
     }
 
     public boolean isSelectedText() {
-        if (this.mSelectTextArea != null) {
-            return this.mSelectTextArea.isTextSelected();
+        if (this.mSelectionArea != null) {
+            return this.mSelectionArea.isTextSelected();
         }
         return false;
     }
 
     public void initializeSelectTextArea() {
-        if (this.mSelectTextArea != null) {
-            this.mSelectTextArea.init();
+        if (this.mSelectionArea != null) {
+            this.mSelectionArea.init();
         }
         if (this.mRemoveTextArea != null) {
             this.mRemoveTextArea.init();
@@ -1355,8 +1492,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             this.mMarkerObj = new ArrayList();
         }
         if (this.mMarkerObj != null && this.mMarkerObj.size() < 100) {
-            if (this.mSelectTextArea.isTextSelected()) {
-                ArrayList<TagConverter.DictPos> mTotalOffset = this.mTagConverterCallback.convert_Total_Index(this.mDisplayMode, this.mSelectTextArea.start, this.mSelectTextArea.end);
+            if (this.mSelectionArea.isTextSelected()) {
+                ArrayList<TagConverter.DictPos> mTotalOffset = this.mTagConverterCallback.convert_Total_Index(this.mDisplayMode, this.mSelectionArea.start, this.mSelectionArea.end);
                 for (int k = 0; k < mTotalOffset.size(); k++) {
                     TagConverter.DictPos pos = mTotalOffset.get(k);
                     this.mMarkerObj.add(new MarkerObject(pos.start, pos.end, this.mMarkerColor));
@@ -1371,8 +1508,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     public void actionHyperText() {
-        if (this.mSelectTextArea.isTextSelected()) {
-            this.mSelectedText = super.getText().subSequence(this.mSelectTextArea.start, this.mSelectTextArea.end);
+        if (this.mSelectionArea.isTextSelected()) {
+            this.mSelectedText = super.getText().subSequence(this.mSelectionArea.start, this.mSelectionArea.end);
             if (this.mHyperTextCallback != null) {
                 boolean ret = this.mHyperTextCallback.run(this.mSelectedText.toString());
                 if (!ret) {
@@ -1386,7 +1523,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     public void actionGoogleSearch() {
-        if (this.mSelectTextArea.isTextSelected()) {
+        if (this.mSelectionArea.isTextSelected()) {
             this.mSelectedText = getSelectedString();
             if (this.mGoogleSearchCallback != null) {
                 this.mGoogleSearchCallback.run(this.mSelectedText.toString());
@@ -1398,7 +1535,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     public void actionWikiSearch() {
-        if (this.mSelectTextArea.isTextSelected()) {
+        if (this.mSelectionArea.isTextSelected()) {
             this.mSelectedText = getSelectedString();
             if (this.mWikiSearchCallback != null) {
                 this.mWikiSearchCallback.run(this.mSelectedText.toString());
@@ -1410,7 +1547,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     public void actionTTS(int mode) {
-        if (this.mSelectTextArea.isTextSelected()) {
+        if (this.mSelectionArea.isTextSelected()) {
             this.mSelectedText = getSelectedString();
             if (this.mTTSCallback != null) {
                 this.mTTSCallback.run(this.mSelectedText.toString());
@@ -1428,7 +1565,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     public void actionClipboardCopy() {
-        if (this.mSelectTextArea.isTextSelected()) {
+        if (this.mSelectionArea.isTextSelected()) {
             this.mSelectedText = getSelectedString();
             ClipboardManager clipboard = (ClipboardManager) this.mContext.getSystemService("clipboard");
             if (clipboard != null) {
@@ -1442,8 +1579,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     public String getSelectedString() {
-        if (this.mSelectTextArea != null && this.mSelectTextArea.isTextSelected()) {
-            this.mSelectedText = super.getText().subSequence(this.mSelectTextArea.start, this.mSelectTextArea.end);
+        if (this.mSelectionArea != null && this.mSelectionArea.isTextSelected()) {
+            this.mSelectedText = super.getText().subSequence(this.mSelectionArea.start, this.mSelectionArea.end);
         }
         return this.mSelectedText != null ? DictUtils.convertDioSymbolAlphabetString(this.mSelectedText.toString()) : "";
     }
@@ -1457,7 +1594,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
     }
 
-    public void initTextSelect() {
+    public void clearSelection() {
         dismissTextSelectController();
         dismissTextSelectGrip();
         initializeSelectTextArea();
@@ -1845,7 +1982,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         if (this.mScrollView == null) {
             setScrollView();
         }
-        List<Rect> tR = getRectOfSelectedTextOffset(this.mSelectTextArea.start, this.mSelectTextArea.end);
+        List<Rect> tR = getRectOfSelectedTextOffset(this.mSelectionArea.start, this.mSelectionArea.end);
         int[] locInParents = new int[2];
         getLocationInParentsView(locInParents, 0, tR.get(0).top);
         top[0] = locInParents[1];

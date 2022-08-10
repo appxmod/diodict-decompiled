@@ -33,6 +33,7 @@ import com.diotek.diodict.Activitymanager;
 import com.diotek.diodict.FlashcardActivity;
 import com.diotek.diodict.HelpActivity;
 import com.diotek.diodict.HistoryActivity;
+import com.diotek.diodict.MultiShareActivity;
 import com.diotek.diodict.SearchListActivity;
 import com.diotek.diodict.SettingActivity;
 import com.diotek.diodict.WikipediaActivity;
@@ -46,6 +47,7 @@ import com.diotek.diodict.engine.EngineNative3rd;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict3.phone.samsung.chn.R;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /* loaded from: classes.dex */
@@ -160,7 +162,8 @@ public abstract class BaseActivity extends Activity {
         }
     };
 
-    /* JADX INFO: Access modifiers changed from: protected */
+    final WeakReference<BaseActivity> thisRef = new WeakReference<>(this);
+	
     public boolean onCreateActivity(Bundle savedInstanceState) {
         if (this.DEBUG) {
             StrictMode.enableDefaults();
@@ -210,6 +213,9 @@ public abstract class BaseActivity extends Activity {
     public void onResume() {
         overridePendingTransition(0, 0);
         super.onResume();
+		if (MultiShareActivity.activity!=thisRef) {
+			MultiShareActivity.activity = thisRef;
+		}
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -217,9 +223,10 @@ public abstract class BaseActivity extends Activity {
     public void onDestroy() {
         super.onDestroy();
         closeBroadcast();
+		thisRef.clear();
         if (EngineNative3rd.getLastErr() != 0) {
             System.runFinalizersOnExit(true);
-            System.exit(0);
+            System.exit(0); // ???
         }
     }
 
@@ -575,4 +582,8 @@ public abstract class BaseActivity extends Activity {
     public boolean isVisiableView(View view) {
         return view != null && view.getVisibility() == 0;
     }
+	
+	public String getTextTarget() {
+		return "happy";
+	}
 }

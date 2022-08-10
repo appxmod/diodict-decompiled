@@ -26,7 +26,9 @@ public class CodeBlock {
     public static final int UG_E_CJK_START = 12800;
 
     public static int getCodeBlock(char c) {
-        if (isAlpabetCodeBlock(c) || isLatin(c)) {
+		int typ = Character.getType(c);
+        //if (isAlpabetCodeBlock(c) || isLatin(c)) {
+        if (typ==Character.UPPERCASE_LETTER || typ==Character.LOWERCASE_LETTER) {
             return 2;
         }
         if (isHangulCodeBlock(c)) {
@@ -35,7 +37,7 @@ public class CodeBlock {
         if (isChineseCodeBlock(c)) {
             return 1;
         }
-        return isJapan(c) ? 4 : 2;
+        return isJapan(c) ? 4 : 0;
     }
 
     public static boolean isChineseCodeBlock(char a) {

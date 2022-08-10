@@ -303,7 +303,7 @@ public class HyperSearchActivity extends HyperCommonActivity {
             this.mSaveBtn.setSelected(false);
             return true;
         } else if (this.mHyperDetailMeanContentTextView.gripShowing()) {
-            this.mHyperDetailMeanContentTextView.initTextSelect();
+            this.mHyperDetailMeanContentTextView.clearSelection();
             this.mHyperDetailMeanContentTextView.forceInvalidate();
             return true;
         } else if (this.mHyperSimpleViewModule != null && this.mHyperSimpleViewModule.isShowingHyperDialogPopup()) {
@@ -323,7 +323,7 @@ public class HyperSearchActivity extends HyperCommonActivity {
     /* JADX INFO: Access modifiers changed from: private */
     public void runMarkerBtn() {
         if (this.mHyperDetailMeanContentTextView != null && !this.mHyperDetailMeanContentTextView.isMarkerMode()) {
-            this.mHyperDetailMeanContentTextView.initTextSelect();
+            this.mHyperDetailMeanContentTextView.clearSelection();
             setClickableMeanToolBar(false);
             showMarkerColorChangePopupMenu();
             this.mHyperDetailMeanContentTextView.setMakerMode(true);
@@ -370,7 +370,7 @@ public class HyperSearchActivity extends HyperCommonActivity {
 
     public void runFontBtn() {
         if (this.mHyperDetailMeanContentTextView != null) {
-            this.mHyperDetailMeanContentTextView.initTextSelect();
+            this.mHyperDetailMeanContentTextView.clearSelection();
         }
         setClickableMeanToolBar(false);
         showFontSizeChangePopupMenu();

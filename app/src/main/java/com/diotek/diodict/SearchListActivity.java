@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -408,8 +409,8 @@ public class SearchListActivity extends ListMeanViewActivity {
                 }
                 return;
             }
-            if (SearchListActivity.this.mMainMeanContentTextView != null) {
-                SearchListActivity.this.mMainMeanContentTextView.forceScrollStop();
+            if (SearchListActivity.this.mTextView != null) {
+                SearchListActivity.this.mTextView.forceScrollStop();
             }
             SearchListActivity.this.mTabViewPos = nPos;
             SearchListActivity.this.mHandler.removeCallbacks(SearchListActivity.this.mRunnableUpdateTabView);
@@ -480,8 +481,8 @@ public class SearchListActivity extends ListMeanViewActivity {
                     isUpdate = false;
                     break;
             }
-            if (SearchListActivity.this.mMainMeanContentTextView != null && isUpdate) {
-                SearchListActivity.this.mMainMeanContentTextView.setTextSize(fontSizeList[fontSizeIndex]);
+            if (SearchListActivity.this.mTextView != null && isUpdate) {
+                SearchListActivity.this.mTextView.setTextSize(fontSizeList[fontSizeIndex]);
                 DictUtils.setFontSizeToPreference(SearchListActivity.this, fontSizeIndex);
             }
             SearchListActivity.this.dismissFontSizeChangePopup();
@@ -530,8 +531,8 @@ public class SearchListActivity extends ListMeanViewActivity {
                     colorChange = false;
                     break;
             }
-            if (SearchListActivity.this.mMainMeanContentTextView != null && colorChange) {
-                SearchListActivity.this.mMainMeanContentTextView.setMarkerColor(colorList[markerColorIndex]);
+            if (SearchListActivity.this.mTextView != null && colorChange) {
+                SearchListActivity.this.mTextView.setMarkerColor(colorList[markerColorIndex]);
                 if (markerColorIndex < 5) {
                     DictUtils.setMarkerColorToPreference(SearchListActivity.this, markerColorIndex);
                 }
@@ -791,9 +792,9 @@ public class SearchListActivity extends ListMeanViewActivity {
 
         @Override // com.diotek.diodict.mean.ExtendTextView.ExtendTextCallback
         public boolean run() {
-            if (SearchListActivity.this.mMainMeanContentTextView != null) {
+            if (SearchListActivity.this.mTextView != null) {
                 DictUtils.setSearchLastDictToPreference(SearchListActivity.this, SearchListActivity.this.mEngine.getCurDict());
-                return SearchListActivity.this.mHyperSimpleViewModule.startHyperSimple(SearchListActivity.this.mMainMeanContentTextView.getSelectedString());
+                return SearchListActivity.this.mHyperSimpleViewModule.startHyperSimple(SearchListActivity.this.mTextView.getSelectedString());
             }
             return false;
         }
@@ -830,14 +831,14 @@ public class SearchListActivity extends ListMeanViewActivity {
     View.OnTouchListener mMeanContentBottomViewOnTouchListener = new View.OnTouchListener() { // from class: com.diotek.diodict.SearchListActivity.60
         @Override // android.view.View.OnTouchListener
         public boolean onTouch(View v, MotionEvent event) {
-            ScrollView scrollView = (ScrollView) SearchListActivity.this.mMainMeanContentTextView.getParent();
+            ScrollView scrollView = (ScrollView) SearchListActivity.this.mTextView.getParent();
             if (scrollView == null) {
                 return false;
             }
-            int minHeight = SearchListActivity.this.mMainMeanContentTextView.getMeasuredHeight();
+            int minHeight = SearchListActivity.this.mTextView.getMeasuredHeight();
             MotionEvent tmpEvent = MotionEvent.obtain(event.getDownTime(), event.getEventTime(), event.getAction(), event.getX(), event.getY() + minHeight, event.getPressure(), event.getSize(), event.getMetaState(), event.getXPrecision(), event.getYPrecision(), event.getDeviceId(), event.getEdgeFlags());
             SearchListActivity.this.showSoftInputMethod(false);
-            SearchListActivity.this.mMainMeanContentTextView.onTouchEvent(tmpEvent);
+            SearchListActivity.this.mTextView.onTouchEvent(tmpEvent);
             tmpEvent.recycle();
             return false;
         }
@@ -1186,14 +1187,14 @@ public class SearchListActivity extends ListMeanViewActivity {
         if (!isconfigChange && this.mSearchMeanController != null) {
             this.mSearchMeanController.onDestory();
         }
-        if (!isconfigChange && this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.onDestroy();
+        if (!isconfigChange && this.mTextView != null) {
+            this.mTextView.onDestroy();
         }
         if (this.mMarkerColorChangePopup != null) {
             this.mMarkerColorChangePopup.dismiss();
             this.mMarkerColorChangePopup = null;
-            if (this.mMainMeanContentTextView != null) {
-                this.mMainMeanContentTextView.setMakerMode(false);
+            if (this.mTextView != null) {
+                this.mTextView.setMakerMode(false);
             }
         }
         if (this.mFontSizeChangePopup != null) {
@@ -1311,8 +1312,8 @@ public class SearchListActivity extends ListMeanViewActivity {
                     this.mGestures.setFadeOffset(this.mGestureRecognitionDelayTime);
                 }
             }
-            if ((this.mMainMeanContentTextView != null && this.mEngine.getCurDict() != 65520 && this.mSearchListViewAdapter.isEmpty()) || (this.mEngine.getCurDict() == 65520 && this.mSearchListViewTotalAdapter.isEmpty())) {
-                changeDictionary(this.mMainMeanContentTextView.getDbtype(), true);
+            if ((this.mTextView != null && this.mEngine.getCurDict() != 65520 && this.mSearchListViewAdapter.isEmpty()) || (this.mEngine.getCurDict() == 65520 && this.mSearchListViewTotalAdapter.isEmpty())) {
+                changeDictionary(this.mTextView.getDbtype(), true);
                 showHideSearchMethodLayout();
             } else if (resultCode == 1001 || requestCode == 1002 || requestCode == 1003) {
                 restoreDicType(true);
@@ -1322,7 +1323,7 @@ public class SearchListActivity extends ListMeanViewActivity {
                 if (this.mLayoutMode != 0) {
                     dismissFlashcardCopyPopup(false);
                     dismissMarkerColorChangePopup();
-                    if (this.mMainMeanContentTextView.gripShowing()) {
+                    if (this.mTextView.gripShowing()) {
                         initSelection();
                     }
                     setSmallMeanView();
@@ -1457,8 +1458,8 @@ public class SearchListActivity extends ListMeanViewActivity {
         if (Dependency.isContainHandWrightReocg()) {
             this.mCandiBox.hide();
         }
-        if (this.mMainMeanContentTextView != null) {
-            UITools.prepareMemoSkin(this, this.mMainMeanContentTextView.getDbtype(), this.mMainMeanContentTextView.getKeyword(), this.mMainMeanContentTextView.getSuid(), this.mMemoBtn);
+        if (this.mTextView != null) {
+            UITools.prepareMemoSkin(this, this.mTextView.getDbtype(), this.mTextView.getKeyword(), this.mTextView.getSuid(), this.mMemoBtn);
         }
         runSaveHistory(this.mLastWordPos);
         super.onMeanViewExtensionStart();
@@ -1517,7 +1518,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             case 23:
             case 66:
                 if (this.mSearchEditText == null || !this.mSearchEditText.isFocused()) {
-                    if ((this.mMainMeanContentTextView != null && this.mMainMeanContentTextView.isFocusable()) || (this.mMainMeanScrollView != null && this.mMainMeanScrollView.isFocusable())) {
+                    if ((this.mTextView != null && this.mTextView.isFocusable()) || (this.mMainMeanScrollView != null && this.mMainMeanScrollView.isFocusable())) {
                         LayoutTransition.updateLayoutWithExtends(true, this.mStandardInnerLeftLayout, this.mMainRightLayout, this.mAnimationStartCallback, this.mAnimationEndCallback, this);
                         return true;
                     } else if (this.mFileLinkTagViewManager != null && this.mFileLinkTagViewManager.isShowingLinkTextPopup()) {
@@ -1535,9 +1536,9 @@ public class SearchListActivity extends ListMeanViewActivity {
                             }
                             RadioButton view = (RadioButton) this.markerGroup.findFocus();
                             int[] colorList = getResources().getIntArray(R.array.value_marker_color_adv);
-                            if (this.mMainMeanContentTextView != null && view != null && !view.isChecked()) {
+                            if (this.mTextView != null && view != null && !view.isChecked()) {
                                 int viewIdx = ((Integer) view.getTag(view.getId())).intValue();
-                                this.mMainMeanContentTextView.setMarkerColor(colorList[viewIdx]);
+                                this.mTextView.setMarkerColor(colorList[viewIdx]);
                                 view.setChecked(true);
                                 if (viewIdx < 5) {
                                     DictUtils.setMarkerColorToPreference(this, viewIdx);
@@ -1781,14 +1782,14 @@ public class SearchListActivity extends ListMeanViewActivity {
         super.prepareMeanContentLayout(true);
         if (this.mMainMeanTitleTextView == null) {
             this.mMainMeanTitleTextView = (TextView) findViewById(R.id.MeanTitleTextView);
-            this.mMainMeanContentTextView = (ExtendTextView) findViewById(R.id.MeanContentTextView);
-            this.mMainMeanContentTextView.setOnTouchListener(this.mMeanTextViewOnTouchListener);
-            this.mMainMeanContentTextView.setOnFocusChangeListener(this.mMainMeanContentTextViewOnFocusChangeListener);
+            this.mTextView = (ExtendTextView) findViewById(R.id.MeanContentTextView);
+            this.mTextView.setOnTouchListener(this.mMeanTextViewOnTouchListener);
+            this.mTextView.setOnFocusChangeListener(this.mMainMeanContentTextViewOnFocusChangeListener);
             this.mMeanContentBottomView = findViewById(R.id.MeanContentBottomView);
             this.mMeanContentBottomView.setOnTouchListener(this.mMeanContentBottomViewOnTouchListener);
             this.mMainMeanScrollView = (ExtendScrollView) findViewById(R.id.scrollview);
             this.mMainMeanScrollView.setOnFocusChangeListener(this.mMainMeanContentTextViewOnFocusChangeListener);
-            this.mMainMeanContentTextView.setFocusable(true);
+            this.mTextView.setFocusable(true);
             this.mMainMeanScrollView.setFocusable(false);
             this.mMeanContentBottomView.setFocusable(false);
         }
@@ -1798,9 +1799,9 @@ public class SearchListActivity extends ListMeanViewActivity {
             ((RelativeLayout) findViewById(R.id.SearchRightLayout)).setOnTouchListener(this.mParentOnTouchListener);
             RelativeLayout parent = (RelativeLayout) findViewById(R.id.SearchContentRelativeLayout);
             LinearLayout parent_sub = (LinearLayout) findViewById(R.id.MeanContentLayout);
-            this.mFileLinkTagViewManager = new FileLinkTagViewManager(this, this.mEngine, this.mMainMeanContentTextView, parent, parent_sub, this.mThemeModeCallback);
-            this.mSearchMeanController = new SearchMeanController(this, this.mMainMeanTitleTextView, this.mMainMeanContentTextView, this.mMainMeanBookmarkImageView, this.mMeanTabView, this.mEngine, false, this.mThemeModeCallback, this.mFileLinkTagViewManager, this.mTTSLayoutCallback);
-            this.mHyperSimpleViewModule = new HyperSimpleViewModule(this, this.mHyperSimpleViewModuleCallback, parent, parent_sub, this.mMainMeanContentTextView);
+            this.mFileLinkTagViewManager = new FileLinkTagViewManager(this, this.mEngine, this.mTextView, parent, parent_sub, this.mThemeModeCallback);
+            this.mSearchMeanController = new SearchMeanController(this, this.mMainMeanTitleTextView, this.mTextView, this.mMainMeanBookmarkImageView, this.mMeanTabView, this.mEngine, false, this.mThemeModeCallback, this.mFileLinkTagViewManager, this.mTTSLayoutCallback);
+            this.mHyperSimpleViewModule = new HyperSimpleViewModule(this, this.mHyperSimpleViewModuleCallback, parent, parent_sub, this.mTextView);
             this.mSearchMeanController.setMeanContentTextViewCallback(this.mStartHyperCallback, this.mAutoUpdateLayoutCallback, true, null);
             this.mBaseMeanController = this.mSearchMeanController;
             return;
@@ -1886,8 +1887,8 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     public void runSearchListView(int nPos, boolean bAddHistory) {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.forceScrollStop();
+        if (this.mTextView != null) {
+            this.mTextView.forceScrollStop();
         }
         dismissMarkerColorChangePopup();
         runMeanTabView(0, false);
@@ -1912,11 +1913,11 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void runMarkerBtn() {
-        if (this.mMainMeanContentTextView != null && !this.mMainMeanContentTextView.isMarkerMode()) {
+        if (this.mTextView != null && !this.mTextView.isMarkerMode()) {
             setClickableMeanToolBar(false);
-            this.mMainMeanContentTextView.initTextSelect();
+            this.mTextView.clearSelection();
             showMarkerColorChangePopupMenu();
-            this.mMainMeanContentTextView.setMakerMode(true);
+            this.mTextView.setMakerMode(true);
         }
         showSoftInputMethod(false);
     }
@@ -2058,10 +2059,10 @@ public class SearchListActivity extends ListMeanViewActivity {
         String time_string = "";
         String data = "";
         int skin = 1;
-        if (this.mMainMeanContentTextView != null) {
-            int dbtype = this.mMainMeanContentTextView.getDbtype();
-            String keyword = this.mMainMeanContentTextView.getKeyword();
-            int suid = this.mMainMeanContentTextView.getSuid();
+        if (this.mTextView != null) {
+            int dbtype = this.mTextView.getDbtype();
+            String keyword = this.mTextView.getKeyword();
+            int suid = this.mTextView.getSuid();
             if (DioDictDatabase.existMemo(this, dbtype, keyword, suid)) {
                 Cursor c = DioDictDatabase.getMemoCursorWith(this, dbtype, keyword, suid);
                 if (c != null) {
@@ -2091,8 +2092,8 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     public void runFontBtn() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.initTextSelect();
+        if (this.mTextView != null) {
+            this.mTextView.clearSelection();
         }
         setClickableMeanToolBar(false);
         showFontSizeChangePopupMenu();
@@ -2124,7 +2125,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             if (isTTSRepeat()) {
                 dismissTTSRepeat();
                 return true;
-            } else if (this.mMainMeanContentTextView.gripShowing()) {
+            } else if (this.mTextView.gripShowing()) {
                 initSelection();
                 return true;
             } else if (this.mHyperSimpleViewModule != null && this.mHyperSimpleViewModule.isShowingHyperDialogPopup()) {
@@ -2182,8 +2183,8 @@ public class SearchListActivity extends ListMeanViewActivity {
     /* JADX INFO: Access modifiers changed from: private */
     public void runnableMeanTabView() {
         dismissMarkerColorChangePopup();
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.stopInvilidate();
+        if (this.mTextView != null) {
+            this.mTextView.stopInvilidate();
         }
         runMeanTabView(this.mTabViewPos, true);
     }
@@ -2813,10 +2814,10 @@ public class SearchListActivity extends ListMeanViewActivity {
             if (this.mMainEmptyLayout != null) {
                 if (this.mEngine.getCurrentSearchMethodId() == 1) {
                     this.mMainEmptyLayout.setVisibility(View.GONE);
-                    this.mMainMeanContentTextView.setFocusable(true);
+                    this.mTextView.setFocusable(true);
                 } else {
                     this.mMainEmptyLayout.setVisibility(View.VISIBLE);
-                    this.mMainMeanContentTextView.setFocusable(false);
+                    this.mTextView.setFocusable(false);
                 }
             }
             if (this.mSearchListEmptyLayout != null && this.mSearchListEmptyLayout.getVisibility() == 8) {
@@ -3037,8 +3038,8 @@ public class SearchListActivity extends ListMeanViewActivity {
                 DioDictDatabase.addMemo(this, dbtyp, keyword, suid, memoDataString, skin);
                 Toast.makeText(this, getResources().getText(R.string.memo_saved), 0).show();
             }
-            if (this.mMainMeanContentTextView != null) {
-                UITools.prepareMemoSkin(this, this.mMainMeanContentTextView.getDbtype(), this.mMainMeanContentTextView.getKeyword(), this.mMainMeanContentTextView.getSuid(), this.mMemoBtn);
+            if (this.mTextView != null) {
+                UITools.prepareMemoSkin(this, this.mTextView.getDbtype(), this.mTextView.getKeyword(), this.mTextView.getSuid(), this.mMemoBtn);
             }
             if (this.mSearchListView != null) {
                 this.mSearchListView.invalidateViews();
@@ -3096,7 +3097,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         }
         this.mMarkerColorChangePopup.dismiss();
         this.mMarkerColorChangePopup = null;
-        this.mMainMeanContentTextView.setMakerMode(false);
+        this.mTextView.setMakerMode(false);
         setFocusableSearchActivity(true);
         return true;
     }
@@ -3197,12 +3198,12 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     protected void onSelectColor(int position) {
         int[] colorList = getResources().getIntArray(R.array.value_marker_color);
-        this.mMainMeanContentTextView.setMarkerColor(colorList[position]);
+        this.mTextView.setMarkerColor(colorList[position]);
     }
 
     protected void handleSaveMarkerObject() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.saveMarkerObject();
+        if (this.mTextView != null) {
+            this.mTextView.saveMarkerObject();
         }
     }
 
@@ -3672,8 +3673,8 @@ public class SearchListActivity extends ListMeanViewActivity {
         this.mSearchEditText.setFocusableInTouchMode(bFocus);
         this.mClearBtn.setFocusable(bFocus);
         if (this.mSearchListEmptyLayout.getVisibility() != 0) {
-            this.mMainMeanContentTextView.setFocusable(bFocus);
-            this.mMainMeanContentTextView.setFocusableInTouchMode(bFocus);
+            this.mTextView.setFocusable(bFocus);
+            this.mTextView.setFocusableInTouchMode(bFocus);
         }
     }
 
@@ -3684,9 +3685,9 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void initSelection() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.initTextSelect();
-            this.mMainMeanContentTextView.invalidate();
+        if (this.mTextView != null) {
+            this.mTextView.clearSelection();
+            this.mTextView.invalidate();
         }
     }
 
@@ -3986,4 +3987,19 @@ public class SearchListActivity extends ListMeanViewActivity {
         regularMarkMap.put("ﾜﾞ", "ヷ");
         regularMarkMap.put("ｦﾞ", "ヺ");
     }
+	
+	@Override
+	public String getTextTarget() {
+		try {
+			if (mTextView.gripShowing()) {
+				String text = mTextView.getSelectedString();
+				if (!TextUtils.isEmpty(text)) {
+					return text;
+				}
+			}
+			return mSearchMeanController.getWord();
+		} catch (Exception e) {
+			return super.getTextTarget();
+		}
+	}
 }

@@ -33,4 +33,8 @@
         <item name="android:windowBackground">@color/translucent_black</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+	<style name="FloatAppTheme">
+		<item name="android:windowBackground">@android:color/transparent</item>
+		<item name="android:windowIsTranslucent">true</item>
+	</style>
 </resources>

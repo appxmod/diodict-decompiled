@@ -18,7 +18,7 @@ public class Vendor {
         Bundle bundle = intent.getExtras();
         if (bundle == null || bundle.getInt(DictInfo.INTENT_STARTSTATE) == DictInfo.INTENT_NEWSTART) {
             intent.putExtra(DictInfo.INTENT_STARTSTATE, DictInfo.INTENT_ALREADYSTART1ST);
-            intent.setFlags(268435456);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setComponent(new ComponentName(context.getPackageName(), "com.diotek.diodict.InitActivity"));
             ((Activity) context).startActivity(intent);
             ((Activity) context).overridePendingTransition(0, 0);

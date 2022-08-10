@@ -404,8 +404,8 @@ public class HistoryActivity extends ListMeanViewActivity {
 
         @Override // com.diotek.diodict.mean.ExtendTextView.ExtendTextCallback
         public boolean run() {
-            if (HistoryActivity.this.mMainMeanContentTextView != null) {
-                HistoryActivity.this.mHyperSimpleViewModule.startHyperSimple(HistoryActivity.this.mMainMeanContentTextView.getSelectedString());
+            if (HistoryActivity.this.mTextView != null) {
+                HistoryActivity.this.mHyperSimpleViewModule.startHyperSimple(HistoryActivity.this.mTextView.getSelectedString());
                 return false;
             }
             return false;
@@ -429,8 +429,8 @@ public class HistoryActivity extends ListMeanViewActivity {
 
         @Override // com.diotek.diodict.mean.HyperSimpleViewModule.HyperSimpleViewModuleCallback
         public void runExitBtn() {
-            if (HistoryActivity.this.mMainMeanContentTextView != null) {
-                HistoryActivity.this.mMainMeanContentTextView.initTextSelect();
+            if (HistoryActivity.this.mTextView != null) {
+                HistoryActivity.this.mTextView.clearSelection();
             }
         }
     };
@@ -443,13 +443,13 @@ public class HistoryActivity extends ListMeanViewActivity {
     View.OnTouchListener mMeanContentBottomViewOnTouchListener = new View.OnTouchListener() { // from class: com.diotek.diodict.HistoryActivity.30
         @Override // android.view.View.OnTouchListener
         public boolean onTouch(View v, MotionEvent event) {
-            ScrollView scrollView = (ScrollView) HistoryActivity.this.mMainMeanContentTextView.getParent();
+            ScrollView scrollView = (ScrollView) HistoryActivity.this.mTextView.getParent();
             if (scrollView == null) {
                 return false;
             }
-            int minHeight = HistoryActivity.this.mMainMeanContentTextView.getMeasuredHeight();
+            int minHeight = HistoryActivity.this.mTextView.getMeasuredHeight();
             MotionEvent tmpEvent = MotionEvent.obtain(event.getDownTime(), event.getEventTime(), event.getAction(), event.getX(), event.getY() + minHeight, event.getPressure(), event.getSize(), event.getMetaState(), event.getXPrecision(), event.getYPrecision(), event.getDeviceId(), event.getEdgeFlags());
-            HistoryActivity.this.mMainMeanContentTextView.onTouchEvent(tmpEvent);
+            HistoryActivity.this.mTextView.onTouchEvent(tmpEvent);
             tmpEvent.recycle();
             return false;
         }
@@ -588,8 +588,8 @@ public class HistoryActivity extends ListMeanViewActivity {
 
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
 	public void onDestroy() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.onDestroy();
+        if (this.mTextView != null) {
+            this.mTextView.onDestroy();
         }
         if (this.mCursorMeanController != null) {
             this.mCursorMeanController.onDestory();
@@ -622,9 +622,9 @@ public class HistoryActivity extends ListMeanViewActivity {
         if (this.mCopyToFlashcardPopLayout.getVisibility() == 0) {
             hideFlashcardPopup();
             return true;
-        } else if (this.mMainMeanContentTextView.gripShowing()) {
-            this.mMainMeanContentTextView.initTextSelect();
-            this.mMainMeanContentTextView.forceInvalidate();
+        } else if (this.mTextView.gripShowing()) {
+            this.mTextView.clearSelection();
+            this.mTextView.forceInvalidate();
             return true;
         } else if (isTTSRepeat()) {
             dismissTTSRepeat();
@@ -660,7 +660,7 @@ public class HistoryActivity extends ListMeanViewActivity {
                 if ((this.mSelectAllTextView != null && this.mSelectAllTextView.isFocused()) || (this.mHistorySelectAllBtn != null && this.mHistorySelectAllBtn.isFocused())) {
                     this.mHistorySelectAllBtn.setChecked(!this.mHistorySelectAllBtn.isChecked());
                     return true;
-                } else if ((this.mMainMeanContentTextView != null && this.mMainMeanContentTextView.isFocusable()) || (this.mMainMeanScrollView != null && this.mMainMeanScrollView.isFocusable())) {
+                } else if ((this.mTextView != null && this.mTextView.isFocusable()) || (this.mMainMeanScrollView != null && this.mMainMeanScrollView.isFocusable())) {
                     LayoutTransition.updateLayoutWithExtends(true, this.mStandardInnerLeftLayout, this.mMainRightLayout, this.mAnimationStartCallback, this.mAnimationEndCallback, this);
                     return true;
                 } else if (this.mFileLinkTagViewManager != null && this.mFileLinkTagViewManager.isShowingLinkTextPopup()) {
@@ -736,8 +736,8 @@ public class HistoryActivity extends ListMeanViewActivity {
         this.mMainRightLayout = (LinearLayout) findViewById(R.id.SearchContentInnerRightLayout);
         this.mStandardInnerLeftLayout = (LinearLayout) findViewById(R.id.SearchContentStandardInnerLeftLayout);
         this.mMainMeanTitleTextView = (TextView) findViewById(R.id.MeanTitleTextView);
-        this.mMainMeanContentTextView = (ExtendTextView) findViewById(R.id.MeanContentTextView);
-        this.mMainMeanContentTextView.setOnFocusChangeListener(this.mMainMeanContentTextViewOnFocusChangeListener);
+        this.mTextView = (ExtendTextView) findViewById(R.id.MeanContentTextView);
+        this.mTextView.setOnFocusChangeListener(this.mMainMeanContentTextViewOnFocusChangeListener);
         this.mMainMeanBookmarkImageView = (ImageView) findViewById(R.id.bookmark);
         prepareMeanContentLayout_byConfiguration(getResources().getConfiguration().orientation);
         this.mCopyToFlashcardPopLayout = (RelativeLayout) findViewById(R.id.copyToFlashcardPopLayout);
@@ -747,12 +747,12 @@ public class HistoryActivity extends ListMeanViewActivity {
         this.mMeanContentBottomView = findViewById(R.id.MeanContentBottomView);
         this.mMeanContentBottomView.setOnTouchListener(this.mMeanContentBottomViewOnTouchListener);
         this.mMainMeanTitleTextView.setFocusable(false);
-        this.mMainMeanContentTextView.setFocusable(true);
+        this.mTextView.setFocusable(true);
         this.mMainMeanScrollView.setFocusable(false);
         this.mMeanContentBottomView.setFocusable(false);
-        this.mFileLinkTagViewManager = new FileLinkTagViewManager(this, this.mEngine, this.mMainMeanContentTextView, parent, parent_sub, this.mThemeModeCallback);
-        this.mCursorMeanController = new CursorMeanController(this, this.mMainMeanTitleTextView, this.mMainMeanContentTextView, this.mMainMeanBookmarkImageView, this.mMeanTabView, this.mEngine, this.mThemeModeCallback, this.mFileLinkTagViewManager, null);
-        this.mHyperSimpleViewModule = new HyperSimpleViewModule(this, this.mHyperSimpleViewModuleCallback, parent, parent_sub, this.mMainMeanContentTextView);
+        this.mFileLinkTagViewManager = new FileLinkTagViewManager(this, this.mEngine, this.mTextView, parent, parent_sub, this.mThemeModeCallback);
+        this.mCursorMeanController = new CursorMeanController(this, this.mMainMeanTitleTextView, this.mTextView, this.mMainMeanBookmarkImageView, this.mMeanTabView, this.mEngine, this.mThemeModeCallback, this.mFileLinkTagViewManager, null);
+        this.mHyperSimpleViewModule = new HyperSimpleViewModule(this, this.mHyperSimpleViewModuleCallback, parent, parent_sub, this.mTextView);
         this.mCursorMeanController.setMeanContentTextViewCallback(this.mStartHyperCallback, this.mAutoUpdateLayoutCallback, true, null);
         this.mBaseMeanController = this.mCursorMeanController;
     }
@@ -902,8 +902,8 @@ public class HistoryActivity extends ListMeanViewActivity {
     private boolean isDifferenceWord(int pos) {
         int dbtype = ((Integer) this.mHistoryListViewItems.get(pos).get(DictInfo.ListItem_DictType)).intValue();
         int suid = ((Integer) this.mHistoryListViewItems.get(pos).get("suid")).intValue();
-        int meanDbtype = this.mMainMeanContentTextView.getDbtype();
-        int meanSuid = this.mMainMeanContentTextView.getSuid();
+        int meanDbtype = this.mTextView.getDbtype();
+        int meanSuid = this.mTextView.getSuid();
         if (dbtype != meanDbtype || suid != meanSuid) {
             return true;
         }
@@ -944,8 +944,8 @@ public class HistoryActivity extends ListMeanViewActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void runnableMeanTabView() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.stopInvilidate();
+        if (this.mTextView != null) {
+            this.mTextView.stopInvilidate();
         }
         runMeanTabView(this.mTabViewPos);
     }
@@ -958,8 +958,8 @@ public class HistoryActivity extends ListMeanViewActivity {
     }
 
     public void runSearchListView(int nPos, View view, boolean always) {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.forceScrollStop();
+        if (this.mTextView != null) {
+            this.mTextView.forceScrollStop();
         }
         if (!isHeaderItem(this.mHistoryListViewItems.get(nPos))) {
             if (this.mHistoryListMode == 0) {
@@ -1251,7 +1251,7 @@ public class HistoryActivity extends ListMeanViewActivity {
         this.mHistoryItemSortBtn.setVisibility(View.VISIBLE);
         this.mMainMeanTitleTextView.setText("");
         this.mMainMeanTitleTextView.requestLayout();
-        this.mMainMeanContentTextView.setText("");
+        this.mTextView.setText("");
         this.mSelectAllLayout.setVisibility(View.GONE);
         this.mSaveBtn.setEnabled(false);
     }
@@ -1275,8 +1275,8 @@ public class HistoryActivity extends ListMeanViewActivity {
     }
 
     protected void handleSaveMarkerObject() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.saveMarkerObject();
+        if (this.mTextView != null) {
+            this.mTextView.saveMarkerObject();
         }
     }
 
@@ -1463,9 +1463,9 @@ public class HistoryActivity extends ListMeanViewActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void initPopupControll() {
-        if (this.mMainMeanContentTextView != null) {
-            this.mMainMeanContentTextView.initTextSelect();
-            this.mMainMeanContentTextView.invalidate();
+        if (this.mTextView != null) {
+            this.mTextView.clearSelection();
+            this.mTextView.invalidate();
         }
     }
 
@@ -1610,7 +1610,7 @@ public class HistoryActivity extends ListMeanViewActivity {
         for (int i = 0; i < this.mMeanTabView.getTotalCount(); i++) {
             this.mMeanTabView.getButton(i).setFocusable(bFocus);
         }
-        this.mMainMeanContentTextView.setFocusable(bFocus);
+        this.mTextView.setFocusable(bFocus);
         if (this.mUSOnceBtn != null) {
             this.mUSOnceBtn.setFocusable(bFocus);
         }
@@ -1631,7 +1631,7 @@ public class HistoryActivity extends ListMeanViewActivity {
     }
 
     private void setFocusableInLayoutMode(boolean bFocus) {
-        this.mMainMeanContentTextView.setFocusable(bFocus);
+        this.mTextView.setFocusable(bFocus);
         this.mHistoryItemEditBtn.setFocusable(bFocus);
         this.mHistoryItemSortBtn.setFocusable(bFocus);
     }

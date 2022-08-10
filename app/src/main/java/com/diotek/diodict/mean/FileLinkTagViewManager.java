@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.diotek.diodict.TTSManager;
 import com.diotek.diodict.engine.DictDBManager;
 import com.diotek.diodict.engine.EngineManager3rd;
-import com.diotek.diodict.mean.BaseMeanController;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.CustomPopupLinearLayout;
 import com.diotek.diodict3.phone.samsung.chn.R;
@@ -142,7 +141,7 @@ public class FileLinkTagViewManager {
     /* JADX INFO: Access modifiers changed from: private */
     public void initTextSelected() {
         if (this.mContentTextView != null) {
-            this.mContentTextView.initTextSelect();
+            this.mContentTextView.clearSelection();
             this.mContentTextView.forceInvalidate();
         }
     }
