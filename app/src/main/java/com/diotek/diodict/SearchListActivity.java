@@ -436,8 +436,10 @@ public class SearchListActivity extends ListMeanViewActivity {
         @Override // com.diotek.diodict.mean.ExtendTextView.ExtendTextCallback
         public boolean run(String str) {
             if (str.equals(ExtendTextView.GESTURE_SWIPE_RIGHT)) {
+				mTextView.mSelectRealmPreferLong = 0;
                 LayoutTransition.updateLayoutWithExtends(false, SearchListActivity.this.mStandardInnerLeftLayout, SearchListActivity.this.mMainRightLayout, SearchListActivity.this.mAnimationStartCallback, SearchListActivity.this.mAnimationEndCallback, SearchListActivity.this);
             } else {
+				mTextView.mSelectRealmPreferLong = 2;
                 LayoutTransition.updateLayoutWithExtends(true, SearchListActivity.this.mStandardInnerLeftLayout, SearchListActivity.this.mMainRightLayout, SearchListActivity.this.mAnimationStartCallback, SearchListActivity.this.mAnimationEndCallback, SearchListActivity.this);
             }
             return false;
@@ -1012,8 +1014,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         initActivity(true);
 	
 		if (GlobalOptions.density==0) {
-			DisplayMetrics dm = new DisplayMetrics();
-			getDisplay().getMetrics(dm);
+			DisplayMetrics dm = getResources().getDisplayMetrics();
 			GlobalOptions.density = dm.density;
 		}
 		
@@ -3988,17 +3989,21 @@ public class SearchListActivity extends ListMeanViewActivity {
         regularMarkMap.put("ｦﾞ", "ヺ");
     }
 	
+	String lastSharedText;
 	@Override
 	public String getTextTarget() {
 		try {
 			if (mTextView.gripShowing()) {
 				String text = mTextView.getSelectedString();
 				if (!TextUtils.isEmpty(text)) {
+					text = text.replace("~", mSearchMeanController.getWord());
+					lastSharedText = text;
 					return text;
 				}
 			}
-			return mSearchMeanController.getWord();
+			return lastSharedText;
 		} catch (Exception e) {
+			CMN.debug(e);
 			return super.getTextTarget();
 		}
 	}
