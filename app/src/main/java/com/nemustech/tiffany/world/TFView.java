@@ -7,6 +7,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.diotek.diodict.utils.CMN;
+
 import java.io.Writer;
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -339,6 +342,7 @@ public class TFView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     protected void drawFrame() {
+		CMN.debug("drawFrame!!!");
         if (!this.mPaused && this.mHasSurface && this.mEglStarted) {
             if (this.mGLToDraw == null) {
                 this.mGLToDraw = (GL10) this.mEglHelper.createSurface(getHolder());

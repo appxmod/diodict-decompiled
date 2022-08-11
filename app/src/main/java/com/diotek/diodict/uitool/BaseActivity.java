@@ -45,6 +45,7 @@ import com.diotek.diodict.engine.DictUtils;
 import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.engine.EngineNative3rd;
 import com.diotek.diodict.mean.MSG;
+import com.diotek.diodict.utils.CMN;
 import com.diotek.diodict3.phone.samsung.chn.R;
 
 import java.lang.ref.WeakReference;
@@ -221,6 +222,7 @@ public abstract class BaseActivity extends Activity {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
     public void onDestroy() {
+		CMN.debug("onDestroy...");
         super.onDestroy();
         closeBroadcast();
 		thisRef.clear();
@@ -291,6 +293,7 @@ public abstract class BaseActivity extends Activity {
 
     @Override // android.app.Activity, android.content.ComponentCallbacks
     public void onConfigurationChanged(Configuration newConfig) {
+		CMN.debug("onConfigurationChanged...");
         onTerminateTTS();
         this.mbConfigChange = true;
         super.onConfigurationChanged(newConfig);
@@ -464,8 +467,14 @@ public abstract class BaseActivity extends Activity {
         }
         ((Activity) context).finish();
     }
-
-    private void checkRunByWidget() {
+	
+	@Override
+	public void finish() {
+		CMN.debug("finish called...");
+		super.finish();
+	}
+	
+	private void checkRunByWidget() {
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
         if (extra != null) {

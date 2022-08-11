@@ -12,7 +12,7 @@ import java.util.Date;
 public class MSG {
     private static final String TAG = "DioDict3";
     private static final boolean WRITE_TO_FILE = false;
-    private static final boolean DEBUG = Build.TYPE.equals("eng");
+    private static final boolean DEBUG = true;//Build.TYPE.equals("eng");
     private static String mLogFile = DictUtils.getDBPath() + "DioDict3Log.txt";
 
     public static void l(int i, String msg) {

@@ -25,7 +25,7 @@ public class DioDictServiceMain extends Service {
     IBinder mBinder = new IDioDictServiceMain.Stub() { // from class: com.diotek.diodict3.phone.service.DioDictServiceMain.1
         @Override // com.diotek.diodict3.phone.service.IDioDictServiceMain
         public int[] reqAvailableDBTypeList() throws RemoteException {
-            if (Dependency.getDevice().checkDRM() && DioAuthActivity.checkAuth(DioDictServiceMain.this.getApplicationContext())) {
+            if (Dependency.getDevice().checkDRM()) {
                 int[] dbTypeList = Dependency.getDevice().getSupportDBResList();
                 if (dbTypeList == null) {
                     return dbTypeList;
