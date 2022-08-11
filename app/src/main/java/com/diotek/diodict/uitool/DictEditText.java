@@ -3,6 +3,7 @@ package com.diotek.diodict.uitool;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.engine.DictUtils;
@@ -14,8 +15,8 @@ public class DictEditText extends EditText {
 
     public DictEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        int imeOptions = 3;
-        imeOptions = CommonUtils.isUseKeypadNoExtractUI() ? 3 | 268435456 : imeOptions;
+        int imeOptions = EditorInfo.IME_ACTION_SEARCH;
+        imeOptions = CommonUtils.isUseKeypadNoExtractUI() ? EditorInfo.IME_ACTION_SEARCH | EditorInfo.IME_FLAG_NO_EXTRACT_UI : imeOptions;
         setInputType(0);
         setTextColor(-16777216);
         super.setImeOptions(imeOptions);

@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -134,7 +133,6 @@ public class SearchListActivity extends ListMeanViewActivity {
     private String mInputWordbookName = null;
     SearchMeanController mSearchMeanController = null;
     private RelativeLayout mAddWordbookTextView = null;
-    private DictEditText mSearchEditText = null;
     private ImageButton mChangeDictionaryBtn = null;
     private ImageButton mChangeLanguageBtn = null;
     private ImageButton mClearBtn = null;
@@ -245,7 +243,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             }
         }
     };
-    private TextWatcher mSearchEditTextWatcher = new TextWatcher() { // from class: com.diotek.diodict.SearchListActivity.8
+    private TextWatcher tw1 = new TextWatcher() { // from class: com.diotek.diodict.SearchListActivity.8
         @Override // android.text.TextWatcher
         public void afterTextChanged(Editable s) {
             String word = s.toString();
@@ -295,7 +293,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     View.OnFocusChangeListener mSearchEditTextOnFocusChangeListener = new View.OnFocusChangeListener() { // from class: com.diotek.diodict.SearchListActivity.12
         @Override // android.view.View.OnFocusChangeListener
         public void onFocusChange(View v, boolean hasFocus) {
-            if (SearchListActivity.this.mVoiceSearchBtn != null && !SearchListActivity.this.mUseVoiceSearch && SearchListActivity.this.mSearchWordBtn != null && SearchListActivity.this.mSearchWordBtn.getVisibility() != 0) {
+            if (!fakingFocus && SearchListActivity.this.mVoiceSearchBtn != null && !SearchListActivity.this.mUseVoiceSearch && SearchListActivity.this.mSearchWordBtn != null && SearchListActivity.this.mSearchWordBtn.getVisibility() != 0) {
                 if (hasFocus) {
                     SearchListActivity.this.mVoiceSearchBtn.setBackgroundResource(R.drawable.searchedittext_end_f);
                 } else {
@@ -610,14 +608,14 @@ public class SearchListActivity extends ListMeanViewActivity {
 
         private void selectVoiceRecognizeResult(int position) {
             String result = SearchListActivity.this.mVoiceRecognizeMatches.get(position);
-            if (result.length() > 0 && SearchListActivity.this.mSearchEditText != null) {
+            if (result.length() > 0 && SearchListActivity.this.etSearch != null) {
                 if (SearchListActivity.this.mEngine.getCurDict() == 65520) {
                     SearchListActivity.this.directSearchMeaning(result, true, true);
-                    SearchListActivity.this.mSearchEditText.setSelection(result.length());
+                    SearchListActivity.this.etSearch.setSelection(result.length());
                     return;
                 }
-                SearchListActivity.this.mSearchEditText.setText(result);
-                SearchListActivity.this.mSearchEditText.setSelection(result.length());
+                SearchListActivity.this.etSearch.setText(result);
+                SearchListActivity.this.etSearch.setSelection(result.length());
             }
         }
     };
@@ -631,7 +629,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         @Override // android.view.View.OnClickListener
         public void onClick(View v) {
             SearchListActivity.this.isRealTimeSearchStop = true;
-            SearchListActivity.this.mSearchEditText.setText("");
+            SearchListActivity.this.etSearch.setText("");
             SearchListActivity.this.mWillSearchText = "";
             SearchListActivity.this.AutoChangeLanguage("", true, true);
             SearchListActivity.this.mCurrentSearchMethod = SearchListActivity.this.mSearchMethodWord;
@@ -814,7 +812,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             DictUtils.setSearchLastWordToPreference(SearchListActivity.this, word);
             Intent intent = new Intent();
             intent.setClass(SearchListActivity.this, HyperSearchActivity.class);
-            intent.putExtra(DictInfo.INTENT_SAVE_INPUTWORD, SearchListActivity.this.mSearchEditText.getText().toString());
+            intent.putExtra(DictInfo.INTENT_SAVE_INPUTWORD, SearchListActivity.this.etSearch.getText().toString());
             intent.putExtra(DictInfo.INTENT_HYPER_MEANPOS, meanpos);
             intent.putExtra(DictInfo.INTENT_HYPER_DICTNAME, DictInfo.mCurrentDBName);
             intent.putExtra(DictInfo.INTENT_HYPER_SHOW_SEARCH, SearchListActivity.this.mSearchWordBtn.getVisibility() == 0);
@@ -933,8 +931,8 @@ public class SearchListActivity extends ListMeanViewActivity {
         @Override // java.lang.Runnable
         public void run() {
             InputMethodManager imm = (InputMethodManager) SearchListActivity.this.getApplicationContext().getSystemService("input_method");
-            if (imm != null && SearchListActivity.this.mSearchEditText != null) {
-                imm.hideSoftInputFromWindow(SearchListActivity.this.mSearchEditText.getWindowToken(), 0);
+            if (imm != null && SearchListActivity.this.etSearch != null) {
+                imm.hideSoftInputFromWindow(SearchListActivity.this.etSearch.getWindowToken(), 0);
             } else {
                 Log.e("imm", "mhideOnlySoftInput():imm or mSearchInput is null");
             }
@@ -944,12 +942,12 @@ public class SearchListActivity extends ListMeanViewActivity {
         @Override // java.lang.Runnable
         public void run() {
             InputMethodManager imm = (InputMethodManager) SearchListActivity.this.getApplicationContext().getSystemService("input_method");
-            if (imm != null && SearchListActivity.this.mSearchEditText != null) {
+            if (imm != null && SearchListActivity.this.etSearch != null) {
                 int imeInfo = 0;
                 if (CommonUtils.isUseKeypadNoExtractUI()) {
                     imeInfo = 1;
                 }
-                imm.showSoftInput(SearchListActivity.this.mSearchEditText, imeInfo);
+                imm.showSoftInput(SearchListActivity.this.etSearch, imeInfo);
                 return;
             }
             Log.e("imm", "mshowOnlySoftInput():imm or mSearchInput is null");
@@ -1195,7 +1193,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             this.mMarkerColorChangePopup.dismiss();
             this.mMarkerColorChangePopup = null;
             if (this.mTextView != null) {
-                this.mTextView.setMakerMode(false);
+                this.mTextView.setMarkerMode(false);
             }
         }
         if (this.mFontSizeChangePopup != null) {
@@ -1436,14 +1434,14 @@ public class SearchListActivity extends ListMeanViewActivity {
         }
         Toast.makeText(this, getResources().getString(R.string.voice_no_match), 0).show();
         directSearchMeaning("", true, false);
-        this.mSearchEditText.setSelection(0);
+        this.etSearch.setSelection(0);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void directSearchMeaning(String word, boolean isDefaultPos, boolean bAddHistory) {
         this.isForceGetMeaning = true;
-        this.mSearchEditText.setText(word);
-        this.mSearchEditText.setSelection(this.mSearchEditText.getText().toString().length());
+        this.etSearch.setText(word);
+        this.etSearch.setSelection(this.etSearch.getText().toString().length());
         searchWord(word, true);
         if (isDefaultPos) {
             this.mLastWordPos = this.mEngine.getResultListKeywordPos(0);
@@ -1478,14 +1476,14 @@ public class SearchListActivity extends ListMeanViewActivity {
             this.mMainEmptyLayout.setVisibility(View.GONE);
         }
         switch (keyCode) {
-            case 4:
+			case KeyEvent.KEYCODE_BACK:
                 if (runKeyCodeBack()) {
                     return true;
                 }
                 if (this.mStandardInnerLeftLayout.getVisibility() == 8 || this.mLayoutMode == 1) {
                     LayoutTransition.updateLayoutWithExtends(false, this.mStandardInnerLeftLayout, this.mMainRightLayout, this.mAnimationStartCallback, this.mAnimationEndCallback, this);
-                    if (this.mSearchEditText != null) {
-                        this.mSearchEditText.requestFocus();
+                    if (this.etSearch != null) {
+                        this.etSearch.requestFocus();
                     }
                     return true;
                 } else if (this.isWantFinnish || Dependency.isJapan()) {
@@ -1518,14 +1516,14 @@ public class SearchListActivity extends ListMeanViewActivity {
                 return true;
             case 23:
             case 66:
-                if (this.mSearchEditText == null || !this.mSearchEditText.isFocused()) {
+                if (this.etSearch == null || !this.etSearch.isFocused()) {
                     if ((this.mTextView != null && this.mTextView.isFocusable()) || (this.mMainMeanScrollView != null && this.mMainMeanScrollView.isFocusable())) {
                         LayoutTransition.updateLayoutWithExtends(true, this.mStandardInnerLeftLayout, this.mMainRightLayout, this.mAnimationStartCallback, this.mAnimationEndCallback, this);
                         return true;
                     } else if (this.mFileLinkTagViewManager != null && this.mFileLinkTagViewManager.isShowingLinkTextPopup()) {
                         this.mFileLinkTagViewManager.setFocusLinkTextPopup();
                         return true;
-                    } else if (this.mChangeDictionaryBtn.isFocusable() || this.mChangeLanguageBtn.isFocusable() || this.mSearchEditText.isFocusable()) {
+                    } else if (this.mChangeDictionaryBtn.isFocusable() || this.mChangeLanguageBtn.isFocusable() || this.etSearch.isFocusable()) {
                         LayoutTransition.updateLayoutWithExtends(false, this.mStandardInnerLeftLayout, this.mMainRightLayout, this.mAnimationStartCallback, this.mAnimationEndCallback, this);
                         return true;
                     } else {
@@ -1686,14 +1684,16 @@ public class SearchListActivity extends ListMeanViewActivity {
         }
         this.mChangeLanguageBtn = (ImageButton) findViewById(R.id.ChangeLanguageBtn);
         this.mChangeLanguageBtn.setOnClickListener(this.mChangeLanguageBtnOnClickListener);
-        this.mSearchEditText = (DictEditText) findViewById(R.id.SearchEditText);
+        this.etSearch = (DictEditText) findViewById(R.id.SearchEditText);
         this.mClearBtn = (ImageButton) findViewById(R.id.ClearBtn);
         this.mSearchWordBtn = (ImageButton) findViewById(R.id.SearchWordBtn);
-        this.mSearchEditText.addTextChangedListener(this.mSearchEditTextWatcher);
-        this.mSearchEditText.setOnClickListener(this.mSearchEditTextOnClickListener);
-        this.mSearchEditText.setOnKeyListener(this.mSearchEditTextOnKeyListener);
-        this.mSearchEditText.setOnFocusChangeListener(this.mSearchEditTextOnFocusChangeListener);
-        this.mSearchEditText.enableInputType(true);
+        this.etSearch.addTextChangedListener(this.tw1);
+//		etSearch.setClickable(false);
+//		etSearch.setLongClickable(false);
+        this.etSearch.setOnClickListener(this.mSearchEditTextOnClickListener);
+        this.etSearch.setOnKeyListener(this.mSearchEditTextOnKeyListener);
+        this.etSearch.setOnFocusChangeListener(this.mSearchEditTextOnFocusChangeListener);
+        this.etSearch.enableInputType(true);
         this.mClearBtn.setOnClickListener(this.mClearBtnOnClickListener);
         this.mSearchWordBtn.setOnClickListener(this.mSearchWordBtnOnClickListener);
         showHideSearchWordBtn(8);
@@ -1918,7 +1918,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             setClickableMeanToolBar(false);
             this.mTextView.clearSelection();
             showMarkerColorChangePopupMenu();
-            this.mTextView.setMakerMode(true);
+            this.mTextView.setMarkerMode(true);
         }
         showSoftInputMethod(false);
     }
@@ -1945,14 +1945,14 @@ public class SearchListActivity extends ListMeanViewActivity {
         if (DictDBManager.isKanjiDictionary(nDicType)) {
             this.mEngine.setDicType(EngineInfo3rd.getOriginalDicTypeByNotIndependenceDicType(nDicType, false));
         }
-        if (this.mSearchEditText != null && this.mSearchEditText.getText().length() > 0) {
+        if (this.etSearch != null && this.etSearch.getText().length() > 0) {
             if (!this.mEngine.isRealTimeSearchSupport()) {
                 directSearchMeaning("", true, false);
             } else {
-                this.mSearchEditText.setText("");
+                this.etSearch.setText("");
             }
         }
-        this.mSearchEditText.requestFocus();
+        this.etSearch.requestFocus();
     }
 
     public void runSearchWordBtn(boolean isHideSoftInput) {
@@ -1960,8 +1960,8 @@ public class SearchListActivity extends ListMeanViewActivity {
             showSoftInputMethod(false);
         }
         String word = "";
-        if (this.mSearchEditText != null) {
-            word = this.mSearchEditText.getText().toString();
+        if (this.etSearch != null) {
+            word = this.etSearch.getText().toString();
         }
         searchWord(word, true);
         runSearchListView(this.mEngine.getResultListKeywordPos(0), false);
@@ -1970,8 +1970,8 @@ public class SearchListActivity extends ListMeanViewActivity {
     public void runSearchWordBtnOnly() {
         showSoftInputMethod(false);
         String word = "";
-        if (this.mSearchEditText != null) {
-            word = this.mSearchEditText.getText().toString();
+        if (this.etSearch != null) {
+            word = this.etSearch.getText().toString();
         }
         directSearchMeaning(word, true, true);
     }
@@ -1983,8 +1983,8 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     public void runSearchWordBtn(int nPos) {
         String word = "";
-        if (this.mSearchEditText != null) {
-            word = this.mSearchEditText.getText().toString();
+        if (this.etSearch != null) {
+            word = this.etSearch.getText().toString();
         }
         runSearchWordBtn(word, nPos);
     }
@@ -2116,6 +2116,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     public boolean runKeyCodeBack() {
+		if (clearTextViewSelection()) return true;
         if (this.mChangeDictPopupLayout.getVisibility() == 0) {
             setFocusableChangeDictionary(false);
             this.mChangeDictPopupLayout.setVisibility(View.GONE);
@@ -2170,7 +2171,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     public void runSearchEditText() {
         this.mHandler.post(this.mSwingBackUpdateLayoutCallback);
         dismissMarkerColorChangePopup();
-        this.mSearchEditText.requestFocus();
+        this.etSearch.requestFocus();
         showSoftInputMethod(true);
     }
 
@@ -2388,9 +2389,9 @@ public class SearchListActivity extends ListMeanViewActivity {
     /* JADX INFO: Access modifiers changed from: private */
     public void addStringToEdit(String recogString) {
         int startPos;
-        StringBuilder oldStr = new StringBuilder(this.mSearchEditText.getText().toString());
-        int startPos2 = Math.min(this.mSearchEditText.getSelectionStart(), this.mSearchEditText.getSelectionEnd());
-        int endPos = Math.max(this.mSearchEditText.getSelectionStart(), this.mSearchEditText.getSelectionEnd());
+        StringBuilder oldStr = new StringBuilder(this.etSearch.getText().toString());
+        int startPos2 = Math.min(this.etSearch.getSelectionStart(), this.etSearch.getSelectionEnd());
+        int endPos = Math.max(this.etSearch.getSelectionStart(), this.etSearch.getSelectionEnd());
         boolean bPreviousTextExist = oldStr.toString().length() > 0;
         boolean bOldKorDict = DictDBManager.isOldKorDict(this.mEngine.getCurDict());
         boolean bOverMaxText = oldStr.toString().length() >= 30;
@@ -2405,24 +2406,24 @@ public class SearchListActivity extends ListMeanViewActivity {
                 oldStr.delete(startPos2, endPos);
                 oldStr.insert(startPos2, recogString);
                 startPos = startPos2 + recogString.length();
-                this.mSearchEditText.setText(oldStr.toString());
+                this.etSearch.setText(oldStr.toString());
             } else {
                 oldStr.insert(startPos2, recogString);
                 startPos = startPos2 + recogString.length();
-                this.mSearchEditText.setText(oldStr.toString());
+                this.etSearch.setText(oldStr.toString());
             }
-            this.mSearchEditText.setSelection(startPos);
+            this.etSearch.setSelection(startPos);
             return;
         }
-        this.mSearchEditText.setText(recogString);
+        this.etSearch.setText(recogString);
         if (!bOldKorDict) {
-            this.mSearchEditText.setSelection(this.mSearchEditText.getText().toString().length());
+            this.etSearch.setSelection(this.etSearch.getText().toString().length());
         }
     }
 
     private void initializeSearchEditText() {
-        if (this.mSearchEditText != null) {
-            this.mSearchEditText.setText("");
+        if (this.etSearch != null) {
+            this.etSearch.setText("");
         }
     }
 
@@ -2498,7 +2499,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         if (enginefirstword != null && curfirstword != null) {
             if (enginefirstword == null || !curfirstword.equals(enginefirstword)) {
                 int nSUID = this.mEngine.getResultList(0).getWordList(0).getSUID();
-                if (searchWord(curfirstword, nSUID, this.mSearchEditText.getText().toString(), 0)) {
+                if (searchWord(curfirstword, nSUID, this.etSearch.getText().toString(), 0)) {
                     this.mPreLastWordFromEngine = curfirstword;
                 }
             }
@@ -2514,7 +2515,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             if (this.mPreLastWordFromEngine == null || !curlastword.equals(this.mPreLastWordFromEngine)) {
                 if (enginelastword == null || !curlastword.equals(enginelastword)) {
                     int nSUID = this.mEngine.getResultList(0).getWordList(pos).getSUID();
-                    if (searchWord(curlastword, nSUID, this.mSearchEditText.getText().toString(), 0)) {
+                    if (searchWord(curlastword, nSUID, this.etSearch.getText().toString(), 0)) {
                         this.mPreLastWordFromEngine = curlastword;
                     }
                 }
@@ -2946,8 +2947,8 @@ public class SearchListActivity extends ListMeanViewActivity {
         this.mEngine.changeDictionary(nDicType, "", -1);
         DictInfo.mCurrentDBName = DictDBManager.getDictName(this.mEngine.getCurDict());
         setSearchDBName();
-        if (this.mSearchEditText != null) {
-            this.mSearchEditText.setHint(DictDBManager.getCurDictHint(this.mEngine.getCurDict()));
+        if (this.etSearch != null) {
+            this.etSearch.setHint(DictDBManager.getCurDictHint(this.mEngine.getCurDict()));
         }
     }
 
@@ -3098,7 +3099,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         }
         this.mMarkerColorChangePopup.dismiss();
         this.mMarkerColorChangePopup = null;
-        this.mTextView.setMakerMode(false);
+        this.mTextView.setMarkerMode(false);
         setFocusableSearchActivity(true);
         return true;
     }
@@ -3212,7 +3213,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     public void showSoftInputMethod(boolean isShow) {
         if (isShow) {
             initSelection();
-            this.mSearchEditText.requestFocus();
+            this.etSearch.requestFocus();
         }
         showHideSystemInputMethod(isShow);
     }
@@ -3322,18 +3323,18 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void handleDelete() {
-        StringBuilder oldStr = new StringBuilder(this.mSearchEditText.getText().toString());
+        StringBuilder oldStr = new StringBuilder(this.etSearch.getText().toString());
         if (oldStr.toString().length() > 0) {
-            int startPos = Math.min(this.mSearchEditText.getSelectionStart(), this.mSearchEditText.getSelectionEnd());
-            int endPos = Math.max(this.mSearchEditText.getSelectionStart(), this.mSearchEditText.getSelectionEnd());
+            int startPos = Math.min(this.etSearch.getSelectionStart(), this.etSearch.getSelectionEnd());
+            int endPos = Math.max(this.etSearch.getSelectionStart(), this.etSearch.getSelectionEnd());
             if (startPos != endPos) {
                 oldStr.delete(startPos, endPos);
             } else if (startPos != 0) {
                 startPos--;
                 oldStr.deleteCharAt(startPos);
             }
-            this.mSearchEditText.setText(oldStr.toString());
-            this.mSearchEditText.setSelection(startPos);
+            this.etSearch.setText(oldStr.toString());
+            this.etSearch.setSelection(startPos);
         }
     }
 
@@ -3639,8 +3640,8 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     public void setSearchDBName() {
         this.mSearchDBNameTextView.setText(DictInfo.mCurrentDBName);
-        if (this.mSearchEditText != null) {
-            this.mSearchEditText.setHint(DictDBManager.getCurDictHint(this.mEngine.getCurDict()));
+        if (this.etSearch != null) {
+            this.etSearch.setHint(DictDBManager.getCurDictHint(this.mEngine.getCurDict()));
         }
     }
 
@@ -3670,8 +3671,8 @@ public class SearchListActivity extends ListMeanViewActivity {
         for (int i = 0; i < this.mMeanTabView.getTotalCount(); i++) {
             this.mMeanTabView.getButton(i).setFocusable(bFocus);
         }
-        this.mSearchEditText.setFocusable(bFocus);
-        this.mSearchEditText.setFocusableInTouchMode(bFocus);
+        this.etSearch.setFocusable(bFocus);
+        this.etSearch.setFocusableInTouchMode(bFocus);
         this.mClearBtn.setFocusable(bFocus);
         if (this.mSearchListEmptyLayout.getVisibility() != 0) {
             this.mTextView.setFocusable(bFocus);
@@ -3798,7 +3799,7 @@ public class SearchListActivity extends ListMeanViewActivity {
                     this.mLastWordPos = this.mEngine.getResultListKeywordPos(0);
                     if (this.mEngine.getResultList(0) != null) {
                         int nSUID = this.mEngine.getResultList(0).getWordList(this.mLastWordPos).getSUID();
-                        searchWord(this.mLastSearchWord, nSUID, this.mSearchEditText.getText().toString(), 0);
+                        searchWord(this.mLastSearchWord, nSUID, this.etSearch.getText().toString(), 0);
                         return;
                     }
                     searchWord(this.mLastSearchWord, true);
@@ -3815,8 +3816,8 @@ public class SearchListActivity extends ListMeanViewActivity {
         this.mCurrentSearchMethod = this.mSearchMethodWord;
         setSearchWordBtnBySearchMethod(this.mEngine.getCurrentSearchMethodId());
         if (this.mLastSearchWord != null) {
-            this.mSearchEditText.setText(this.mLastSearchWord);
-            this.mSearchEditText.setSelection(this.mLastSearchWord.length());
+            this.etSearch.setText(this.mLastSearchWord);
+            this.etSearch.setSelection(this.mLastSearchWord.length());
         }
         this.mLastWordPos = this.mEngine.getResultListKeywordPos(0);
         updateSearchListViewItems(0);

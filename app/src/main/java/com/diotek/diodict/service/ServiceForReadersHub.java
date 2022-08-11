@@ -19,6 +19,7 @@ import com.diotek.diodict.engine.ResInstall;
 import com.diotek.diodict.engine.WordList3rd;
 import com.diotek.diodict.mean.TagConverter;
 import com.diotek.diodict.service.IServiceForReadersHub;
+import com.diotek.diodict.utils.CMN;
 
 import java.io.File;
 import java.io.FileInputStream;

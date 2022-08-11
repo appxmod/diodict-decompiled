@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Spanned;
@@ -287,7 +288,11 @@ public abstract class BaseMeanController {
             this.mTitleTextView = titleTextView;
             if (this.mTitleTextView != null) {
                 this.mTitleTextView.setTypeface(DictUtils.createfont());
-                this.mTitleTextView.setOnTouchListener(this.mTitleTextOnTouchListener);
+				//mTitleTextView.setSelectAllOnFocus(true);
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+					mTitleTextView.setTextIsSelectable(true);
+				}
+				//this.mTitleTextView.setOnTouchListener(this.mTitleTextOnTouchListener);
             }
             this.mContentTextView = contentTextView;
             this.mBookmark = bookmark;

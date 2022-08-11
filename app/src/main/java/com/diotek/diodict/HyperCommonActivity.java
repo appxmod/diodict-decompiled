@@ -970,7 +970,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
         }
         this.mMarkerColorChangePopup.dismiss();
         this.mMarkerColorChangePopup = null;
-        this.mHyperDetailMeanContentTextView.setMakerMode(false);
+        this.mHyperDetailMeanContentTextView.setMarkerMode(false);
         setFocusableHyperActivity(true);
         return true;
     }
@@ -1268,7 +1268,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
         if (this.mMarkerColorChangePopup != null) {
             this.mMarkerColorChangePopup.dismiss();
             this.mMarkerColorChangePopup = null;
-            this.mHyperDetailMeanContentTextView.setMakerMode(false);
+            this.mHyperDetailMeanContentTextView.setMarkerMode(false);
         }
         if (this.mFontSizeChangePopup != null) {
             this.mFontSizeChangePopup.dismiss();

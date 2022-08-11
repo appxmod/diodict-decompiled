@@ -37,6 +37,7 @@ import com.diotek.diodict.HistoryActivity;
 import com.diotek.diodict.MultiShareActivity;
 import com.diotek.diodict.SearchListActivity;
 import com.diotek.diodict.SettingActivity;
+import com.diotek.diodict.ViewUtils;
 import com.diotek.diodict.WikipediaActivity;
 import com.diotek.diodict.anim.TiffanyTransition;
 import com.diotek.diodict.auth.TimeLimitAuth;
@@ -65,6 +66,7 @@ public abstract class BaseActivity extends Activity {
 	
 	/** the main textView */
 	protected ExtendTextView mTextView = null;
+	protected DictEditText etSearch = null;
 	
 	protected TextView mSearchDBNameTextView = null;
     private View mRunnableTTSBtn = null;
@@ -611,10 +613,41 @@ public abstract class BaseActivity extends Activity {
 					return text;
 				}
 			}
+			View foca = getCurrentFocus();
+			if (foca instanceof TextView && ((TextView) foca).hasSelection()) {
+				return ViewUtils.getTextSelection((TextView) foca);
+			}
 			return lastSharedText;
 		} catch (Exception e) {
 			CMN.debug(e);
 			return "";
 		}
+	}
+	
+	public boolean hasTextSelection() {
+		if (mTextView!=null && mTextView.isSelectedText()) {
+			return true;
+		}
+		View foca = getCurrentFocus();
+		if (foca instanceof TextView && ((TextView) foca).hasSelection()) {
+			// CMN.Log("hasTextSel::", tv.getText().subSequence(st, ed));
+			return true;
+		}
+		return false;
+	}
+	
+	protected boolean fakingFocus;
+	
+	public final boolean clearTextViewSelection() {
+		View foca = getCurrentFocus();
+		if (foca instanceof TextView && ((TextView) foca).hasSelection()) {
+			//if(etSearch!=null) etSearch.setFocusable(false);
+			fakingFocus = true; // annoying etSearch onFocusChanged logic!
+			ViewUtils.clearTextSelection((TextView) foca);
+			fakingFocus = false;
+			//if(etSearch!=null) etSearch.setFocusable(true);
+			return true;
+		}
+		return false;
 	}
 }

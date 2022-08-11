@@ -298,6 +298,7 @@ public class HyperSearchActivity extends HyperCommonActivity {
     }
 
     public boolean runKeyCodeBack() {
+		if (clearTextViewSelection()) return true;
         if (this.mCopyToFlashcardLayout.getVisibility() == 0) {
             showCopyToFlashcardLayout(false);
             this.mSaveBtn.setSelected(false);
@@ -326,7 +327,7 @@ public class HyperSearchActivity extends HyperCommonActivity {
             this.mHyperDetailMeanContentTextView.clearSelection();
             setClickableMeanToolBar(false);
             showMarkerColorChangePopupMenu();
-            this.mHyperDetailMeanContentTextView.setMakerMode(true);
+            this.mHyperDetailMeanContentTextView.setMarkerMode(true);
         }
     }
 

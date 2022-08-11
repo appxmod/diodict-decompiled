@@ -140,6 +140,7 @@ public class HyperHistoryActivity extends HyperCommonActivity {
     }
 
     public boolean runKeyCodeBack() {
+		if (clearTextViewSelection()) return true;
         if (this.mHyperSimpleViewModule != null && this.mHyperSimpleViewModule.isShowingHyperDialogPopup()) {
             this.mHyperSimpleViewModule.closeHyperTextSummaryPopup(false);
         } else if (this.mFileLinkTagViewManager != null && this.mFileLinkTagViewManager.isShowingLinkTextPopup()) {

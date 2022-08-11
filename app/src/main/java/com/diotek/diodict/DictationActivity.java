@@ -37,6 +37,8 @@ import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.RecognizeView;
 import com.diotek.diodict.uitool.UITools;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.CMN;
+
 import java.lang.Character;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -852,6 +854,7 @@ public class DictationActivity extends BaseActivity {
     }
 
     public boolean runKeyCodeBack() {
+		if (clearTextViewSelection()) return true;
         finish();
         finalizeSound();
         Intent intent = new Intent();

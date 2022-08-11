@@ -5,7 +5,27 @@
             <ImageButton android:id="@+id/ChangeDictionaryBtn" android:background="@drawable/changedict" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
             <ImageButton android:id="@+id/ChangeLanguageBtn" android:background="@drawable/changelang" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true"/>
         </LinearLayout>
-        <com.diotek.diodict.uitool.DictEditText android:id="@+id/SearchEditText" android:background="@drawable/search_text" android:paddingLeft="6.6dp" android:paddingRight="30dp" android:focusable="true" android:nextFocusRight="@+id/ClearBtn" android:clickable="true" android:longClickable="true" android:layout_width="180.6dp" android:layout_height="wrap_content" android:maxLines="1" android:lines="1" android:singleLine="true" android:maxLength="70" android:layout_toLeftOf="@+id/InputRightLayout" android:layout_toRightOf="@+id/InputLeftLayout" android:layout_centerVertical="true" android:privateImeOptions="inputType=dictionary" android:imeOptions="actionSearch"/>
+
+		<com.diotek.diodict.uitool.DictEditText
+			android:id="@+id/SearchEditText"
+			android:layout_width="180.6dp"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_toLeftOf="@+id/InputRightLayout"
+			android:layout_toRightOf="@+id/InputLeftLayout"
+			android:background="@drawable/search_text"
+			android:clickable="true"
+			android:focusable="true"
+			android:imeOptions="actionSearch"
+			android:lines="1"
+			android:longClickable="true"
+			android:maxLength="70"
+			android:maxLines="1"
+			android:nextFocusRight="@+id/ClearBtn"
+			android:paddingLeft="6.6dp"
+			android:paddingRight="30dp"
+			android:privateImeOptions="inputType=dictionary"
+			android:singleLine="true" />
         <ImageButton android:id="@+id/ClearBtn" android:background="@drawable/clearbtn" android:visibility="gone" android:nextFocusLeft="@+id/SearchEditText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6.6dp" android:layout_marginRight="1.5dp" android:layout_toLeftOf="@+id/InputRightLayout" android:layout_centerVertical="true"/>
         <LinearLayout android:id="@+id/InputRightLayout" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_alignParentRight="true">
             <ImageButton android:id="@+id/SearchWordBtn" android:background="@drawable/searchbtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true"/>

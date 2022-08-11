@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 
+import com.diotek.diodict.utils.CMN;
+
 /* loaded from: classes.dex */
 public class TFWindow extends Window {
 	FrameLayout mMyDecorView;

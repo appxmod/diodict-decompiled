@@ -519,6 +519,7 @@ public class StudyActivity extends BaseActivity {
         this.mMeanTitleView = (TextView) findViewById(R.id.StudyMeanTitleView);
         this.mMeanWordCount = (TextView) findViewById(R.id.CountTextView);
         this.mTextView = (ExtendTextView) findViewById(R.id.StudyMeanContentView);
+		mTextView.setEnableTextSelect(true);
         this.mMeanInfoTextView = (TextView) findViewById(R.id.StudyContentMeanInfoTextView);
         this.mCorrectImageView = (ImageView) findViewById(R.id.CorrectImageView);
         this.mWrongImageView = (ImageView) findViewById(R.id.WrongImageView);
@@ -792,6 +793,7 @@ public class StudyActivity extends BaseActivity {
     }
 
     public boolean runKeyCodeBack() {
+		if (clearTextViewSelection()) return true;
         finish();
         finalizeSound();
         Intent intent = new Intent();

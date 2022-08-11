@@ -651,6 +651,27 @@ public class ViewUtils {
 		}
 	}
 	
+	public static String getTextSelection(TextView tv) {
+		int st = tv.getSelectionStart();
+		int ed = tv.getSelectionEnd();
+		if (st>ed) {
+			int tmp = st; st=ed; ed=tmp;
+		}
+		return tv.getText().subSequence(st, ed).toString();
+	}
+	
+	public static void clearTextSelection(TextView view) {
+		MotionEvent evt = MotionEvent.obtain(0, 0, MotionEvent.ACTION_DOWN, -1, -1, 0);
+		if (view!=null) {
+			view.dispatchTouchEvent(evt);
+			evt.setAction(MotionEvent.ACTION_UP);
+			view.dispatchTouchEvent(evt);
+		}
+		evt.setSource(100);
+		if(view.hasSelection()) view.clearFocus();
+		evt.recycle();
+	}
+	
 	public static void preventDefaultTouchEvent(View view, int x, int y) {
 		MotionEvent evt = MotionEvent.obtain(0, 0, MotionEvent.ACTION_CANCEL, x, y, 0);
 		if (view!=null) view.dispatchTouchEvent(evt);

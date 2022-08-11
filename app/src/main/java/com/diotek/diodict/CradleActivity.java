@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -362,22 +361,25 @@ public class CradleActivity extends BaseActivity {
             return false;
         }
     };
-    TouchGesture mContentPageLayoutOnTouchListener = new TouchGesture();
-    TouchGesture.TouchGestureOnTouchListener mTouchGestureOnTouchListener = new TouchGesture.TouchGestureOnTouchListener() { // from class: com.diotek.diodict.CradleActivity.26
+    TouchGesture flingGestureDetector = new TouchGesture();
+    TouchGesture.TouchGestureOnTouchListener flingGestureListener = new TouchGesture.TouchGestureOnTouchListener() { // from class: com.diotek.diodict.CradleActivity.26
         @Override // com.diotek.diodict.uitool.TouchGesture.TouchGestureOnTouchListener
         public boolean callBackFlingClick() {
+			CMN.debug("fling::callBackFlingClick");
             return false;
         }
 
         @Override // com.diotek.diodict.uitool.TouchGesture.TouchGestureOnTouchListener
         public boolean callBackFlingNext() {
+			CMN.debug("fling::callBackFlingNext");
             CradleActivity.this.mIsReadyToShowNextWord = true;
-            CradleActivity.this.mCradleHandler.sendEmptyMessage(0);
+            CradleActivity.this.mCradleHandler.sendEmptyMessage(NextMessage);
             return false;
         }
 
         @Override // com.diotek.diodict.uitool.TouchGesture.TouchGestureOnTouchListener
         public boolean callBackFlingPrev() {
+			CMN.debug("fling::callBackFlingNext");
             CradleActivity.this.mIsReadyToShowNextWord = true;
             CradleActivity.this.mCradleHandler.sendEmptyMessage(2);
             return false;
@@ -435,8 +437,13 @@ public class CradleActivity extends BaseActivity {
             String Hours;
             super.handleMessage(msg);
             switch (msg.what) {
-                case 0:
-                    if ((CradleActivity.this.mIsReadyToShowNextWord || !CradleActivity.this.mIsSpeakOn) && !CradleActivity.this.mIsPaused) {
+                case NextMessage:
+                    if ((CradleActivity.this.mIsReadyToShowNextWord || !CradleActivity.this.mIsSpeakOn)
+							&& !CradleActivity.this.mIsPaused) {
+						if(hasTextSelection()) {
+							mCradleHandler.sendEmptyMessageDelayed(NextMessage, mDuration);
+							return;
+						}
                         CradleActivity.this.setNextWord();
                         CradleActivity.this.mCurrentWordPos = CradleActivity.this.mMeanController.getWordPos();
                         if (CradleActivity.this.mDuration != 0) {
@@ -497,8 +504,8 @@ public class CradleActivity extends BaseActivity {
             }
         }
     };
-
-    @Override // android.app.Activity
+	
+	@Override // android.app.Activity
     protected void onCreate(Bundle savedInstanceState) {
         if (super.onCreateActivity(savedInstanceState)) {
             if (Build.VERSION.SDK_INT < 11) {
@@ -704,6 +711,7 @@ public class CradleActivity extends BaseActivity {
         this.mContentPageLayout = (LinearLayout) findViewById(R.id.CradleContentMeanInnerLayout);
         this.mMeanTitleView = (TextView) findViewById(R.id.CradleMeanTitleView);
         this.mTextView = (ExtendTextView) findViewById(R.id.CradleMeanContentView);
+		mTextView.setEnableTextSelect(true);
         this.mMeanScrollView = (ScrollView) findViewById(R.id.CradleMeanScrollView);
         this.mSpeakerBtn = (CheckBox) findViewById(R.id.SpeakerBtn);
         this.mUsBtn = (CheckBox) findViewById(R.id.ToggleUsBtn);
@@ -715,13 +723,14 @@ public class CradleActivity extends BaseActivity {
         this.mMeanController.setMeanTitleTextSizeUpdateCallback(this.mMeanTitleTextSizeUpdateCallback);
         this.mUsBtn.setOnClickListener(this.mUsUkBtnOnClickListener);
         this.mUkBtn.setOnClickListener(this.mUsUkBtnOnClickListener);
-        this.mMeanTitleView.setOnTouchListener(this.mMeanTitleViewOnTouchListener);
-        this.mTextView.setOnTouchListener(this.mContentPageLayoutOnTouchListener);
+//        this.mMeanTitleView.setOnTouchListener(this.mMeanTitleViewOnTouchListener);
         this.mMeanScrollView.setOnTouchListener(this.mMeanScrollViewOnTouchListener);
         this.mMeanScrollView.setOnClickListener(this.mMeanScrollViewOnClickListener);
-        this.mContentPageLayout.setOnTouchListener(this.mContentPageLayoutOnTouchListener);
-        this.mContentPageLayoutOnTouchListener.setOnTouchClickListener(this.mTouchGestureOnTouchListener);
         setUsUkBtnChecked();
+		
+		flingGestureDetector.setOnTouchClickListener(this.flingGestureListener);
+		mTextView.setOnTouchListener(this.flingGestureDetector);
+		mContentPageLayout.setOnTouchListener(this.flingGestureDetector);
     }
 
     public void prepareMeanController(int pos) {
@@ -853,6 +862,7 @@ public class CradleActivity extends BaseActivity {
     }
 
     public boolean runKeyCodeBack() {
+		if (clearTextViewSelection()) return true;
         finish();
         finalizeSound();
         Intent intent = new Intent();
@@ -1057,18 +1067,19 @@ public class CradleActivity extends BaseActivity {
         }
     }
 
+	final static int NextMessage = 0;
     /* JADX INFO: Access modifiers changed from: private */
     public void cradleStart(boolean bDelay) {
         if (this.mCradleHandler != null) {
-            if (this.mCradleHandler.hasMessages(0)) {
-                this.mCradleHandler.removeMessages(0);
+            if (this.mCradleHandler.hasMessages(NextMessage)) {
+                this.mCradleHandler.removeMessages(NextMessage);
             }
             if (this.mIsTitleOnly) {
                 if (this.mWordCount > 1 && this.mDuration != 0) {
                     if (bDelay) {
-                        this.mCradleHandler.sendEmptyMessageDelayed(0, this.mDuration);
+                        this.mCradleHandler.sendEmptyMessageDelayed(NextMessage, this.mDuration);
                     } else {
-                        this.mCradleHandler.sendEmptyMessage(0);
+                        this.mCradleHandler.sendEmptyMessage(NextMessage);
                     }
                 }
             } else if (this.mIsPopupClose) {

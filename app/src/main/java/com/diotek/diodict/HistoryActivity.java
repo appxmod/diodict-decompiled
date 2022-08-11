@@ -619,6 +619,7 @@ public class HistoryActivity extends ListMeanViewActivity {
     }
 
     public boolean runKeyCodeBack() {
+		if (clearTextViewSelection()) return true;
         if (this.mCopyToFlashcardPopLayout.getVisibility() == 0) {
             hideFlashcardPopup();
             return true;

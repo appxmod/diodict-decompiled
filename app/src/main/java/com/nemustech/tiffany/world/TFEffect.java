@@ -22,6 +22,7 @@ import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.diotek.diodict.dhwr.b2c.kor.DHWR;
+import com.diotek.diodict.utils.CMN;
 import com.nemustech.tiffany.world.TFAnimation;
 import com.nemustech.tiffany.world.TFFlexiblePanel;
 import com.nemustech.tiffany.world.TFPagePanel;
