@@ -36,6 +36,7 @@ import com.diotek.diodict.mean.CursorMeanController;
 import com.diotek.diodict.mean.ExtendTextView;
 import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.uitool.CommonUtils;
+import com.diotek.diodict.uitool.LinearFlingLayout;
 import com.diotek.diodict.uitool.TabView;
 import com.diotek.diodict.uitool.TouchGesture;
 import com.diotek.diodict.uitool.UITools;
@@ -88,7 +89,7 @@ public class CradleActivity extends BaseActivity {
     RadioButton mDateFormBtn1 = null;
     RadioButton mDateFormBtn2 = null;
     SeekBar mTimeDurationSeekBar = null;
-    LinearLayout mContentPageLayout = null;
+    LinearFlingLayout mExplainLayout = null;
     RelativeLayout mCradleStartLayout = null;
     Button mCradleStart = null;
     CursorMeanController mMeanController = null;
@@ -708,14 +709,18 @@ public class CradleActivity extends BaseActivity {
     }
 
     public void prepareContentMeanLayout() {
-        this.mContentPageLayout = (LinearLayout) findViewById(R.id.CradleContentMeanInnerLayout);
-        this.mMeanTitleView = (TextView) findViewById(R.id.CradleMeanTitleView);
-        this.mTextView = (ExtendTextView) findViewById(R.id.CradleMeanContentView);
+        View exp = findViewById(R.id.CradleContentMeanLayout);
+        this.mExplainLayout = (LinearFlingLayout) exp.findViewById(R.id.card);
+        this.mMeanTitleView = (TextView) mExplainLayout.findViewById(R.id.CradleMeanTitleView);
+        this.mTextView = (ExtendTextView) mExplainLayout.findViewById(R.id.CradleMeanContentView);
 		mTextView.setEnableTextSelect(true);
-        this.mMeanScrollView = (ScrollView) findViewById(R.id.CradleMeanScrollView);
-        this.mSpeakerBtn = (CheckBox) findViewById(R.id.SpeakerBtn);
-        this.mUsBtn = (CheckBox) findViewById(R.id.ToggleUsBtn);
-        this.mUkBtn = (CheckBox) findViewById(R.id.ToggleUkBtn);
+        this.mMeanScrollView = (ScrollView) mExplainLayout.findViewById(R.id.CradleMeanScrollView);
+		
+		View btm= exp.findViewById(R.id.CradleContentMeanBottomLayout);
+        this.mSpeakerBtn = (CheckBox) btm.findViewById(R.id.SpeakerBtn);
+        this.mUsBtn = (CheckBox) btm.findViewById(R.id.ToggleUsBtn);
+        this.mUkBtn = (CheckBox) btm.findViewById(R.id.ToggleUkBtn);
+		
         this.mSpeakerBtn.setOnCheckedChangeListener(this.mSpeakerBtnOnCheckedChangeListener);
         this.mMeanController = new CursorMeanController(this, this.mMeanTitleView, this.mTextView, null, null, this.mEngine, this.mThemeModeCallback, null, null);
         this.mMeanController.setMeanContentTextViewCallback(null, null, false, this.mAfterSetMeanViewCallback);
@@ -729,8 +734,9 @@ public class CradleActivity extends BaseActivity {
         setUsUkBtnChecked();
 		
 		flingGestureDetector.setOnTouchClickListener(this.flingGestureListener);
-		mTextView.setOnTouchListener(this.flingGestureDetector);
-		mContentPageLayout.setOnTouchListener(this.flingGestureDetector);
+		// mTextView.setOnTouchListener(this.flingGestureDetector);
+		// mMeanTitleView.setOnTouchListener(this.flingGestureDetector);
+		mExplainLayout.setOnTouchListener(this.flingGestureDetector);
     }
 
     public void prepareMeanController(int pos) {

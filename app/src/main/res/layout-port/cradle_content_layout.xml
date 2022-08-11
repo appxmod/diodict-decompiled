@@ -15,12 +15,12 @@
                 <Button android:textSize="13dp" android:textColor="@color/textColor_Black" android:id="@+id/MeanTabAllBtn" android:background="@drawable/cradle_tab" android:layout_width="@dimen/cradlecontentmean_tab_width" android:layout_height="26.6dp" android:text="@string/viewAll" android:layout_weight="1"/>
             </LinearLayout>
         </RelativeLayout>
-        <LinearLayout android:orientation="vertical" android:id="@+id/CradleContentMeanInnerLayout" android:clickable="true" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/CradleContentMeanBottomLayout" android:layout_below="@+id/CradleTabLayout">
+        <com.diotek.diodict.uitool.LinearFlingLayout android:orientation="vertical" android:id="@+id/card" android:clickable="true" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_above="@+id/CradleContentMeanBottomLayout" android:layout_below="@+id/CradleTabLayout">
             <TextView android:gravity="center" android:id="@+id/CradleMeanTitleView" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="3"/>
             <com.diotek.diodict.mean.ExtendScrollView android:id="@+id/CradleMeanScrollView" android:background="#10ffffff" android:visibility="gone" android:fadingEdgeLength="5dp" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="10dp" android:layout_marginRight="10dp" android:layout_weight="1">
                 <com.diotek.diodict.mean.ExtendTextView android:id="@+id/CradleMeanContentView" android:layout_width="match_parent" android:layout_height="match_parent"/>
             </com.diotek.diodict.mean.ExtendScrollView>
-        </LinearLayout>
+        </com.diotek.diodict.uitool.LinearFlingLayout>
         <RelativeLayout android:id="@+id/CradleContentMeanBottomLayout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true">
             <CheckBox android:id="@+id/SpeakerBtn" android:layout_width="46.6dp" android:layout_height="41.3dp" android:button="@drawable/speak_switch_btn" android:layout_alignParentLeft="true"/>
             <CheckBox android:id="@+id/ToggleUsBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:button="@drawable/toggle_us" android:layout_toRightOf="@+id/SpeakerBtn"/>
