@@ -128,7 +128,7 @@ public class HyperSearchActivity extends HyperCommonActivity {
                         this.mHyperDetailMeanContentTextView.setMarkerColor(colorList[viewIdx]);
                         view.setChecked(true);
                         if (viewIdx < 5) {
-                            DictUtils.setMarkerColorToPreference(this, viewIdx);
+                            DictUtils.saveMarkerColor(this, viewIdx);
                         }
                         return true;
                     }

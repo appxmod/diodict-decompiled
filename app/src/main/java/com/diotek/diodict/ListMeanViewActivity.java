@@ -183,7 +183,7 @@ public class ListMeanViewActivity extends BaseActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case 4:
-                if (this.mStandardInnerLeftLayout.getVisibility() == 8) {
+                if (this.mStandardInnerLeftLayout.getVisibility() == View.GONE) {
                     LayoutTransition.updateLayoutWithExtends(false, this.mStandardInnerLeftLayout, this.mMainRightLayout, this.mAnimationStartCallback, this.mAnimationEndCallback, getApplicationContext());
                     return true;
                 }
@@ -214,7 +214,7 @@ public class ListMeanViewActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: protected */
     public void prepareMeanContentLayout_byConfiguration(int configuration) {
         RelativeLayout wrap_layout = (RelativeLayout) findViewById(R.id.copyToFlashcardWrapperLayout);
-        LayoutInflater inflater = (LayoutInflater) getSystemService("layout_inflater");
+        LayoutInflater inflater = getLayoutInflater();
         if (wrap_layout != null) {
             wrap_layout.removeAllViews();
         }
@@ -331,7 +331,7 @@ public class ListMeanViewActivity extends BaseActivity {
         ((LinearLayout.LayoutParams) this.mStandardInnerLeftLayout.getLayoutParams()).weight = LayoutTransition.getMinMeaningWeight(getApplicationContext());
         if (this.mMainMeanBookmarkImageView != null) {
             this.mMainMeanBookmarkImageView = this.mBookmarkImageViewNormal;
-            if (this.mBookmarkImageViewLandExtension.getVisibility() == 0) {
+            if (this.mBookmarkImageViewLandExtension.getVisibility() == View.VISIBLE) {
                 this.mBookmarkImageViewLandExtension.setVisibility(View.GONE);
                 this.mMainMeanBookmarkImageView.setVisibility(View.VISIBLE);
             }
@@ -364,7 +364,7 @@ public class ListMeanViewActivity extends BaseActivity {
         showHideEmptyViewTitleTop(true);
         this.mMainRightLayout.setBackgroundResource(R.drawable.search_content_right_bg);
         if (this.mMainMeanBookmarkImageView != null) {
-            if (this.mMainMeanBookmarkImageView.getVisibility() == 0) {
+            if (this.mMainMeanBookmarkImageView.getVisibility() == View.VISIBLE) {
                 this.mBookmarkImageViewNormal.setVisibility(View.GONE);
                 this.mBookmarkImageViewLandExtension.setVisibility(View.VISIBLE);
             }
@@ -407,7 +407,7 @@ public class ListMeanViewActivity extends BaseActivity {
             nLang = EngineInfo3rd.TTS_KOREAN;
         }
         boolean bExist = false;
-        int nVisibility = 8;
+        int nVisibility = View.GONE;
         int nTTSFisrtRepeatBtnResId = R.drawable.repeat;
         int nTTSSecondRepeatBtnResId = R.drawable.repeat;
         String nTTSFirstStr = "";
@@ -438,7 +438,7 @@ public class ListMeanViewActivity extends BaseActivity {
             }
         }
         if (bExist && bShow) {
-            nVisibility = 0;
+            nVisibility = View.VISIBLE;
         }
         this.mUSOnceBtn.setVisibility(nVisibility);
         this.mUSRepeatBtn.setVisibility(nVisibility);
@@ -481,12 +481,12 @@ public class ListMeanViewActivity extends BaseActivity {
                     }
                 }
             } else {
-                nVisibility = 8;
+                nVisibility = View.GONE;
                 nTTSFisrtBtnResId = R.drawable.tts_etc;
                 nTTSSecondBtnResId = R.drawable.tts_etc;
             }
         } else {
-            nVisibility = 8;
+            nVisibility = View.GONE;
             nTTSFisrtBtnResId = R.drawable.tts_etc;
             nTTSSecondBtnResId = R.drawable.tts_etc;
         }

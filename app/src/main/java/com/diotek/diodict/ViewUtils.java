@@ -1186,4 +1186,10 @@ public class ViewUtils {
 		return false;
 	}
 	
+	public static View.OnTouchListener dummyOnTouch = new View.OnTouchListener() {
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			return true;
+		}
+	};
 }

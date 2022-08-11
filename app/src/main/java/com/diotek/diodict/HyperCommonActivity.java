@@ -249,7 +249,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
             if (HyperCommonActivity.this.mHyperDetailMeanContentTextView != null && colorChange) {
                 HyperCommonActivity.this.mHyperDetailMeanContentTextView.setMarkerColor(colorList[markerColorIndex]);
                 if (markerColorIndex < 5) {
-                    DictUtils.setMarkerColorToPreference(HyperCommonActivity.this.getApplicationContext(), markerColorIndex);
+                    DictUtils.saveMarkerColor(HyperCommonActivity.this.getApplicationContext(), markerColorIndex);
                 }
             }
         }

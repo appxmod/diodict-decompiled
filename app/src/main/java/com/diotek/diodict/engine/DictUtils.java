@@ -1143,7 +1143,7 @@ public class DictUtils {
         return value;
     }
 
-    public static void setMarkerColorToPreference(Context ctx, int value) {
+    public static void saveMarkerColor(Context ctx, int value) {
         SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_MARKER_PEN_COLOR, 0);
         SharedPreferences.Editor editor = pefSetLanguage.edit();
         editor.putInt(DIODICT_SETTING_PREF_MARKER_PEN_COLOR_VALUE, value);
