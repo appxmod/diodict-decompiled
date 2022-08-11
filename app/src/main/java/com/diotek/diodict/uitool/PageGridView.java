@@ -15,7 +15,7 @@ import android.widget.ViewFlipper;
 import com.diotek.diodict.GridViewAdapter;
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.uitool.TouchGesture;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.HashMap;

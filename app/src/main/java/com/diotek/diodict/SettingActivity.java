@@ -27,7 +27,7 @@ import com.diotek.diodict.mean.ExtendScrollView;
 import com.diotek.diodict.mean.ExtendTextView;
 import com.diotek.diodict.mean.SettingMeanController;
 import com.diotek.diodict.uitool.BaseActivity;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class SettingActivity extends BaseActivity {

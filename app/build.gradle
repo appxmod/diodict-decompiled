@@ -14,11 +14,11 @@ android {
     }
 
     defaultConfig {
-        applicationId 'com.diotek.diodict3.phone.samsung.chn'
+        applicationId 'com.diodict.decompiled'
         minSdkVersion 7
         targetSdkVersion 7
         versionCode 1
-        versionName "1.0.6.1"
+        versionName "v1.0-alpha"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

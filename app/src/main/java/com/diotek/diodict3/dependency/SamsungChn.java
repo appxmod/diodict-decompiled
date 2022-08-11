@@ -1,7 +1,7 @@
 package com.diotek.diodict3.dependency;
 
 import com.diotek.diodict.dependency.device.Device;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class SamsungChn extends Device {

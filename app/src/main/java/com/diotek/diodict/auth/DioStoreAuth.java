@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import com.diotek.diodict.auth.DioDictCheckDBModule;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;

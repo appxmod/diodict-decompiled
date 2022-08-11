@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.uitool.UITools;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class HyperFlashcardActivity extends HyperCommonActivity {

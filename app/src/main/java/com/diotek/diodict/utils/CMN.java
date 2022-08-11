@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.diotek.diodict3.phone.samsung.chn.BuildConfig;
+import com.diodict.decompiled.BuildConfig;
 import org.knziha.metaline.Metaline;
 
 import java.io.ByteArrayOutputStream;

@@ -14,7 +14,7 @@ import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.engine.EngineInfo3rd;
 import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.uitool.CommonUtils;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

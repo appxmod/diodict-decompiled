@@ -18,7 +18,7 @@ import com.diotek.diodict.engine.DictDBManager;
 import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.CustomPopupLinearLayout;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class FileLinkTagViewManager {

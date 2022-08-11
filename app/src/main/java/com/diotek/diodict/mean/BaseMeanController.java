@@ -22,7 +22,7 @@ import com.diotek.diodict.mean.TagConverter;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.TabView;
 import com.diotek.diodict.uitool.TextImageButton;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.util.ArrayList;
 
 /* loaded from: classes.dex */

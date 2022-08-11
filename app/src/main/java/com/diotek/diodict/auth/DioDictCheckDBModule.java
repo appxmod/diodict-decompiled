@@ -8,7 +8,7 @@ import android.os.RemoteException;
 import android.widget.Toast;
 import com.diotek.diodict.KindOfMarket;
 import com.diotek.diodict.auth.service.IDioDictCheckDBCallback;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class DioDictCheckDBModule {

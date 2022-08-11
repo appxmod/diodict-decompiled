@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.utils.CMN;
+import com.diodict.decompiled.BuildConfig;
 
 import java.lang.ref.WeakReference;
 import java.util.AbstractList;
@@ -28,7 +29,7 @@ public class MultiShareActivity extends Activity {
 			String text = a.getTextTarget();
 			CMN.Log("dtest::share::", text);
 			result.putExtra(Intent.EXTRA_TEXT, text);
-			result.putExtra("ext_invoker", "com.diotek.diodict3.phone.samsung.chn");
+			result.putExtra("ext_invoker", BuildConfig.APPLICATION_ID);
 		}
 		setResult(RESULT_OK, result);
 		

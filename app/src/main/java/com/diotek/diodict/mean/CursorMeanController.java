@@ -10,7 +10,7 @@ import com.diotek.diodict.engine.DictDBManager;
 import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.mean.BaseMeanController;
 import com.diotek.diodict.uitool.TabView;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class CursorMeanController extends BaseMeanController {

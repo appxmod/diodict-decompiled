@@ -22,7 +22,7 @@ import com.diotek.diodict.engine.DictUtils;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.uitool.DictEditText;
 import com.diotek.diodict.uitool.UITools;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class HyperSearchActivity extends HyperCommonActivity {

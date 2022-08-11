@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageButton;
 import com.diotek.diodict.database.DioDictDatabase;
 import com.diotek.diodict.database.DioDictDatabaseInfo;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

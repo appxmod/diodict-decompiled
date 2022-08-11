@@ -35,7 +35,7 @@ import com.diotek.diodict.mean.ExtendTextView;
 import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.UITools;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

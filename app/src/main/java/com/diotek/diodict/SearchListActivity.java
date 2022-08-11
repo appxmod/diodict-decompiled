@@ -90,7 +90,7 @@ import com.diotek.diodict.utils.CMN;
 import com.diotek.diodict.utils.F1ag;
 import com.diotek.diodict.utils.GlobalOptions;
 import com.diotek.diodict3.phone.DioAuthActivity;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

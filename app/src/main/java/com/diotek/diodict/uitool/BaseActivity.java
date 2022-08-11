@@ -46,7 +46,7 @@ import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.engine.EngineNative3rd;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.utils.CMN;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 import java.lang.ref.WeakReference;
 import java.util.List;

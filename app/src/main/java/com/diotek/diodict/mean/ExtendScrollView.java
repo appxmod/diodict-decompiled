@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class ExtendScrollView extends ScrollView {

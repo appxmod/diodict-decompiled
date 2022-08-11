@@ -19,7 +19,7 @@ import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.mean.BaseMeanController;
 import com.diotek.diodict.mean.ExtendTextView;
 import com.diotek.diodict.uitool.CommonUtils;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.util.Locale;
 
 /* loaded from: classes.dex */

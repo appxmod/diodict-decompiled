@@ -33,7 +33,7 @@ import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.PageGridView;
 import com.diotek.diodict.uitool.TextImageButton;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 

@@ -36,7 +36,7 @@ import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.RecognizeView;
 import com.diotek.diodict.uitool.UITools;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.lang.Character;
 import java.util.ArrayList;
 import java.util.HashMap;

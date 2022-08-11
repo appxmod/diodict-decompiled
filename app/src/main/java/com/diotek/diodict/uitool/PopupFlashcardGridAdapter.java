@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import com.diotek.diodict.engine.DictInfo;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

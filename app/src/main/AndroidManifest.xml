@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	android:versionCode="1" android:versionName="1.0.6.1"
-	package="com.diotek.diodict3.phone.samsung.chn">
+	package="com.diodict.decompiled">
     <application android:theme="@android:style/Theme.DeviceDefault" android:label="@string/app_name" android:icon="@drawable/icon">
         <activity android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			android:label="@string/app_name"
@@ -41,7 +41,7 @@
 			>
 	</activity>
 
-		<provider android:name="com.diotek.diodict.database.DioDictProvider" android:authorities="com.diotek.diodict3.phone.samsung.chn.DioDictProvider"/>
+		<provider android:name="com.diotek.diodict.database.DioDictProvider" android:authorities="com.diodict.decompiled.DioDictProvider"/>
         <service android:label="@string/app_name" android:name="com.diotek.diodict.service.ServiceForReadersHub" android:enabled="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>

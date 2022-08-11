@@ -20,13 +20,13 @@ public class Dependency {
 
     public static void Init(Context context) {
         mContext = context;
-        if (context.getPackageName().equals("com.diotek.diodict3.phone.samsung.korea")) {
+		if (true) {
+			DeviceName = "SamsungChn";
+			LocaleName = "China";
+			VendorName = "Samsung";
+		} else if (context.getPackageName().equals("com.diotek.diodict3.phone.samsung.korea")) {
             DeviceName = "SamsungKorea";
             LocaleName = "Korean";
-            VendorName = "Samsung";
-        } else if (context.getPackageName().equals("com.diotek.diodict3.phone.samsung.chn")) {
-            DeviceName = "SamsungChn";
-            LocaleName = "China";
             VendorName = "Samsung";
         } else if (context.getPackageName().equals("com.diotek.diodict3.phone.samsung.chn.lite")) {
             DeviceName = "SamsungChnLite";

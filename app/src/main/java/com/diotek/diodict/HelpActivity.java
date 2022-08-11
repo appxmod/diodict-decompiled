@@ -28,7 +28,7 @@ import com.diotek.diodict.engine.EngineInfo3rd;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.uitool.CommonUtils;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

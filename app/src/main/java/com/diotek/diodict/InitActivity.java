@@ -18,7 +18,7 @@ import com.diotek.diodict.engine.EngineNative3rd;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.uitool.StorageState;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class InitActivity extends BaseActivity {

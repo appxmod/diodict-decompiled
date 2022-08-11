@@ -53,7 +53,7 @@ import com.diotek.diodict.uitool.TabView;
 import com.diotek.diodict.uitool.TextImageButton;
 import com.diotek.diodict.uitool.UITools;
 import com.diotek.diodict.uitool.WordListAdapter;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

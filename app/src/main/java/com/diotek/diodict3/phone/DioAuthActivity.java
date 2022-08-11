@@ -16,7 +16,7 @@ import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.network.NetworkEngine;
 import com.diotek.diodict.uitool.BaseActivity;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import com.samsung.zirconia.Zirconia;
 
 /* loaded from: classes.dex */

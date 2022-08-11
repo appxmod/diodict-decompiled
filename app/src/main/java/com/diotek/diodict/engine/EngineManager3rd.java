@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.mean.MSG;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;

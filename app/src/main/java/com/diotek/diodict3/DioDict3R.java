@@ -1,12 +1,13 @@
 package com.diotek.diodict3;
 
+import com.diodict.decompiled.BuildConfig;
 import com.diotek.diodict3.phone.DioAuthActivity;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public final class DioDict3R {
     public static final Class<DioAuthActivity> mStartActivity = DioAuthActivity.class;
-    public static String AUTHORITY = R.class.getPackage().getName() + ".DioDictProvider";
+    public static String AUTHORITY = BuildConfig.APPLICATION_ID + ".DioDictProvider";
 
     /* loaded from: classes.dex */
     public static final class anim {

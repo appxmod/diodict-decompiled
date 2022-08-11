@@ -35,7 +35,7 @@ import com.diotek.diodict.dhwr.b2c.kor.DHWR;
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.engine.DictUtils;
 import com.diotek.diodict.mean.MSG;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class MemoActivity extends Activity {

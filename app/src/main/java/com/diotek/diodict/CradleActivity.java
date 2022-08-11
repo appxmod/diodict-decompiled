@@ -39,7 +39,7 @@ import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.TabView;
 import com.diotek.diodict.uitool.TouchGesture;
 import com.diotek.diodict.uitool.UITools;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;

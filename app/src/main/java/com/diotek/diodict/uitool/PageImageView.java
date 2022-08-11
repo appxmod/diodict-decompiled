@@ -9,7 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ViewFlipper;
 import com.diotek.diodict.uitool.TouchGesture;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.util.EventListener;
 
 /* loaded from: classes.dex */

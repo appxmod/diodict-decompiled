@@ -15,7 +15,7 @@ import com.diotek.diodict.mean.CodeBlock;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.utils.CMN;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

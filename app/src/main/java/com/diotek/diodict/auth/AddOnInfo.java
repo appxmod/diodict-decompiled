@@ -1,7 +1,7 @@
 package com.diotek.diodict.auth;
 
 import android.content.Context;
-import com.diotek.diodict3.phone.samsung.chn.R;
+import com.diodict.decompiled.R;
 
 /* loaded from: classes.dex */
 public class AddOnInfo {
