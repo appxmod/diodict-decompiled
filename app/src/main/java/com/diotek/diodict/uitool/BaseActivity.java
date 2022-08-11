@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,6 +45,7 @@ import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.engine.DictUtils;
 import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.engine.EngineNative3rd;
+import com.diotek.diodict.mean.ExtendTextView;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.utils.CMN;
 import com.diodict.decompiled.R;
@@ -60,6 +62,9 @@ public abstract class BaseActivity extends Activity {
     public static final int REQUEST_CODE_HYPERSEARCH = 1004;
     public static final int RESET_ALL_ACTIVITY = 1001;
 	public List<View> wViews;
+	
+	/** the main textView */
+	protected ExtendTextView mTextView = null;
 	
 	protected TextView mSearchDBNameTextView = null;
     private View mRunnableTTSBtn = null;
@@ -591,8 +596,25 @@ public abstract class BaseActivity extends Activity {
     public boolean isVisiableView(View view) {
         return view != null && view.getVisibility() == 0;
     }
+	 
+	protected String lastSharedText;
 	
 	public String getTextTarget() {
-		return "happy";
+		CMN.debug("getTextTarget::", this);
+		try {
+			if (mTextView!=null && mTextView.gripShowing()) {
+				String text = mTextView.getSelectedString();
+				String word = mTextView.getKeyword();//mBaseMeanController.getWord();
+				if (!TextUtils.isEmpty(text)) {
+					text = text.replace("~", word);
+					lastSharedText = text;
+					return text;
+				}
+			}
+			return lastSharedText;
+		} catch (Exception e) {
+			CMN.debug(e);
+			return "";
+		}
 	}
 }

@@ -238,7 +238,7 @@ public class ServiceForReadersHub extends Service {
     */
     public static boolean copyFontResToSdcard(String dataFontPath, String sdPath, String fontName) {
         //throw new UnsupportedOperationException("Method not decompiled: com.diotek.diodict.service.ServiceForReadersHub.copyFontResToSdcard(java.lang.String, java.lang.String, java.lang.String):boolean");
-		System.out.println("fatal copyFontResToSdcard!");
+		CMN.debug("fatal copyFontResToSdcard!");
 		int FullSize;
 		FileInputStream fis = null;
 		try {

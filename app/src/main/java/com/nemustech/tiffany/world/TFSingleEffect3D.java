@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+
+import com.diotek.diodict.utils.CMN;
 import com.nemustech.tiffany.world.TFEffect;
 import com.nemustech.tiffany.world.TFWorld;
 
@@ -135,7 +137,7 @@ public abstract class TFSingleEffect3D {
     }
 
     public void layoutModelOverView(TFModel m, View v) {
-		System.out.println("layoutModelOverView::");
+		CMN.debug("layoutModelOverView::");
 		int[] tmp = {0,0};
 		v.getLocationInWindow(tmp);
         int[] uiCoord = {0, 0, v.getWidth(), v.getHeight()};

@@ -3,6 +3,7 @@ package com.diotek.diodict.engine;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.uitool.CommonUtils;
+import com.diotek.diodict.utils.CMN;
 import com.diotek.diospeech.DictionaryFilter;
 import com.diotek.diospeech.tts.PrompterEventAdapter;
 import com.diotek.diospeech.tts.PrompterInterface;
@@ -90,7 +91,7 @@ public class TTSEngine {
                     enteredMessage = "";
                 }
                 if (!TTSEngine.usepronun) {
-					System.out.println("fatal runFilter! ak");
+					CMN.debug("fatal runFilter! ak");
                     //return DictionaryFilter.runFilter(DictInfo.TTSPATH + DictInfo.TTSPATH_LUA, TTSEngine.languageCode, "", false, enteredMessage);
                 }
                 return enteredMessage;

@@ -25,7 +25,7 @@ public class TFWindow extends Window {
 		super(context);
 		this.mMyDecorView = null;
 		this.mMyDecorView = new FrameLayout(context);
-		System.out.println("fatal TFWindow!");
+		CMN.debug("fatal TFWindow!");
 	}
 	
 	@Override

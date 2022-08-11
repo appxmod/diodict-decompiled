@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -40,6 +41,8 @@ import com.diotek.diodict.uitool.TabView;
 import com.diotek.diodict.uitool.TouchGesture;
 import com.diotek.diodict.uitool.UITools;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.CMN;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,7 +79,6 @@ public class CradleActivity extends BaseActivity {
     TextView mClockAMPM = null;
     TextView mClockDay = null;
     TextView mClockYearMonthDay = null;
-    ExtendTextView mMeanContentView = null;
     ScrollView mMeanScrollView = null;
     RelativeLayout mSetDurationLayout = null;
     RelativeLayout mWrapSetDurationLayout = null;
@@ -384,9 +386,9 @@ public class CradleActivity extends BaseActivity {
     Runnable mRunnablePlayTTS = new Runnable() { // from class: com.diotek.diodict.CradleActivity.27
         @Override // java.lang.Runnable
         public void run() {
-            if (CradleActivity.this.mMeanContentView != null) {
-                String TTSWord = CradleActivity.this.mMeanContentView.getKeyword();
-                int TTSDbtype = CradleActivity.this.mMeanContentView.getDbtype();
+            if (CradleActivity.this.mTextView != null) {
+                String TTSWord = CradleActivity.this.mTextView.getKeyword();
+                int TTSDbtype = CradleActivity.this.mTextView.getDbtype();
                 if (TTSWord != null) {
                     CommonUtils.stopTTS();
                     CommonUtils.playTTS(CradleActivity.this.mTTSLang, TTSWord, TTSDbtype, 1);
@@ -701,20 +703,20 @@ public class CradleActivity extends BaseActivity {
     public void prepareContentMeanLayout() {
         this.mContentPageLayout = (LinearLayout) findViewById(R.id.CradleContentMeanInnerLayout);
         this.mMeanTitleView = (TextView) findViewById(R.id.CradleMeanTitleView);
-        this.mMeanContentView = (ExtendTextView) findViewById(R.id.CradleMeanContentView);
+        this.mTextView = (ExtendTextView) findViewById(R.id.CradleMeanContentView);
         this.mMeanScrollView = (ScrollView) findViewById(R.id.CradleMeanScrollView);
         this.mSpeakerBtn = (CheckBox) findViewById(R.id.SpeakerBtn);
         this.mUsBtn = (CheckBox) findViewById(R.id.ToggleUsBtn);
         this.mUkBtn = (CheckBox) findViewById(R.id.ToggleUkBtn);
         this.mSpeakerBtn.setOnCheckedChangeListener(this.mSpeakerBtnOnCheckedChangeListener);
-        this.mMeanController = new CursorMeanController(this, this.mMeanTitleView, this.mMeanContentView, null, null, this.mEngine, this.mThemeModeCallback, null, null);
+        this.mMeanController = new CursorMeanController(this, this.mMeanTitleView, this.mTextView, null, null, this.mEngine, this.mThemeModeCallback, null, null);
         this.mMeanController.setMeanContentTextViewCallback(null, null, false, this.mAfterSetMeanViewCallback);
         this.mMeanController.setMeanView(DioDictDatabase.getTableName(this.mWordbookFolderName), this.mWordbookFolderName, this.mFolderId, this.mSort, 0, false);
         this.mMeanController.setMeanTitleTextSizeUpdateCallback(this.mMeanTitleTextSizeUpdateCallback);
         this.mUsBtn.setOnClickListener(this.mUsUkBtnOnClickListener);
         this.mUkBtn.setOnClickListener(this.mUsUkBtnOnClickListener);
         this.mMeanTitleView.setOnTouchListener(this.mMeanTitleViewOnTouchListener);
-        this.mMeanContentView.setOnTouchListener(this.mContentPageLayoutOnTouchListener);
+        this.mTextView.setOnTouchListener(this.mContentPageLayoutOnTouchListener);
         this.mMeanScrollView.setOnTouchListener(this.mMeanScrollViewOnTouchListener);
         this.mMeanScrollView.setOnClickListener(this.mMeanScrollViewOnClickListener);
         this.mContentPageLayout.setOnTouchListener(this.mContentPageLayoutOnTouchListener);
@@ -1018,12 +1020,12 @@ public class CradleActivity extends BaseActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void setSpeakUsUkBtn() {
-        String word = this.mMeanContentView.getKeyword();
+        String word = this.mTextView.getKeyword();
         if (word != null) {
             int codepage = DictUtils.getCodePage(word);
             this.mIsAvailTTS = EngineInfo3rd.IsTTSAvailableCodePage(codepage);
             if (codepage != -1) {
-                if (CommonUtils.isUselessTTSWord(word, this.mMeanContentView.getDbtype())) {
+                if (CommonUtils.isUselessTTSWord(word, this.mTextView.getDbtype())) {
                     this.mIsAvailTTS = false;
                 }
                 if (this.mIsAvailTTS) {
@@ -1158,9 +1160,9 @@ public class CradleActivity extends BaseActivity {
     }
 
     private void destroyData() {
-        if (this.mMeanContentView != null) {
-            this.mMeanContentView.onDestroy();
-            this.mMeanContentView = null;
+        if (this.mTextView != null) {
+            this.mTextView.onDestroy();
+            this.mTextView = null;
         }
         if (this.mMeanController != null) {
             this.mMeanController.onDestory();

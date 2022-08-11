@@ -1438,7 +1438,7 @@ public class DictationActivity extends BaseActivity {
     */
     private void setRecogInputType() {
         // throw new UnsupportedOperationException("Method not decompiled: com.diotek.diodict.DictationActivity.setRecogInputType():void");
-		System.out.println("fatal setRecogInputType!"+mInputWordPos);
+		CMN.debug("fatal setRecogInputType!"+mInputWordPos);
 //		int correctWordPos = this.mInputWordPos;
 //		while (isContainSymbol(correctWordPos) && correctWordPos >= 0 && correctWordPos < this.mCorrectWord.length()) {
 //			correctWordPos++;

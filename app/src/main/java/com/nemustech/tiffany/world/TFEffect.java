@@ -1273,7 +1273,7 @@ public class TFEffect {
     }
 
     private float[] getViewLocation(View targetView, float heightCenterRatio) {
-		System.out.println("getViewLocation::");
+		CMN.debug("getViewLocation::");
 		int[] tmp = {0,0};
 		targetView.getLocationOnScreen(tmp);
         int[] viewLocation = {0, tmp[1] - (this.mStatusBarHeight + this.mTitleHeight)};

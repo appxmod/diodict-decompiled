@@ -1,5 +1,7 @@
 package com.nemustech.tiffany.world;
 
+import com.diotek.diodict.utils.CMN;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -288,7 +290,7 @@ public abstract class TFImporter {
             To view partially-correct code enable 'Show inconsistent code' option in preferences
         */
         protected static float parseFloat(byte[] line, int pos, int end) {
-			System.out.println("fatal parseFloat!"+new String(line)+" "+pos);
+			CMN.debug("fatal parseFloat!"+new String(line)+" "+pos);
 			//throw new UnsupportedOperationException("Method not decompiled: com.nemustech.tiffany.world.TFImporter.LineSplit.parseFloat(byte[], int, int):float");
 			boolean minus = false;
 			float ret = 0.0f;
@@ -390,7 +392,7 @@ public abstract class TFImporter {
         }
 
         protected void expandLines() {
-			System.out.println("expandLines::");
+			CMN.debug("expandLines::");
             float[][] old = this.mLines;
             int len = old != null ? old.length : 0;
             this.mLines = new float[len + 256][];
@@ -456,7 +458,7 @@ public abstract class TFImporter {
         }
 
         protected void expandLines() {
-			System.out.println("expandLines::");
+			CMN.debug("expandLines::");
             int[][] old = this.mLines;
             int len = old != null ? old.length : 0;
             this.mLines = new int[len + 256][];
@@ -522,7 +524,7 @@ public abstract class TFImporter {
         }
 
         protected void expandLines() {
-			System.out.println("expandLines::");
+			CMN.debug("expandLines::");
             short[][] old = this.mLines;
             int len = old != null ? old.length : 0;
             this.mLines = new short[len + 256][];

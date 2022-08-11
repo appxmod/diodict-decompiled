@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,6 +33,8 @@ import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.TabView;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.CMN;
+
 import java.util.Locale;
 
 /* loaded from: classes.dex */
@@ -40,8 +43,6 @@ public class ListMeanViewActivity extends BaseActivity {
     public static final int LAYOUTMODE_WIDE_MEANVIEW = 1;
     protected int mOrientation;
     BaseMeanController mBaseMeanController = null;
-	/** the main textView */
-    protected ExtendTextView mTextView = null;
     protected ExtendScrollView mMainMeanScrollView = null;
     protected Button mUSOnceBtn = null;
     protected ImageButton mUSRepeatBtn = null;

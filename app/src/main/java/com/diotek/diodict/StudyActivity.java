@@ -60,7 +60,6 @@ public class StudyActivity extends BaseActivity {
     CheckBox mUsBtn = null;
     CheckBox mUkBtn = null;
     TextView mMeanTitleView = null;
-    ExtendTextView mMeanContentView = null;
     TextView mMeanInfoTextView = null;
     ScrollView mMeanScrollView = null;
     ImageView mCorrectImageView = null;
@@ -348,8 +347,8 @@ public class StudyActivity extends BaseActivity {
     Runnable mRunnablePlayTTS = new Runnable() { // from class: com.diotek.diodict.StudyActivity.22
         @Override // java.lang.Runnable
         public void run() {
-            String TTSWord = StudyActivity.this.mMeanContentView.getKeyword();
-            int TTSDbType = StudyActivity.this.mMeanContentView.getDbtype();
+            String TTSWord = StudyActivity.this.mTextView.getKeyword();
+            int TTSDbType = StudyActivity.this.mTextView.getDbtype();
             if (TTSWord != null) {
                 CommonUtils.stopTTS();
             }
@@ -519,7 +518,7 @@ public class StudyActivity extends BaseActivity {
         this.mQuestionLayout = (RelativeLayout) findViewById(R.id.StudyQuestionLayout);
         this.mMeanTitleView = (TextView) findViewById(R.id.StudyMeanTitleView);
         this.mMeanWordCount = (TextView) findViewById(R.id.CountTextView);
-        this.mMeanContentView = (ExtendTextView) findViewById(R.id.StudyMeanContentView);
+        this.mTextView = (ExtendTextView) findViewById(R.id.StudyMeanContentView);
         this.mMeanInfoTextView = (TextView) findViewById(R.id.StudyContentMeanInfoTextView);
         this.mCorrectImageView = (ImageView) findViewById(R.id.CorrectImageView);
         this.mWrongImageView = (ImageView) findViewById(R.id.WrongImageView);
@@ -535,7 +534,7 @@ public class StudyActivity extends BaseActivity {
         this.mStudyInfoTextView = (TextView) findViewById(R.id.StudyContentInfoTextView);
         this.mNextBtn.setOnClickListener(this.mNextBtnOnClickListener);
         this.mSpeakerOnOffBtn.setOnCheckedChangeListener(this.mSpeakerOnOffBtnOnCheckedChangeListener);
-        this.mMeanController = new CursorMeanController(this, this.mMeanTitleView, this.mMeanContentView, null, null, this.mEngine, this.mThemeModeCallback, null, null);
+        this.mMeanController = new CursorMeanController(this, this.mMeanTitleView, this.mTextView, null, null, this.mEngine, this.mThemeModeCallback, null, null);
         this.mMeanController.setMeanContentTextViewCallback(null, null, false, this.mAfterSetMeanViewCallback);
         this.mMeanController.setMeanTitleTextSizeUpdateCallback(this.mMeanTitleTextSizeUpdateCallback);
         this.mShowMeanBtn.setOnClickListener(this.mShowMeanBtnOnClickListener);
@@ -806,7 +805,7 @@ public class StudyActivity extends BaseActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void runNextBtn() {
-        this.mMeanContentView.setText("");
+        this.mTextView.setText("");
         this.mNextStep = 1;
         if (this.mIsReStudy) {
             this.mStudyHandler.sendEmptyMessage(6);
@@ -989,12 +988,12 @@ public class StudyActivity extends BaseActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void setSpeakUsUkBtn() {
-        String word = this.mMeanContentView.getKeyword();
+        String word = this.mTextView.getKeyword();
         if (word != null) {
             int codepage = DictUtils.getCodePage(word);
             this.mIsAvailTTS = EngineInfo3rd.IsTTSAvailableCodePage(codepage);
             if (codepage != -1) {
-                if (CommonUtils.isUselessTTSWord(word, this.mMeanContentView.getDbtype())) {
+                if (CommonUtils.isUselessTTSWord(word, this.mTextView.getDbtype())) {
                     this.mIsAvailTTS = false;
                 }
                 if (this.mIsAvailTTS) {
@@ -1112,9 +1111,9 @@ public class StudyActivity extends BaseActivity {
     }
 
     private void destroyData() {
-        if (this.mMeanContentView != null) {
-            this.mMeanContentView.onDestroy();
-            this.mMeanContentView = null;
+        if (this.mTextView != null) {
+            this.mTextView.onDestroy();
+            this.mTextView = null;
         }
         if (this.mMeanController != null) {
             this.mMeanController.onDestory();

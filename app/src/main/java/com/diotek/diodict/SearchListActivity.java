@@ -3988,23 +3988,4 @@ public class SearchListActivity extends ListMeanViewActivity {
         regularMarkMap.put("ﾜﾞ", "ヷ");
         regularMarkMap.put("ｦﾞ", "ヺ");
     }
-	
-	String lastSharedText;
-	@Override
-	public String getTextTarget() {
-		try {
-			if (mTextView.gripShowing()) {
-				String text = mTextView.getSelectedString();
-				if (!TextUtils.isEmpty(text)) {
-					text = text.replace("~", mSearchMeanController.getWord());
-					lastSharedText = text;
-					return text;
-				}
-			}
-			return lastSharedText;
-		} catch (Exception e) {
-			CMN.debug(e);
-			return super.getTextTarget();
-		}
-	}
 }
