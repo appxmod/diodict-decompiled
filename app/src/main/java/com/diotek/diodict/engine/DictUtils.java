@@ -531,10 +531,20 @@ public class DictUtils {
 		return DictInfo.CP_LT1;
 	}
 	
-	final static Pattern patternKor = Pattern.compile("\\p{IsHangul}");
-	final static Pattern patternHan = Pattern.compile("\\p{IsHan}");
+	static Pattern patternKor;
+	static Pattern patternHan;
 	final static Pattern patternEn = Pattern.compile("[a-zA-Z]");
 	
+	static {
+		try {
+			patternHan = Pattern.compile("\\p{IsHan}");
+			patternKor = Pattern.compile("\\p{IsHangul}");
+		} catch (Exception e) {
+			// CMN.debug(e);
+			patternHan = Pattern.compile("[\\u4e00-\\u9fa5]");
+			patternKor = Pattern.compile("[\\u3130-\\u318F\\uAC00-\\uD7A3]");
+		}
+	}
 	
 	public static boolean isLatinCP(int codepage) {
 		if (!isLatin1CP(codepage) && codepage != 1257 && codepage != 1254) {
