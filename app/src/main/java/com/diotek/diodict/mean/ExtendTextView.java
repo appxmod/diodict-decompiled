@@ -99,12 +99,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private ExtendScrollView mScrollView;
     @NonNull private TextArea mSelectionArea = new TextArea();
 	
-	private boolean bAutoRealm = false;
-	// 0=paragraph 1=semi-paragraph 2=word
-	private int mSelectRealmPrefer = 0;
-	// 0=paragraph 1=semi-paragraph 2=word
-	private int mSelectRealmPreferLong = 2;
-	// 0=paragraph 1=semi-paragraph 2=word
+	/** true=automatically shrink text selection on second click */
+	private boolean bAutoRealm = true;
+	/** 0=paragraph 1=semi-paragraph 2=word */
+	public int mSelectRealmPrefer = 0;
+	/** 0=paragraph 1=semi-paragraph 2=word */
+	public int mSelectRealmPreferLong = 2;
+	/** 0=paragraph 1=semi-paragraph 2=word */
     private int mSelectRealm = mSelectRealmPrefer;
 	
     private int mSelectTextMode;
@@ -773,6 +774,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				boolean flingEvent = this.flingDetector.onTouchEvent(event);
 				// CMN.Log("flingEvent::", flingEvent, event.getActionMasked());
 				if (flingEvent) {
+					removeCallbacks(longPressTextRun);
 					//this.flingDetector = new GestureDetector(getContext(), this);
 					return flingEvent;
 				}
@@ -787,6 +789,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				bIgnoreNextUp = false;
 			orgX = (int) event.getX();
 			orgY = (int) event.getY();
+		}
+		else if (action==MotionEvent.ACTION_UP || action==MotionEvent.ACTION_CANCEL) {
+			removeCallbacks(longPressTextRun);
 		}
 		mMarkerable = true;
 
@@ -812,8 +817,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				}
 			}
 		}
-		if (!mIsEnableTextSelect && !gripShowing() && action==MotionEvent.ACTION_UP){
-			removeCallbacks(longPressTextRun);
+		if (!mIsEnableTextSelect && action==MotionEvent.ACTION_UP && !gripShowing()){
 			startFlickLeft();
 			return true;
 		}
@@ -1015,15 +1019,19 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 					if (mSelectionArea.contains(off)) {
 						// 如果点击选取内部，逐步较小选取范围
 						if (bAutoRealm && mSelectRealm + 1 <= 2) {
-							CMN.Log("缩小选区!");
-							mSelectRealm++;
+							CMN.Log("缩小选区!", "breakCnt="+breakCnt);
+							if (mSelectRealm == 0 && breakCnt < 3) {
+								mSelectRealm = 2; // 一步到位
+							} else {
+								mSelectRealm++;
+							}
 							clearSelection();
 						} else if(event!=null){
 							reinitSel = false;
 						}
 					} else if (event != null) {
-						CMN.Log("清空选区!");
 						mSelectRealm = mSelectRealmPrefer;
+						CMN.Log("清空选区!", mSelectRealm);
 						clearSelection();
 						reinitSel = false;
 					}
@@ -1038,6 +1046,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				}
 			} else {
 				this.mSelectionArea.init();
+				mSelectRealm = mSelectRealmPrefer;
 			}
 			if (!this.mSelectionArea.isTextSelected()) {
 				clearSelection();
@@ -1080,7 +1089,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 			return;
         }
 		char charAt = text.charAt(off);
-		if ((!selWord || charAt!=' ') && isWordSeperator(charAt)) {
+		if ((!selWord || charAt!=' ') && isWordBreak(charAt)) {
             this.mSelectionArea.init();
         }
 		else {
@@ -1088,6 +1097,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 			// CMN.Log("charBlock::", charBlock);
 			boolean isNewBlock; // reeached text of new language
 			char c;
+			breakCnt = 0;
 			// 左
             for (int i = off; i >= 0; i--) {
 				c = text.charAt(i);
@@ -1105,7 +1115,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 					isNewBlock = false;
 				}
 				// isNewBlock 计算完毕
-                if (isNewBlock || isWordSeperator(c)) { // 截止
+                if (isNewBlock || isWordBreak(c)) { // 截止
+					breakCnt++;
 					if (charAt!=' ' || !selWord) { // 选词时击中词后的空格也算
 						this.mSelectionArea.start = i + 1;
 						break;
@@ -1119,6 +1130,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             for (int i = off; i < text.length(); i++) {
 				c = text.charAt(i);
 				if (charBlock==0) {
+					breakCnt++;
 					newBlock = CodeBlock.getCodeBlock(c);
 					if (newBlock!=0) {
 						charBlock = newBlock;
@@ -1130,7 +1142,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 					isNewBlock = false;
 				}
 				// isNewBlock 计算完毕
-                if (isNewBlock || isWordSeperator(c)) { // 截止
+                if (isNewBlock || isWordBreak(c)) { // 截止
                     this.mSelectionArea.end = i;
                     return;
                 }
@@ -1146,13 +1158,16 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				|| charAt=='！' || charAt=='!' || charAt=='？' || charAt=='?';
 	}
 	
-    private boolean isWordSeperator(char charAt) {
+	private int breakCnt = 0;
+	
+    private boolean isWordBreak(char charAt) {
 		final boolean selWord = mSelectRealm==2;
 		if(charAt==' ') {
 			return selWord;
 		}
 		if(mSelectRealm==0) { // 选中整个同语言的段落
 			if(isSentenceSeperator(charAt)) {
+				breakCnt++;
 				return false;
 			}
 			if(charAt=='\r' || charAt=='\n') {
@@ -1345,10 +1360,14 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             }
             float density = CommonUtils.getDeviceDensity(this.mContext);
             String ttsWord = "";
-            if (this.mSelectionArea.isTextSelected()) {
-                ttsWord = super.getText().subSequence(this.mSelectionArea.start, this.mSelectionArea.end).toString();
-            }
-            if (ttsWord.length() == 0) {
+			if (this.mSelectionArea.isTextSelected()) {
+				try {
+					ttsWord = super.getText().subSequence(this.mSelectionArea.start, this.mSelectionArea.end).toString();
+				} catch (Exception e) {
+					CMN.debug(this.mSelectionArea.start, this.mSelectionArea.end, e);
+				}
+			}
+			if (ttsWord.length() == 0) {
                 tts.setVisibility(View.GONE);
                 tts_us.setVisibility(View.GONE);
                 tts_uk.setVisibility(View.GONE);
