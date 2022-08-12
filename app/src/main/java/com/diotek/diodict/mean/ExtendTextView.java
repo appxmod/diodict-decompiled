@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -85,7 +86,11 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private boolean mIsEnableTextSelect;
     private int mIsIntercept;
 	
+	/** is mark popup showing */
     private boolean bIsMarking;
+	/** is drawing marks */
+    private boolean bIsDrawingMarks;
+	/** whether to select text and then mark selection */
     public boolean bIsOneShotMark;
 	private int mMarkColor;
 	
@@ -105,6 +110,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     int[] mRightGripPosition;
     private Runnable mRunnableDismissTextSelectGrip;
     private ExtendScrollView mScrollView;
+	//FrameLayout mNoScrollView;
     private BaseActivity activity;
 	public MeanToolbarWidgets toolbarWidgets;
     @NonNull private TextArea mSelectionArea = new TextArea();
@@ -120,7 +126,6 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 	/** word break counter in a paragraph */
 	private int breakCnt = 0;
 	
-    private int mSelectTextMode;
     private CharSequence mSelectedText;
     private int mStoreCurrentTopOffset;
     private int mSwipeThreshold;
@@ -486,7 +491,6 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             this.mRemoveTextArea = new TextArea();
         }
         initializeSelectTextArea();
-        this.mSelectTextMode = 0;
         this.flingDetector = new GestureDetector(context, this);
 		this.flingDetector.setIsLongpressEnabled(false);
         this.mSwipeThreshold = (int) (100.0f * getResources().getDisplayMetrics().density);
@@ -909,13 +913,22 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 		int x = lastX = (int) event.getX();
 		int y = lastY = (int) event.getY();
 		if (bIsOneShotMark) {
-//			if ((action==MotionEvent.ACTION_UP||action==MotionEvent.ACTION_CANCEL)
-//					&& !bIgnoreNextUp && mActiveGrip==-1
-//					&& toolbarWidgets!=null) {
-//				toolbarWidgets.dismissMarkerPopup();
-//				return true;
-//			}
-//			return false;
+			if ((action==MotionEvent.ACTION_UP||action==MotionEvent.ACTION_CANCEL)
+					&& !bIgnoreNextUp && mActiveGrip==-1 && toolbarWidgets!=null) {
+				// 选选择，再高亮。则允许点击关闭。
+				toolbarWidgets.dismissMarkerPopup();
+				return true;
+			}
+			return false;
+		}
+		else if (!bIsDrawingMarks && action != MotionEvent.ACTION_DOWN) {
+			if ((action==MotionEvent.ACTION_UP)
+					&& true // 通用允许关闭 todo settings
+					&& mScrollView!=null && downScrollY == mScrollView.getScrollY()
+			) {
+				toolbarWidgets.dismissMarkerPopup();
+			}
+			return true; // allow scrolling
 		}
         getLocationInTextView(location, x, y);
         int fx = location[0];
@@ -923,7 +936,6 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         Layout layout = super.getLayout();
         int line = layout.getLineForVertical(fy);
         int off = layout.getOffsetForHorizontal(line, fx);
-        this.mMoving = false;
         if (fx >= (super.getWidth() - super.getTotalPaddingRight()) - (super.getTextScaleX() * super.getTextSize())) {
             off = layout.getLineEnd(line);
         }
@@ -931,14 +943,33 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         if (y > ty) {
             off = -1;
         }
+		int mSelectTextMode=1;
 		final TextArea sela = this.mSelectionArea;
 		switch (action) {
-			case MotionEvent.ACTION_DOWN:
-                sela.start = off;
-                sela.start_line = line;
-                return true;
+			case MotionEvent.ACTION_DOWN:{
+				 CMN.debug("mSelectTextMode::ACTION_DOWN");
+				mMoving = false;
+				int pad = (int) (2*GlobalOptions.density);
+				if (x < layout.getLineLeft(line) - pad || x > layout.getLineRight(line) + pad
+						|| y < layout.getLineTop(line) - pad || y > layout.getLineBaseline(line) + pad
+				) {
+					off = -1; // allow scrolling
+				}
+				if (off >= 0) {
+					sela.start = off;
+					sela.start_line = line;
+					bIsDrawingMarks = true;
+				} else {
+					bIsDrawingMarks = false;
+				}
+				if (!bIsOneShotMark && mScrollView != null) {
+					mScrollView.setScrollEnabled(!bIsDrawingMarks);
+				}
+				downScrollY = mScrollView.getScrollY();
+			} return true;
 			case MotionEvent.ACTION_UP:
-                if (this.mSelectTextMode == 0) {
+				// CMN.debug("mSelectTextMode::ACTION_UP");
+                if (mSelectTextMode == 0) {
                     if (sela.start_line == line) {
                         sela.end = off;
                     } else if (sela.start_line >= 0 && sela.start_line < layout.getLineCount()) {
@@ -952,23 +983,29 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                     sela.end = sela.start;
                     sela.start = tempOffset;
                 }
-//                return true;
-//			case MotionEvent.ACTION_CANCEL:
+                // return true;
+			case MotionEvent.ACTION_CANCEL:
+				// CMN.debug("mSelectTextMode::ACTION_CANCEL");
 				if (sela.start != -1 && sela.move != -1 && sela.start != sela.move) {
 					sela.end = sela.move;
 					performMark();
 					invalidate();
 					return true;
 				}
+				if (!bIsOneShotMark && mScrollView!=null) {
+					mScrollView.setScrollEnabled(true);
+				}
+				mMoving = false;
 				return true;
             case MotionEvent.ACTION_MOVE:
                 this.mMoving = true;
-                if (this.mSelectTextMode == 0) {
+                if (mSelectTextMode == 0) {
                     if (sela.start_line == line) {
                         sela.move = off;
-                    } else if (sela.start_line >= 0 && sela.start_line < layout.getLineCount()) {
+                    }  else if (sela.start_line >= 0 && sela.start_line < layout.getLineCount()) {
                         sela.move = layout.getLineEnd(sela.start_line);
                     }
+					//else off = sela.move;
                 } else {
                     sela.move = off;
                 }
@@ -1945,14 +1982,12 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         return this.bIsMarking;
     }
 
-    public void setMarkerMode(boolean b, boolean oneshot) {
-		bIsMarking = b;
-		if (b) {
+    public void setMarkerMode(boolean mark, boolean oneshot) {
+		bIsMarking = mark;
+		if (mark) {
 			bIsOneShotMark = oneshot;
-			mScrollView.setOnTouchListener(ViewUtils
-					.dummyOnTouch);
-		} else if(!bIsOneShotMark){
-		
+		} else if(!bIsOneShotMark && mScrollView!=null){
+			mScrollView.setScrollEnabled(true);
 		}
     }
 

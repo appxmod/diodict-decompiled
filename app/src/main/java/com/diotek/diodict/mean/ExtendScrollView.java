@@ -26,17 +26,29 @@ public class ExtendScrollView extends ScrollView {
             ExtendScrollView.this.mMeanController.appendNextMeaning();
         }
     };
-
-    public ExtendScrollView(Context context, AttributeSet attrs) {
+	private boolean scrollable = true;
+	
+	public ExtendScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     public void setMeanController(BaseMeanController meanController) {
         this.mMeanController = meanController;
     }
-
-    @Override // android.widget.ScrollView, android.view.View
+	
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		if(!scrollable) {
+			return false;
+		}
+		return super.onInterceptTouchEvent(ev);
+	}
+	
+	@Override // android.widget.ScrollView, android.view.View
     public boolean onTouchEvent(MotionEvent ev) {
+		if(!scrollable) {
+			return true;
+		}
         if (this.mExtendTextView == null) {
             this.mExtendTextView = (ExtendTextView) getChildAt(getChildCount() - 1);
             if (this.mExtendTextView == null) {
@@ -126,4 +138,8 @@ public class ExtendScrollView extends ScrollView {
         this.mHandler.removeCallbacks(this.mAppendNextMeaningRunnable);
         dismissLoadingPopup();
     }
+	
+	public void setScrollEnabled(boolean isScrollEnable) {
+		this.scrollable = isScrollEnable;
+	}
 }
