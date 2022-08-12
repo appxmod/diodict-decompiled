@@ -39,6 +39,8 @@ public class GlobalOptions {
 	
 	public static int softInputHeight;
 	
+	public static long softInputDismissTm;
+	
 	public static int btnMaxWidth;
 	
 	public static boolean hideTextRecDlg;

@@ -947,7 +947,6 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 		final TextArea sela = this.mSelectionArea;
 		switch (action) {
 			case MotionEvent.ACTION_DOWN:{
-				 CMN.debug("mSelectTextMode::ACTION_DOWN");
 				mMoving = false;
 				int pad = (int) (2*GlobalOptions.density);
 				if (x < layout.getLineLeft(line) - pad || x > layout.getLineRight(line) + pad

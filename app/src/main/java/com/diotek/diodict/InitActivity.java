@@ -11,6 +11,7 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import com.diotek.diodict.database.DioDictDatabase;
+import com.diotek.diodict.dtestui.HeightProvider;
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.engine.DictUtils;
 import com.diotek.diodict.engine.EngineManager3rd;
@@ -19,6 +20,8 @@ import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.uitool.StorageState;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.CMN;
+import com.diotek.diodict.utils.GlobalOptions;
 
 /* loaded from: classes.dex */
 public class InitActivity extends BaseActivity {

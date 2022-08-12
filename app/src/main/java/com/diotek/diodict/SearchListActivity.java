@@ -61,6 +61,7 @@ import com.diotek.diodict.database.DioDictDatabase;
 import com.diotek.diodict.database.DioDictDatabaseInfo;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.dhwr.b2c.kor.DioGuestureDetector;
+import com.diotek.diodict.dtestui.HeightProvider;
 import com.diotek.diodict.dtestui.MeanToolbarWidgets;
 import com.diotek.diodict.engine.DictDBManager;
 import com.diotek.diodict.engine.DictInfo;
@@ -925,6 +926,20 @@ public class SearchListActivity extends ListMeanViewActivity {
 			};
 			mHandler.postDelayed(findWndRun, 200);
 		}
+	
+		new HeightProvider(this).init().setHeightListener(new HeightProvider.HeightListener() {
+			@Override
+			public void onHeightChanged(int height) {
+				//showT(""+height+settingsPanel);
+				if (GlobalOptions.softInputHeight != height) {
+					// CMN.debug("键盘...onHeightChanged", GlobalOptions.softInputHeight);
+					if (height==0) {
+						GlobalOptions.softInputDismissTm = CMN.now();
+					}
+					GlobalOptions.softInputHeight = height;
+				}
+			}
+		});
     }
 
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
@@ -1345,6 +1360,13 @@ public class SearchListActivity extends ListMeanViewActivity {
         }
         switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
+				// CMN.debug("键盘...KEYCODE_BACK", GlobalOptions.softInputHeight);
+                if (GlobalOptions.softInputDismissTm > 0) {
+					if (CMN.now() - GlobalOptions.softInputDismissTm < 100) {
+						return true;
+					}
+					GlobalOptions.softInputDismissTm = 0;
+                }
                 if (runKeyCodeBack()) {
                     return true;
                 }
