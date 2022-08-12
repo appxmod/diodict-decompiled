@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.os.Debug;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,6 +37,7 @@ import com.diotek.diodict.FlashcardActivity;
 import com.diotek.diodict.HelpActivity;
 import com.diotek.diodict.HistoryActivity;
 import com.diotek.diodict.MultiShareActivity;
+import com.diotek.diodict.Preference;
 import com.diotek.diodict.SearchListActivity;
 import com.diotek.diodict.SettingActivity;
 import com.diotek.diodict.ViewUtils;
@@ -42,14 +45,17 @@ import com.diotek.diodict.WikipediaActivity;
 import com.diotek.diodict.anim.TiffanyTransition;
 import com.diotek.diodict.auth.TimeLimitAuth;
 import com.diotek.diodict.dependency.Dependency;
+import com.diotek.diodict.dtestui.MeanToolbarWidgets;
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.engine.DictUtils;
 import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.engine.EngineNative3rd;
 import com.diotek.diodict.mean.ExtendTextView;
 import com.diotek.diodict.mean.MSG;
+import com.diotek.diodict.mean.SearchMeanController;
 import com.diotek.diodict.utils.CMN;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.GlobalOptions;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -64,9 +70,10 @@ public abstract class BaseActivity extends Activity {
     public static final int RESET_ALL_ACTIVITY = 1001;
 	public List<View> wViews;
 	
+	public Resources mResources;
 	/** the main textView */
-	protected ExtendTextView mTextView = null;
-	protected DictEditText etSearch = null;
+	public ExtendTextView mTextView = null;
+	public DictEditText etSearch = null;
 	
 	protected TextView mSearchDBNameTextView = null;
     private View mRunnableTTSBtn = null;
@@ -84,6 +91,9 @@ public abstract class BaseActivity extends Activity {
     private boolean mbConfigChange = false;
     protected boolean mUseVoiceSearch = false;
     private boolean DEBUG = false;
+	public Preference preference;
+	public MeanToolbarWidgets toolbarWidgets;
+	public SearchMeanController mSearchMeanController = null;
     DialogInterface.OnClickListener mDBCheckDialogOkBtnOnClickListener = new DialogInterface.OnClickListener() { // from class: com.diotek.diodict.uitool.BaseActivity.1
         @Override // android.content.DialogInterface.OnClickListener
         public void onClick(DialogInterface arg0, int arg1) {
@@ -173,6 +183,11 @@ public abstract class BaseActivity extends Activity {
     final WeakReference<BaseActivity> thisRef = new WeakReference<>(this);
 	
     public boolean onCreateActivity(Bundle savedInstanceState) {
+		if (GlobalOptions.density==0) {
+			DisplayMetrics dm = getResources().getDisplayMetrics();
+			GlobalOptions.density = dm.density;
+			GlobalOptions.ldpi = CommonUtils.isLowResolutionDevice(this);
+		}
         if (this.DEBUG) {
             StrictMode.enableDefaults();
         }
@@ -181,6 +196,9 @@ public abstract class BaseActivity extends Activity {
     }
 
     protected boolean onCreateActivity(Bundle savedInstanceState, boolean bInitDBManager) {
+		preference = new Preference(this);
+		toolbarWidgets = new MeanToolbarWidgets(this);
+		mResources = getResources();
         if (this.DEBUG) {
             StrictMode.enableDefaults();
         }
@@ -344,7 +362,7 @@ public abstract class BaseActivity extends Activity {
         ActionBar bar = getActionBar();
         if (bar != null) {
             bar.setCustomView(mCustomView, new ActionBar.LayoutParams(-1, -1));
-            bar.setBackgroundDrawable(getResources().getDrawable(R.color.CustomWindowTitleBackground));
+            bar.setBackgroundDrawable(mResources.getDrawable(R.color.CustomWindowTitleBackground));
             bar.setHomeButtonEnabled(false);
             int change = bar.getDisplayOptions() ^ 16;
             bar.setDisplayOptions(change, 16);
@@ -498,7 +516,7 @@ public abstract class BaseActivity extends Activity {
         int popupWidth = PopupContent.getMeasuredWidth();
         int popupHeight = PopupContent.getMeasuredHeight();
         if (this.mTTSStopPopup == null) {
-            this.mTTSStopPopup = CommonUtils.makeWindowWithPopupWindowTTS(this, 0, PopupContent, getResources().getDrawable(R.drawable.trans), Dependency.getDevice().checkFocusableModel());
+            this.mTTSStopPopup = CommonUtils.makeWindowWithPopupWindowTTS(this, 0, PopupContent, mResources.getDrawable(R.drawable.trans), Dependency.getDevice().checkFocusableModel());
             ((ImageView) PopupContent.findViewById(R.id.tts_repeat_stop)).setOnClickListener(this.mTTSRepeatStopOnClickListener);
             this.mTTSStopPopup.setOnDismissListener(this.mTTSRepeatStopOnDismissListener);
             PopupContent.setOnKeyListener(this.mContentOnKeyListener);
@@ -649,5 +667,9 @@ public abstract class BaseActivity extends Activity {
 			return true;
 		}
 		return false;
+	}
+	
+	public void setFocusableActivity(boolean b) {
+	
 	}
 }

@@ -20,6 +20,8 @@ import com.diotek.diodict.mean.BaseMeanController;
 import com.diotek.diodict.mean.ExtendTextView;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.GlobalOptions;
+
 import java.util.Locale;
 
 /* loaded from: classes.dex */
@@ -360,7 +362,7 @@ public class TTSManager {
         int nTTSSecondRepeatBtnResId = R.drawable.repeat;
         String nTTSFirstStr = "";
         String nTTSSecondStr = "";
-        float nDensity = CommonUtils.getDeviceDensity(this.mContext);
+        float nDensity = GlobalOptions.density;
         float nTTSTextSize = 10.0f;
         int nTTSLeftPadding = this.mContext.getResources().getDimensionPixelSize(R.dimen.mean_tts_btn_paddingLeft);
         if (nTTSLeftPadding <= 0) {

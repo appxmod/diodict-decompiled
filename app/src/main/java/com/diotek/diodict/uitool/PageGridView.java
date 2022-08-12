@@ -16,6 +16,8 @@ import com.diotek.diodict.GridViewAdapter;
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.uitool.TouchGesture;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.GlobalOptions;
+
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -124,7 +126,7 @@ public class PageGridView {
         this.mArrayItems = new ArrayList[this.mTotalGridViewPage];
         this.mPageGridViewDot = new RadioButton[this.mTotalGridViewPage];
         for (int i = 0; i < this.mTotalGridViewPage; i++) {
-            float density = CommonUtils.getDeviceDensity(this.mContext);
+            float density = GlobalOptions.density;
             GridView gv = new GridView(this.mContext);
             gv.setNumColumns(-1);
             gv.setVerticalSpacing((int) (8.0f * density));
@@ -456,7 +458,7 @@ public class PageGridView {
     }
 
     public RadioButton createPageDotBtn(int nMode) {
-        float density = CommonUtils.getDeviceDensity(this.mContext);
+        float density = GlobalOptions.density;
         RadioButton dot = new RadioButton(this.mContext);
         dot.setBackgroundResource(0);
         if (nMode == 1) {

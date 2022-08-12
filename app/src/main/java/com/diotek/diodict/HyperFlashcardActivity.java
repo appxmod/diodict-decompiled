@@ -67,7 +67,7 @@ public class HyperFlashcardActivity extends HyperCommonActivity {
         @Override // android.view.View.OnClickListener
         public void onClick(View v) {
             HyperFlashcardActivity.this.runSaveBtn();
-            HyperFlashcardActivity.this.setFocusableHyperActivity(false);
+            HyperFlashcardActivity.this.setFocusableActivity(false);
         }
     };
 
@@ -210,8 +210,8 @@ public class HyperFlashcardActivity extends HyperCommonActivity {
     }
 
     @Override // com.diotek.diodict.HyperCommonActivity
-    public void setFocusableHyperActivity(boolean bFocus) {
-        super.setFocusableHyperActivity(bFocus);
+    public void setFocusableActivity(boolean bFocus) {
+        super.setFocusableActivity(bFocus);
         this.mFlashcardItemEditDeleteBtn.setFocusable(bFocus);
         this.mFlashcardItemEditCopyBtn.setFocusable(bFocus);
         this.mFlashcardItemEditSortBtn.setFocusable(bFocus);

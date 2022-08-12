@@ -54,6 +54,8 @@ import com.diotek.diodict.uitool.TextImageButton;
 import com.diotek.diodict.uitool.UITools;
 import com.diotek.diodict.uitool.WordListAdapter;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.GlobalOptions;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -1313,14 +1315,14 @@ public class HistoryActivity extends ListMeanViewActivity {
         this.mFlashcardItemEditCopyToFlashcardOk.setOnClickListener(this.mFlashcardItemEditCopyToFlashcardOkOnClickListener);
         this.mFlashcardItemEditCopyToFlashcardCancel.setOnClickListener(this.mFlashcardItemEditCopyToFlashcardCancelOnClickListener);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         this.mAddWordbookLayout = (RelativeLayout) findViewById(R.id.addCard);
         this.mAddWordbookLayout.setOnClickListener(this.mAddWordbookTextViewOnCLickListener);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         String[] from = {DictInfo.ListItem_WordbookName, DictInfo.ListItem_WordCount};
         int[] to = {R.id.wordbooktitle, R.id.numword};
@@ -1406,8 +1408,8 @@ public class HistoryActivity extends ListMeanViewActivity {
         this.mBtnMakeWordbookCancel = (TextImageButton) this.mWordbookDialog.findViewById(R.id.button_makewordbook_cancel);
         this.mBtnMakeWordbookCancel.setOnClickListener(this.mBtnMakeWordbookCancelOnClickListener);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mBtnMakeWordbookOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mBtnMakeWordbookCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mBtnMakeWordbookOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mBtnMakeWordbookCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         this.mBackupCardName = defaultName;
         return this.mWordbookDialog;

@@ -8,6 +8,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 
+import com.diotek.diodict.utils.GlobalOptions;
+
 /* loaded from: classes.dex */
 public class TextImageButton extends ImageButton {
     final String ATTR;
@@ -76,7 +78,7 @@ public class TextImageButton extends ImageButton {
         this.m_textAlignVertical = false;
         this.m_textAlignDegree = 90;
         this.mContext = context;
-        float nDensity = CommonUtils.getDeviceDensity(this.mContext);
+        float nDensity = GlobalOptions.density;
         if (attrs.getAttributeValue(null, "text_button") == null) {
             String tmpstr = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "text");
             if (tmpstr == null) {

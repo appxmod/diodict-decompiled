@@ -28,7 +28,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.diotek.diodict.Preference;
 import com.diotek.diodict.SearchListActivity;
+import com.diotek.diodict.ViewUtils;
+import com.diotek.diodict.dtestui.MeanToolbarWidgets;
 import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.utils.CMN;
 import com.diotek.diodict.database.DioDictDatabase;
@@ -83,7 +86,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private int mIsIntercept;
 	
     private boolean bIsMarking;
-    private boolean bIsOneShotMark;
+    public boolean bIsOneShotMark;
 	private int mMarkColor;
 	
     private int mLeftGripMode;
@@ -103,6 +106,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private Runnable mRunnableDismissTextSelectGrip;
     private ExtendScrollView mScrollView;
     private BaseActivity activity;
+	public MeanToolbarWidgets toolbarWidgets;
     @NonNull private TextArea mSelectionArea = new TextArea();
 	
 	/** true=automatically shrink text selection on second click */
@@ -457,8 +461,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     }
 
     private void restoreSettings(Context ctx) {
-        int fontSizeIndex = DictUtils.getFontSizeFromPreference(ctx);
-        int markerColorIndex = DictUtils.getMarkerColorFromPreference(ctx);
+        int fontSizeIndex = Preference.getFontSize();
+        int markerColorIndex = Preference.markColor();
         int[] colorList = getResources().getIntArray(R.array.value_marker_color_adv);
         int[] fontSizeList = getResources().getIntArray(R.array.value_font_size);
         super.setTextSize(fontSizeList[fontSizeIndex]);
@@ -905,13 +909,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 		int x = lastX = (int) event.getX();
 		int y = lastY = (int) event.getY();
 		if (bIsOneShotMark) {
-			if ((action==MotionEvent.ACTION_UP||action==MotionEvent.ACTION_CANCEL)
-					&& !bIgnoreNextUp && mActiveGrip==-1
-					&& activity instanceof SearchListActivity) {
-				((SearchListActivity) activity).dismissMarkerPopup();
-				return true;
-			}
-			return false;
+//			if ((action==MotionEvent.ACTION_UP||action==MotionEvent.ACTION_CANCEL)
+//					&& !bIgnoreNextUp && mActiveGrip==-1
+//					&& toolbarWidgets!=null) {
+//				toolbarWidgets.dismissMarkerPopup();
+//				return true;
+//			}
+//			return false;
 		}
         getLocationInTextView(location, x, y);
         int fx = location[0];
@@ -927,39 +931,48 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         if (y > ty) {
             off = -1;
         }
-        switch (action) {
+		final TextArea sela = this.mSelectionArea;
+		switch (action) {
 			case MotionEvent.ACTION_DOWN:
-                this.mSelectionArea.start = off;
-                this.mSelectionArea.start_line = line;
+                sela.start = off;
+                sela.start_line = line;
                 return true;
 			case MotionEvent.ACTION_UP:
                 if (this.mSelectTextMode == 0) {
-                    if (this.mSelectionArea.start_line == line) {
-                        this.mSelectionArea.end = off;
-                    } else if (this.mSelectionArea.start_line >= 0 && this.mSelectionArea.start_line < layout.getLineCount()) {
-                        this.mSelectionArea.end = layout.getLineEnd(this.mSelectionArea.start_line);
+                    if (sela.start_line == line) {
+                        sela.end = off;
+                    } else if (sela.start_line >= 0 && sela.start_line < layout.getLineCount()) {
+                        sela.end = layout.getLineEnd(sela.start_line);
                     }
                 } else {
-                    this.mSelectionArea.end = off;
+                    sela.end = off;
                 }
-                if (this.mSelectionArea.start > this.mSelectionArea.end) {
-                    int tempOffset = this.mSelectionArea.end;
-                    this.mSelectionArea.end = this.mSelectionArea.start;
-                    this.mSelectionArea.start = tempOffset;
+                if (sela.start > sela.end) {
+                    int tempOffset = sela.end;
+                    sela.end = sela.start;
+                    sela.start = tempOffset;
                 }
-                return true;
+//                return true;
+//			case MotionEvent.ACTION_CANCEL:
+				if (sela.start != -1 && sela.move != -1 && sela.start != sela.move) {
+					sela.end = sela.move;
+					performMark();
+					invalidate();
+					return true;
+				}
+				return true;
             case MotionEvent.ACTION_MOVE:
                 this.mMoving = true;
                 if (this.mSelectTextMode == 0) {
-                    if (this.mSelectionArea.start_line == line) {
-                        this.mSelectionArea.move = off;
-                    } else if (this.mSelectionArea.start_line >= 0 && this.mSelectionArea.start_line < layout.getLineCount()) {
-                        this.mSelectionArea.move = layout.getLineEnd(this.mSelectionArea.start_line);
+                    if (sela.start_line == line) {
+                        sela.move = off;
+                    } else if (sela.start_line >= 0 && sela.start_line < layout.getLineCount()) {
+                        sela.move = layout.getLineEnd(sela.start_line);
                     }
                 } else {
-                    this.mSelectionArea.move = off;
+                    sela.move = off;
                 }
-                List<Rect> selectRect = getRectOfSelectedTextOffset(this.mSelectionArea.start, this.mSelectionArea.move);
+                List<Rect> selectRect = getRectOfSelectedTextOffset(sela.start, sela.move);
                 if (this.mPrevMakerRect != null) {
                     for (int j = 0; j < this.mPrevMakerRect.size(); j++) {
                         Rect r = this.mPrevMakerRect.get(j);
@@ -971,14 +984,6 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                     invalidate(r2);
                 }
                 this.mPrevMakerRect = selectRect;
-                return true;
-            case MotionEvent.ACTION_CANCEL:
-                if (this.mSelectionArea.start != -1 && this.mSelectionArea.move != -1 && this.mSelectionArea.start != this.mSelectionArea.move) {
-                    this.mSelectionArea.end = this.mSelectionArea.move;
-                    performMark();
-                    invalidate();
-                    return true;
-                }
                 return true;
             default:
                 return true;
@@ -1365,7 +1370,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                 this.wiki.setVisibility(View.GONE);
                 this.bWikiVisible = false;
             }
-            float density = CommonUtils.getDeviceDensity(this.mContext);
+            float density = GlobalOptions.density;
             String ttsWord = "";
 			if (this.mSelectionArea.isTextSelected()) {
 				try {
@@ -1621,6 +1626,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
     }
 
+    public void initSelection() {
+		if (this.gripShowing()) {
+			clearSelection();
+			invalidate();
+		}
+	}
+	
     public void clearSelection() {
         dismissTextSelectController();
         dismissTextSelectGrip();
@@ -1933,12 +1945,15 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         return this.bIsMarking;
     }
 
-    public void setMarkerMode(boolean b) {
-        this.bIsMarking = b;
-    }
-
-    public void setOneShotMarker(boolean b) {
-        this.bIsOneShotMark = b;
+    public void setMarkerMode(boolean b, boolean oneshot) {
+		bIsMarking = b;
+		if (b) {
+			bIsOneShotMark = oneshot;
+			mScrollView.setOnTouchListener(ViewUtils
+					.dummyOnTouch);
+		} else if(!bIsOneShotMark){
+		
+		}
     }
 
     @Override // android.view.GestureDetector.OnGestureListener

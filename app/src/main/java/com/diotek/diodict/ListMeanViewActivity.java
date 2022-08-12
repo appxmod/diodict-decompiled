@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.TabView;
 import com.diodict.decompiled.R;
 import com.diotek.diodict.utils.CMN;
+import com.diotek.diodict.utils.GlobalOptions;
 
 import java.util.Locale;
 
@@ -412,7 +415,7 @@ public class ListMeanViewActivity extends BaseActivity {
         int nTTSSecondRepeatBtnResId = R.drawable.repeat;
         String nTTSFirstStr = "";
         String nTTSSecondStr = "";
-        float nDensity = CommonUtils.getDeviceDensity(this);
+        float nDensity = GlobalOptions.density;
         float nTTSTextSize = 10.0f;
         int nTTSLeftPadding = getResources().getDimensionPixelSize(R.dimen.mean_tts_btn_paddingLeft);
         if (nTTSLeftPadding <= 0) {

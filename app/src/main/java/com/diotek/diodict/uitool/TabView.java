@@ -8,6 +8,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.GlobalOptions;
+
 import java.util.EventListener;
 import java.util.Locale;
 
@@ -367,7 +369,7 @@ public class TabView extends FrameLayout {
         if (tmpTextPositionYStr == null) {
             return 0;
         }
-        int bTextPositionY = (int) (Float.parseFloat(tmpTextPositionYStr) * CommonUtils.getDeviceDensity(this.mContext));
+        int bTextPositionY = (int) (Float.parseFloat(tmpTextPositionYStr) * GlobalOptions.density);
         return bTextPositionY;
     }
 

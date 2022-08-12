@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -44,24 +45,6 @@ public class HyperSearchActivity extends HyperCommonActivity {
             HyperSearchActivity.this.runHyperDetailExitBtn();
         }
     };
-    View.OnClickListener mMarkerBtnOnClickListner = new View.OnClickListener() { // from class: com.diotek.diodict.HyperSearchActivity.2
-        @Override // android.view.View.OnClickListener
-        public void onClick(View v) {
-            HyperSearchActivity.this.runMarkerBtn();
-        }
-    };
-    View.OnClickListener mFontBtnOnClickListner = new View.OnClickListener() { // from class: com.diotek.diodict.HyperSearchActivity.3
-        @Override // android.view.View.OnClickListener
-        public void onClick(View v) {
-            HyperSearchActivity.this.runFontBtn();
-        }
-    };
-    View.OnClickListener mMemoBtnOnClickListner = new View.OnClickListener() { // from class: com.diotek.diodict.HyperSearchActivity.4
-        @Override // android.view.View.OnClickListener
-        public void onClick(View v) {
-            HyperSearchActivity.this.runMemoBtn();
-        }
-    };
     View.OnClickListener mBtnDeleteTextBtnOnClickListener = new View.OnClickListener() { // from class: com.diotek.diodict.HyperSearchActivity.5
         @Override // android.view.View.OnClickListener
         public void onClick(View v) {
@@ -88,7 +71,7 @@ public class HyperSearchActivity extends HyperCommonActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 8) {
-            setClickableMeanToolBar(true);
+			toolbarWidgets.isVisible = false;
             if (resultCode == -1) {
                 saveToMemoDB(data);
             }
@@ -105,34 +88,13 @@ public class HyperSearchActivity extends HyperCommonActivity {
                 break;
             case 21:
             case 22:
-                if (this.mMarkerColorChangePopup != null && this.mMarkerColorChangePopup.isShowing() && this.markerGroup != null) {
-                    if (keyCode == 21) {
-                        setFocusMarker(false);
-                    } else {
-                        setFocusMarker(true);
-                    }
-                }
+				toolbarWidgets.setFocusMarker(keyCode != 21);
                 return true;
-            case 23:
-            case 66:
-                if (this.mMarkerColorChangePopup != null && this.mMarkerColorChangePopup.isShowing() && this.markerGroup != null) {
-                    if (this.mMarkerCloseBtn.isFocused()) {
-                        dismissMarkerColorChangePopup();
-                        this.mMarkerBtn.requestFocus();
-                        return true;
-                    }
-                    RadioButton view = (RadioButton) this.markerGroup.findFocus();
-                    int[] colorList = getResources().getIntArray(R.array.value_marker_color_adv);
-                    if (this.mHyperDetailMeanContentTextView != null && view != null && !view.isChecked()) {
-                        int viewIdx = ((Integer) view.getTag(view.getId())).intValue();
-                        this.mHyperDetailMeanContentTextView.setMarkerColor(colorList[viewIdx]);
-                        view.setChecked(true);
-                        if (viewIdx < 5) {
-                            DictUtils.saveMarkerColor(this, viewIdx);
-                        }
-                        return true;
-                    }
-                }
+			case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_ENTER:
+				if (toolbarWidgets.onKeyUp_ENTER()) {
+					return true;
+				}
                 break;
         }
         return super.onKeyUp(keyCode, event);
@@ -158,9 +120,9 @@ public class HyperSearchActivity extends HyperCommonActivity {
     @Override // com.diotek.diodict.HyperCommonActivity
     public void runHyperDetailPrevNextSearchBtn(boolean bNext) {
         handleSaveMarkerObject();
-        if (this.mMarkerColorChangePopup != null && this.mMarkerColorChangePopup.isShowing()) {
-            this.mMarkerColorChangePopup.dismiss();
-            this.mMarkerColorChangePopup = null;
+        if (toolbarWidgets.isMarkerShowing()) {
+			toolbarWidgets.mMarkerPopup.dismiss();
+			toolbarWidgets.mMarkerPopup = null;
         }
         super.runHyperDetailPrevNextSearchBtn(bNext);
     }
@@ -274,16 +236,13 @@ public class HyperSearchActivity extends HyperCommonActivity {
     }
 
     public void prepareMeanToolLayout() {
-        this.mMarkerBtn = (ImageButton) findViewById(R.id.MarkerBtn);
-        this.mFontBtn = (ImageButton) findViewById(R.id.FontBtn);
-        this.mMemoBtn = (ImageButton) findViewById(R.id.MemoBtn);
-        this.mSaveBtn = (ImageButton) findViewById(R.id.SaveBtn);
-        this.mMarkerBtn.setOnClickListener(this.mMarkerBtnOnClickListner);
-        this.mFontBtn.setOnClickListener(this.mFontBtnOnClickListner);
-        this.mMemoBtn.setOnClickListener(this.mMemoBtnOnClickListner);
-        this.mSaveBtn.setOnClickListener(this.mSaveBtnOnClickListener);
-        LinearLayout meanToolbarLayout = (LinearLayout) findViewById(R.id.MeanToolbarLayout);
-        meanToolbarLayout.setVisibility(View.VISIBLE);
+		ViewGroup mMeanToolbarLayout = findViewById(R.id.MeanToolbarLayout);
+        this.mMarkerBtn = mMeanToolbarLayout.findViewById(R.id.MarkerBtn);
+        this.mFontBtn = mMeanToolbarLayout.findViewById(R.id.FontBtn);
+        this.mMemoBtn = mMeanToolbarLayout.findViewById(R.id.MemoBtn);
+        this.mSaveBtn = mMeanToolbarLayout.findViewById(R.id.SaveBtn);
+		ViewUtils.setOnClickListenersOneDepth(mMeanToolbarLayout, toolbarWidgets.btnOnClickListener, 1, null);
+		mMeanToolbarLayout.setVisibility(View.VISIBLE);
     }
 
     protected void runHyperDetailExitBtn() {
@@ -299,83 +258,27 @@ public class HyperSearchActivity extends HyperCommonActivity {
 
     public boolean runKeyCodeBack() {
 		if (clearTextViewSelection()) return true;
-        if (this.mCopyToFlashcardLayout.getVisibility() == 0) {
-            showCopyToFlashcardLayout(false);
-            this.mSaveBtn.setSelected(false);
-            return true;
-        } else if (this.mHyperDetailMeanContentTextView.gripShowing()) {
-            this.mHyperDetailMeanContentTextView.clearSelection();
-            this.mHyperDetailMeanContentTextView.forceInvalidate();
-            return true;
-        } else if (this.mHyperSimpleViewModule != null && this.mHyperSimpleViewModule.isShowingHyperDialogPopup()) {
-            this.mHyperSimpleViewModule.closeHyperTextSummaryPopup(false);
-            return true;
-        } else if (this.mFileLinkTagViewManager != null && this.mFileLinkTagViewManager.isShowingLinkTextPopup()) {
-            this.mFileLinkTagViewManager.closeFileLinkPopup();
-            return true;
-        } else if (dismissFontChangePopup() || dismissMarkerColorChangePopup()) {
-            return false;
-        } else {
-            runHyperDetailExitBtn();
-            return true;
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void runMarkerBtn() {
-        if (this.mHyperDetailMeanContentTextView != null && !this.mHyperDetailMeanContentTextView.isMarkerMode()) {
-            this.mHyperDetailMeanContentTextView.clearSelection();
-            setClickableMeanToolBar(false);
-            showMarkerColorChangePopupMenu();
-            this.mHyperDetailMeanContentTextView.setMarkerMode(true);
-        }
-    }
-
-    public void runMemoBtn() {
-        setClickableMeanToolBar(false);
-        Intent intent = new Intent();
-        intent.setClass(this, MemoActivity.class);
-        String time_string = "";
-        String data = "";
-        int skin = 1;
-        if (this.mHyperDetailMeanContentTextView != null) {
-            int dbtype = this.mHyperDetailMeanContentTextView.getDbtype();
-            String keyword = this.mHyperDetailMeanContentTextView.getKeyword();
-            int suid = this.mHyperDetailMeanContentTextView.getSuid();
-            if (DioDictDatabase.existMemo(getApplicationContext(), dbtype, keyword, suid)) {
-                Cursor c = DioDictDatabase.getMemoCursorWith(getApplicationContext(), dbtype, keyword, suid);
-                if (c != null) {
-                    int nMemoIdx = c.getColumnIndex(DioDictDatabaseInfo.DB_COLUMN_MEMO);
-                    int nTimeIdx = c.getColumnIndex(DioDictDatabaseInfo.DB_COLUMN_TIME);
-                    int nSkinIdx = c.getColumnIndex(DioDictDatabaseInfo.DB_COLUMN_FOLDERTYPE);
-                    data = c.getString(nMemoIdx);
-                    long time = c.getLong(nTimeIdx);
-                    time_string = DictUtils.getDateString(time);
-                    skin = c.getInt(nSkinIdx);
-                    c.close();
-                } else {
-                    return;
-                }
-            }
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_TIME, time_string);
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_DATA, data);
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_SKIN, skin);
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_DICT, dbtype);
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_WORD, keyword);
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_SUID, suid);
-            startActivityForResult(intent, 8);
-            return;
-        }
-        MSG.l(2, "runMemoBtn(): error ");
-    }
-
-    public void runFontBtn() {
-        if (this.mHyperDetailMeanContentTextView != null) {
-            this.mHyperDetailMeanContentTextView.clearSelection();
-        }
-        setClickableMeanToolBar(false);
-        showFontSizeChangePopupMenu();
-    }
+		if (this.mCopyToFlashcardLayout.getVisibility() == 0) {
+			showCopyToFlashcardLayout(false);
+			this.mSaveBtn.setSelected(false);
+			return true;
+		} else if (this.mTextView.gripShowing()) {
+			this.mTextView.clearSelection();
+			this.mTextView.forceInvalidate();
+			return true;
+		} else if (this.mHyperSimpleViewModule != null && this.mHyperSimpleViewModule.isShowingHyperDialogPopup()) {
+			this.mHyperSimpleViewModule.closeHyperTextSummaryPopup(false);
+			return true;
+		} else if (this.mFileLinkTagViewManager != null && this.mFileLinkTagViewManager.isShowingLinkTextPopup()) {
+			this.mFileLinkTagViewManager.closeFileLinkPopup();
+			return true;
+		} else if (toolbarWidgets.destroyData()) {
+			return false;
+		} else {
+			runHyperDetailExitBtn();
+			return true;
+		}
+	}
 
     protected void saveToMemoDB(Intent intent) {
         String memoDataString = intent.getExtras().getString(DictInfo.INTENT_MEMO_INFO_DATA);
@@ -419,8 +322,8 @@ public class HyperSearchActivity extends HyperCommonActivity {
     }
 
     @Override // com.diotek.diodict.HyperCommonActivity
-    public void setFocusableHyperActivity(boolean bFocus) {
-        super.setFocusableHyperActivity(bFocus);
+    public void setFocusableActivity(boolean bFocus) {
+        super.setFocusableActivity(bFocus);
         this.mChangeDictionaryBtn.setFocusable(bFocus);
         this.mChangeLanguageBtn.setFocusable(bFocus);
         this.mSearchWordBtn.setFocusable(bFocus);

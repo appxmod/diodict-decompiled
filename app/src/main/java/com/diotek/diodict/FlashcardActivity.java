@@ -34,6 +34,8 @@ import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.PageGridView;
 import com.diotek.diodict.uitool.TextImageButton;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.GlobalOptions;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -644,8 +646,8 @@ public class FlashcardActivity extends BaseActivity {
         this.mBtnMakeWordbookCancel.setText(R.string.cancel);
         this.mInputWordBookName = (TextView) this.mWordbookDialog.findViewById(R.id.editview_editwordbook);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mBtnMakeWordbookOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mBtnMakeWordbookCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mBtnMakeWordbookOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mBtnMakeWordbookCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         if (this.mEdittextWordbookName == null) {
             this.mEdittextWordbookName = (EditText) this.mWordbookDialog.findViewById(R.id.edittext_makewordbookname);
@@ -689,8 +691,8 @@ public class FlashcardActivity extends BaseActivity {
         this.mBtnEditWordbookCancel.setOnClickListener(this.mBtnEditWordbookCancelOnClickListener);
         this.mBtnEditWordbookCancel.setText(R.string.cancel);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mBtnEditWordbookOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mBtnEditWordbookCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mBtnEditWordbookOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mBtnEditWordbookCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         this.mInputWordBookName = (TextView) this.mWordbookDialog.findViewById(R.id.editview_editwordbook);
         if (this.mEdittextEditWordbookName == null) {

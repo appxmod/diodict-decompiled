@@ -40,7 +40,7 @@ public class HyperHistoryActivity extends HyperCommonActivity {
         @Override // android.view.View.OnClickListener
         public void onClick(View v) {
             HyperHistoryActivity.this.runSaveBtn();
-            HyperHistoryActivity.this.setFocusableHyperActivity(false);
+            HyperHistoryActivity.this.setFocusableActivity(false);
         }
     };
 
@@ -164,8 +164,8 @@ public class HyperHistoryActivity extends HyperCommonActivity {
     }
 
     @Override // com.diotek.diodict.HyperCommonActivity
-    public void setFocusableHyperActivity(boolean bFocus) {
-        super.setFocusableHyperActivity(bFocus);
+    public void setFocusableActivity(boolean bFocus) {
+        super.setFocusableActivity(bFocus);
         this.mHistoryItemEditBtn.setFocusable(bFocus);
         this.mHistoryItemDeleteBtn.setFocusable(bFocus);
         this.mHistoryItemSortBtn.setFocusable(bFocus);

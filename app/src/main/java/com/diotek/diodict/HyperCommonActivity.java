@@ -55,6 +55,8 @@ import com.diotek.diodict.uitool.PopupFlashcardGridAdapter;
 import com.diotek.diodict.uitool.TabView;
 import com.diotek.diodict.uitool.TextImageButton;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.GlobalOptions;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -64,11 +66,8 @@ public abstract class HyperCommonActivity extends BaseActivity {
     protected PopupFlashcardGridAdapter mFlashcardFolderListViewAdapter = null;
     protected ArrayList<HashMap<String, Object>> mHyperHistoryList = null;
     protected ArrayList<HashMap<String, Object>> mFlashcardFolderListViewItems = new ArrayList<>();
-    protected SearchMeanController mHyperDetailMeanController = null;
     protected HyperSimpleViewModule mHyperSimpleViewModule = null;
     protected FileLinkTagViewManager mFileLinkTagViewManager = null;
-    protected PopupWindow mFontSizeChangePopup = null;
-    protected PopupWindow mMarkerColorChangePopup = null;
     protected Dialog mWordbookDialog = null;
     protected RadioButton mCard1 = null;
     protected RadioButton mCard2 = null;
@@ -77,7 +76,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
     protected TextImageButton mBtnMakeWordbookOk = null;
     protected TextImageButton mBtnMakeWordbookCancel = null;
     protected ImageButton mSaveBtn = null;
-    protected ImageButton mMarkerBtn = null;
+    public ImageButton mMarkerBtn = null;
     protected ImageButton mFontBtn = null;
     protected ImageButton mMemoBtn = null;
     private TextImageButton mFlashcardItemEditCopyToFlashcardOk = null;
@@ -90,7 +89,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
     protected TextView mHyperDetailEmptyTextView = null;
     protected TabView mHyperDetailTabView = null;
     protected TextView mHyperDetailMeanTitleTextView = null;
-    protected ExtendTextView mHyperDetailMeanContentTextView = null;
+    // protected ExtendTextView mHyperDetailMeanContentTextView mTextView = null;
     protected ScrollView mHyperDetailScrollView = null;
     protected ImageView mHyperDetailBookmark = null;
     protected LinearLayout mHyperMeanMoveBtnLayout = null;
@@ -146,8 +145,8 @@ public abstract class HyperCommonActivity extends BaseActivity {
 
         @Override // com.diotek.diodict.mean.HyperSimpleViewModule.HyperSimpleViewModuleCallback
         public void runExitBtn() {
-            if (HyperCommonActivity.this.mHyperDetailMeanContentTextView != null) {
-                HyperCommonActivity.this.mHyperDetailMeanContentTextView.clearSelection();
+            if (HyperCommonActivity.this.mTextView != null) {
+                HyperCommonActivity.this.mTextView.clearSelection();
             }
         }
     };
@@ -165,92 +164,6 @@ public abstract class HyperCommonActivity extends BaseActivity {
             HyperCommonActivity.this.mHandler.postDelayed(HyperCommonActivity.this.mRunnableUpdateTabView, 300L);
             if (HyperCommonActivity.this.mHyperDetailTabView != null) {
                 HyperCommonActivity.this.mHyperDetailTabView.setBtnSelected(HyperCommonActivity.this.mTabViewPos);
-            }
-        }
-    };
-    View.OnTouchListener mMarkerColorPopupOnTouchListener = new View.OnTouchListener() { // from class: com.diotek.diodict.HyperCommonActivity.8
-        @Override // android.view.View.OnTouchListener
-        public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == 4 || event.getAction() == 3) {
-                if (HyperCommonActivity.this.mMarkerColorChangePopup != null) {
-                    HyperCommonActivity.this.mMarkerColorChangePopup.dismiss();
-                    HyperCommonActivity.this.mMarkerColorChangePopup = null;
-                }
-                return true;
-            }
-            return false;
-        }
-    };
-    protected View.OnClickListener mFontSizeChangeOnClickListener = new View.OnClickListener() { // from class: com.diotek.diodict.HyperCommonActivity.9
-        @Override // android.view.View.OnClickListener
-        public void onClick(View v) {
-            boolean isUpdate = true;
-            int[] fontSizeList = HyperCommonActivity.this.getResources().getIntArray(R.array.value_font_size);
-            int fontSizeIndex = 0;
-            switch (v.getId()) {
-                case R.id.font_10 /* 2131099855 */:
-                    fontSizeIndex = 0;
-                    break;
-                case R.id.font_12 /* 2131099856 */:
-                    fontSizeIndex = 1;
-                    break;
-                case R.id.font_14 /* 2131099857 */:
-                    fontSizeIndex = 2;
-                    break;
-                case R.id.font_16 /* 2131099858 */:
-                    fontSizeIndex = 3;
-                    break;
-                case R.id.font_18 /* 2131099859 */:
-                    fontSizeIndex = 4;
-                    break;
-                case R.id.font_close /* 2131099860 */:
-                    isUpdate = false;
-                    break;
-            }
-            if (HyperCommonActivity.this.mHyperDetailMeanContentTextView != null && isUpdate) {
-                HyperCommonActivity.this.mHyperDetailMeanContentTextView.setTextSize(fontSizeList[fontSizeIndex]);
-                DictUtils.setFontSizeToPreference(HyperCommonActivity.this.getApplicationContext(), fontSizeIndex);
-            }
-            if (HyperCommonActivity.this.mFontSizeChangePopup != null && HyperCommonActivity.this.mFontSizeChangePopup.isShowing()) {
-                HyperCommonActivity.this.mFontSizeChangePopup.dismiss();
-            }
-        }
-    };
-    private View.OnClickListener mMarkerColorChangeOnClickListener = new View.OnClickListener() { // from class: com.diotek.diodict.HyperCommonActivity.10
-        @Override // android.view.View.OnClickListener
-        public void onClick(View v) {
-            boolean colorChange = true;
-            int[] colorList = HyperCommonActivity.this.getResources().getIntArray(R.array.value_marker_color_adv);
-            int markerColorIndex = 0;
-            switch (v.getId()) {
-                case R.id.marker_color_blue /* 2131100005 */:
-                    markerColorIndex = 0;
-                    break;
-                case R.id.marker_color_red /* 2131100006 */:
-                    markerColorIndex = 1;
-                    break;
-                case R.id.marker_color_green /* 2131100007 */:
-                    markerColorIndex = 2;
-                    break;
-                case R.id.marker_color_pink /* 2131100008 */:
-                    markerColorIndex = 3;
-                    break;
-                case R.id.marker_color_yellow /* 2131100009 */:
-                    markerColorIndex = 4;
-                    break;
-                case R.id.marker_color_white /* 2131100010 */:
-                    markerColorIndex = 5;
-                    break;
-                case R.id.marker_close /* 2131100011 */:
-                    HyperCommonActivity.this.dismissMarkerColorChangePopup();
-                    colorChange = false;
-                    break;
-            }
-            if (HyperCommonActivity.this.mHyperDetailMeanContentTextView != null && colorChange) {
-                HyperCommonActivity.this.mHyperDetailMeanContentTextView.setMarkerColor(colorList[markerColorIndex]);
-                if (markerColorIndex < 5) {
-                    DictUtils.saveMarkerColor(HyperCommonActivity.this.getApplicationContext(), markerColorIndex);
-                }
             }
         }
     };
@@ -310,8 +223,8 @@ public abstract class HyperCommonActivity extends BaseActivity {
 
         @Override // com.diotek.diodict.mean.ExtendTextView.ExtendTextCallback
         public boolean run() {
-            if (HyperCommonActivity.this.mHyperDetailMeanContentTextView != null) {
-                HyperCommonActivity.this.mHyperSimpleViewModule.startHyperSimple(HyperCommonActivity.this.mHyperDetailMeanContentTextView.getSelectedString());
+            if (HyperCommonActivity.this.mTextView != null) {
+                HyperCommonActivity.this.mHyperSimpleViewModule.startHyperSimple(HyperCommonActivity.this.mTextView.getSelectedString());
                 return false;
             }
             return false;
@@ -377,7 +290,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
             }
         }
     };
-    View.OnFocusChangeListener mHyperDetailMeanContentTextViewOnFocusChangeListener = new View.OnFocusChangeListener() { // from class: com.diotek.diodict.HyperCommonActivity.25
+    View.OnFocusChangeListener mTextViewOnFocusChangeListener = new View.OnFocusChangeListener() { // from class: com.diotek.diodict.HyperCommonActivity.25
         @Override // android.view.View.OnFocusChangeListener
         public void onFocusChange(View v, boolean hasFocus) {
             ImageView meanSeparator = (ImageView) HyperCommonActivity.this.findViewById(R.id.separator);
@@ -425,9 +338,9 @@ public abstract class HyperCommonActivity extends BaseActivity {
             String msg = null;
             tCursor.moveToFirst();
             boolean trans = false;
-            int dicType = HyperCommonActivity.this.mHyperDetailMeanController.getDicType();
-            String word = HyperCommonActivity.this.mHyperDetailMeanController.getWord();
-            int suid = HyperCommonActivity.this.mHyperDetailMeanController.getSuid();
+            int dicType = mSearchMeanController.getDicType();
+            String word = mSearchMeanController.getWord();
+            int suid = mSearchMeanController.getSuid();
             for (int i = 0; i < HyperCommonActivity.this.mCheckedWordbookList.length; i++) {
                 if (HyperCommonActivity.this.mCheckedWordbookList[i]) {
                     tCursor.moveToPosition(i);
@@ -458,14 +371,6 @@ public abstract class HyperCommonActivity extends BaseActivity {
             }
         }
     };
-    PopupWindow.OnDismissListener mOnDismissListener = new PopupWindow.OnDismissListener() { // from class: com.diotek.diodict.HyperCommonActivity.28
-        @Override // android.widget.PopupWindow.OnDismissListener
-        public void onDismiss() {
-            HyperCommonActivity.this.setClickableMeanToolBar(true);
-        }
-    };
-    RadioGroup markerGroup = null;
-    ImageView mMarkerCloseBtn = null;
     int MARKER_TAG = 100;
     View.OnClickListener mEditClearBtnOnClickListener = new View.OnClickListener() { // from class: com.diotek.diodict.HyperCommonActivity.29
         @Override // android.view.View.OnClickListener
@@ -533,8 +438,8 @@ public abstract class HyperCommonActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
     public void onDestroy() {
-        if (this.mHyperDetailMeanController != null) {
-            this.mHyperDetailMeanController.onDestory();
+        if (mSearchMeanController != null) {
+            mSearchMeanController.onDestory();
         }
         closePopupWindow();
         if (this.mTTSManager != null) {
@@ -547,11 +452,11 @@ public abstract class HyperCommonActivity extends BaseActivity {
     @Override // com.diotek.diodict.uitool.BaseActivity
     public String getPlayTTSWord(boolean bKeyword) {
         String word = "";
-        if (this.mHyperDetailMeanContentTextView != null) {
+        if (this.mTextView != null) {
             if (bKeyword) {
-                word = this.mHyperDetailMeanContentTextView.getKeyword();
+                word = this.mTextView.getKeyword();
             } else {
-                word = this.mHyperDetailMeanContentTextView.getKeyword();
+                word = this.mTextView.getKeyword();
             }
         }
         if (word == null) {
@@ -563,8 +468,8 @@ public abstract class HyperCommonActivity extends BaseActivity {
 
     @Override // com.diotek.diodict.uitool.BaseActivity
     protected int getPlayTTSDbType() {
-        if (this.mHyperDetailMeanContentTextView != null) {
-            return this.mHyperDetailMeanContentTextView.getDbtype();
+        if (this.mTextView != null) {
+            return this.mTextView.getDbtype();
         }
         return -1;
     }
@@ -573,9 +478,9 @@ public abstract class HyperCommonActivity extends BaseActivity {
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        int nTheme = this.mHyperDetailMeanController.getTheme();
+        int nTheme = mSearchMeanController.getTheme();
         if (nTheme != DictUtils.getFontThemeFromPreference(getApplicationContext())) {
-            this.mHyperDetailMeanController.refreshViewNoDelay();
+            mSearchMeanController.refreshViewNoDelay();
         }
     }
 
@@ -625,8 +530,9 @@ public abstract class HyperCommonActivity extends BaseActivity {
     /* JADX INFO: Access modifiers changed from: protected */
     public void prepareMeanContentLayout() {
         this.mHyperDetailMeanTitleTextView = (TextView) findViewById(R.id.MeanTitleTextView);
-        this.mHyperDetailMeanContentTextView = (ExtendTextView) findViewById(R.id.MeanContentTextView);
-        this.mHyperDetailMeanContentTextView.setOnFocusChangeListener(this.mHyperDetailMeanContentTextViewOnFocusChangeListener);
+        this.mTextView = (ExtendTextView) findViewById(R.id.MeanContentTextView);
+		mTextView.toolbarWidgets = toolbarWidgets;
+        this.mTextView.setOnFocusChangeListener(this.mTextViewOnFocusChangeListener);
         this.mHyperDetailBookmark = (ImageView) findViewById(R.id.bookmark);
         this.mHyperDetailScrollView = (ScrollView) findViewById(R.id.scrollview);
         prepareHyperMeanTabView();
@@ -635,7 +541,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
         this.mHyperDetailNextSearchBtn = (Button) findViewById(R.id.SearchHyperRightBtn);
         this.mHyperDetailNextSearchBtn.setOnClickListener(this.mHyperDetailNextSearchBtnOnClickListener);
         setHyperDetailPrevNextSearchBtn();
-        this.mHyperDetailMeanContentTextView.setFocusable(true);
+        this.mTextView.setFocusable(true);
         this.mHyperDetailScrollView.setFocusable(false);
         this.mCopyToFlashcardLayout = (RelativeLayout) findViewById(R.id.copyToFlashcardPopLayout);
         RelativeLayout parent = (RelativeLayout) findViewById(R.id.SearchRightLayout);
@@ -646,12 +552,12 @@ public abstract class HyperCommonActivity extends BaseActivity {
             }
         });
         LinearLayout parent_sub = (LinearLayout) findViewById(R.id.MeanContentLayout);
-        this.mFileLinkTagViewManager = new FileLinkTagViewManager(this, this.mEngine, this.mHyperDetailMeanContentTextView, parent, parent_sub, this.mThemeModeCallback);
-        this.mHyperDetailMeanController = new SearchMeanController(this, this.mHyperDetailMeanTitleTextView, this.mHyperDetailMeanContentTextView, this.mHyperDetailBookmark, this.mHyperDetailTabView, this.mEngine, false, this.mThemeModeCallback, this.mFileLinkTagViewManager, this.mTTSManager.mTTSLayoutCallback);
-        this.mHyperSimpleViewModule = new HyperSimpleViewModule(this, this.mHyperSimpleViewModuleCallback, parent, parent_sub, this.mHyperDetailMeanContentTextView);
-        this.mHyperDetailMeanController.setMeanContentTextViewCallback(this.mStartHyperCallback, null, true, null);
-        this.mTTSManager.setExtendTextView(this.mHyperDetailMeanContentTextView);
-        this.mHyperDetailMeanContentTextView.setEnableTextSelect(true);
+        this.mFileLinkTagViewManager = new FileLinkTagViewManager(this, this.mEngine, this.mTextView, parent, parent_sub, this.mThemeModeCallback);
+        mSearchMeanController = new SearchMeanController(this, this.mHyperDetailMeanTitleTextView, this.mTextView, this.mHyperDetailBookmark, this.mHyperDetailTabView, this.mEngine, false, this.mThemeModeCallback, this.mFileLinkTagViewManager, this.mTTSManager.mTTSLayoutCallback);
+        this.mHyperSimpleViewModule = new HyperSimpleViewModule(this, this.mHyperSimpleViewModuleCallback, parent, parent_sub, this.mTextView);
+        mSearchMeanController.setMeanContentTextViewCallback(this.mStartHyperCallback, null, true, null);
+        this.mTTSManager.setExtendTextView(this.mTextView);
+        this.mTextView.setEnableTextSelect(true);
     }
 
     protected void prepareHyperMeanTabView() {
@@ -685,8 +591,8 @@ public abstract class HyperCommonActivity extends BaseActivity {
         this.mFlashcardItemEditCopyToFlashcardOk.setOnClickListener(this.mFlashcardItemEditCopyToFlashcardOkOnClickListener);
         this.mFlashcardItemEditCopyToFlashcardCancel.setOnClickListener(this.mFlashcardItemEditCopyToFlashcardCancelOnClickListener);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         this.mAddWordbookTextView = (RelativeLayout) findViewById(R.id.addCard);
         this.mAddWordbookTextView.setOnClickListener(this.mAddWordbookTextViewOnCLickListener);
@@ -699,16 +605,16 @@ public abstract class HyperCommonActivity extends BaseActivity {
     }
 
     protected void runHyperDetailTabView(int nPos, boolean isRefresh) {
-        this.mHyperDetailMeanController.setDisplayMode(nPos);
+        mSearchMeanController.setDisplayMode(nPos);
         if (isRefresh) {
-            this.mHyperDetailMeanController.refreshContentView();
+            mSearchMeanController.refreshContentView();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void runHyperDeatilSearchListView(int nPos) {
         this.mHyperDetailMeanPos = nPos;
-        this.mHyperDetailMeanController.setMeanViewByPos(nPos, 1);
+        mSearchMeanController.setMeanViewByPos(nPos, 1);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
@@ -743,9 +649,9 @@ public abstract class HyperCommonActivity extends BaseActivity {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void runSaveBtn() {
-        if (this.mHyperDetailMeanContentTextView != null) {
-            this.mHyperDetailMeanContentTextView.clearSelection();
-            this.mHyperDetailMeanContentTextView.invalidate();
+        if (this.mTextView != null) {
+            this.mTextView.clearSelection();
+            this.mTextView.invalidate();
         }
         showFlashcardListPop(false);
         showSoftInputMethod(false);
@@ -753,9 +659,9 @@ public abstract class HyperCommonActivity extends BaseActivity {
 
     protected void runMeanTabView(int nMode, boolean isRefresh) {
         handleSaveMarkerObject();
-        this.mHyperDetailMeanController.setDisplayMode(nMode);
+        mSearchMeanController.setDisplayMode(nMode);
         if (isRefresh) {
-            this.mHyperDetailMeanController.refreshContentView();
+            mSearchMeanController.refreshContentView();
         }
         showSoftInputMethod(false);
     }
@@ -795,8 +701,8 @@ public abstract class HyperCommonActivity extends BaseActivity {
 
     protected void runnableMeanTabView() {
         initPopupControll();
-        if (this.mHyperDetailMeanContentTextView != null) {
-            this.mHyperDetailMeanContentTextView.stopInvilidate();
+        if (this.mTextView != null) {
+            this.mTextView.stopInvilidate();
         }
         runMeanTabView(this.mTabViewPos, true);
     }
@@ -816,25 +722,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
         resetHyperHistory();
         finish();
     }
-
-    /* loaded from: classes.dex */
-    private class PopupTouchInterceptor implements View.OnTouchListener {
-        private PopupTouchInterceptor() {
-        }
-
-        @Override // android.view.View.OnTouchListener
-        public boolean onTouch(View v, MotionEvent event) {
-            int action = event.getAction();
-            if ((action != 0 || HyperCommonActivity.this.mMarkerColorChangePopup == null || !HyperCommonActivity.this.mMarkerColorChangePopup.isShowing()) && action == 1) {
-            }
-            if (action == 4 && HyperCommonActivity.this.mMarkerColorChangePopup != null && HyperCommonActivity.this.mMarkerColorChangePopup.isShowing()) {
-                HyperCommonActivity.this.mMarkerColorChangePopup.dismiss();
-                return true;
-            }
-            return false;
-        }
-    }
-
+	
     protected void addHyperHistoryList(String hyperWord, int hyperSUID, int hyperDict) {
         int mHyperHistoryListSize = this.mHyperHistoryList.size();
         if (this.mHyperHistoryCurPos + 1 < mHyperHistoryListSize) {
@@ -851,8 +739,8 @@ public abstract class HyperCommonActivity extends BaseActivity {
     }
 
     protected void updateDisplayTabMenu() {
-        this.mHyperDetailTabView.getButton(2).setEnabled(this.mHyperDetailMeanController.isAvailable_Idiom());
-        this.mHyperDetailTabView.getButton(3).setEnabled(this.mHyperDetailMeanController.isAvailable_Example());
+        this.mHyperDetailTabView.getButton(2).setEnabled(mSearchMeanController.isAvailable_Idiom());
+        this.mHyperDetailTabView.getButton(3).setEnabled(mSearchMeanController.isAvailable_Example());
     }
 
     public void setHyperDetailPrevNextSearchBtn() {
@@ -928,7 +816,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
     public int showCopyToFlashcardLayout(boolean isShow) {
         boolean z = true;
         if (isShow) {
-            setClickableMeanToolBar(false);
+			toolbarWidgets.isVisible = true;
             this.mCopyToFlashcardLayout.setVisibility(View.VISIBLE);
             if (this.mFlashcardFolderListViewItems.isEmpty()) {
                 ((RelativeLayout) findViewById(R.id.addCard)).requestFocus();
@@ -936,13 +824,13 @@ public abstract class HyperCommonActivity extends BaseActivity {
                 this.mFlashcardGridView.requestFocus();
             }
         } else {
-            setClickableMeanToolBar(true);
+			toolbarWidgets.isVisible = false;
         }
         LayoutTransition.trasition(this.mCopyToFlashcardLayout, isShow, LayoutTransition.DIRECT_RIGHT_TO_LEFT, 250, false, !isShow);
         if (isShow) {
             z = false;
         }
-        setFocusableHyperActivity(z);
+        setFocusableActivity(z);
         if (isShow) {
             if (this.mFlashcardFolderListViewItems.isEmpty()) {
                 this.mAddWordbookTextView.requestFocus();
@@ -956,167 +844,17 @@ public abstract class HyperCommonActivity extends BaseActivity {
     }
 
     protected void initPopupControll() {
-        dismissMarkerColorChangePopup();
-        if (this.mHyperDetailMeanContentTextView != null) {
-            this.mHyperDetailMeanContentTextView.clearSelection();
-            this.mHyperDetailMeanContentTextView.invalidate();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean dismissMarkerColorChangePopup() {
-        if (this.mMarkerColorChangePopup == null || !this.mMarkerColorChangePopup.isShowing()) {
-            return false;
-        }
-        this.mMarkerColorChangePopup.dismiss();
-        this.mMarkerColorChangePopup = null;
-        this.mHyperDetailMeanContentTextView.setMarkerMode(false);
-        setFocusableHyperActivity(true);
-        return true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public boolean dismissFontChangePopup() {
-        if (this.mFontSizeChangePopup != null) {
-            this.mFontSizeChangePopup.dismiss();
-            this.mFontSizeChangePopup = null;
-            return true;
-        }
-        return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setClickableMeanToolBar(boolean bClickable) {
-        if (this.mMarkerBtn != null) {
-            this.mMarkerBtn.setClickable(bClickable);
-        }
-        if (this.mFontBtn != null) {
-            this.mFontBtn.setClickable(bClickable);
-        }
-        if (this.mMemoBtn != null) {
-            this.mMemoBtn.setClickable(bClickable);
-        }
-        if (this.mSaveBtn != null) {
-            this.mSaveBtn.setClickable(bClickable);
-        }
-    }
-
-    public void showMarkerColorChangePopupMenu() {
-        int[] colorList = getResources().getIntArray(R.array.value_marker_color_adv);
-        int[] windowLocation = new int[2];
-        RelativeLayout parents = (RelativeLayout) findViewById(R.id.SearchRightLayout);
-        LayoutInflater inflate = (LayoutInflater) getSystemService("layout_inflater");
-        CustomPopupRelativeLayout PopupContent = (CustomPopupRelativeLayout) inflate.inflate(R.layout.marker_color_select_popup, (ViewGroup) null);
-        this.markerGroup = (RadioGroup) PopupContent.findViewById(R.id.marker_group);
-        parents.getLocationInWindow(windowLocation);
-        parents.setOnTouchListener(this.mMarkerColorPopupOnTouchListener);
-        float density = CommonUtils.getDeviceDensity(this);
-        int popupWidth = getResources().getConfiguration().orientation == 1 ? (int) ((313.3f * density) + 0.5f) : (int) ((337.3f * density) + 0.5f);
-        ImageView view = (ImageView) PopupContent.findViewById(R.id.marker_popup_bg_view);
-        int popupHeight = view.getBackground().getIntrinsicHeight();
-        int popupX = parents.getWidth() - popupWidth;
-        if (this.mMarkerColorChangePopup == null) {
-            for (int i = 0; i < this.markerGroup.getChildCount(); i++) {
-                RadioButton btn = (RadioButton) this.markerGroup.getChildAt(i);
-                btn.setTag(btn.getId(), Integer.valueOf(i));
-                btn.setOnClickListener(this.mMarkerColorChangeOnClickListener);
-                btn.setFocusable(true);
-            }
-            this.mMarkerCloseBtn = (ImageView) PopupContent.findViewById(R.id.marker_close);
-            this.mMarkerCloseBtn.setOnClickListener(this.mMarkerColorChangeOnClickListener);
-            this.mMarkerCloseBtn.setTag(this.mMarkerCloseBtn.getId(), 6);
-            this.mMarkerCloseBtn.setFocusable(true);
-            this.mMarkerColorChangePopup = CommonUtils.makeWindowWithPopupWindow(getApplicationContext(), 0, PopupContent, null, this.mOnDismissListener, false);
-            if (this.mMarkerColorChangePopup != null) {
-                this.mMarkerColorChangePopup.setOutsideTouchable(true);
-                this.mMarkerColorChangePopup.setTouchInterceptor(new PopupTouchInterceptor());
-            }
-        } else {
-            this.markerGroup.clearCheck();
-        }
-        int markerColorIndex = DictUtils.getMarkerColorFromPreference(getApplicationContext());
-        ((RadioButton) this.markerGroup.getChildAt(markerColorIndex)).setChecked(true);
-        this.mHyperDetailMeanController.setMeanContentTextViewMarkerColor(colorList[markerColorIndex]);
-        if (this.mMarkerColorChangePopup != null) {
-            if (this.mMarkerColorChangePopup.isShowing()) {
-                this.mMarkerColorChangePopup.update(windowLocation[0] + popupX, windowLocation[1] + 0, popupWidth, popupHeight);
-            } else {
-                this.mMarkerColorChangePopup.setWidth(popupWidth);
-                this.mMarkerColorChangePopup.setHeight(popupHeight);
-                this.mMarkerColorChangePopup.showAtLocation(parents, 0, windowLocation[0] + popupX, windowLocation[1] + 0);
-            }
-        }
-        setFocusableHyperActivity(false);
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void setFocusMarker(boolean bRight) {
-        View view = this.markerGroup.findFocus();
-        if (view == null) {
-            if (this.mMarkerCloseBtn.isFocused()) {
-                View view2 = this.mMarkerCloseBtn;
-                if (!bRight) {
-                    this.markerGroup.getChildAt(this.markerGroup.getChildCount() - 1).requestFocus();
-                    return;
-                }
-                return;
-            }
-            this.markerGroup.getChildAt(0).requestFocusFromTouch();
-            this.markerGroup.getChildAt(0).setFocusableInTouchMode(false);
-            return;
-        }
-        int idx = ((Integer) view.getTag(view.getId())).intValue();
-        if (bRight) {
-            if (idx >= 0 && idx < this.markerGroup.getChildCount() - 1) {
-                this.markerGroup.getChildAt(idx + 1).requestFocus();
-            } else if (idx == this.markerGroup.getChildCount() - 1) {
-                int i = idx + 1;
-                this.mMarkerCloseBtn.requestFocus();
-            }
-        } else if (idx <= this.markerGroup.getChildCount() && idx > 0) {
-            this.markerGroup.getChildAt(idx - 1).requestFocus();
+        toolbarWidgets.dismissMarkerPopup();
+        if (this.mTextView != null) {
+            this.mTextView.clearSelection();
+            this.mTextView.invalidate();
         }
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void handleSaveMarkerObject() {
-        if (this.mHyperDetailMeanContentTextView != null) {
-            this.mHyperDetailMeanContentTextView.saveMarkerObject();
-        }
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void showFontSizeChangePopupMenu() {
-        int[] windowLocation = new int[2];
-        RelativeLayout parents = (RelativeLayout) findViewById(R.id.SearchRightLayout);
-        LayoutInflater inflate = (LayoutInflater) getSystemService("layout_inflater");
-        RelativeLayout PopupContent = (RelativeLayout) inflate.inflate(R.layout.fontsize_select_popup, (ViewGroup) null);
-        RadioGroup group = (RadioGroup) PopupContent.findViewById(R.id.font_group);
-        parents.getLocationInWindow(windowLocation);
-        float density = CommonUtils.getDeviceDensity(this);
-        int popupWidth = getResources().getConfiguration().orientation == 1 ? (int) ((313.3f * density) + 0.5f) : (int) ((337.3f * density) + 0.5f);
-        ImageView view = (ImageView) PopupContent.findViewById(R.id.font_popup_bg_view);
-        int popupHeight = view.getBackground().getIntrinsicHeight();
-        int popupX = parents.getWidth() - popupWidth;
-        if (this.mFontSizeChangePopup == null) {
-            this.mFontSizeChangePopup = CommonUtils.makeWindowWithPopupWindow(getApplicationContext(), 0, PopupContent, getResources().getDrawable(R.drawable.popup_back), this.mOnDismissListener);
-            for (int i = 0; i < group.getChildCount(); i++) {
-                ((RadioButton) group.getChildAt(i)).setOnClickListener(this.mFontSizeChangeOnClickListener);
-            }
-            ((ImageView) PopupContent.findViewById(R.id.font_close)).setOnClickListener(this.mFontSizeChangeOnClickListener);
-        }
-        int fontSizeIndex = DictUtils.getFontSizeFromPreference(getApplicationContext());
-        ((RadioButton) group.getChildAt(fontSizeIndex)).setChecked(true);
-        int[] fontSizeList = getResources().getIntArray(R.array.value_font_size);
-        this.mHyperDetailMeanController.setMeanContentTextViewTextSize(fontSizeList[fontSizeIndex]);
-        if (this.mFontSizeChangePopup != null) {
-            if (this.mFontSizeChangePopup.isShowing()) {
-                this.mFontSizeChangePopup.update(windowLocation[0] + popupX, windowLocation[1] + 0, popupWidth, popupHeight);
-                return;
-            }
-            this.mFontSizeChangePopup.setWidth(popupWidth);
-            this.mFontSizeChangePopup.setHeight(popupHeight);
-            this.mFontSizeChangePopup.showAtLocation(parents, 0, windowLocation[0] + popupX, windowLocation[1] + 0);
+        if (this.mTextView != null) {
+            this.mTextView.saveMarkerObject();
         }
     }
 
@@ -1210,8 +948,8 @@ public abstract class HyperCommonActivity extends BaseActivity {
         this.mBtnMakeWordbookCancel = (TextImageButton) this.mWordbookDialog.findViewById(R.id.button_makewordbook_cancel);
         this.mBtnMakeWordbookCancel.setOnClickListener(this.mBtnMakeWordbookCancelOnClickListener);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mBtnMakeWordbookOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mBtnMakeWordbookCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mBtnMakeWordbookOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mBtnMakeWordbookCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         this.mBackupCardName = defaultName;
         return this.mWordbookDialog;
@@ -1231,9 +969,9 @@ public abstract class HyperCommonActivity extends BaseActivity {
 
     /* JADX INFO: Access modifiers changed from: protected */
     public void showSoftInputMethod(boolean isShow) {
-        if (this.mHyperDetailMeanContentTextView != null && isShow) {
-            this.mHyperDetailMeanContentTextView.clearSelection();
-            this.mHyperDetailMeanContentTextView.invalidate();
+        if (this.mTextView != null && isShow) {
+            this.mTextView.clearSelection();
+            this.mTextView.invalidate();
         }
         showHideSystemInputMethod(isShow);
     }
@@ -1262,17 +1000,11 @@ public abstract class HyperCommonActivity extends BaseActivity {
     }
 
     protected void closePopupWindow() {
-        if (this.mHyperDetailMeanContentTextView != null && this.mHyperDetailMeanContentTextView.gripShowing()) {
-            this.mHyperDetailMeanContentTextView.clearSelection();
+        if (this.mTextView != null && this.mTextView.gripShowing()) {
+            this.mTextView.clearSelection();
         }
-        if (this.mMarkerColorChangePopup != null) {
-            this.mMarkerColorChangePopup.dismiss();
-            this.mMarkerColorChangePopup = null;
-            this.mHyperDetailMeanContentTextView.setMarkerMode(false);
-        }
-        if (this.mFontSizeChangePopup != null) {
-            this.mFontSizeChangePopup.dismiss();
-            this.mFontSizeChangePopup = null;
+        if (this.toolbarWidgets.destroyData()) {
+            this.mTextView.setMarkerMode(false, false);
         }
         if (this.mHyperSimpleViewModule != null) {
             this.mHyperSimpleViewModule.closeHyperTextSummaryPopup(false);
@@ -1334,7 +1066,7 @@ public abstract class HyperCommonActivity extends BaseActivity {
         }
     }
 
-    public void setFocusableHyperActivity(boolean bFocus) {
+    public void setFocusableActivity(boolean bFocus) {
         if (this.mTTSManager != null) {
             this.mTTSManager.setFocusTTSBtn(bFocus);
         }
@@ -1346,9 +1078,9 @@ public abstract class HyperCommonActivity extends BaseActivity {
                 this.mHyperDetailTabView.getButton(i).setFocusable(bFocus);
             }
         }
-        if (this.mHyperDetailMeanContentTextView != null) {
-            this.mHyperDetailMeanContentTextView.setFocusable(bFocus);
-            this.mHyperDetailMeanContentTextView.setFocusableInTouchMode(bFocus);
+        if (this.mTextView != null) {
+            this.mTextView.setFocusable(bFocus);
+            this.mTextView.setFocusableInTouchMode(bFocus);
         }
     }
 }

@@ -7,6 +7,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.RadioButton;
 
+import com.diotek.diodict.utils.GlobalOptions;
+
 /* loaded from: classes.dex */
 public class TextRadioButton extends RadioButton {
     final String ATTR;
@@ -49,7 +51,7 @@ public class TextRadioButton extends RadioButton {
         this.m_textSize = 0;
         this.m_textPositionY = 0;
         this.m_textColor = 0;
-        float nDensity = CommonUtils.getDeviceDensity(context);
+        float nDensity = GlobalOptions.density;
         String tmpstr = attrs.getAttributeValue(null, "text_button");
         if (tmpstr == null) {
             this.m_textBtn = "";

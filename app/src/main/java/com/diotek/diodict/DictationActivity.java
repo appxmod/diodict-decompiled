@@ -38,6 +38,7 @@ import com.diotek.diodict.uitool.RecognizeView;
 import com.diotek.diodict.uitool.UITools;
 import com.diodict.decompiled.R;
 import com.diotek.diodict.utils.CMN;
+import com.diotek.diodict.utils.GlobalOptions;
 
 import java.lang.Character;
 import java.util.ArrayList;
@@ -354,7 +355,7 @@ public class DictationActivity extends BaseActivity {
                 } else {
                     DictationActivity.this.mDictationKeywordPaperRootLayout.setBackgroundDrawable(DictationActivity.this.getResources().getDrawable(R.drawable.dictation_bg));
                 }
-                float nDensity = CommonUtils.getDeviceDensity(DictationActivity.this);
+                float nDensity = GlobalOptions.density;
                 DictationActivity.this.mKeywordScrollView.setPadding(0, (int) (45.0f * nDensity), 0, (int) (21.0f * nDensity));
             }
         }
@@ -441,7 +442,7 @@ public class DictationActivity extends BaseActivity {
     @Override // android.app.Activity
     protected void onCreate(Bundle savedInstanceState) {
         if (super.onCreateActivity(savedInstanceState)) {
-            float nDensity = CommonUtils.getDeviceDensity(this);
+            float nDensity = GlobalOptions.density;
             this.mMeanScrollHeight = (int) (this.mMeanScrollHeight * nDensity);
             if (this.mMeanScrollHeight < 0) {
                 this.mMeanScrollHeight = DHWR.DLANG_HINDI;

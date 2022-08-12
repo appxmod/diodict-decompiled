@@ -1127,35 +1127,6 @@ public class DictUtils {
         return cChar;
     }
 
-    public static void setFontSizeToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_MEAN_FONT_SIZE, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SETTING_PREF_MEAN_FONT_SIZE_VALUE, value);
-        editor.commit();
-    }
-
-    public static int getFontSizeFromPreference(Context ctx) {
-        if (CommonUtils.isLowResolutionDevice(ctx)) {
-            DIODICT_SETTING_PREF_MEAN_FONT_SIZE_DEFAULT_VALUE = 2;
-        }
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_MEAN_FONT_SIZE, 0);
-        int value = pefSetting.getInt(DIODICT_SETTING_PREF_MEAN_FONT_SIZE_VALUE, DIODICT_SETTING_PREF_MEAN_FONT_SIZE_DEFAULT_VALUE);
-        return value;
-    }
-
-    public static void saveMarkerColor(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_MARKER_PEN_COLOR, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SETTING_PREF_MARKER_PEN_COLOR_VALUE, value);
-        editor.commit();
-    }
-
-    public static int getMarkerColorFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_MARKER_PEN_COLOR, 0);
-        int value = pefSetting.getInt(DIODICT_SETTING_PREF_MARKER_PEN_COLOR_VALUE, 0);
-        return value;
-    }
-
     public static void setJapaneseInputToPreference(Context ctx, boolean value) {
         SharedPreferences pefSetLanguage = ctx.getSharedPreferences("PrefJapaneseInput", 0);
         SharedPreferences.Editor editor = pefSetLanguage.edit();

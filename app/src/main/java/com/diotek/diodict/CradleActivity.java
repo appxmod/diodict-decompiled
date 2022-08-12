@@ -42,6 +42,7 @@ import com.diotek.diodict.uitool.TouchGesture;
 import com.diotek.diodict.uitool.UITools;
 import com.diodict.decompiled.R;
 import com.diotek.diodict.utils.CMN;
+import com.diotek.diodict.utils.GlobalOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -656,7 +657,7 @@ public class CradleActivity extends BaseActivity {
             this.mTabView.getButton(0).setText(getResources().getString(R.string.viewWord));
             this.mTabView.getButton(1).setText(getResources().getString(R.string.viewAll));
             String locale = Locale.getDefault().getISO3Language();
-            float density = CommonUtils.getDeviceDensity(this);
+            float density = GlobalOptions.density;
             if (locale.contains("eng")) {
                 this.mTabView.getButton(0).setTextSize((int) (density * 11.5d));
                 this.mTabView.getButton(1).setTextSize((int) (density * 11.5d));

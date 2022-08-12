@@ -15,6 +15,8 @@ import com.diotek.diodict.engine.EngineInfo3rd;
 import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.GlobalOptions;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -187,7 +189,7 @@ public class GridViewAdapter extends SimpleAdapter {
         tv.setText(str);
         if (this.mOrientation == 1) {
             Drawable icon = (Drawable) item.get(DictInfo.ListItem_DictIcon);
-            float density = CommonUtils.getDeviceDensity(this.mContext);
+            float density = GlobalOptions.density;
             tv.setCompoundDrawablesWithIntrinsicBounds(icon, (Drawable) null, (Drawable) null, (Drawable) null);
             tv.setCompoundDrawablePadding((int) (12.0f * density));
         } else {

@@ -28,6 +28,8 @@ import com.diotek.diodict.mean.BaseMeanController;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.CustomPopupLinearLayout;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.GlobalOptions;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -314,7 +316,7 @@ public class HyperSimpleViewModule {
                 return 0;
         }
         GridView listView = (GridView) PopupContent.findViewById(R.id.hyper_dialog_list);
-        float density = CommonUtils.getDeviceDensity(this.mContext);
+        float density = GlobalOptions.density;
         int orientation = this.mContext.getResources().getConfiguration().orientation;
         switch (nHyperDetailPopupMode) {
             case 0:

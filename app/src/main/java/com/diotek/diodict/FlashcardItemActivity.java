@@ -52,6 +52,8 @@ import com.diotek.diodict.uitool.TextImageButton;
 import com.diotek.diodict.uitool.UITools;
 import com.diotek.diodict.uitool.WordListAdapter;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.GlobalOptions;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -1445,8 +1447,8 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         this.mFlashcardItemEditCopyToFlashcardOk = (TextImageButton) findViewById(R.id.button_ok);
         this.mFlashcardItemEditCopyToFlashcardCancel = (TextImageButton) findViewById(R.id.button_cancel);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         this.mAddFlashcardLayout = (RelativeLayout) findViewById(R.id.addCard);
         this.mFlashcardGridView.setAdapter((ListAdapter) this.mFlashcardFolderListViewAdapter);
@@ -1514,8 +1516,8 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
         this.mBtnMakeWordbookCancel = (TextImageButton) this.mWordbookDialog.findViewById(R.id.button_makewordbook_cancel);
         this.mBtnMakeWordbookCancel.setOnClickListener(this.mBtnMakeWordbookCancelOnClickListener);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mBtnMakeWordbookOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mBtnMakeWordbookCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mBtnMakeWordbookOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mBtnMakeWordbookCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         return this.mWordbookDialog;
     }

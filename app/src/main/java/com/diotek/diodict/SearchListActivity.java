@@ -61,6 +61,7 @@ import com.diotek.diodict.database.DioDictDatabase;
 import com.diotek.diodict.database.DioDictDatabaseInfo;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.dhwr.b2c.kor.DioGuestureDetector;
+import com.diotek.diodict.dtestui.MeanToolbarWidgets;
 import com.diotek.diodict.engine.DictDBManager;
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.engine.DictType;
@@ -97,7 +98,7 @@ import java.util.List;
 import java.util.Locale;
 
 /* loaded from: classes.dex */
-public class SearchListActivity extends ListMeanViewActivity implements View.OnClickListener {
+public class SearchListActivity extends ListMeanViewActivity {
     static final int COUNT_PER_PAGE = 6;
     private static final String DEFAULT_SEARCH_WORD = "";
     private static final int DIALOG_COPY = 1;
@@ -132,7 +133,6 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
     ArrayList<String> mVoiceRecognitionLanguageItems = new ArrayList<>();
     private String mPreLastWordFromEngine = null;
     private String mInputWordbookName = null;
-    SearchMeanController mSearchMeanController = null;
     private RelativeLayout mAddWordbookTextView = null;
     private ImageButton mChangeDictionaryBtn = null;
     private ImageButton mChangeLanguageBtn = null;
@@ -142,7 +142,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
     private RadioButton mCard1 = null;
     private RadioButton mCard2 = null;
     private RadioButton mCard3 = null;
-    private ImageButton mMarkerBtn = null;
+    public ImageButton mMarkerBtn = null;
     private ImageButton mFontBtn = null;
     private ImageButton mMemoBtn = null;
     private ImageButton mSaveBtn = null;
@@ -178,8 +178,6 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
     private LinearLayout mMainLeftLayout = null;
     private boolean mIsShowFlashcardPop = false;
     private int mWordbookType = 1;
-    private PopupWindow mFontSizeChangePopup = null;
-    private PopupWindow mMarkerPopup = null;
     private AlertDialog mOptionDlg = null;
     ArrayList<String> mVoiceRecognizeMatches = null;
     private Rect mHwrRectArea = new Rect();
@@ -433,97 +431,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
             SearchListActivity.this.changeSearchMethod(v.getId(), ((TextView) v).getText().toString());
         }
     };
-    private View.OnClickListener mFontSizeChangeOnClickListener = new View.OnClickListener() { // from class: com.diotek.diodict.SearchListActivity.28
-        @Override // android.view.View.OnClickListener
-        public void onClick(View v) {
-            boolean isUpdate = true;
-            int[] fontSizeList = SearchListActivity.this.getResources().getIntArray(R.array.value_font_size);
-            int fontSizeIndex = 0;
-            switch (v.getId()) {
-                case R.id.font_10 /* 2131099855 */:
-                    fontSizeIndex = 0;
-                    break;
-                case R.id.font_12 /* 2131099856 */:
-                    fontSizeIndex = 1;
-                    break;
-                case R.id.font_14 /* 2131099857 */:
-                    fontSizeIndex = 2;
-                    break;
-                case R.id.font_16 /* 2131099858 */:
-                    fontSizeIndex = 3;
-                    break;
-                case R.id.font_18 /* 2131099859 */:
-                    fontSizeIndex = 4;
-                    break;
-                case R.id.font_close /* 2131099860 */:
-                    isUpdate = false;
-                    break;
-            }
-            if (SearchListActivity.this.mTextView != null && isUpdate) {
-                SearchListActivity.this.mTextView.setTextSize(fontSizeList[fontSizeIndex]);
-                DictUtils.setFontSizeToPreference(SearchListActivity.this, fontSizeIndex);
-            }
-            SearchListActivity.this.dismissFontSizeChangePopup();
-        }
-    };
-    private View.OnTouchListener layoutOnTouchListener = new View.OnTouchListener() { // from class: com.diotek.diodict.SearchListActivity.29
-        @Override // android.view.View.OnTouchListener
-        public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == 4 || event.getAction() == 3) {
-                if (SearchListActivity.this.mMarkerPopup != null) {
-                    SearchListActivity.this.mMarkerPopup.dismiss();
-                    SearchListActivity.this.mMarkerPopup = null;
-                }
-                return true;
-            }
-            return false;
-        }
-    };
 	
-    private View.OnClickListener mMarkerColorOnClickListener = new View.OnClickListener() { // from class: com.diotek.diodict.SearchListActivity.30
-        @Override // android.view.View.OnClickListener
-        public void onClick(View v) {
-            boolean picked = true;
-            int[] colorList = SearchListActivity.this.getResources().getIntArray(R.array.value_marker_color_adv);
-            int markerColorIndex = 0;
-            switch (v.getId()) {
-                case R.id.marker_color_blue /* 2131100005 */:
-                    markerColorIndex = 0;
-                    break;
-                case R.id.marker_color_red /* 2131100006 */:
-                    markerColorIndex = 1;
-                    break;
-                case R.id.marker_color_green /* 2131100007 */:
-                    markerColorIndex = 2;
-                    break;
-                case R.id.marker_color_pink /* 2131100008 */:
-                    markerColorIndex = 3;
-                    break;
-                case R.id.marker_color_yellow /* 2131100009 */:
-                    markerColorIndex = 4;
-                    break;
-                case R.id.marker_color_white /* 2131100010 */:
-                    markerColorIndex = 5;
-                    break;
-                case R.id.marker_close /* 2131100011 */:
-                    dismissMarkerPopup();
-                    picked = false;
-                    break;
-            }
-            if (picked) {
-				mTextView.setMarkerColor(colorList[markerColorIndex]);
-				if(mTextView.gripShowing()) { // hasSelection
-					// 直接高亮选中文本！
-					mTextView.performMark();
-					mTextView.showMenu();
-					dismissMarkerPopup();
-				}
-                else if (markerColorIndex < 5) {
-                    DictUtils.saveMarkerColor(SearchListActivity.this, markerColorIndex);
-                }
-            }
-        }
-    };
     DialogInterface.OnClickListener onPopupCancelListener = new DialogInterface.OnClickListener() { // from class: com.diotek.diodict.SearchListActivity.31
         @Override // android.content.DialogInterface.OnClickListener
         public void onClick(DialogInterface dialog, int which) {
@@ -897,14 +805,6 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
             SearchListActivity.this.mIsGesture = false;
         }
     };
-    PopupWindow.OnDismissListener mOnDismissListener = new PopupWindow.OnDismissListener() { // from class: com.diotek.diodict.SearchListActivity.68
-        @Override // android.widget.PopupWindow.OnDismissListener
-        public void onDismiss() {
-            SearchListActivity.this.enableMeanToolbar(true);
-        }
-    };
-    RadioGroup markerGroup = null;
-    ImageView mMarkerCloseBtn = null;
     int MARKER_TAG = 100;
     private Runnable mHideOnlySoftInput = new Runnable() { // from class: com.diotek.diodict.SearchListActivity.69
         @Override // java.lang.Runnable
@@ -972,14 +872,14 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         if (Build.VERSION.SDK_INT < 11) {
             requestWindowFeature(7);
         }
+		if (!super.onCreateActivity(savedInstanceState)) {
+			Intent intent = getIntent();
+			intent.setClass(this, DioAuthActivity.class);
+			startActivity(intent);
+			return;
+		}
         setContentView(R.layout.search_content_layout);
         prepareTitleLayout(R.string.title_search, true);
-        if (!super.onCreateActivity(savedInstanceState)) {
-            Intent intent = getIntent();
-            intent.setClass(this, DioAuthActivity.class);
-            startActivity(intent);
-            return;
-        }
         if (Dependency.isContainHandWrightReocg()) {
             this.mCandiBox = new CandidateBox(new CandidateBox.AddStringToEdit() { // from class: com.diotek.diodict.SearchListActivity.1
                 @Override // com.diotek.diodict.uitool.CandidateBox.AddStringToEdit
@@ -989,11 +889,6 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
             });
         }
         initActivity(true);
-	
-		if (GlobalOptions.density==0) {
-			DisplayMetrics dm = getResources().getDisplayMetrics();
-			GlobalOptions.density = dm.density;
-		}
 		
 		// automatically dismiss the text relocation dialog
 		if (!GlobalOptions.hideTextRecDlg) {
@@ -1168,16 +1063,10 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         if (!isconfigChange && this.mTextView != null) {
             this.mTextView.onDestroy();
         }
-        if (this.mMarkerPopup != null) {
-            this.mMarkerPopup.dismiss();
-            this.mMarkerPopup = null;
+        if (this.toolbarWidgets.destroyData()) {
             if (this.mTextView != null) {
-                this.mTextView.setMarkerMode(false);
+                this.mTextView.setMarkerMode(false, false);
             }
-        }
-        if (this.mFontSizeChangePopup != null) {
-            this.mFontSizeChangePopup.dismiss();
-            this.mFontSizeChangePopup = null;
         }
         if (this.mHyperSimpleViewModule != null) {
             this.mHyperSimpleViewModule.onDestory();
@@ -1300,7 +1189,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
                 }
                 if (this.mLayoutMode != 0) {
                     dismissFlashcardCopyPopup(false);
-                    dismissMarkerPopup();
+                    toolbarWidgets.dismissMarkerPopup();
                     if (this.mTextView.gripShowing()) {
                         initSelection();
                     }
@@ -1322,7 +1211,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
                     word = "";
                 }
                 searchWord(word, true);
-                this.mFontSizeChangePopup = null;
+				toolbarWidgets.mFontSizeChangePopup = null;
                 setFontSizeFromPreference(false);
                 checkSymbolKeyword();
             } else {
@@ -1338,7 +1227,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
                     }
                 }
                 if (requestCode == 8) {
-                    enableMeanToolbar(true);
+                    toolbarWidgets.enable(true);
                     this.mMemoBtn.requestFocus();
                 }
             }
@@ -1485,13 +1374,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
                 return true;
             case 21:
             case 22:
-                if (this.mMarkerPopup != null && this.mMarkerPopup.isShowing() && this.markerGroup != null) {
-                    if (keyCode == 21) {
-                        setFocusMarker(false);
-                    } else {
-                        setFocusMarker(true);
-                    }
-                }
+				toolbarWidgets.setFocusMarker(keyCode != 21);
                 return true;
             case 23:
             case 66:
@@ -1505,29 +1388,11 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
                     } else if (this.mChangeDictionaryBtn.isFocusable() || this.mChangeLanguageBtn.isFocusable() || this.etSearch.isFocusable()) {
                         LayoutTransition.updateLayoutWithExtends(false, this.mStandardInnerLeftLayout, this.mMainRightLayout, this.mAnimationStartCallback, this.mAnimationEndCallback, this);
                         return true;
-                    } else {
-                        if (this.mMarkerPopup != null && this.mMarkerPopup.isShowing() && this.markerGroup != null) {
-                            if (this.mMarkerCloseBtn.isFocused()) {
-                                dismissMarkerPopup();
-                                this.mMarkerBtn.requestFocus();
-                                return true;
-                            }
-                            RadioButton view = (RadioButton) this.markerGroup.findFocus();
-                            int[] colorList = getResources().getIntArray(R.array.value_marker_color_adv);
-                            if (this.mTextView != null && view != null && !view.isChecked()) {
-                                int viewIdx = IU.parsint(view.getTag());
-                                this.mTextView.setMarkerColor(colorList[viewIdx]);
-                                view.setChecked(true);
-                                if (viewIdx < 5) {
-                                    DictUtils.saveMarkerColor(this, viewIdx);
-                                }
-                                return true;
-                            }
-                        }
-                        if (runKeyCodeEnter()) {
-                            return true;
-                        }
-                    }
+                    } else if (toolbarWidgets.onKeyUp_ENTER()) {
+						return true;
+					} else if (runKeyCodeEnter()) {
+						return true;
+					}
                 }
                 break;
         }
@@ -1747,38 +1612,23 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
     }
 
     public void prepareMeanToolLayout() {
-        this.mMeanToolbarLayout = findViewById(R.id.MeanToolbarLayout);
-        this.mMarkerBtn = mMeanToolbarLayout.findViewById(R.id.MarkerBtn);
-        this.mFontBtn =   mMeanToolbarLayout.findViewById(R.id.FontBtn);
-        this.mMemoBtn =   mMeanToolbarLayout.findViewById(R.id.MemoBtn);
-        this.mSaveBtn =   mMeanToolbarLayout.findViewById(R.id.SaveBtn);
-		ViewUtils.setOnClickListenersOneDepth(mMeanToolbarLayout, this, 1, null);
-    }
-	
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.MarkerBtn:
-				initMarkerMode();
-			break;
-			case R.id.FontBtn:
-				initFontMode();
-			break;
-			case R.id.MemoBtn:
-				initMemoMode();
-			break;
-			case R.id.SaveBtn:
-				initFavMode();
-			break;
+		if (mMeanToolbarLayout==null) {
+			this.mMeanToolbarLayout = findViewById(R.id.MeanToolbarLayout);
+			this.mMarkerBtn = mMeanToolbarLayout.findViewById(R.id.MarkerBtn);
+			this.mFontBtn =   mMeanToolbarLayout.findViewById(R.id.FontBtn);
+			this.mMemoBtn =   mMeanToolbarLayout.findViewById(R.id.MemoBtn);
+			this.mSaveBtn =   mMeanToolbarLayout.findViewById(R.id.SaveBtn);
+			View.OnClickListener raw = toolbarWidgets.btnOnClickListener;
+			ViewUtils.setOnClickListenersOneDepth(mMeanToolbarLayout, toolbarWidgets.btnOnClickListener, 1, null);
 		}
-	}
-	
+    }
 	
     public void prepareMeanContentLayout() {
         super.prepareMeanContentLayout(true);
         if (this.mMainMeanTitleTextView == null) {
             this.mMainMeanTitleTextView = (TextView) findViewById(R.id.MeanTitleTextView);
             this.mTextView = (ExtendTextView) findViewById(R.id.MeanContentTextView);
+			mTextView.toolbarWidgets = toolbarWidgets;
             this.mTextView.setOnTouchListener(this.mMeanTextViewOnTouchListener);
             this.mTextView.setOnFocusChangeListener(this.mMainMeanContentTextViewOnFocusChangeListener);
             this.mMeanContentBottomView = findViewById(R.id.MeanContentBottomView);
@@ -1869,8 +1719,8 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         this.mFlashcardItemEditCopyToFlashcardOk.setOnClickListener(this.mFlashcardItemEditCopyToFlashcardOkOnClickListener);
         this.mFlashcardItemEditCopyToFlashcardCancel.setOnClickListener(this.mFlashcardItemEditCopyToFlashcardCancelOnClickListener);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         this.mAddWordbookTextView = (RelativeLayout) findViewById(R.id.addCard);
         this.mAddWordbookTextView.setOnClickListener(this.mAddWordbookTextViewOnCLickListener);
@@ -1886,7 +1736,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         if (this.mTextView != null) {
             this.mTextView.forceScrollStop();
         }
-        dismissMarkerPopup();
+		toolbarWidgets.dismissMarkerPopup();
         runMeanTabView(0, false);
         selectTabAll();
         this.mSearchMeanController.setMeanViewByPos(nPos, 0);
@@ -1900,22 +1750,11 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
     }
 
     private void runSearchMeaning(int nPos) {
-        dismissMarkerPopup();
+		toolbarWidgets.dismissMarkerPopup();
         runOnlyMeanTabView(0, false);
         this.mSearchMeanController.setMeanViewByPos(nPos, 0);
         updateDisplayTabMenu();
         selectTabAll();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void initMarkerMode() {
-        if (this.mTextView != null && !this.mTextView.isMarkerMode()) {
-            enableMeanToolbar(false);
-            showMarkerPopup();
-			mTextView.setOneShotMarker(mTextView.gripShowing());
-            mTextView.setMarkerMode(true);
-        }
-		showSoftInputMethod(false);
     }
 
     private void runOnlyMeanTabView(int nMode, boolean isRefresh) {
@@ -2047,55 +1886,6 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         showSoftInputMethod(false);
     }
 
-    public void initMemoMode() {
-        enableMeanToolbar(false);
-        Intent intent = new Intent();
-        intent.setClass(this, MemoActivity.class);
-        intent.setFlags(603979776);
-        String time_string = "";
-        String data = "";
-        int skin = 1;
-        if (this.mTextView != null) {
-            int dbtype = this.mTextView.getDbtype();
-            String keyword = this.mTextView.getKeyword();
-            int suid = this.mTextView.getSuid();
-            if (DioDictDatabase.existMemo(this, dbtype, keyword, suid)) {
-                Cursor c = DioDictDatabase.getMemoCursorWith(this, dbtype, keyword, suid);
-                if (c != null) {
-                    int nMemoIdx = c.getColumnIndex(DioDictDatabaseInfo.DB_COLUMN_MEMO);
-                    int nTimeIdx = c.getColumnIndex(DioDictDatabaseInfo.DB_COLUMN_TIME);
-                    int nSkinIdx = c.getColumnIndex(DioDictDatabaseInfo.DB_COLUMN_FOLDERTYPE);
-                    data = c.getString(nMemoIdx);
-                    long time = c.getLong(nTimeIdx);
-                    time_string = DictUtils.getDateString(time);
-                    skin = c.getInt(nSkinIdx);
-                    c.close();
-                } else {
-                    return;
-                }
-            }
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_TIME, time_string);
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_DATA, data);
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_SKIN, skin);
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_DICT, dbtype);
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_WORD, keyword);
-            intent.putExtra(DictInfo.INTENT_MEMO_INFO_SUID, suid);
-            startActivityForResult(intent, 8);
-            showSoftInputMethod(false);
-            return;
-        }
-        MSG.l(2, "runMemoBtn(): error ");
-    }
-
-    public void initFontMode() {
-        if (this.mTextView != null) {
-            this.mTextView.clearSelection();
-        }
-        enableMeanToolbar(false);
-        showFontSizeChangePopupMenu();
-        showSoftInputMethod(false);
-    }
-
     public void runSaveHistory(int position) {
         int DicType = this.mEngine.getResultDicTypeByPos(position, 0);
         String Word = this.mEngine.getResultListKeywordByPos(position, 0);
@@ -2132,7 +1922,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
                 this.mFileLinkTagViewManager.closeFileLinkPopup();
                 return true;
             } else {
-                return dismissMarkerPopup();
+                return toolbarWidgets.dismissMarkerPopup();
             }
         }
     }
@@ -2153,7 +1943,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
 
     /* JADX INFO: Access modifiers changed from: private */
     public void setFocusableChangeDictionary(boolean bFocus) {
-        setFocusableSearchActivity(!bFocus);
+        setFocusableActivity(!bFocus);
         if (this.mChangeDictPopupViewFlipper != null) {
             this.mChangeDictPopupViewFlipper.setFocusable(false);
         }
@@ -2165,21 +1955,14 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
 
     public void runSearchEditText() {
         this.mHandler.post(this.mSwingBackUpdateLayoutCallback);
-        dismissMarkerPopup();
+		toolbarWidgets.dismissMarkerPopup();
         this.etSearch.requestFocus();
         showSoftInputMethod(true);
     }
 
-    public void initFavMode() {
-        initSelection();
-        enableMeanToolbar(false);
-        showFlashcardListPop(false);
-        showSoftInputMethod(false);
-    }
-
     /* JADX INFO: Access modifiers changed from: private */
     public void runnableMeanTabView() {
-        dismissMarkerPopup();
+		toolbarWidgets.dismissMarkerPopup();
         if (this.mTextView != null) {
             this.mTextView.stopInvilidate();
         }
@@ -2296,28 +2079,9 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
 
     /* JADX INFO: Access modifiers changed from: private */
     public void onTerminatePopup() {
-        dismissMarkerPopup();
+		toolbarWidgets.dismissMarkerPopup();
         dismissFlashcardCopyPopup(false);
-        dismissFontSizeChangePopup();
-    }
-	
-	/* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes.dex */
-    public class PopupTouchInterceptor implements View.OnTouchListener {
-        private PopupTouchInterceptor() {
-        }
-
-        @Override // android.view.View.OnTouchListener
-        public boolean onTouch(View v, MotionEvent event) {
-            int action = event.getAction();
-            if ((action != 0 || SearchListActivity.this.mMarkerPopup == null || !SearchListActivity.this.mMarkerPopup.isShowing()) && action == 1) {
-            }
-            if (action == 4 && SearchListActivity.this.mMarkerPopup != null && SearchListActivity.this.mMarkerPopup.isShowing()) {
-                //SearchListActivity.this.mMarkerPopup.dismiss();
-                return true;
-            }
-            return false;
-        }
+		toolbarWidgets.dismissFontSizePopup();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -2801,7 +2565,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
 
     private void setEnableCommonButton(boolean isEnable) {
         setEnableTTSButton(isEnable);
-        enableMeanToolbar(isEnable);
+        toolbarWidgets.enable(isEnable);
     }
 
     public void showHideEmptyLayout(boolean nVisible) {
@@ -2887,10 +2651,6 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         if (this.mEmptyInfo != null) {
             this.mEmptyInfo.setText(getResources().getString(infoResId));
         }
-    }
-
-    public void enableMeanToolbar(boolean enable) {
-		mMeanToolbarLayout.setEnabled(enable);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -3033,47 +2793,11 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         }
     }
 
-    public void showFontSizeChangePopupMenu() {
-        int[] windowLocation = new int[2];
-        RelativeLayout parents = (RelativeLayout) findViewById(R.id.SearchRightLayout);
-        LayoutInflater inflate = (LayoutInflater) getSystemService("layout_inflater");
-        RelativeLayout PopupContent = (RelativeLayout) inflate.inflate(R.layout.fontsize_select_popup, (ViewGroup) null);
-        RadioGroup group = (RadioGroup) PopupContent.findViewById(R.id.font_group);
-        parents.getLocationInWindow(windowLocation);
-        float density = CommonUtils.getDeviceDensity(this);
-        int popupWidth = getResources().getConfiguration().orientation == 1 ? (int) ((313.3f * density) + 0.5f) : (int) ((337.3f * density) + 0.5f);
-        ImageView view = (ImageView) PopupContent.findViewById(R.id.font_popup_bg_view);
-        int popupHeight = view.getBackground().getIntrinsicHeight();
-        int popupX = parents.getWidth() - popupWidth;
-        if (this.mFontSizeChangePopup == null) {
-            this.mFontSizeChangePopup = CommonUtils.makeWindowWithPopupWindow(this, 0, PopupContent, getResources().getDrawable(R.drawable.popup_back), this.mOnDismissListener);
-            for (int i = 0; i < group.getChildCount(); i++) {
-                ((RadioButton) group.getChildAt(i)).setOnClickListener(this.mFontSizeChangeOnClickListener);
-            }
-            ((ImageView) PopupContent.findViewById(R.id.font_close)).setOnClickListener(this.mFontSizeChangeOnClickListener);
-        }
-        int fontSizeIndex = setFontSizeFromPreference();
-        ((RadioButton) group.getChildAt(fontSizeIndex)).setChecked(true);
-        if (this.mFontSizeChangePopup != null) {
-            if (this.mFontSizeChangePopup.isShowing()) {
-                this.mFontSizeChangePopup.update(windowLocation[0] + popupX, windowLocation[1] + 0, popupWidth, popupHeight);
-                return;
-            }
-            this.mFontSizeChangePopup.setWidth(popupWidth);
-            this.mFontSizeChangePopup.setHeight(popupHeight);
-            this.mFontSizeChangePopup.showAtLocation(parents, 0, windowLocation[0] + popupX, windowLocation[1] + 0);
-        }
-    }
-
     private int setFontSizeFromPreference(boolean isStoreCurrentTopOffset) {
-        int fontSizeIndex = DictUtils.getFontSizeFromPreference(this);
+        int fontSizeIndex = preference.getFontSize();
         int[] fontSizeList = getResources().getIntArray(R.array.value_font_size);
         this.mSearchMeanController.setMeanContentTextViewTextSize(fontSizeList[fontSizeIndex], isStoreCurrentTopOffset);
         return fontSizeIndex;
-    }
-
-    private int setFontSizeFromPreference() {
-        return setFontSizeFromPreference(true);
     }
 
     private boolean dismissFlashcardCopyPopup(boolean bAnimation) {
@@ -3084,105 +2808,6 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
             return true;
         }
         return false;
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public boolean dismissFontSizeChangePopup() {
-        if (this.mFontSizeChangePopup == null || !this.mFontSizeChangePopup.isShowing()) {
-            return false;
-        }
-        this.mFontSizeChangePopup.dismiss();
-        return true;
-    }
-
-    public void showMarkerPopup() {
-        int[] colorList = getResources().getIntArray(R.array.value_marker_color_adv);
-        int[] windowLocation = new int[2];
-        RelativeLayout parents = (RelativeLayout) findViewById(R.id.SearchRightLayout);
-        LayoutInflater inflate = (LayoutInflater) getSystemService("layout_inflater");
-        RelativeLayout PopupContent = (RelativeLayout) inflate.inflate(R.layout.marker_color_select_popup, (ViewGroup) null);
-        this.markerGroup = (RadioGroup) PopupContent.findViewById(R.id.marker_group);
-        parents.getLocationInWindow(windowLocation);
-        parents.setOnTouchListener(this.layoutOnTouchListener);
-        float density = CommonUtils.getDeviceDensity(this);
-        int popupWidth = getResources().getConfiguration().orientation == 1 ? (int) ((313.3f * density) + 0.5f) : (int) ((337.3f * density) + 0.5f);
-        ImageView view = (ImageView) PopupContent.findViewById(R.id.marker_popup_bg_view);
-        int popupHeight = view.getBackground().getIntrinsicHeight();
-        int popupX = parents.getWidth() - popupWidth;
-        if (this.mMarkerPopup == null) {
-            this.mMarkerPopup = CommonUtils.makeWindowWithPopupWindow(this, 0, PopupContent, null, this.mOnDismissListener, false); // true
-            for (int i = 0, len=this.markerGroup.getChildCount(); true; i++) {
-                View btn;
-				if (i < len) {
-					btn = this.markerGroup.getChildAt(i);
-				} else {
-					if(i > len+1)  break;
-					btn = mMarkerCloseBtn = (ImageView) PopupContent.findViewById(R.id.marker_close);
-				}
-				btn.setTag(i);
-                btn.setOnClickListener(this.mMarkerColorOnClickListener);
-                btn.setFocusable(true);
-            }
-            this.mMarkerPopup.setOutsideTouchable(false); // true
-            this.mMarkerPopup.setTouchInterceptor(new PopupTouchInterceptor());
-        } else {
-            this.markerGroup.clearCheck();
-        }
-        int markerColorIndex = DictUtils.getMarkerColorFromPreference(this);
-		RadioButton childAt = (RadioButton) this.markerGroup.getChildAt(markerColorIndex);
-		childAt.setChecked(true);
-        childAt.requestFocusFromTouch();
-        this.mSearchMeanController.setMeanContentTextViewMarkerColor(colorList[markerColorIndex]);
-        if (this.mMarkerPopup != null) {
-            if (this.mMarkerPopup.isShowing()) {
-                this.mMarkerPopup.update(windowLocation[0] + popupX, windowLocation[1] + 0, popupWidth, popupHeight);
-            } else {
-                this.mMarkerPopup.setWidth(popupWidth);
-                this.mMarkerPopup.setHeight(popupHeight);
-                this.mMarkerPopup.showAtLocation(parents, 0, windowLocation[0] + popupX, windowLocation[1] + 0);
-            }
-        }
-        setFocusableSearchActivity(false);
-    }
-	
-	public boolean dismissMarkerPopup() {
-		CMN.debug("dismissMarkerPopup::");
-		if (this.mMarkerPopup == null || !this.mMarkerPopup.isShowing()) {
-			return false;
-		}
-		this.mMarkerPopup.dismiss();
-		this.mMarkerPopup = null;
-		this.mTextView.setMarkerMode(false);
-		setFocusableSearchActivity(true);
-		return true;
-	}
-	
-    private void setFocusMarker(boolean bRight) {
-        View view = this.markerGroup.findFocus();
-        if (view == null) {
-            if (this.mMarkerCloseBtn.isFocused()) {
-                View view2 = this.mMarkerCloseBtn;
-                if (!bRight) {
-                    this.markerGroup.getChildAt(this.markerGroup.getChildCount() - 1).requestFocus();
-                    return;
-                }
-                return;
-            }
-            this.markerGroup.getChildAt(0).requestFocusFromTouch();
-            this.markerGroup.getChildAt(0).setFocusableInTouchMode(false);
-            return;
-        }
-        int idx = IU.parsint(view.getTag());
-        if (bRight) {
-            if (idx >= 0 && idx < this.markerGroup.getChildCount() - 1) {
-                this.markerGroup.getChildAt(idx + 1).requestFocus();
-            } else if (idx == this.markerGroup.getChildCount() - 1) {
-                int i = idx + 1;
-                this.mMarkerCloseBtn.requestFocus();
-            }
-        } else if (idx <= this.markerGroup.getChildCount() && idx > 0) {
-            this.markerGroup.getChildAt(idx - 1).requestFocus();
-        }
     }
 
     protected void onSelectColor(int position) {
@@ -3199,7 +2824,9 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
     /* JADX INFO: Access modifiers changed from: private */
     public void showSoftInputMethod(boolean isShow) {
         if (isShow) {
-            initSelection();
+			if (mTextView.gripShowing()) {
+				mTextView.initSelection();
+			}
             this.etSearch.requestFocus();
         }
         showHideSystemInputMethod(isShow);
@@ -3437,10 +3064,9 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         this.mFlashcardItemEditCopyToFlashcardCancel.setEnabled(isShow);
         this.mFlashcardItemEditCopyToFlashcardCancel.setClickable(isShow);
         if (isShow) {
-            enableMeanToolbar(false);
             this.mCopyToFlashcardLayout.setVisibility(View.VISIBLE);
         } else {
-            enableMeanToolbar(true);
+            toolbarWidgets.enable(true);
         }
         this.mIsShowFlashcardPop = isShow;
         if (bAnimation) {
@@ -3456,7 +3082,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         if (isShow) {
             z = false;
         }
-        setFocusableSearchActivity(z);
+        setFocusableActivity(z);
         if (isShow) {
             if (this.mFlashcardFolderListViewItems.isEmpty()) {
                 this.mAddWordbookTextView.requestFocus();
@@ -3476,8 +3102,8 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         this.mFlashcardItemEditCopyToFlashcardOk.setText(R.string.ok);
         this.mFlashcardItemEditCopyToFlashcardCancel.setText(R.string.cancel);
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mFlashcardItemEditCopyToFlashcardCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         this.mFlashcardItemEditCopyToFlashcardOk.setOnClickListener(this.mFlashcardItemEditCopyToFlashcardOkOnClickListener);
         this.mFlashcardItemEditCopyToFlashcardCancel.setOnClickListener(this.mFlashcardItemEditCopyToFlashcardCancelOnClickListener);
@@ -3548,8 +3174,8 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         this.mBtnMakeWordbookCancel.setOnClickListener(this.mBtnMakeWordbookCancelOnClickListener);
         this.mBackupCardName = defaultName;
         if (CommonUtils.isLowResolutionDevice(this)) {
-            this.mBtnMakeWordbookOk.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
-            this.mBtnMakeWordbookCancel.setTextSize((int) (CommonUtils.getDeviceDensity(this) * 14.0f));
+            this.mBtnMakeWordbookOk.setTextSize((int) (GlobalOptions.density * 14.0f));
+            this.mBtnMakeWordbookCancel.setTextSize((int) (GlobalOptions.density * 14.0f));
         }
         return this.mWordbookDialog;
     }
@@ -3632,7 +3258,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
         }
     }
 
-    public void setFocusableSearchActivity(boolean bFocus) {
+    public void setFocusableActivity(boolean bFocus) {
         this.mChangeDictionaryBtn.setFocusable(bFocus);
         ((LinearLayout) findViewById(R.id.SearchMethodLayout)).setFocusable(bFocus);
         this.mChangeLanguageBtn.setFocusable(bFocus);
@@ -3668,7 +3294,7 @@ public class SearchListActivity extends ListMeanViewActivity implements View.OnC
     }
 
     private void initPopupControll() {
-        dismissMarkerPopup();
+        toolbarWidgets.dismissMarkerPopup();
         initSelection();
     }
 

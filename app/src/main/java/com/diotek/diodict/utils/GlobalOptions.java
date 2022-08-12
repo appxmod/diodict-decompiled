@@ -27,6 +27,8 @@ public class GlobalOptions {
 	
 	public static float density;
 	
+	public static boolean ldpi;
+	
 	public static int realWidth;
 	
 	public static int realHeight;
