@@ -19,10 +19,12 @@ import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.CustomPopupLinearLayout;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.CMN;
 
 /* loaded from: classes.dex */
 public class FileLinkTagViewManager {
     private ExtendTextView mContentTextView;
+	private ExtendTextView mTextView;
     private Activity mContext;
     private EngineManager3rd mEngine;
     private View mPopupParents;
@@ -35,6 +37,9 @@ public class FileLinkTagViewManager {
         @Override // android.widget.PopupWindow.OnDismissListener
         public void onDismiss() {
             FileLinkTagViewManager.this.initTextSelected();
+			if (mTextView != null && mTextView.gripShowing()) {
+				mTextView.clearSelection();
+			}
             FileLinkTagViewManager.this.mLinkTextPopup = null;
             if (FileLinkTagViewManager.this.mTTSManager != null) {
                 FileLinkTagViewManager.this.mTTSManager.onTerminateTTS();
@@ -45,7 +50,7 @@ public class FileLinkTagViewManager {
         @Override // com.diotek.diodict.uitool.CustomPopupLinearLayout.CustomPopupLinearLayoutOnKeyListenerCallback
         public void runOnKeyListener(KeyEvent event) {
             if (FileLinkTagViewManager.this.mLinkTextPopup != null) {
-                FileLinkTagViewManager.this.mLinkTextPopup.dismiss();
+                dismissLinkTextPopup(true);
                 FileLinkTagViewManager.this.mLinkTextPopup = null;
             }
         }
@@ -54,13 +59,13 @@ public class FileLinkTagViewManager {
         @Override // android.view.View.OnClickListener
         public void onClick(View v) {
             if (FileLinkTagViewManager.this.mLinkTextPopup != null) {
-                FileLinkTagViewManager.this.mLinkTextPopup.dismiss();
+                dismissLinkTextPopup(true);
                 FileLinkTagViewManager.this.mLinkTextPopup = null;
             }
         }
     };
-
-    public FileLinkTagViewManager(Activity context, EngineManager3rd engine, ExtendTextView contentTextView, RelativeLayout popupParentsLayout, LinearLayout popupParentsSubLayout, BaseMeanController.ThemeModeCallback themeModeCallback) {
+	
+	public FileLinkTagViewManager(Activity context, EngineManager3rd engine, ExtendTextView contentTextView, RelativeLayout popupParentsLayout, LinearLayout popupParentsSubLayout, BaseMeanController.ThemeModeCallback themeModeCallback) {
         this.mContext = null;
         this.mEngine = null;
         this.mContentTextView = null;
@@ -88,24 +93,35 @@ public class FileLinkTagViewManager {
         if (this.mTTSManager != null) {
             this.mTTSManager.onTerminateTTS();
         }
-        destory();
+        destroy();
     }
 
-    public void destory() {
+    public void destroy() {
         if (this.mTTSManager != null && this.mTTSManager.mTTSStopPopup != null) {
             this.mTTSManager.mTTSStopPopup.dismiss();
             this.mTTSManager.mTTSStopPopup = null;
         }
         if (this.mLinkTextPopup != null) {
-            this.mLinkTextPopup.dismiss();
+            dismissLinkTextPopup(false);
             this.mLinkTextPopup = null;
         }
         if (this.mLinkMeanController != null) {
             this.mLinkMeanController = null;
         }
     }
-
-    public SearchMeanController prepareLinkTextMeanPopup(Context ctx, int dicType, String keyword, int suid) {
+	
+	private void dismissLinkTextPopup(boolean back) {
+		CMN.debug("dismissLinkTextPopup");
+		if (mTextView != null && mTextView.gripShowing()) {
+			mTextView.clearSelection();
+			if(back) return;
+		}
+		if (this.mLinkTextPopup != null) {
+			mLinkTextPopup.dismiss();
+		}
+	}
+	
+	public SearchMeanController prepareLinkTextMeanPopup(Context ctx, int dicType, String keyword, int suid) {
         LayoutInflater inflate = (LayoutInflater) ctx.getSystemService("layout_inflater");
         CustomPopupLinearLayout PopupContent = (CustomPopupLinearLayout) inflate.inflate(R.layout.hypertext_summary_layout, (ViewGroup) null);
         if (this.mLinkTextPopup == null) {
@@ -117,7 +133,10 @@ public class FileLinkTagViewManager {
             ScrollView scrollView = (ScrollView) PopupContent.findViewById(R.id.hyper_scrollview);
             scrollView.setFadingEdgeLength(0);
             ExtendTextView textView = (ExtendTextView) PopupContent.findViewById(R.id.hypertext_mean_textview);
-            TextView keywordView = (TextView) PopupContent.findViewById(R.id.hyper_mean_titleview);
+			textView.bShowGripsFromPop = true;
+			textView.setEnableTextSelect(true);
+			mTextView = textView;
+			TextView keywordView = (TextView) PopupContent.findViewById(R.id.hyper_mean_titleview);
             prepareMeanTTSLayout(PopupContent);
             this.mLinkMeanController = new SearchMeanController(ctx, keywordView, textView, null, null, this.mEngine, false, this.mThemeModeCallback, this, this.mTTSManager.mTTSLayoutCallback);
             this.mTTSManager.setExtendTextView(textView);
@@ -149,7 +168,7 @@ public class FileLinkTagViewManager {
     public void closeFileLinkPopup() {
         if (this.mLinkTextPopup != null && this.mLinkTextPopup.isShowing()) {
             initTextSelected();
-            this.mLinkTextPopup.dismiss();
+            dismissLinkTextPopup(false);
             this.mLinkTextPopup = null;
         }
     }

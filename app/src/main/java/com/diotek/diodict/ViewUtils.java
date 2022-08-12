@@ -687,6 +687,36 @@ public class ViewUtils {
 		evt.recycle();
 	}
 	
+	public static View getNthParentNonNull(View v, int i) {
+		ViewParent vp;
+		while(i-->0) {
+			vp = v.getParent();
+			if (!(vp instanceof View)) break;
+			v = (View) vp;
+		}
+		return v;
+	}
+	
+	public static View getNthParentNullable(View v, int i) {
+		ViewParent vp;
+		while(i-->0) {
+			vp = v.getParent();
+			if (!(vp instanceof View)) return null;
+			v = (View) vp;
+		}
+		return v;
+	}
+	
+	public static int getParentHeight(View v) {
+		v = (View) v.getParent();
+		return v==null?0:v.getHeight();
+	}
+	
+	public static int getNthParentHeight(View v, int i) {
+		v = (View) getNthParentNonNull(v, i);
+		return v==null?0:v.getHeight();
+	}
+	
 	
 	public static class BaseAnimationListener implements Animation.AnimationListener {
 		@Override public void onAnimationStart(Animation animation) { }

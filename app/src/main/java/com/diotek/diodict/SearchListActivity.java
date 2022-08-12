@@ -21,7 +21,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -62,7 +61,6 @@ import com.diotek.diodict.database.DioDictDatabaseInfo;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.dhwr.b2c.kor.DioGuestureDetector;
 import com.diotek.diodict.dtestui.HeightProvider;
-import com.diotek.diodict.dtestui.MeanToolbarWidgets;
 import com.diotek.diodict.engine.DictDBManager;
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.engine.DictType;
@@ -75,7 +73,6 @@ import com.diotek.diodict.mean.ExtendScrollView;
 import com.diotek.diodict.mean.ExtendTextView;
 import com.diotek.diodict.mean.FileLinkTagViewManager;
 import com.diotek.diodict.mean.HyperSimpleViewModule;
-import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.mean.SearchMeanController;
 import com.diotek.diodict.uitool.CandidateBox;
 import com.diotek.diodict.uitool.CommonUtils;
@@ -90,7 +87,6 @@ import com.diotek.diodict.uitool.WordListAdapter;
 import com.diotek.diodict.utils.CMN;
 import com.diotek.diodict.utils.F1ag;
 import com.diotek.diodict.utils.GlobalOptions;
-import com.diotek.diodict.utils.IU;
 import com.diotek.diodict3.phone.DioAuthActivity;
 import com.diodict.decompiled.R;
 import java.util.ArrayList;
@@ -934,7 +930,7 @@ public class SearchListActivity extends ListMeanViewActivity {
 				if (GlobalOptions.softInputHeight != height) {
 					// CMN.debug("键盘...onHeightChanged", GlobalOptions.softInputHeight);
 					if (height==0) {
-						GlobalOptions.softInputDismissTm = CMN.now();
+						GlobalOptions.softInputDismissTm = CMN.when();
 					}
 					GlobalOptions.softInputHeight = height;
 				}
@@ -1015,7 +1011,7 @@ public class SearchListActivity extends ListMeanViewActivity {
             UITools.recycleDrawable(this.mSearchMethodArrowBtn.getBackground(), false, isconfigChange);
         }
         if (!isconfigChange && this.mFileLinkTagViewManager != null) {
-            this.mFileLinkTagViewManager.destory();
+            this.mFileLinkTagViewManager.destroy();
         }
         this.mMarkerBtn = null;
         this.mFontBtn = null;
@@ -1362,7 +1358,7 @@ public class SearchListActivity extends ListMeanViewActivity {
 			case KeyEvent.KEYCODE_BACK:
 				// CMN.debug("键盘...KEYCODE_BACK", GlobalOptions.softInputHeight);
                 if (GlobalOptions.softInputDismissTm > 0) {
-					if (CMN.now() - GlobalOptions.softInputDismissTm < 100) {
+					if (CMN.when() - GlobalOptions.softInputDismissTm < 100) {
 						return true;
 					}
 					GlobalOptions.softInputDismissTm = 0;

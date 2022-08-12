@@ -2,6 +2,7 @@ package com.diotek.diodict.utils;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.SystemClock;
 import android.util.AndroidException;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,6 +227,10 @@ public class CMN{
 	
 	public static long now() {
 		return System.currentTimeMillis();
+	}
+	
+	public static long when() {
+		return SystemClock.uptimeMillis();
 	}
 	
 	public static Object elapsed(long st) {

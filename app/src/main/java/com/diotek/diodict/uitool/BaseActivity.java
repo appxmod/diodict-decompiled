@@ -495,7 +495,11 @@ public abstract class BaseActivity extends Activity {
 	
 	@Override
 	public void finish() {
-		CMN.debug("finish called...");
+		try {
+			throw new RuntimeException();
+		} catch (Exception e) {
+			CMN.debug("finish called...", e);
+		}
 		super.finish();
 	}
 	

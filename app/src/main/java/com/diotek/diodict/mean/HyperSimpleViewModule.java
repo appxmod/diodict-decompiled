@@ -24,10 +24,10 @@ import com.diotek.diodict.engine.DictDBManager;
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.engine.DictUtils;
 import com.diotek.diodict.engine.EngineManager3rd;
-import com.diotek.diodict.mean.BaseMeanController;
 import com.diotek.diodict.uitool.CommonUtils;
 import com.diotek.diodict.uitool.CustomPopupLinearLayout;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.CMN;
 import com.diotek.diodict.utils.GlobalOptions;
 
 import java.util.ArrayList;
@@ -46,6 +46,7 @@ public class HyperSimpleViewModule {
     private EngineManager3rd mEngine;
     HyperSimpleViewModuleCallback mHyperSimpleViewCallback;
     ExtendTextView mMeanContentTextView;
+    ExtendTextView mTextView;
     View mStartParent;
     View mStartParentSub;
     private TTSManager mTTSManager;
@@ -76,7 +77,7 @@ public class HyperSimpleViewModule {
         @Override // android.view.View.OnClickListener
         public void onClick(View v) {
             if (HyperSimpleViewModule.this.mHyperDialogPopup != null) {
-                HyperSimpleViewModule.this.mHyperDialogPopup.dismiss();
+                dismissHyperPopup(false);
                 HyperSimpleViewModule.this.mHyperDialogPopup = null;
             }
         }
@@ -85,7 +86,7 @@ public class HyperSimpleViewModule {
         @Override // com.diotek.diodict.uitool.CustomPopupLinearLayout.CustomPopupLinearLayoutOnKeyListenerCallback
         public void runOnKeyListener(KeyEvent event) {
             if (HyperSimpleViewModule.this.mHyperDialogPopup != null) {
-                HyperSimpleViewModule.this.mHyperDialogPopup.dismiss();
+                dismissHyperPopup(true);
                 HyperSimpleViewModule.this.mHyperDialogPopup = null;
             }
         }
@@ -111,6 +112,9 @@ public class HyperSimpleViewModule {
                 HyperSimpleViewModule.this.mEngine.setDicType(DictUtils.getSearchLastDictFromPreference(HyperSimpleViewModule.this.mContext));
                 HyperSimpleViewModule.this.mHyperSimpleViewCallback.runExitBtn();
             }
+			if (mTextView != null && mTextView.gripShowing()) {
+				mTextView.clearSelection();
+			}
             HyperSimpleViewModule.this.mHyperDialogPopup = null;
         }
     };
@@ -134,7 +138,7 @@ public class HyperSimpleViewModule {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             HyperSimpleViewModule.this.mDismissPopupWithoutHyperText = false;
             if (HyperSimpleViewModule.this.mHyperDialogPopup != null && HyperSimpleViewModule.this.mHyperDialogPopup.isShowing()) {
-                HyperSimpleViewModule.this.mHyperDialogPopup.dismiss();
+                dismissHyperPopup(false);
                 HyperSimpleViewModule.this.mHyperDialogPopup = null;
             }
             HyperSimpleViewModule.this.prepareHyperView(HyperSimpleViewModule.this.mEnableDictList[position].intValue(), HyperSimpleViewModule.this.mHyperText);
@@ -273,7 +277,12 @@ public class HyperSimpleViewModule {
         this.mDismissPopupWithoutHyperText = true;
         ScrollView scrollView = (ScrollView) PopupContent.findViewById(R.id.hyper_scrollview);
         ExtendTextView textView = (ExtendTextView) PopupContent.findViewById(R.id.hypertext_mean_textview);
-        TextView keywordView = (TextView) PopupContent.findViewById(R.id.hyper_mean_titleview);
+		if(textView!=null) {
+			textView.bShowGripsFromPop = true;
+			textView.setEnableTextSelect(true);
+		}
+		mTextView = textView;
+		TextView keywordView = (TextView) PopupContent.findViewById(R.id.hyper_mean_titleview);
         TextView title = (TextView) PopupContent.findViewById(R.id.hyper_dialog_title);
         switch (nHyperDetailPopupMode) {
             case 0:
@@ -404,12 +413,21 @@ public class HyperSimpleViewModule {
             this.mTTSManager.mTTSStopPopup = null;
         }
         if (this.mHyperDialogPopup != null && this.mHyperDialogPopup.isShowing()) {
-            this.mHyperDialogPopup.dismiss();
+            dismissHyperPopup(false);
             this.mHyperDialogPopup = null;
         }
     }
-
-    public boolean isShowingHyperDialogPopup() {
+	
+	private void dismissHyperPopup(boolean back) {
+		CMN.debug("dismissHyperPopup");
+		if (mTextView != null && mTextView.gripShowing()) {
+			mTextView.clearSelection();
+			if(back) return;
+		}
+		mHyperDialogPopup.dismiss();
+	}
+	
+	public boolean isShowingHyperDialogPopup() {
         return this.mHyperDialogPopup != null && this.mHyperDialogPopup.isShowing();
     }
 
@@ -465,7 +483,7 @@ public class HyperSimpleViewModule {
     public void runNearestListPopup(int nPos) {
         if (this.mHyperDialogPopup != null && this.mHyperDialogPopup.isShowing()) {
             this.mDismissPopupWithoutHyperText = false;
-            this.mHyperDialogPopup.dismiss();
+            dismissHyperPopup(false);
             this.mHyperDialogPopup = null;
         }
         this.mHyperSimpleMeanPos = DictUtils.getNearestWordFirstPos(this.mEngine.getResultListCount(1)) + nPos;

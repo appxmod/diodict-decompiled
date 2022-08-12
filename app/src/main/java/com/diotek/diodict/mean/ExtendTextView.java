@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,7 +29,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.diotek.diodict.Preference;
-import com.diotek.diodict.SearchListActivity;
 import com.diotek.diodict.ViewUtils;
 import com.diotek.diodict.dtestui.MeanToolbarWidgets;
 import com.diotek.diodict.uitool.BaseActivity;
@@ -156,6 +154,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private Button wiki;
 	private int downScrollY;
 	private int orgX, orgY, lastX, lastY;
+	
+	/*  */
+	public boolean bShowGripsFromPop;
 	
 	/* loaded from: classes.dex */
     public interface AfterSetMeanViewCallback {
@@ -715,9 +716,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                     }
                     if (this.mSelectionArea.isTextSelected()) {
                         getTextSelectGripPosition(this.mSelectionArea.start, this.mSelectionArea.end, this.mLeftGripPosition, this.mRightGripPosition);
-                        showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
-                        showMenu();
-                        invalidate();
+						try {
+							showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
+							showMenu();
+							invalidate();
+						} catch (Exception e) {
+							CMN.debug(e);
+						}
                     }
                     return true;
                 }
@@ -1088,9 +1093,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				// end startClick
 				if (mSelectionArea.isTextSelected()) {
 					getTextSelectGripPosition(this.mSelectionArea.start, this.mSelectionArea.end, this.mLeftGripPosition, this.mRightGripPosition);
-					showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
-					showMenu();
-					invalidate();
+					try {
+						showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
+						showMenu();
+						invalidate();
+					} catch (Exception e) {
+						CMN.debug(e);
+					}
 				}
 			} else {
 				this.mSelectionArea.init();
@@ -1516,15 +1525,22 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                     this.mPopupBaseY = (this.mLeftGripPosition[1] - popupHeight) - pad;
                 }
             }
-            if (this.mTextSelectPopupMenu != null) {
-                if (this.mTextSelectPopupMenu.isShowing()) {
-                    this.mTextSelectPopupMenu.update(this.mPopupBaseX + this.mPopupMenuOffsetInWindow[0], this.mPopupBaseY + this.mPopupMenuOffsetInWindow[1], popupWidth, popupHeight);
-                    return;
-                }
-                this.mTextSelectPopupMenu.setWidth(popupWidth);
-                this.mTextSelectPopupMenu.setHeight(popupHeight);
-                this.mTextSelectPopupMenu.showAtLocation(this, 0, this.mPopupBaseX + this.mPopupMenuOffsetInWindow[0], this.mPopupBaseY + this.mPopupMenuOffsetInWindow[1]);
-            }
+			View showAt = bShowGripsFromPop ?activity==null?null:activity.mTextView:this;
+			if(showAt!=null) {
+				if (bShowGripsFromPop) {
+					mPopupBaseY += location[1]+ViewUtils.getParentHeight(showAt) - ViewUtils.getNthParentHeight(this, 5);
+				}
+				if (this.mTextSelectPopupMenu != null) {
+					if (this.mTextSelectPopupMenu.isShowing()) {
+						this.mTextSelectPopupMenu.update(this.mPopupBaseX + this.mPopupMenuOffsetInWindow[0], this.mPopupBaseY + this.mPopupMenuOffsetInWindow[1], popupWidth, popupHeight);
+						return;
+					}
+					this.mTextSelectPopupMenu.setWidth(popupWidth);
+					this.mTextSelectPopupMenu.setHeight(popupHeight);
+					this.mTextSelectPopupMenu.showAtLocation(showAt, 0, this.mPopupBaseX + this.mPopupMenuOffsetInWindow[0], this.mPopupBaseY + this.mPopupMenuOffsetInWindow[1]);
+				}
+				
+			}
         }
     }
 
@@ -1911,24 +1927,33 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         int mLeftGripViewY = left[1];
         int mRightGripViewX = right[0];
         int mRightGripViewY = right[1];
-        if (this.mTextSelectLeftGrip != null) {
-            if (this.mTextSelectLeftGrip.isShowing()) {
-                this.mTextSelectLeftGrip.update(this.mTextSelectGripOffsetInWindow[0] + mLeftGripViewX, this.mTextSelectGripOffsetInWindow[1] + mLeftGripViewY, popupWidth, popupHeight);
-            } else {
-                this.mTextSelectLeftGrip.setWidth(popupWidth);
-                this.mTextSelectLeftGrip.setHeight(popupHeight);
-                this.mTextSelectLeftGrip.showAtLocation(this, 0, this.mTextSelectGripOffsetInWindow[0] + mLeftGripViewX, this.mTextSelectGripOffsetInWindow[1] + mLeftGripViewY);
-            }
-        }
-        if (this.mTextSelectRightGrip != null) {
-            if (this.mTextSelectRightGrip.isShowing()) {
-                this.mTextSelectRightGrip.update(this.mTextSelectGripOffsetInWindow[0] + mRightGripViewX, this.mTextSelectGripOffsetInWindow[1] + mRightGripViewY, popupWidth, popupHeight);
-                return;
-            }
-            this.mTextSelectRightGrip.setWidth(popupWidth);
-            this.mTextSelectRightGrip.setHeight(popupHeight);
-            this.mTextSelectRightGrip.showAtLocation(this, 0, this.mTextSelectGripOffsetInWindow[0] + mRightGripViewX, this.mTextSelectGripOffsetInWindow[1] + mRightGripViewY);
-        }
+		View showAt = bShowGripsFromPop ?activity==null?null:activity.mTextView:this;
+		if(showAt!=null) {
+			if(bShowGripsFromPop) {
+				showAt.getLocationInWindow(location);
+				int delta = location[1]+ViewUtils.getParentHeight(showAt) - ViewUtils.getNthParentHeight(this, 5);
+				mLeftGripViewY += delta;
+				mRightGripViewY += delta;
+			}
+			if (this.mTextSelectLeftGrip != null) {
+				if (this.mTextSelectLeftGrip.isShowing()) {
+					this.mTextSelectLeftGrip.update(this.mTextSelectGripOffsetInWindow[0] + mLeftGripViewX, this.mTextSelectGripOffsetInWindow[1] + mLeftGripViewY, popupWidth, popupHeight);
+				} else {
+					this.mTextSelectLeftGrip.setWidth(popupWidth);
+					this.mTextSelectLeftGrip.setHeight(popupHeight);
+					this.mTextSelectLeftGrip.showAtLocation(showAt, 0, this.mTextSelectGripOffsetInWindow[0] + mLeftGripViewX, this.mTextSelectGripOffsetInWindow[1] + mLeftGripViewY);
+				}
+			}
+			if (this.mTextSelectRightGrip != null) {
+				if (this.mTextSelectRightGrip.isShowing()) {
+					this.mTextSelectRightGrip.update(this.mTextSelectGripOffsetInWindow[0] + mRightGripViewX, this.mTextSelectGripOffsetInWindow[1] + mRightGripViewY, popupWidth, popupHeight);
+				} else {
+					this.mTextSelectRightGrip.setWidth(popupWidth);
+					this.mTextSelectRightGrip.setHeight(popupHeight);
+					this.mTextSelectRightGrip.showAtLocation(showAt, 0, this.mTextSelectGripOffsetInWindow[0] + mRightGripViewX, this.mTextSelectGripOffsetInWindow[1] + mRightGripViewY);
+				}
+			}
+		}
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
