@@ -662,7 +662,7 @@ public abstract class BaseActivity extends Activity {
 	
 	public final boolean clearTextViewSelection() {
 		View foca = getCurrentFocus();
-		if (foca instanceof TextView && ((TextView) foca).hasSelection()) {
+		if (foca instanceof TextView && ((TextView) foca).hasSelection() && !(foca instanceof ExtendTextView)) {
 			//if(etSearch!=null) etSearch.setFocusable(false);
 			fakingFocus = true; // annoying etSearch onFocusChanged logic!
 			ViewUtils.clearTextSelection((TextView) foca);
