@@ -713,7 +713,6 @@ public class SearchListActivity extends ListMeanViewActivity {
 
         @Override // com.diotek.diodict.mean.HyperSimpleViewModule.HyperSimpleViewModuleCallback
         public void runExitBtn() {
-            SearchListActivity.this.initSelection();
         }
     };
     View.OnTouchListener mMeanContentBottomViewOnTouchListener = new View.OnTouchListener() { // from class: com.diotek.diodict.SearchListActivity.60
@@ -1349,6 +1348,7 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     @Override // com.diotek.diodict.ListMeanViewActivity, android.app.Activity, android.view.KeyEvent.Callback
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+		CMN.debug("onKeyUp::", keyCode);
         if (isVisiableView(this.mSearchListEmptyLayout) && isVisiableView(this.mMainEmptyLayout)) {
             this.mMainEmptyLayout.setVisibility(View.GONE);
         }
@@ -1928,17 +1928,21 @@ public class SearchListActivity extends ListMeanViewActivity {
             if (isTTSRepeat()) {
                 dismissTTSRepeat();
                 return true;
-            } else if (this.mTextView.gripShowing()) {
-                initSelection();
-				this.mTextView.mSelectRealm = this.mTextView.mSelectRealmPrefer;
-                return true;
-            } else if (this.mHyperSimpleViewModule != null && this.mHyperSimpleViewModule.isShowingHyperDialogPopup()) {
+            }
+			else if (this.mHyperSimpleViewModule != null && this.mHyperSimpleViewModule.isShowingHyperDialogPopup()) {
                 this.mHyperSimpleViewModule.closeHyperTextSummaryPopup(false);
                 return true;
-            } else if (this.mFileLinkTagViewManager != null && this.mFileLinkTagViewManager.isShowingLinkTextPopup()) {
+            }
+			else if (this.mFileLinkTagViewManager != null && this.mFileLinkTagViewManager.isShowingLinkTextPopup()) {
                 this.mFileLinkTagViewManager.closeFileLinkPopup();
                 return true;
-            } else {
+            }
+			else if (this.mTextView.gripShowing()) {
+				initSelection();
+				this.mTextView.mSelectRealm = this.mTextView.mSelectRealmPrefer;
+				return true;
+			}
+			else {
                 return toolbarWidgets.dismissMarkerPopup();
             }
         }
@@ -3317,6 +3321,7 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void initSelection() {
+		CMN.debug("initSelection::");
         if (this.mTextView != null) {
             this.mTextView.clearSelection();
             this.mTextView.invalidate();

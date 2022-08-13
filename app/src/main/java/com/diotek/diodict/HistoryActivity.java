@@ -429,9 +429,9 @@ public class HistoryActivity extends ListMeanViewActivity {
 
         @Override // com.diotek.diodict.mean.HyperSimpleViewModule.HyperSimpleViewModuleCallback
         public void runExitBtn() {
-            if (HistoryActivity.this.mTextView != null) {
-                HistoryActivity.this.mTextView.clearSelection();
-            }
+//            if (HistoryActivity.this.mTextView != null) {
+//                HistoryActivity.this.mTextView.clearSelection();
+//            }
         }
     };
     Runnable mRunnableUpdateTabView = new Runnable() { // from class: com.diotek.diodict.HistoryActivity.29

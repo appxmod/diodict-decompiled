@@ -458,9 +458,9 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
 
         @Override // com.diotek.diodict.mean.HyperSimpleViewModule.HyperSimpleViewModuleCallback
         public void runExitBtn() {
-            if (FlashcardItemActivity.this.mTextView != null) {
-                FlashcardItemActivity.this.mTextView.clearSelection();
-            }
+//            if (FlashcardItemActivity.this.mTextView != null) {
+//                FlashcardItemActivity.this.mTextView.clearSelection();
+//            }
         }
     };
     Runnable mRunnableUpdateTabView = new Runnable() { // from class: com.diotek.diodict.FlashcardItemActivity.34

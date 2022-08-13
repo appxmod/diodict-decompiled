@@ -37,7 +37,8 @@ public class FileLinkTagViewManager {
     PopupWindow.OnDismissListener mLinkTextPopupOnDismissListener = new PopupWindow.OnDismissListener() { // from class: com.diotek.diodict.mean.FileLinkTagViewManager.1
         @Override // android.widget.PopupWindow.OnDismissListener
         public void onDismiss() {
-            FileLinkTagViewManager.this.initTextSelected();
+			CMN.debug("OnDismis::LinkTextPopup");
+            //FileLinkTagViewManager.this.initTextSelected();
 			if (mTextView != null && mTextView.gripShowing()) {
 				mTextView.clearSelection();
 			}
@@ -168,7 +169,7 @@ public class FileLinkTagViewManager {
 
     public void closeFileLinkPopup() {
         if (this.mLinkTextPopup != null && this.mLinkTextPopup.isShowing()) {
-            initTextSelected();
+            //initTextSelected();
             dismissLinkTextPopup(false);
             this.mLinkTextPopup = null;
         }

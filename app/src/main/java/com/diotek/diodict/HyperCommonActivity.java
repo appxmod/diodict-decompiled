@@ -143,9 +143,9 @@ public abstract class HyperCommonActivity extends BaseActivity {
 
         @Override // com.diotek.diodict.mean.HyperSimpleViewModule.HyperSimpleViewModuleCallback
         public void runExitBtn() {
-            if (HyperCommonActivity.this.mTextView != null) {
-                HyperCommonActivity.this.mTextView.clearSelection();
-            }
+//            if (HyperCommonActivity.this.mTextView != null) {
+//                HyperCommonActivity.this.mTextView.clearSelection();
+//            }
         }
     };
     Runnable mRunnableUpdateTabView = new Runnable() { // from class: com.diotek.diodict.HyperCommonActivity.6

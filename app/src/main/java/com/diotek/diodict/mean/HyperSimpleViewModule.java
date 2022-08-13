@@ -109,6 +109,7 @@ public class HyperSimpleViewModule {
     private PopupWindow.OnDismissListener mHyperTextOnDismissListener = new PopupWindow.OnDismissListener() { // from class: com.diotek.diodict.mean.HyperSimpleViewModule.6
         @Override // android.widget.PopupWindow.OnDismissListener
         public void onDismiss() {
+			CMN.debug("OnDismis::mHyperText");
             if (HyperSimpleViewModule.this.mDismissPopupWithoutHyperText) {
                 HyperSimpleViewModule.this.mEngine.setDicType(DictUtils.getSearchLastDictFromPreference(HyperSimpleViewModule.this.mContext));
                 HyperSimpleViewModule.this.mHyperSimpleViewCallback.runExitBtn();

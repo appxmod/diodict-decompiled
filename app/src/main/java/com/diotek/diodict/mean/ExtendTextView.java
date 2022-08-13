@@ -1068,7 +1068,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 					sela.start = pos.start;
 					sela.end = pos.end;
 					invalidate();
-					return super.onTouchEvent(event);
+					return event==null?true:super.onTouchEvent(event);
 				}
 				CMN.Log("startClick::", sela.isTextSelected(), sela.contains(off));
 				boolean reinitSel = true;
@@ -1672,11 +1672,11 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             if (this.mHyperTextCallback != null) {
                 boolean ret = this.mHyperTextCallback.run(this.mSelectedText.toString());
                 if (!ret) {
-                    initializeSelectTextArea();
+                    // initializeSelectTextArea();
                     Toast.makeText(this.mContext, "hyperlink is not supported word !!", 0);
                 }
             }
-            dismissTextSelectGrip();
+            // dismissTextSelectGrip();
             invalidate();
         }
     }
