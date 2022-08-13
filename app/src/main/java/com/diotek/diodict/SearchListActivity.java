@@ -178,8 +178,6 @@ public class SearchListActivity extends ListMeanViewActivity {
     private AlertDialog mOptionDlg = null;
     ArrayList<String> mVoiceRecognizeMatches = null;
     private Rect mHwrRectArea = new Rect();
-    HyperSimpleViewModule mHyperSimpleViewModule = null;
-    private FileLinkTagViewManager mFileLinkTagViewManager = null;
     private PopupWindow mSearchMethodChangePopup = null;
     private TextView mCurrentSearchMethodTextView = null;
     private ImageView mSearchMethodArrowBtn = null;
@@ -943,12 +941,12 @@ public class SearchListActivity extends ListMeanViewActivity {
         this.mHandler.removeCallbacks(this.mUpdateMeanView);
         this.mHandler.removeCallbacks(this.mSearchWordRunnable);
         handleSaveMarkerObject();
-        this.mFileLinkTagViewManager.onPause();
-        this.mHyperSimpleViewModule.onPause();
+//		this.mFileLinkTagViewManager.onPause();
+//        this.mHyperSimpleViewModule.onPause();
         super.onPause();
     }
-
-    @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity, android.content.ComponentCallbacks
+	
+	@Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity, android.content.ComponentCallbacks
     public void onConfigurationChanged(Configuration newConfig) {
         handleSaveMarkerObject();
         destroyData(true);

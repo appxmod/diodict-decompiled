@@ -125,8 +125,6 @@ public class HistoryActivity extends ListMeanViewActivity {
     private int mCurDay = -1;
     private boolean IsCallCheckedListener = true;
     private Handler mProgressHandler = null;
-    protected HyperSimpleViewModule mHyperSimpleViewModule = null;
-    private FileLinkTagViewManager mFileLinkTagViewManager = null;
     private boolean mIsFlashcardPopup = false;
     private SparseBooleanArray mCheckedItems = null;
     private final Integer[] arrayDay = {Integer.valueOf((int) R.string.sunday), Integer.valueOf((int) R.string.monday), Integer.valueOf((int) R.string.tuesday), Integer.valueOf((int) R.string.wednesday), Integer.valueOf((int) R.string.thursday), Integer.valueOf((int) R.string.friday), Integer.valueOf((int) R.string.saturday)};

@@ -66,8 +66,6 @@ public abstract class HyperCommonActivity extends BaseActivity {
     protected PopupFlashcardGridAdapter mFlashcardFolderListViewAdapter = null;
     protected ArrayList<HashMap<String, Object>> mHyperHistoryList = null;
     protected ArrayList<HashMap<String, Object>> mFlashcardFolderListViewItems = new ArrayList<>();
-    protected HyperSimpleViewModule mHyperSimpleViewModule = null;
-    protected FileLinkTagViewManager mFileLinkTagViewManager = null;
     protected Dialog mWordbookDialog = null;
     protected RadioButton mCard1 = null;
     protected RadioButton mCard2 = null;

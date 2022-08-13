@@ -2,6 +2,7 @@ package com.diotek.diodict.mean;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -24,7 +25,7 @@ import com.diotek.diodict.utils.CMN;
 /* loaded from: classes.dex */
 public class FileLinkTagViewManager {
     private ExtendTextView mContentTextView;
-	private ExtendTextView mTextView;
+	public ExtendTextView mTextView;
     private Activity mContext;
     private EngineManager3rd mEngine;
     private View mPopupParents;

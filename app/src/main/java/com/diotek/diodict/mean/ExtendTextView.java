@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.text.ClipboardManager;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -101,6 +102,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private boolean mMoving;
     private int mPopupBaseX;
     private int mPopupBaseY;
+	int deltaY;
     private LinearLayout mPopupContent;
     private int[] mPopupMenuOffsetInWindow;
     private List<Rect> mPrevMakerRect;
@@ -534,8 +536,9 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         location[0] = x + left;
         location[1] = y + top;
     }
-
+	
     private int getSelectTextSelectGrip(int x, int y) {
+		y += deltaY;
         if (this.mTextSelectLeftGrip == null || this.mTextSelectRightGrip == null || !this.mTextSelectLeftGrip.isShowing() || !this.mTextSelectRightGrip.isShowing()) {
             return -1;
         }
@@ -628,7 +631,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                     int fx = locInParents[0];
                     int fy = locInParents[1];
                     this.mActiveGrip = getSelectTextSelectGrip(fx, fy);
-					//CMN.Log("mActivityGrip::", mActivityGrip);
+					//CMN.Log("mActivityGrip::", mActiveGrip);
 					if (this.mActiveGrip != -1) {
                         this.mHandler.removeCallbacks(this.mRunnableDismissTextSelectGrip);
                         hideTextSelectActionMenu();
@@ -746,7 +749,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
                     } else {
                         moveToY = y3 - (this.mGripHeight / 6);
                     }
-                    moveToTextSelectGrip(this.mActiveGrip, moveToX, moveToY);
+                    moveToTextSelectGrip(this.mActiveGrip, moveToX, moveToY+deltaY);
                     return true;
                 }/* else if (isContainsOffset(x3, y3)) {
                     return true;
@@ -1271,21 +1274,26 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				|| charAt=='！' || charAt=='!' || charAt=='？' || charAt=='?';
 	}
 	
+	private boolean isSentenceSeperatorPrev(char charAt) {
+		return charAt==',' || charAt=='，' || charAt==';' || charAt=='；' ;
+	}
+	
     private boolean isQuestionMark(char charAt) {
 		return charAt=='？' || charAt=='?';
 	}
 	
     private boolean isMiscChar(char charAt) {
-		return charAt=='(' || charAt==')'
+		return charAt=='(' || charAt==')' || charAt==' '
 //				|| charAt=='\r' || charAt=='\n'
 				|| charAt=='◇' || charAt==' '
 				|| charAt=='（' || charAt=='）'
-				|| charAt==':'
+				|| charAt==':' || charAt==';'
 				|| charAt=='[' || charAt==']'
-//				|| charAt=='<' || charAt=='>'
+				|| charAt=='<' || charAt=='>'
+				|| charAt=='＜' || charAt=='＞'
 //				|| charAt=='(' || charAt==')'
-//				|| charAt=='[' || charAt==']'
 //				|| charAt=='{' || charAt=='}'
+				|| mSelectRealm==1 && isSentenceSeperatorPrev(charAt)
 				;
 	}
 	
@@ -1597,17 +1605,14 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             }
 			View showAt = bShowGripsFromPop ?activity==null?null:activity.mTextView:this;
 			if(showAt!=null) {
-				if (bShowGripsFromPop) {
-					mPopupBaseY += location[1]+ViewUtils.getParentHeight(showAt) - ViewUtils.getNthParentHeight(this, 5);
-				}
 				if (this.mTextSelectPopupMenu != null) {
 					if (this.mTextSelectPopupMenu.isShowing()) {
-						this.mTextSelectPopupMenu.update(this.mPopupBaseX + this.mPopupMenuOffsetInWindow[0], this.mPopupBaseY + this.mPopupMenuOffsetInWindow[1], popupWidth, popupHeight);
+						this.mTextSelectPopupMenu.update(this.mPopupBaseX + this.mPopupMenuOffsetInWindow[0], this.mPopupBaseY + deltaY + this.mPopupMenuOffsetInWindow[1], popupWidth, popupHeight);
 						return;
 					}
 					this.mTextSelectPopupMenu.setWidth(popupWidth);
 					this.mTextSelectPopupMenu.setHeight(popupHeight);
-					this.mTextSelectPopupMenu.showAtLocation(showAt, 0, this.mPopupBaseX + this.mPopupMenuOffsetInWindow[0], this.mPopupBaseY + this.mPopupMenuOffsetInWindow[1]);
+					this.mTextSelectPopupMenu.showAtLocation(showAt, 0, this.mPopupBaseX + this.mPopupMenuOffsetInWindow[0], this.mPopupBaseY + deltaY + this.mPopupMenuOffsetInWindow[1]);
 				}
 				
 			}
@@ -1738,6 +1743,18 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
         return this.mSelectedText != null ? DictUtils.convertDioSymbolAlphabetString(this.mSelectedText.toString()) : "";
     }
+	
+	
+	public String getTextSelection() {
+		try {
+			String text = getSelectedString();
+			if (!TextUtils.isEmpty(text)) {
+				text = text.replace("~", getKeyword());
+				return text;
+			}
+		} catch (Exception e) { }
+		return  null;
+	}
 
     public void dismissTextSelectController() {
         if (this.mHandler != null) {
@@ -1930,6 +1947,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         grip.setBackgroundDrawable(null);
         LayoutInflater inflate = (LayoutInflater) getContext().getSystemService("layout_inflater");
         ImageView imv = (ImageView) inflate.inflate(contentViewId, (ViewGroup) null);
+		imv.setAlpha(0.75f);
         grip.setContentView(imv);
         imv.measure(0, 0);
         int width = imv.getMeasuredWidth();
@@ -1999,11 +2017,12 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         int mRightGripViewY = right[1];
 		View showAt = bShowGripsFromPop ?activity==null?null:activity.mTextView:this;
 		if(showAt!=null) {
-			if(bShowGripsFromPop) {
+			deltaY = 0;
+			if (bShowGripsFromPop) {
 				showAt.getLocationInWindow(location);
-				int delta = location[1]+ViewUtils.getParentHeight(showAt) - ViewUtils.getNthParentHeight(this, 5);
-				mLeftGripViewY += delta;
-				mRightGripViewY += delta;
+				deltaY = location[1]+ViewUtils.getParentHeight(showAt) - ViewUtils.getNthParentHeight(this, 5) + activity.mTextView.mScrollView.getScrollY();
+				mLeftGripViewY += deltaY;
+				mRightGripViewY += deltaY;
 			}
 			if (this.mTextSelectLeftGrip != null) {
 				if (this.mTextSelectLeftGrip.isShowing()) {

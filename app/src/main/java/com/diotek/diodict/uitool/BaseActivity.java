@@ -51,6 +51,8 @@ import com.diotek.diodict.engine.DictUtils;
 import com.diotek.diodict.engine.EngineManager3rd;
 import com.diotek.diodict.engine.EngineNative3rd;
 import com.diotek.diodict.mean.ExtendTextView;
+import com.diotek.diodict.mean.FileLinkTagViewManager;
+import com.diotek.diodict.mean.HyperSimpleViewModule;
 import com.diotek.diodict.mean.MSG;
 import com.diotek.diodict.mean.SearchMeanController;
 import com.diotek.diodict.utils.CMN;
@@ -74,6 +76,9 @@ public abstract class BaseActivity extends Activity {
 	/** the main textView */
 	public ExtendTextView mTextView = null;
 	public DictEditText etSearch = null;
+	
+	public FileLinkTagViewManager mFileLinkTagViewManager = null;
+	public HyperSimpleViewModule mHyperSimpleViewModule = null;
 	
 	protected TextView mSearchDBNameTextView = null;
     private View mRunnableTTSBtn = null;
@@ -626,14 +631,21 @@ public abstract class BaseActivity extends Activity {
 	public String getTextTarget() {
 		CMN.debug("getTextTarget::", this);
 		try {
-			if (mTextView!=null && mTextView.gripShowing()) {
-				String text = mTextView.getSelectedString();
-				String word = mTextView.getKeyword();//mBaseMeanController.getWord();
-				if (!TextUtils.isEmpty(text)) {
-					text = text.replace("~", word);
-					lastSharedText = text;
-					return text;
-				}
+			ExtendTextView tv = null;
+			if (mFileLinkTagViewManager!=null && mFileLinkTagViewManager.isShowingLinkTextPopup()) {
+				tv = mFileLinkTagViewManager.mTextView;
+			}
+			else if (mHyperSimpleViewModule!=null && mHyperSimpleViewModule.isShowingHyperDialogPopup()) {
+				tv = mHyperSimpleViewModule.mTextView;
+			}
+			String ret;
+			if (tv!=null) {
+				ret = tv.gripShowing() ? tv.getTextSelection() : tv.getKeyword();
+			}
+			else ret = mTextView!=null && mTextView.gripShowing()?mTextView.getTextSelection():null;
+			if (!TextUtils.isEmpty(ret)) {
+				lastSharedText = ret;
+				return ret;
 			}
 			View foca = getCurrentFocus();
 			if (foca instanceof TextView && ((TextView) foca).hasSelection()) {

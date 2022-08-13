@@ -1,6 +1,7 @@
 package com.diotek.diodict.mean;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Handler;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -46,7 +47,7 @@ public class HyperSimpleViewModule {
     private EngineManager3rd mEngine;
     HyperSimpleViewModuleCallback mHyperSimpleViewCallback;
     ExtendTextView mMeanContentTextView;
-    ExtendTextView mTextView;
+    public ExtendTextView mTextView;
     View mStartParent;
     View mStartParentSub;
     private TTSManager mTTSManager;

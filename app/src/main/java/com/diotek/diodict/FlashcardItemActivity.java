@@ -134,8 +134,6 @@ public class FlashcardItemActivity extends ListMeanViewActivity {
     private int mFlashcardItemCopyResult = 0;
     private Handler mProgressHandler = null;
     private Thread mThread = null;
-    protected HyperSimpleViewModule mHyperSimpleViewModule = null;
-    private FileLinkTagViewManager mFileLinkTagViewManager = null;
     private int mLastWordPos = 0;
     private int mHeaderCount = 0;
     private boolean mIsFlashcardPopup = false;
