@@ -69,7 +69,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private int mActiveGrip;
     private ExtendTextCallback mConfigChangeCallback;
     private Context mContext;
-    private int mCurDbType;
+	/** 1302==eng 1303,3328==zh 1303==zh 3328=kor*/
+	private int mCurDbType;
     private String mCurKeyword;
     private int mCurSuid;
     private int mDisplayMode;
@@ -120,8 +121,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 	/** 0=paragraph 1=semi-paragraph 2=word */
 	public int mSelectRealmPreferLong = 2;
 	/** 0=paragraph 1=semi-paragraph 2=word */
-    private int mSelectRealm = mSelectRealmPrefer;
-	/** word break counter in a paragraph */
+	public int mSelectRealm = mSelectRealmPrefer;
+	/** sentence break counter in a paragraph */
 	private int breakCnt = 0;
 	
     private CharSequence mSelectedText;
@@ -1035,6 +1036,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 	// event nullable where null indicating longPress
     private boolean handleTouchWord(MotionEvent event, int action) {
 		if (action==MotionEvent.ACTION_UP && (!bIgnoreNextUp || event==null)) { // 放手了
+			TextArea sela = this.mSelectionArea;
 			removeCallbacks(longPressTextRun);
 			getLocationInTextView(location, lastX, lastY);
 			int fx = location[0];
@@ -1060,20 +1062,20 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				if (pos != null) {
 					saveMarkerObject();
 					clearSelection();
-					this.mSelectionArea.start = pos.start;
-					this.mSelectionArea.end = pos.end;
+					sela.start = pos.start;
+					sela.end = pos.end;
 					invalidate();
 					return super.onTouchEvent(event);
 				}
-				CMN.Log("startClick::", mSelectionArea.isTextSelected(), mSelectionArea.contains(off));
+				CMN.Log("startClick::", sela.isTextSelected(), sela.contains(off));
 				boolean reinitSel = true;
-				if (mSelectionArea.isTextSelected()) {
+				if (sela.isTextSelected()) {
 					// 如果已经选中
-					if (mSelectionArea.contains(off)) {
+					if (sela.contains(off)) {
 						// 如果点击选取内部，逐步较小选取范围
 						if (bAutoRealm && mSelectRealm + 1 <= 2) {
 							CMN.debug("缩小选区!", "breakCnt="+breakCnt);
-							if (mSelectRealm == 0 && breakCnt < 3) {
+							if (mSelectRealm == 0 && breakCnt < 1) {
 								mSelectRealm = 2; // 一步到位
 							} else {
 								mSelectRealm++;
@@ -1089,10 +1091,46 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 						reinitSel = false;
 					}
 				}
-				if (reinitSel) selectWordAt(off);
+				if (reinitSel) {
+					selectWordAt(off);
+					if (mSelectRealm == 0 && bAutoRealm && sela.isTextSelected()) {
+						CharSequence text = super.getText();
+						CMN.debug("reinitSel::", text.charAt(sela.start), text.charAt(sela.end-1));
+						CMN.debug("reinitSel::", (int)text.charAt(sela.start), (int)text.charAt(sela.end-1));
+						char ch;
+						for (int i = sela.start; i < sela.end; i++) {
+							ch = text.charAt(i);
+							if (isMiscChar(ch)) {
+								sela.start++;
+							}
+							else
+							if (isSentenceSeperator(ch)) {
+								breakCnt--;
+								sela.start++;
+							} else {
+								break;
+							}
+						}
+						for (int i = sela.end - 1; i >= sela.start; i--) {
+							ch = text.charAt(i);
+							if (isMiscChar(ch)) {
+								sela.end--;
+							}
+							else
+							if (isSentenceSeperator(ch)) {
+								breakCnt--;
+								if (isQuestionMark(ch))
+									break;
+								sela.end--;
+							} else {
+								break;
+							}
+						}
+					}
+				}
 				// end startClick
-				if (mSelectionArea.isTextSelected()) {
-					getTextSelectGripPosition(this.mSelectionArea.start, this.mSelectionArea.end, this.mLeftGripPosition, this.mRightGripPosition);
+				if (sela.isTextSelected()) {
+					getTextSelectGripPosition(sela.start, sela.end, this.mLeftGripPosition, this.mRightGripPosition);
 					try {
 						showTextSelectGrip(this.mLeftGripPosition, this.mRightGripPosition);
 						showMenu();
@@ -1102,10 +1140,10 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 					}
 				}
 			} else {
-				this.mSelectionArea.init();
+				sela.init();
 				mSelectRealm = mSelectRealmPrefer;
 			}
-			if (!this.mSelectionArea.isTextSelected()) {
+			if (!sela.isTextSelected()) {
 				clearSelection();
 				invalidate();
 			}
@@ -1141,6 +1179,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 	 * ( def behaviour : when expanded, use single tap to select paragraph -> then sentence -> then word. longPress to select word. )
 * 				when collapsed, use longPress to select paragraph. then tap in the selection area to shrink it ) */
     private void selectWordAt(int off) {
+		breakCnt = 0;
         if (this.mSelectionArea == null) {
             this.mSelectionArea = new TextArea();
         }
@@ -1155,30 +1194,29 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             this.mSelectionArea.init();
         }
 		else {
-            int charBlock = CodeBlock.getCodeBlock(charAt), newBlock;
+            int charBlock = getCodeBlock(charAt), newBlock;
 			// CMN.Log("charBlock::", charBlock);
 			boolean isNewBlock; // reeached text of new language
 			char c;
-			breakCnt = 0;
 			// 左
             for (int i = off; i >= 0; i--) {
 				c = text.charAt(i);
-				 CMN.Log("charBlock::", c, CodeBlock.getCodeBlock(c));
+				 CMN.Log("charBlock::", c, getCodeBlock(c));
 				if (charBlock==0) {
-					newBlock = CodeBlock.getCodeBlock(c);
+					newBlock = getCodeBlock(c);
 					if (newBlock!=0) {
 						charBlock = newBlock;
 						charAt = c;
 					}
 					isNewBlock = false;
-				} else if((selWord || c!=' ') && (newBlock=CodeBlock.getCodeBlock(c))!=0){
+				} else if((selWord || c!=' ') && (newBlock=getCodeBlock(c))!=0){
 					isNewBlock =  newBlock != charBlock;
 				} else {
 					isNewBlock = false;
 				}
 				// isNewBlock 计算完毕
                 if (isNewBlock || isWordBreak(c)) { // 截止
-					breakCnt++;
+					//breakCnt++;
 					if (charAt!=' ' || !selWord) { // 选词时击中词后的空格也算
 						this.mSelectionArea.start = i + 1;
 						break;
@@ -1192,13 +1230,13 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
             for (int i = off; i < text.length(); i++) {
 				c = text.charAt(i);
 				if (charBlock==0) {
-					breakCnt++;
-					newBlock = CodeBlock.getCodeBlock(c);
+					//breakCnt++;
+					newBlock = getCodeBlock(c);
 					if (newBlock!=0) {
 						charBlock = newBlock;
 					}
 					isNewBlock = false;
-				} else if((selWord || c!=' ') && (newBlock=CodeBlock.getCodeBlock(c))!=0){
+				} else if((selWord || c!=' ') && (newBlock=getCodeBlock(c))!=0){
 					isNewBlock =  newBlock != charBlock;
 				} else {
 					isNewBlock = false;
@@ -1215,9 +1253,40 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         }
     }
 	
-    private boolean isSentenceSeperator(char charAt) {
+	private int getCodeBlock(char charAt) {
+		if (charAt=='~') {
+			if (mCurDbType==1302) {
+				return 2;
+			}
+			if (mCurDbType==3328) {
+				return 3;
+			}
+			return 1;
+		}
+		return CodeBlock.getCodeBlock(charAt);
+	}
+	
+	private boolean isSentenceSeperator(char charAt) {
 		return charAt==',' || charAt=='，' || charAt==';' || charAt=='；' || charAt=='.' || charAt=='。'
 				|| charAt=='！' || charAt=='!' || charAt=='？' || charAt=='?';
+	}
+	
+    private boolean isQuestionMark(char charAt) {
+		return charAt=='？' || charAt=='?';
+	}
+	
+    private boolean isMiscChar(char charAt) {
+		return charAt=='(' || charAt==')'
+//				|| charAt=='\r' || charAt=='\n'
+				|| charAt=='◇' || charAt==' '
+				|| charAt=='（' || charAt=='）'
+				|| charAt==':'
+				|| charAt=='[' || charAt==']'
+//				|| charAt=='<' || charAt=='>'
+//				|| charAt=='(' || charAt==')'
+//				|| charAt=='[' || charAt==']'
+//				|| charAt=='{' || charAt=='}'
+				;
 	}
 	
     private boolean isWordBreak(char charAt) {
@@ -1230,6 +1299,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 		}
 		if(mSelectRealm==0) { // 选中整个同语言的段落
 			if(isSentenceSeperator(charAt)) {
+				CMN.debug("isSentenceSeperator::", charAt);
 				breakCnt++;
 				return false;
 			}

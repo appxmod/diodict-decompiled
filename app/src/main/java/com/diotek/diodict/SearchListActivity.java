@@ -1932,6 +1932,7 @@ public class SearchListActivity extends ListMeanViewActivity {
                 return true;
             } else if (this.mTextView.gripShowing()) {
                 initSelection();
+				this.mTextView.mSelectRealm = this.mTextView.mSelectRealmPrefer;
                 return true;
             } else if (this.mHyperSimpleViewModule != null && this.mHyperSimpleViewModule.isShowingHyperDialogPopup()) {
                 this.mHyperSimpleViewModule.closeHyperTextSummaryPopup(false);
