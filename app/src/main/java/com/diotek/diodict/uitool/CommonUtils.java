@@ -89,6 +89,19 @@ public class CommonUtils {
     }
 
     public static void startWebSearch(Context ctx, String word, int type) {
+		if(true) {
+			try {
+				Intent share = new Intent(Intent.ACTION_SEND);
+				share.setClassName("com.knziha.plod.plaindict", "com.knziha.plod.plaindict.MultiShareActivity");
+				share.putExtra(Intent.EXTRA_TEXT, word);
+				ctx.startActivity(share);
+				return;
+			} catch (Exception ignored) { 	}
+		}
+		startWebSearch_real(ctx, word, type);
+	}
+	
+    public static void startWebSearch_real(Context ctx, String word, int type) {
         String url;
         if (type == 0) {
             url = Dependency.getLocale().getGoogleAddress();
