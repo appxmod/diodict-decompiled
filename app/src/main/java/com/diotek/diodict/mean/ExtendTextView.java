@@ -1059,7 +1059,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 			if (lastY > ty) {
 				off = -1;
 			}
-			CMN.Log("handleTouchWord::off=", off);
+			CMN.debug("handleTouchWord::off=", off);
 			if (off != -1) {
 				TagConverter.DictPos pos = this.mTagConverterCallback.isLinkOffset(off);
 				if (pos != null) {
@@ -2015,12 +2015,15 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         int mLeftGripViewY = left[1];
         int mRightGripViewX = right[0];
         int mRightGripViewY = right[1];
-		View showAt = bShowGripsFromPop ?activity==null?null:activity.mTextView:this;
+		View showAt = bShowGripsFromPop ?
+				activity==null?null:activity.mTextView==null?null:activity.mTextView.mScrollView
+				:this;
 		if(showAt!=null) {
 			deltaY = 0;
 			if (bShowGripsFromPop) {
 				showAt.getLocationInWindow(location);
-				deltaY = location[1]+ViewUtils.getParentHeight(showAt) - ViewUtils.getNthParentHeight(this, 5) + activity.mTextView.mScrollView.getScrollY();
+				deltaY = location[1] + ViewUtils.getNthParentHeight(showAt, 1) - ViewUtils.getNthParentHeight(this, 5)
+					+ showAt.getPaddingTop()*2;
 				mLeftGripViewY += deltaY;
 				mRightGripViewY += deltaY;
 			}
@@ -2043,6 +2046,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				}
 			}
 		}
+		// CMN.debug("deltaY::", bShowGripsFromPop, deltaY);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
