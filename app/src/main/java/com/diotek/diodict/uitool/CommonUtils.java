@@ -174,7 +174,7 @@ public class CommonUtils {
                     break;
                 } else if (DictDBManager.getCpKORDictionary(dbType)) {
                     MSG.l("SetTTSVoiceLanguage : CP_KOR");
-                    Language = EngineInfo3rd.TTS_KOREAN;
+                    Language = EngineInfo3rd.TTS_CHINESE;
                     break;
                 } else if (DictDBManager.getCpCHNDictionary(dbType)) {
                     MSG.l("SetTTSVoiceLanguage : CP_CHN");
@@ -188,7 +188,7 @@ public class CommonUtils {
                         break;
                     } else if (DictDBManager.getCpKORDictionary(pairDbType)) {
                         MSG.l("SetTTSVoiceLanguage : CP_KOR");
-                        Language = EngineInfo3rd.TTS_KOREAN;
+                        Language = EngineInfo3rd.TTS_CHINESE;
                         break;
                     } else if (DictDBManager.getCpCHNDictionary(pairDbType)) {
                         MSG.l("SetTTSVoiceLanguage : CP_CHN");
