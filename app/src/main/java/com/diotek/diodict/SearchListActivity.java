@@ -198,6 +198,8 @@ public class SearchListActivity extends ListMeanViewActivity {
     private CandidateBox mCandiBox = null;
     private ArrayList<Integer> mTotalSearchPosition = new ArrayList<>();
     protected boolean mEnableChangeDict = true;
+	private HeightProvider heightProvider;
+	
     private boolean isWantFinnish = false;
     private Runnable mFinishFlagInitialize = new Runnable() { // from class: com.diotek.diodict.SearchListActivity.2
         @Override // java.lang.Runnable
@@ -859,8 +861,8 @@ public class SearchListActivity extends ListMeanViewActivity {
             return false;
         }
     };
-
-    @Override // android.app.Activity
+	
+	@Override // android.app.Activity
     protected void onCreate(Bundle savedInstanceState) {
         CommonUtils.setKeypadNoExtractUI(this);
         if (Build.VERSION.SDK_INT < 11) {
@@ -920,7 +922,8 @@ public class SearchListActivity extends ListMeanViewActivity {
 			mHandler.postDelayed(findWndRun, 200);
 		}
 	
-		new HeightProvider(this).init().setHeightListener(new HeightProvider.HeightListener() {
+		heightProvider = new HeightProvider(this);
+		heightProvider.init().setHeightListener(new HeightProvider.HeightListener() {
 			@Override
 			public void onHeightChanged(int height) {
 				//showT(""+height+settingsPanel);
@@ -1159,6 +1162,9 @@ public class SearchListActivity extends ListMeanViewActivity {
         destroyData(false);
         destroyImage(false);
         destroyChangeDictPopupImage(false);
+		if (heightProvider!=null) {
+			heightProvider.dismiss();
+		}
         super.onDestroy();
     }
 
