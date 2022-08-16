@@ -1,5 +1,6 @@
 package com.diotek.diodict.uitool;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
+
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.engine.DictDBManager;
 import com.diotek.diodict.engine.DictInfo;
@@ -96,32 +99,38 @@ public class CommonUtils {
 				share.putExtra(Intent.EXTRA_TEXT, word);
 				ctx.startActivity(share);
 				return;
-			} catch (Exception ignored) { 	}
+			} catch (Exception e) {
+				Toast.makeText(ctx, "未安装平典搜索，直接调用浏览器中…\r\n安装PlainDict以解锁更多交互方式！", Toast.LENGTH_SHORT).show();
+			}
 		}
 		startWebSearch_real(ctx, word, type);
 	}
 	
     public static void startWebSearch_real(Context ctx, String word, int type) {
-        String url;
-        if (type == 0) {
-            url = Dependency.getLocale().getGoogleAddress();
-        } else {
-            url = Dependency.getLocale().getWikipediaAddress();
-        }
-        try {
-            url = url + URLEncoder.encode(word, "UTF-8");
-        } catch (UnsupportedEncodingException e1) {
-            e1.printStackTrace();
-        }
-        if (type == 0) {
-            url = url + "&aq=f&aqi=&aql=&oq=";
-        }
-        Intent i = new Intent();
-        i.setComponent(null);
-        i.setAction("android.intent.action.VIEW");
-        i.addCategory("android.intent.category.BROWSABLE");
-        i.setData(Uri.parse(url));
-        ctx.startActivity(i);
+//        String url;
+//        if (type == 0) {
+//            url = Dependency.getLocale().getGoogleAddress();
+//        } else {
+//            url = Dependency.getLocale().getWikipediaAddress();
+//        }
+//        try {
+//            url = url + URLEncoder.encode(word, "UTF-8");
+//        } catch (UnsupportedEncodingException e1) {
+//            e1.printStackTrace();
+//        }
+//        if (type == 0) {
+//            url = url + "&aq=f&aqi=&aql=&oq=";
+//        }
+//        Intent i = new Intent();
+//        i.setComponent(null);
+//        i.setAction("android.intent.action.VIEW");
+//        i.setAction(Intent.ACTION_SEARCH);
+//        i.addCategory("android.intent.category.BROWSABLE");
+//        i.setData(Uri.parse(url));
+//        ctx.startActivity(i);
+		Intent intent=new Intent(Intent.ACTION_WEB_SEARCH);
+		intent.putExtra(SearchManager.QUERY, word);
+		ctx.startActivity(intent);
     }
 
     public static void playTTS(int isUsUk, String keyword, String word, int dbType, int count) {
