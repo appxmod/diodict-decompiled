@@ -11,6 +11,7 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.widget.Toast;
 import com.diotek.diodict.database.DioDictDatabase;
+import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.dtestui.HeightProvider;
 import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.engine.DictUtils;
@@ -36,6 +37,8 @@ public class InitActivity extends BaseActivity {
 
     @Override // android.app.Activity
     protected void onCreate(Bundle savedInstanceState) {
+		Dependency.Init(InitActivity.this);
+		Dependency.getVendor().startInit(InitActivity.this);
         if (Build.VERSION.SDK_INT < 11) {
             requestWindowFeature(1);
         }
@@ -115,11 +118,11 @@ public class InitActivity extends BaseActivity {
                     int initRes = InitActivity.this.mEngine.initDicEngineWithResult(dictype, word, suid);
                     InitActivity.this.mEngine.getClass();
                     if (initRes == 0) {
-                        try {
-                            Thread.sleep(250L);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            Thread.sleep(250L);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
                         InitActivity.this.introHandler.sendEmptyMessage(0);
                         InitActivity.this.getIntent().putExtra(DictInfo.INTENT_STARTSTATE, DictInfo.INTENT_ALREADYSTART2ND);
                         return;
@@ -130,19 +133,10 @@ public class InitActivity extends BaseActivity {
                     msg.arg1 = initRes;
                     InitActivity.this.introHandler.sendMessage(msg);
                     InitActivity.this.finish();
+					System.exit(0);
                 }
             }
         }).start();
-    }
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-    public void onDestroy() {
-        super.onDestroy();
-        if (EngineNative3rd.getLastErr() != 0) {
-            System.runFinalizersOnExit(true);
-            System.exit(0);
-        }
     }
 
     protected void startSelectActivity() {

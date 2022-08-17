@@ -170,22 +170,22 @@ public class TTSEngine {
     public static int DestroyTTS() {
         if (mInitialState == 3 && prompter != null) {
             try {
-                if (prompter != null) {
-                    prompter.setEventAdapter(null);
-                    promptereventadapter = null;
-                    prompterMgr.destroyPrompterInstance(prompter);
-                    prompter = null;
-                }
-                if (prompterMgr != null) {
-                    PrompterManager.destroyInstance();
-                    prompterMgr = null;
-                    mInitialState = 2;
-                }
+//                if (prompter != null) {
+//					prompter.setEventAdapter(null);
+//                    promptereventadapter = null;
+//                    prompterMgr.destroyPrompterInstance(prompter);
+//                    prompter = null;
+//                }
+//                if (prompterMgr != null) {
+//                    PrompterManager.destroyInstance();
+//                    prompterMgr = null;
+//                    mInitialState = 2;
+//                }
                 keywordString = null;
                 mPlayString = null;
                 languageCode = null;
                 return 0;
-            } catch (ResultCode e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 MSG.l(2, "Fail : DestroyTTS() destroyPrompterInstance : " + e);
                 return 3;

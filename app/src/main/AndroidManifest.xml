@@ -8,10 +8,6 @@
 			android:name="com.diotek.diodict3.phone.DioAuthActivity"
 			android:screenOrientation="user"
 			android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode|locale|layoutDirection">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
         </activity>
         <activity
 			android:name="com.diotek.diodict.InitActivity"
@@ -19,6 +15,10 @@
 			android:screenOrientation="user"
 			android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode|locale|layoutDirection"
 			>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
 		</activity>
         <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.SearchListActivity" android:screenOrientation="user" android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode|locale|layoutDirection" android:windowSoftInputMode="adjustPan"/>
         <activity android:theme="@style/TitleTheme" android:name="com.diotek.diodict.FlashcardActivity" android:screenOrientation="user" android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode|locale|layoutDirection"/>

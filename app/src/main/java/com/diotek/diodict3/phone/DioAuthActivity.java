@@ -17,11 +17,11 @@ import com.diotek.diodict.engine.DictInfo;
 import com.diotek.diodict.network.NetworkEngine;
 import com.diotek.diodict.uitool.BaseActivity;
 import com.diodict.decompiled.R;
+import com.diotek.diodict.utils.CMN;
 import com.samsung.zirconia.Zirconia;
 
 /* loaded from: classes.dex */
 public class DioAuthActivity extends BaseActivity {
-    private Handler mHandler = new Handler();
     private Context mContext = null;
 
     @Override // android.app.Activity
@@ -30,7 +30,7 @@ public class DioAuthActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT < 11) {
             requestWindowFeature(1);
         }
-        prepareBroadcast();
+       // prepareBroadcast();
         Intent intent = getIntent().getExtras() != null ? getIntent() : new Intent();
         Bundle bundle = intent.getExtras();
         if (bundle == null || bundle.getInt(DictInfo.INTENT_STARTSTATE) != DictInfo.INTENT_NEWSTART) {
@@ -38,32 +38,23 @@ public class DioAuthActivity extends BaseActivity {
         }
     }
 
-    @Override // android.app.Activity
-    protected Dialog onCreateDialog(int id) {
-        return DioDictCheckDBModule.onCreateDialog(this, id);
-    }
+//    @Override // android.app.Activity
+//    protected Dialog onCreateDialog(int id) {
+//		CMN.Log("onCreateDialog!");
+//        return DioDictCheckDBModule.onCreateDialog(this, id);
+//    }
 
     @Override // android.app.Activity
     protected void onStart() {
         super.onStart();
 		this.mContext = this;
 		Dependency.Init(this);
-		startInitActivity();
+		Dependency.getVendor().startInit(this.mContext);
     }
 
-    @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity, android.content.ComponentCallbacks
-    public void onConfigurationChanged(Configuration newConfig) {
-        setContentView(R.layout.intro_layout);
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-	public void onDestroy() {
-        super.onDestroy();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public void startInitActivity() {
-        Dependency.getVendor().startInit(this.mContext);
-    }
+//    @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity, android.content.ComponentCallbacks
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        setContentView(R.layout.intro_layout);
+//        super.onConfigurationChanged(newConfig);
+//    }
 }
