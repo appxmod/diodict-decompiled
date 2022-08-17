@@ -1,5 +1,6 @@
 package com.diotek.diodict.uitool;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -28,10 +29,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
+
+import androidx.annotation.RequiresApi;
+
 import com.diotek.diodict.Activitymanager;
 import com.diotek.diodict.FlashcardActivity;
 import com.diotek.diodict.HelpActivity;
@@ -62,7 +68,7 @@ import com.diotek.diodict.utils.GlobalOptions;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-/* loaded from: classes.dex */
+@SuppressLint("WrongConstant")
 public abstract class BaseActivity extends Activity {
     protected static int FINISH_ACTIVITY = -5;
     public static final int NOT_SUPPORT_MENU_ACTIVITY = 1001;
@@ -277,8 +283,12 @@ public abstract class BaseActivity extends Activity {
         }
         return super.onCreateOptionsMenu(menu);
     }
-
-    @Override // android.app.Activity, android.view.Window.Callback
+	
+	protected void runBackBtn() {
+		onBackPressed();
+	}
+	
+	@Override // android.app.Activity, android.view.Window.Callback
     public boolean onMenuOpened(int featureId, Menu menu) {
         if (this.mbConfigChange) {
             this.mbConfigChange = false;
@@ -364,16 +374,40 @@ public abstract class BaseActivity extends Activity {
     protected void setCustomTitle() {
         getWindow().setFeatureInt(7, R.layout.app_title_layout);
     }
-
-    protected void setTitleActionBar() {
+	
+	@RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+	protected void setTitleActionBar() {
         View mCustomView = getLayoutInflater().inflate(R.layout.app_title_layout, (ViewGroup) null);
         ActionBar bar = getActionBar();
         if (bar != null) {
             bar.setCustomView(mCustomView, new ActionBar.LayoutParams(-1, -1));
             bar.setBackgroundDrawable(mResources.getDrawable(R.color.CustomWindowTitleBackground));
-            bar.setHomeButtonEnabled(false);
+            // bar.setHomeButtonEnabled(false);
             int change = bar.getDisplayOptions() ^ 16;
             bar.setDisplayOptions(change, 16);
+            bar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.DISPLAY_HOME_AS_UP);
+			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+				try {
+					Toolbar toolbar = (Toolbar) ViewUtils.getViewItemByClass(ViewUtils.getNthParentNullable(bar.getCustomView(), 1), 0, Toolbar.class);
+					// 我真的不是反射狂魔
+					ViewUtils.execSimple("$.mContentInsets.setRelative[int,int](0, 0)", null, toolbar);
+					ImageButton navBtn = (ImageButton) ViewUtils.getViewItemByClass(toolbar, 0, Toolbar.class, ImageButton.class);
+					if (navBtn!=null) {
+						ImageButton newBtn = new ImageButton(this);
+						newBtn.setLayoutParams(navBtn.getLayoutParams());
+						newBtn.setImageDrawable(navBtn.getDrawable());
+						newBtn.setBackground(navBtn.getBackground());
+						newBtn.setAlpha(0.85f);
+						newBtn.setOnClickListener(v -> runBackBtn());
+						ViewGroup vp = (ViewGroup) toolbar.findViewById(R.id.title_text).getParent();
+						vp.setPadding((int) GlobalOptions.density, 0, 0, 0);
+						ViewUtils.addViewToParent(newBtn, vp, 0);
+						bar.setDisplayHomeAsUpEnabled(false);
+					}
+				} catch (Exception e) {
+					CMN.debug(e);
+				}
+			}
         }
     }
 

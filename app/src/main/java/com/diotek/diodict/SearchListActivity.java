@@ -56,6 +56,7 @@ import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 import android.widget.ViewFlipper;
 import com.diotek.diodict.anim.LayoutTransition;
 import com.diotek.diodict.database.DioDictDatabase;
@@ -1471,6 +1472,9 @@ public class SearchListActivity extends ListMeanViewActivity {
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+			case android.R.id.home:
+				runBackBtn();
+                return true;
             case R.id.menu_flashcard /* 2131100207 */:
                 runFlashCardBtn(false);
                 return true;
@@ -3663,4 +3667,8 @@ public class SearchListActivity extends ListMeanViewActivity {
         regularMarkMap.put("ﾜﾞ", "ヷ");
         regularMarkMap.put("ｦﾞ", "ヺ");
     }
+	
+	protected void runBackBtn() {
+		moveTaskToBack(true);
+	}
 }

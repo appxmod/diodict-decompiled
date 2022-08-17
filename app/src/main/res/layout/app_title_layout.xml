@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center_vertical" android:id="@+id/title_layout" android:layout_width="match_parent" android:layout_height="match_parent">
-    <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="match_parent">
-        <TextView android:textSize="@dimen/app_title_textSize" android:typeface="sans" android:textStyle="bold" android:textColor="#ffe6d28c" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@+id/title_text" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_marginLeft="@dimen/app_title_marginLeft" android:layout_marginTop="@dimen/app_title_marginTop" android:layout_weight="1" android:layout_alignParentLeft="true"/>
-        <ImageView android:layout_gravity="center" android:id="@+id/ImageView01" android:layout_width="wrap_content" android:layout_height="match_parent" android:src="@drawable/dictname_img" android:scaleType="fitCenter" android:layout_alignParentRight="true"/>
-    </LinearLayout>
-    <com.diotek.diodict.uitool.FontFitTextView android:textSize="@dimen/app_title_textSize" android:textStyle="bold" android:textColor="#ffff0000" android:gravity="center" android:id="@+id/authTestText" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_marginRight="7dp" android:text="Trial Version\10Timelimit " android:layout_alignLeft="@+id/ImageView01" android:layout_alignParentRight="true"/>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:gravity="center_vertical"
+	android:id="@+id/title_layout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:clipChildren="false"
+	android:clipToPadding="false"
+	tools:layout_height="100dp"
+	tools:background="#00f"
+	>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="horizontal"
+		android:gravity="center_vertical"
+		>
+		<TextView android:textSize="@dimen/app_title_textSize"
+			android:typeface="sans"
+			android:textStyle="bold"
+			android:textColor="#ffe6d28c"
+			android:gravity="center_vertical"
+			android:layout_gravity="center_vertical"
+			android:id="@+id/title_text"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginTop="@dimen/app_title_marginTop"
+			android:layout_weight="1"
+			android:layout_alignParentLeft="true"
+			android:maxLines="1"
+			tools:text="馒头词典"
+			/>
+	</LinearLayout>
+	<ImageView
+		android:layout_gravity="center"
+		android:id="@+id/ImageView01"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:src="@drawable/dictname_img"
+		android:scaleType="fitCenter"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="-22dp"
+		android:layout_marginTop="5.5dp"
+		/>
+	<com.diotek.diodict.uitool.FontFitTextView android:textSize="@dimen/app_title_textSize" android:textStyle="bold" android:textColor="#ffff0000" android:gravity="center" android:id="@+id/authTestText" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_marginRight="7dp" android:text="Trial Version\10Timelimit " android:layout_alignLeft="@+id/ImageView01" android:layout_alignParentRight="true"/>
 </RelativeLayout>
