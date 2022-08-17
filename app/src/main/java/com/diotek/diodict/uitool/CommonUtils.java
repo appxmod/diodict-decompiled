@@ -94,13 +94,14 @@ public class CommonUtils {
     public static void startWebSearch(Context ctx, String word, int type) {
 		if(true) {
 			try {
-				Intent share = new Intent(Intent.ACTION_SEND);
-				share.setClassName("com.knziha.plod.plaindict", "com.knziha.plod.plaindict.MultiShareActivity");
-				share.putExtra(Intent.EXTRA_TEXT, word);
-				ctx.startActivity(share);
+				ctx.startActivity(new Intent(Intent.ACTION_SEND)
+						//.setClassName("com.knziha.plod.plaindict", "com.knziha.plod.plaindict.MultiShareActivity")
+						.setPackage("com.knziha.plod.plaindict")
+						.setType("text/plain")
+						.putExtra(Intent.EXTRA_TEXT, word));
 				return;
 			} catch (Exception e) {
-				Toast.makeText(ctx, "未安装平典搜索，直接调用浏览器中…\r\n安装PlainDict以解锁更多交互方式！", Toast.LENGTH_SHORT).show();
+				Toast.makeText(ctx, "未安装平典搜索，直接调用浏览器中…\r\n安装PlainDict以解锁更多交互方式！", Toast.LENGTH_LONG).show();
 			}
 		}
 		startWebSearch_real(ctx, word, type);
