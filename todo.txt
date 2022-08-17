@@ -1,3 +1,16 @@
-适配PlainDict悬浮按钮，选中文本后无需复制即可搜索
+prepare tts text ： / = or
 
-让《馒头词典》中的中文内容也支持普通话/粤语两种发音
+长按链接
+
+优化 fling，加速动画
+
+use onbackpressed instead of onkeyup
+
+realm异常：长按 词典 消失 再点
+
+
+词条a 超链接中 do 弹窗解析异常
+
+加载对话框放底部
+
+切换词典不清空搜索词
