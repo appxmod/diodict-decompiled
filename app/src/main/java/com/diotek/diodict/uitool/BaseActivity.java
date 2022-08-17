@@ -72,6 +72,8 @@ public abstract class BaseActivity extends Activity {
     public static final int RESET_ALL_ACTIVITY = 1001;
 	public List<View> wViews;
 	
+	protected final WeakReference<BaseActivity> thisRef = new WeakReference<>(this);
+	
 	public Resources mResources;
 	/** the main textView */
 	public ExtendTextView mTextView = null;
@@ -184,8 +186,6 @@ public abstract class BaseActivity extends Activity {
             BaseActivity.this.onTerminateTTS();
         }
     };
-
-    final WeakReference<BaseActivity> thisRef = new WeakReference<>(this);
 	
     public boolean onCreateActivity(Bundle savedInstanceState) {
 		if (GlobalOptions.density==0) {
@@ -690,5 +690,11 @@ public abstract class BaseActivity extends Activity {
 	
 	public void setFocusableActivity(boolean b) {
 	
+	}
+	
+	public void moveTaskToFront() {
+		ActivityManager manager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+		if (manager != null)
+			manager.moveTaskToFront(getTaskId(), 0);
 	}
 }

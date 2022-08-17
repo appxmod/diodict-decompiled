@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
@@ -864,6 +865,7 @@ public class SearchListActivity extends ListMeanViewActivity {
 	
 	@Override // android.app.Activity
     protected void onCreate(Bundle savedInstanceState) {
+		MultiShareActivity.dict_activity = thisRef;
         CommonUtils.setKeypadNoExtractUI(this);
         if (Build.VERSION.SDK_INT < 11) {
             requestWindowFeature(7);
@@ -1145,16 +1147,35 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     private void initVariables() {
         this.mCurrentMenuId = R.id.menu_search;
-        Intent intent = getIntent();
-        if (intent != null && intent.getExtras() != null) {
-            this.mLastSearchWord = intent.getExtras().getString(DictInfo.INTENT_WORDINFO_KEYWORD);
-        }
+		processIntent(getIntent(), true);
         int dictype = DictUtils.getSearchLastDictFromPreference(this);
         if (dictype == -1) {
             int dictype2 = DictUtils.getLastDictFromPreference(this);
             DictUtils.setSearchLastDictToPreference(this, dictype2);
         }
     }
+	
+	public void processIntent(Intent intent, boolean initialize) {
+		if (intent != null && intent.getExtras() != null) {
+			String word = intent.getStringExtra(DictInfo.INTENT_WORDINFO_KEYWORD);
+			if (word==null) {
+				word = intent.getStringExtra(Intent.EXTRA_TEXT);
+			}
+			if (word==null) {
+				word = intent.getStringExtra("EXTRA_QUERY");
+			}
+			if (initialize) {
+				mLastSearchWord = word;
+			}
+			else if (!TextUtils.isEmpty(word)) {
+				mLastSearchWord = word;
+				etSearch.setText(word);
+			}
+		}
+		if (!initialize) {
+			moveTaskToFront();
+		}
+	}
 
     @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
 	public void onDestroy() {
@@ -2111,8 +2132,8 @@ public class SearchListActivity extends ListMeanViewActivity {
         dismissFlashcardCopyPopup(false);
 		toolbarWidgets.dismissFontSizePopup();
     }
-
-    /* JADX INFO: Access modifiers changed from: private */
+	
+	/* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public class GesturesProcessor implements GestureOverlayView.OnGestureListener {
         private GesturesProcessor() {
