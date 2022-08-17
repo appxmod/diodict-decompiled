@@ -10,10 +10,12 @@ import android.text.Editable;
 import android.text.Selection;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.diotek.diodict.Preference;
 import com.diotek.diodict.dependency.Dependency;
 import com.diotek.diodict.mean.CodeBlock;
 import com.diotek.diodict.mean.MSG;
-import com.diotek.diodict.uitool.CommonUtils;
+import com.diotek.diodict.uitool.BaseActivity;
 import com.diotek.diodict.utils.CMN;
 import com.diodict.decompiled.R;
 import java.io.File;
@@ -32,9 +34,9 @@ import java.util.regex.Pattern;
 /* loaded from: classes.dex */
 public class DictUtils {
     static final long DASH = 300;
-    private static final String DIODICT_FIRSTLOADING_INFO_PREF = "Variable";
+	private static final String SETTINGS = "settings";
+	
     private static final String DIODICT_FIRSTLOADING_INFO_PREF_VALUE = "IsFirstLoading";
-    private static final String DIODICT_SEARCH_INFO_PREF = "pref_search_info";
     private static final String DIODICT_SEARCH_INFO_PREF_CURSOR_SORT = "pref_searchinfo_cursor_sort";
     public static final int DIODICT_SEARCH_INFO_PREF_CURSOR_SORT_DEFAULT_VALUE = 3;
     private static final String DIODICT_SEARCH_INFO_PREF_CURSOR_WORD_POS = "pref_searchinfo_cursor_word_pos";
@@ -47,49 +49,30 @@ public class DictUtils {
     private static final String DIODICT_SEARCH_INFO_PREF_LAST_TYPE_VALUE = "pref_searchinfo_type";
     public static final String DIODICT_SEARCH_INFO_PREF_LAST_WORD_DEFAULT_VALUE = "";
     private static final String DIODICT_SEARCH_INFO_PREF_LAST_WORD_VALUE = "pref_searchinfo_word";
-    public static final String DIODICT_SETTING_PREF_CHINESE_INPUT = "PrefJapaneseInput";
-    public static final boolean DIODICT_SETTING_PREF_CHINESE_INPUT_DEFAULT_VALUE = false;
-    public static final String DIODICT_SETTING_PREF_CHINESE_INPUT_VALUE = "JapaneseInput";
-    public static final String DIODICT_SETTING_PREF_DATE_FORMAT = "PrefDataFormat";
+    
     public static final String DIODICT_SETTING_PREF_DATE_FORMAT_VALUE = "DataFormat";
     public static final int DIODICT_SETTING_PREF_DURATION_DATE_FORMAT_VALUE = 1;
     private static final int DIODICT_SETTING_PREF_DURATION_FLASHCARD_SORT_VALUE = 0;
-    public static final String DIODICT_SETTING_PREF_DURATION_TIME = "PrefDurationTime";
+    
     public static final int DIODICT_SETTING_PREF_DURATION_TIME_DEFAULT_VALUE = 3000;
     public static final boolean DIODICT_SETTING_PREF_DURATION_TIME_FORMAT_VALUE = false;
     public static final String DIODICT_SETTING_PREF_DURATION_TIME_VALUE = "DurationTime";
-    private static final String DIODICT_SETTING_PREF_FEEDBACK_MODE = "PrefFeedbackMode";
-    private static final int DIODICT_SETTING_PREF_FEEDBACK_MODE_DEFAULT_VALUE = 0;
-    private static final String DIODICT_SETTING_PREF_FEEDBACK_MODE_VALUE = "Feedback";
     private static final String DIODICT_SETTING_PREF_FLASHCARD_SORT = "pref_FlashcardSort";
-    public static final String DIODICT_SETTING_PREF_FONT_THEME = "PrefFontTheme";
-    public static final int DIODICT_SETTING_PREF_FONT_THEME_DEFAULT_VALUE = 0;
-    public static final String DIODICT_SETTING_PREF_FONT_THEME_VALUE = "FontTheme";
-    public static final String DIODICT_SETTING_PREF_GESTURE = "PrefGesture";
+    
     public static final boolean DIODICT_SETTING_PREF_GESTURE_DEFAULT_VALUE = false;
     public static final String DIODICT_SETTING_PREF_GESTURE_VALUE = "PrefGestureUsed";
     public static final String DIODICT_SETTING_PREF_JAPANESE_INPUT = "PrefJapaneseInput";
-    public static final boolean DIODICT_SETTING_PREF_JAPANESE_INPUT_DEFAULT_VALUE = false;
-    public static final String DIODICT_SETTING_PREF_JAPANESE_INPUT_VALUE = "JapaneseInput";
-    private static final String DIODICT_SETTING_PREF_LAST_DICT = "PrefLastDict";
-    private static final int DIODICT_SETTING_PREF_LAST_DICT_DEFAULT_VALUE = -1;
     private static final String DIODICT_SETTING_PREF_LAST_DICT_VALUE = "LastDict";
-    public static final String DIODICT_SETTING_PREF_MARKER_PEN_COLOR = "PrefMarkerPenColor";
-    public static final int DIODICT_SETTING_PREF_MARKER_PEN_COLOR_DEFAULT_VALUE = 0;
-    public static final String DIODICT_SETTING_PREF_MARKER_PEN_COLOR_VALUE = "MarkerColor";
-    public static final String DIODICT_SETTING_PREF_MEAN_FONT_SIZE = "PrefMeanFontSize";
-    public static final int DIODICT_SETTING_PREF_MEAN_FONT_SIZE_DEFAULT_VALUE_LDPI = 2;
-    public static final String DIODICT_SETTING_PREF_MEAN_FONT_SIZE_VALUE = "MeanFontSize";
-    public static final String DIODICT_SETTING_PREF_RECOG_TIME = "PrefRecognizeTime";
+    
     public static final int DIODICT_SETTING_PREF_RECOG_TIME_DEFAULT_VALUE = 300;
     public static final String DIODICT_SETTING_PREF_RECOG_TIME_VALUE = "RecognizeTime";
-    private static final String DIODICT_SETTING_PREF_REFRESH_VIEW = "PrefRefreshView";
+    
     private static final String DIODICT_SETTING_PREF_REFRESH_VIEW_VALUE = "RefreshViewState";
-    private static final String DIODICT_SETTING_PREF_START_DICT = "PrefStartDict";
+    
     private static final String DIODICT_SETTING_PREF_START_DICT_VALUE = "StartDict";
-    public static final String DIODICT_SETTING_PREF_TIME_FORMAT = "PrefTimeFormat";
+    
     public static final String DIODICT_SETTING_PREF_TIME_FORMAT_VALUE = "TimeFormat";
-    public static final String DIODICT_SETTING_PREF_UPDATE = "PrefUpdate";
+    
     public static final int DIODICT_SETTING_PREF_UPDATE_DEFAULT_VALUE = 3;
     public static final String DIODICT_SETTING_PREF_UPDATE_VALUE = "PrefUpdateUsed";
     static final long DOT = 100;
@@ -1127,307 +1110,143 @@ public class DictUtils {
         return cChar;
     }
 
-    public static void setJapaneseInputToPreference(Context ctx, boolean value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences("PrefJapaneseInput", 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putBoolean("JapaneseInput", value);
-        editor.commit();
-    }
-
-    public static boolean getJapaneseInputFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences("PrefJapaneseInput", 0);
-        boolean value = pefSetting.getBoolean("JapaneseInput", false);
-        return value;
-    }
-
-    public static void setChineseInputToPreference(Context ctx, boolean value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences("PrefJapaneseInput", 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putBoolean("JapaneseInput", value);
-        editor.commit();
-    }
-
-    public static boolean getChineseInputFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences("PrefJapaneseInput", 0);
-        boolean value = pefSetting.getBoolean("JapaneseInput", false);
-        return value;
-    }
-
-    public static void setFontThemeToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_FONT_THEME, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SETTING_PREF_FONT_THEME_VALUE, value);
-        editor.commit();
-    }
-
     public static int getFontThemeFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_FONT_THEME, 0);
-        int value = pefSetting.getInt(DIODICT_SETTING_PREF_FONT_THEME_VALUE, 0);
-        return value;
+        return Preference.fontTheme();
     }
 
     public static void setRecogTimeToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_RECOG_TIME, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SETTING_PREF_RECOG_TIME_VALUE, value);
-        editor.commit();
+		Preference.getInstance(ctx).putInt(DIODICT_SETTING_PREF_RECOG_TIME_VALUE, value);
     }
 
     public static int getRecogTimeFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_RECOG_TIME, 0);
-        int value = pefSetting.getInt(DIODICT_SETTING_PREF_RECOG_TIME_VALUE, DIODICT_SETTING_PREF_RECOG_TIME_DEFAULT_VALUE);
-        return value;
-    }
-
-    public static void setCheckUpdateIntervalToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_UPDATE, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SETTING_PREF_UPDATE_VALUE, value);
-        editor.commit();
-    }
-
-    public static int getCheckUpdateIntervalFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_UPDATE, 0);
-        int value = pefSetting.getInt(DIODICT_SETTING_PREF_UPDATE_VALUE, 3);
-        return value;
+        return Preference.getInstance(ctx).getInt(DIODICT_SETTING_PREF_RECOG_TIME_VALUE, DIODICT_SETTING_PREF_RECOG_TIME_DEFAULT_VALUE);
     }
 
     public static void setLastDictToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_LAST_DICT, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SETTING_PREF_LAST_DICT_VALUE, value);
-        editor.commit();
+		Preference.getInstance(ctx).putInt(DIODICT_SETTING_PREF_LAST_DICT_VALUE, value);
     }
 
     public static int getLastDictFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_LAST_DICT, 0);
-        int value = pefSetting.getInt(DIODICT_SETTING_PREF_LAST_DICT_VALUE, -1);
-        return value;
+        return Preference.getInstance(ctx).getInt(DIODICT_SETTING_PREF_LAST_DICT_VALUE, -1);
     }
 
     public static void setDictationFeedbackModeToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_FEEDBACK_MODE, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SETTING_PREF_FEEDBACK_MODE_VALUE, value);
-        editor.commit();
+        Preference.feedBackMode(value);
     }
 
     public static int getDictationFeedbackModeFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_FEEDBACK_MODE, 0);
-        int value = pefSetting.getInt(DIODICT_SETTING_PREF_FEEDBACK_MODE_VALUE, 0);
-        return value;
+		return Preference.feedBackMode();
     }
-
+	
     public static void setGestureRecognitionToPreference(Context ctx, boolean value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_GESTURE, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putBoolean(DIODICT_SETTING_PREF_GESTURE_VALUE, value);
-        editor.commit();
+		Preference.gestureRecog(value);
     }
 
     public static boolean getGestureRecognitionFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_GESTURE, 0);
-        boolean value = pefSetting.getBoolean(DIODICT_SETTING_PREF_GESTURE_VALUE, false);
-        return value;
+		return Preference.gestureRecog();
     }
 
-    public static String getStartDictFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_START_DICT, 0);
-        String value = pefSetting.getString(DIODICT_SETTING_PREF_START_DICT_VALUE, "");
-        return value;
-    }
+//    public static String getStartDictFromPreference(Context ctx) {
+//        return Preference.getInstance(ctx).getString(DIODICT_SETTING_PREF_START_DICT_VALUE, "");
+//    }
 
     public static void setRefreshViewStateToPreference(Context ctx, boolean value) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_REFRESH_VIEW, 0);
-        SharedPreferences.Editor editor = pefSetting.edit();
-        editor.putBoolean(DIODICT_SETTING_PREF_REFRESH_VIEW_VALUE, value);
-        editor.commit();
+		Preference.refreshViewState(value);
     }
 
     public static boolean getRefreshViewStateFromPreference(Context ctx) {
-        SharedPreferences prefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_REFRESH_VIEW, 0);
-        boolean value = prefSetting.getBoolean(DIODICT_SETTING_PREF_REFRESH_VIEW_VALUE, false);
-        return value;
+		return Preference.refreshViewState();
     }
 
     public static boolean checkSoundMode(Context ctx) {
-        AudioManager am = (AudioManager) ctx.getSystemService("audio");
+        AudioManager am = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
         if (Dependency.isContainTTS() && am.getStreamVolume(3) == 0) {
-            Toast.makeText(ctx, (int) R.string.not_playing_streamVolum_0, 0).show();
+            Toast.makeText(ctx, (int) R.string.not_playing_streamVolum_0, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
-
+	
     public static void setSearchLastDictToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SEARCH_INFO_PREF_LAST_DICT_VALUE, value);
-        editor.commit();
+		Preference.getInstance(ctx).putInt(DIODICT_SEARCH_INFO_PREF_LAST_DICT_VALUE, value);
     }
-
     public static int getSearchLastDictFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        int value = pefSetting.getInt(DIODICT_SEARCH_INFO_PREF_LAST_DICT_VALUE, -1);
-        return value;
+        return Preference.getInstance(ctx).getInt(DIODICT_SEARCH_INFO_PREF_LAST_DICT_VALUE, -1);
     }
 
     public static void setSearchLastTypeToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SEARCH_INFO_PREF_LAST_TYPE_VALUE, value);
-        editor.commit();
+		Preference.getInstance(ctx).putInt(DIODICT_SEARCH_INFO_PREF_LAST_TYPE_VALUE, value);
     }
-
     public static int getSearchLastTypeFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        int value = pefSetting.getInt(DIODICT_SEARCH_INFO_PREF_LAST_TYPE_VALUE, 1);
-        return value;
-    }
-
-    public static void setSearchLastPosToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SEARCH_INFO_PREF_LAST_POS_VALUE, value);
-        editor.commit();
-    }
-
-    public static int getSearchLastPosFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        int value = pefSetting.getInt(DIODICT_SEARCH_INFO_PREF_LAST_POS_VALUE, 0);
-        return value;
+        return Preference.getInstance(ctx).getInt(DIODICT_SEARCH_INFO_PREF_LAST_TYPE_VALUE, 1);
     }
 
     public static void setSearchLastWordToPreference(Context ctx, String value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putString(DIODICT_SEARCH_INFO_PREF_LAST_WORD_VALUE, value);
-        editor.commit();
+		Preference.getInstance(ctx).putString(DIODICT_SEARCH_INFO_PREF_LAST_WORD_VALUE, value);
     }
-
     public static String getSearchLastWordFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        String value = pefSetting.getString(DIODICT_SEARCH_INFO_PREF_LAST_WORD_VALUE, "");
-        return value;
+        return Preference.getInstance(ctx).getString(DIODICT_SEARCH_INFO_PREF_LAST_WORD_VALUE, "");
     }
-
     public static void setSearchLastSearchInfoToPreference(Context ctx, int dict, int type, String word, int pos) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SEARCH_INFO_PREF_LAST_DICT_VALUE, dict);
-        editor.putInt(DIODICT_SEARCH_INFO_PREF_LAST_TYPE_VALUE, type);
-        editor.putInt(DIODICT_SEARCH_INFO_PREF_LAST_POS_VALUE, pos);
-        editor.putString(DIODICT_SEARCH_INFO_PREF_LAST_WORD_VALUE, word);
-        editor.commit();
+		Preference pref = Preference.getInstance(ctx);
+        pref.putInt(DIODICT_SEARCH_INFO_PREF_LAST_DICT_VALUE, dict);
+        pref.putInt(DIODICT_SEARCH_INFO_PREF_LAST_TYPE_VALUE, type);
+        pref.putInt(DIODICT_SEARCH_INFO_PREF_LAST_POS_VALUE, pos);
+        pref.putString(DIODICT_SEARCH_INFO_PREF_LAST_WORD_VALUE, word);
     }
-
-    public static void initSearchLastSearchInfoToPreference(Context ctx) {
-        setSearchLastSearchInfoToPreference(ctx, -1, 1, "", 0);
-    }
+//    public static void initSearchLastSearchInfoToPreference(Context ctx) {
+//        setSearchLastSearchInfoToPreference(ctx, -1, 1, "", 0);
+//    }
 
     public static void setDurationTimeToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_DURATION_TIME, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SETTING_PREF_DURATION_TIME_VALUE, value);
-        editor.commit();
+		Preference.getInstance(ctx).putInt(DIODICT_SETTING_PREF_DURATION_TIME_VALUE, value);
     }
 
     public static int getDurationTimeFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_DURATION_TIME, 0);
-        int value = pefSetting.getInt(DIODICT_SETTING_PREF_DURATION_TIME_VALUE, DIODICT_SETTING_PREF_DURATION_TIME_DEFAULT_VALUE);
-        return value;
+        return Preference.getInstance(ctx).getInt(DIODICT_SETTING_PREF_DURATION_TIME_VALUE, DIODICT_SETTING_PREF_DURATION_TIME_DEFAULT_VALUE);
     }
 
     public static void setCradleDateFormatToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_DATE_FORMAT, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SETTING_PREF_DATE_FORMAT_VALUE, value);
-        editor.commit();
+		Preference.getInstance(ctx).putInt(DIODICT_SETTING_PREF_DATE_FORMAT_VALUE, value);
     }
 
     public static int getCradleDateFormatFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_DATE_FORMAT, 0);
-        int value = pefSetting.getInt(DIODICT_SETTING_PREF_DATE_FORMAT_VALUE, 1);
-        return value;
+        return Preference.getInstance(ctx).getInt(DIODICT_SETTING_PREF_DATE_FORMAT_VALUE, 1);
     }
 
-    public static void setCradleTimeFormatToPreference(Context ctx, boolean value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SETTING_PREF_TIME_FORMAT, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putBoolean(DIODICT_SETTING_PREF_TIME_FORMAT_VALUE, value);
-        editor.commit();
-    }
-
-    public static boolean getCradleTimeFormatFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SETTING_PREF_TIME_FORMAT, 0);
-        boolean value = pefSetting.getBoolean(DIODICT_SETTING_PREF_TIME_FORMAT_VALUE, false);
-        return value;
-    }
-
-    public static void setSearchCursorInfoSortToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SEARCH_INFO_PREF_CURSOR_SORT, value);
-        editor.commit();
-    }
-
+//    public static void setCradleTimeFormatToPreference(Context ctx, boolean value) {
+//		// Preference.cradleTimeFormat(value);
+//    }
+//
+//    public static boolean getCradleTimeFormatFromPreference(Context ctx) {
+//		// Preference.cradleTimeFormat(value);
+//    }
+	
     public static int getSearchCursorInfoSortFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        int value = pefSetting.getInt(DIODICT_SEARCH_INFO_PREF_CURSOR_SORT, 3);
-        return value;
+        return Preference.getInstance(ctx).getInt(DIODICT_SEARCH_INFO_PREF_CURSOR_SORT, 3);
     }
-
-    public static void setSearchCursorInfoWordPosToPreference(Context ctx, int value) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SEARCH_INFO_PREF_CURSOR_WORD_POS, value);
-        editor.commit();
-    }
-
     public static int getSearchCursorInfoWordPosFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        int value = pefSetting.getInt(DIODICT_SEARCH_INFO_PREF_CURSOR_WORD_POS, 0);
-        return value;
+        return Preference.getInstance(ctx).getInt(DIODICT_SEARCH_INFO_PREF_CURSOR_WORD_POS, 0);
     }
-
     public static void setSearchCursorInfoToPreference(Context ctx, int sort, int pos) {
-        SharedPreferences pefSetLanguage = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        SharedPreferences.Editor editor = pefSetLanguage.edit();
-        editor.putInt(DIODICT_SEARCH_INFO_PREF_CURSOR_SORT, sort);
-        editor.putInt(DIODICT_SEARCH_INFO_PREF_CURSOR_WORD_POS, pos);
-        editor.commit();
+		Preference pref = Preference.getInstance(ctx);
+		pref.putInt(DIODICT_SEARCH_INFO_PREF_CURSOR_SORT, sort);
+		pref.putInt(DIODICT_SEARCH_INFO_PREF_CURSOR_WORD_POS, pos);
     }
-
-    public static void initSearchCursorInfoToPreference(Context ctx) {
-        setSearchCursorInfoToPreference(ctx, 3, 0);
-    }
+//    public static void initSearchCursorInfoToPreference(Context ctx) {
+//        setSearchCursorInfoToPreference(ctx, 3, 0);
+//    }
 
     public static void setFlashcardSortToPreference(Context ctx, int value) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        SharedPreferences.Editor editor = pefSetting.edit();
-        editor.putInt(DIODICT_SETTING_PREF_FLASHCARD_SORT, value);
-        editor.commit();
+		Preference.getInstance(ctx).putInt(DIODICT_SETTING_PREF_FLASHCARD_SORT, value);
     }
 
     public static int getFlashcardSortFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_SEARCH_INFO_PREF, 0);
-        int value = pefSetting.getInt(DIODICT_SETTING_PREF_FLASHCARD_SORT, 0);
-        return value;
-    }
-
-    public static boolean isFirstLoadingFromPreference(Context ctx) {
-        SharedPreferences pefSetting = ctx.getSharedPreferences(DIODICT_FIRSTLOADING_INFO_PREF, 0);
-        if (!pefSetting.getString(DIODICT_FIRSTLOADING_INFO_PREF_VALUE, "yes").equals("no")) {
-            SharedPreferences.Editor editor = pefSetting.edit();
-            editor.putString(DIODICT_FIRSTLOADING_INFO_PREF_VALUE, "no");
-            editor.commit();
-            return true;
-        }
-        return false;
+        return Preference.getInstance(ctx).getInt(DIODICT_SETTING_PREF_FLASHCARD_SORT, 0);
     }
 
     public static void setVolume(Context context, int keyCode) {
-        AudioManager am = (AudioManager) context.getSystemService("audio");
+        AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         if (am != null) {
             am.adjustSuggestedStreamVolume(keyCode == 24 ? 1 : -1, TTSEngine.isPlaying() ? 3 : 2, 17);
         }

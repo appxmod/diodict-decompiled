@@ -201,7 +201,7 @@ public abstract class BaseActivity extends Activity {
     }
 
     protected boolean onCreateActivity(Bundle savedInstanceState, boolean bInitDBManager) {
-		preference = new Preference(this);
+		preference = Preference.getInstance(this);
 		toolbarWidgets = new MeanToolbarWidgets(this);
 		mResources = getResources();
         if (this.DEBUG) {
@@ -237,6 +237,9 @@ public abstract class BaseActivity extends Activity {
         overridePendingTransition(0, 0);
         onTerminateTTS();
         super.onPause();
+		if (preference != null) {
+			preference.check(false);
+		}
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

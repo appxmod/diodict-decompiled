@@ -184,7 +184,7 @@ public class SettingActivity extends BaseActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case 4:
-                DictUtils.setFontThemeToPreference(this, this.mThemeMode);
+                Preference.fontTheme(this.mThemeMode);
                 if (isVisiableView(this.mRecogTimeSeekBar) && this.mRecogTimeSeekBar.isFocused()) {
                     DictUtils.setRecogTimeToPreference(this, this.mRecogTime);
                 }

@@ -136,8 +136,8 @@ public class EngineManager3rd {
             if (!changeDictionary(nDicType, word, suid)) {
                 return 4;
             }
-            DictUtils.initSearchLastSearchInfoToPreference(this.mContext);
-            DictUtils.initSearchCursorInfoToPreference(this.mContext);
+            //DictUtils.initSearchLastSearchInfoToPreference(this.mContext);
+            //DictUtils.initSearchCursorInfoToPreference(this.mContext);
             DictInfo.mCurrentDBName = DictDBManager.getDictName(nDicType);
             if (Dependency.isContainTTS()) {
                 TTSEngine.InitTTS();

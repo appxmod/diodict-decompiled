@@ -676,7 +676,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         public boolean run(String str) {
             DictUtils.setSearchLastDictToPreference(SearchListActivity.this, SearchListActivity.this.mEngine.getCurDict());
             DictUtils.setSearchLastTypeToPreference(SearchListActivity.this, SearchListActivity.this.mEngine.getCurrentSearchMethodId());
-            SearchListActivity.this.handleSaveMarkerObject();
+            SearchListActivity.this.handleSaveMarkerObject(false);
             return SearchListActivity.this.mHyperSimpleViewModule.startHyperSimple(str);
         }
 
@@ -942,7 +942,7 @@ public class SearchListActivity extends ListMeanViewActivity {
 	public void onPause() {
         this.mHandler.removeCallbacks(this.mUpdateMeanView);
         this.mHandler.removeCallbacks(this.mSearchWordRunnable);
-        handleSaveMarkerObject();
+        handleSaveMarkerObject(false);
 //		this.mFileLinkTagViewManager.onPause();
 //        this.mHyperSimpleViewModule.onPause();
         super.onPause();
@@ -950,7 +950,7 @@ public class SearchListActivity extends ListMeanViewActivity {
 	
 	@Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity, android.content.ComponentCallbacks
     public void onConfigurationChanged(Configuration newConfig) {
-        handleSaveMarkerObject();
+        handleSaveMarkerObject(false);
         destroyData(true);
         destroyChangeDictPopupImage(true);
         destroyImage(true);
@@ -1379,7 +1379,7 @@ public class SearchListActivity extends ListMeanViewActivity {
                 } else if (this.isWantFinnish || Dependency.isJapan()) {
                     TTSEngine.DestroyTTS();
                     this.mEngine.terminateEngine();
-                    handleSaveMarkerObject();
+                    handleSaveMarkerObject(true);
                     System.runFinalizersOnExit(true);
                     System.exit(0);
                     finish();
@@ -1568,7 +1568,8 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     public void prepareGuideLayout() {
-        if (DictUtils.isFirstLoadingFromPreference(this)) {
+        if (Preference.firstLoading()) {
+			Preference.firstLoading(false);
             RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.SearchContentRelativeLayout);
             LayoutInflater inflate = (LayoutInflater) getSystemService("layout_inflater");
             RelativeLayout guideLayout = (RelativeLayout) inflate.inflate(R.layout.search_guide, (ViewGroup) null);
@@ -1780,7 +1781,7 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     private void runOnlyMeanTabView(int nMode, boolean isRefresh) {
-        handleSaveMarkerObject();
+        handleSaveMarkerObject(false);
         this.mSearchMeanController.setDisplayMode(nMode);
         if (isRefresh) {
             this.mSearchMeanController.refreshContentView();
@@ -1789,7 +1790,7 @@ public class SearchListActivity extends ListMeanViewActivity {
 
     public void runMeanTabView(int nMode, boolean isRefresh) {
         this.mTabViewPos = nMode;
-        handleSaveMarkerObject();
+        handleSaveMarkerObject(false);
         this.mSearchMeanController.setDisplayMode(nMode);
         if (isRefresh) {
             this.mSearchMeanController.refreshContentView();
@@ -2842,7 +2843,10 @@ public class SearchListActivity extends ListMeanViewActivity {
         this.mTextView.setMarkerColor(colorList[position]);
     }
 
-    protected void handleSaveMarkerObject() {
+    protected void handleSaveMarkerObject(boolean exitVM) {
+		if (preference != null) {
+			preference.check(exitVM);
+		}
         if (this.mTextView != null) {
             this.mTextView.saveMarkerObject();
         }
