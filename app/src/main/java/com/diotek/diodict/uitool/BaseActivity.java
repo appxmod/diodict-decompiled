@@ -240,7 +240,6 @@ public abstract class BaseActivity extends Activity {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
     public void onPause() {
-        overridePendingTransition(0, 0);
         onTerminateTTS();
         super.onPause();
 		if (preference != null) {
@@ -251,7 +250,6 @@ public abstract class BaseActivity extends Activity {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Activity
     public void onResume() {
-        overridePendingTransition(0, 0);
         super.onResume();
 		if (MultiShareActivity.activity!=thisRef) {
 			MultiShareActivity.activity = thisRef;
