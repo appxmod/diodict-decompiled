@@ -326,7 +326,7 @@
     <string name="theme2">主题 2</string>
     <string name="theme3">主题 3</string>
     <string name="gesture_setting">手写输入法</string>
-    <string name="setting_gesture">手写输入法设置</string>
+    <string name="setting_gesture">启用手写输入法（在列表中写字）</string>
     <string name="sample_meanning">%KA, a %P/eɪ/%M%T%In %i%t(%Ipl %i%BAs %Ior%i A\'s%b)\n%C21%c2 (letter) [英语字母表的第1个字母]; %E\n◇ %Bfrom A to Z %b从头至尾; \n◇ %Bthe A to Z of cooking %b烹饪大全%e\n%C22%c2 (first of two or more points or possibilities) 第一（个）; %E\n◇ %Ba) ... b) ... %b第一… 第二…%e\n%C23%c2 %BA%b Mus A音, A调\n%C24%c2 %Ba%b (in house or flat number) A座\n%C25%c2 Sch, Univ (grade) 优 [指学业成绩第一等]; %E\n◇ %Bhe got an A for his essay %b他的文章得了优%e\n%C26%c2 %BA%b (place) 某地; %E\n◇ %Bhow to get from A to B %b如何从甲地到乙地%e\n%C27%c2 %BA%b Brit Transp A级公路 [英国次于高速公路的主干公路]; %E\n◇ %Bwe only drove on A roads — we didn\'t go on the motorways at all %b我们只是在主干公路上开的车—根本没上高速公路%e</string>
     <string name="appwidget_loading">装入中</string>
     <string name="app_exit_info">想关闭词典，请再按返回键</string>
