@@ -110,7 +110,7 @@ public class MeanToolbarWidgets {
 				a.mTextView.setTextSize(fontSizeList[fontSizeIndex]);
 				preference.fontSize(fontSizeIndex+1);
 			}
-			dismissFontSizePopup();
+			// dismissFontSizePopup();
 		}
 	};
 	
