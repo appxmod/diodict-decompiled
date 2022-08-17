@@ -1952,15 +1952,19 @@ public class SearchListActivity extends ListMeanViewActivity {
     }
 
     public void runChangeDictPopupExitBtn() {
-        setFocusableChangeDictionary(false);
+		fakingFocus = true;
+		setFocusableChangeDictionary(false);
         this.mChangeDictPopupLayout.setVisibility(View.GONE);
-    }
+		fakingFocus = false;
+	}
 
     public boolean runKeyCodeBack() {
 		if (clearTextViewSelection()) return true;
         if (this.mChangeDictPopupLayout.getVisibility() == 0) {
+			fakingFocus = true;
             setFocusableChangeDictionary(false);
             this.mChangeDictPopupLayout.setVisibility(View.GONE);
+			fakingFocus = false;
             return true;
         } else if (dismissFlashcardCopyPopup(true)) {
             return true;
@@ -3350,8 +3354,11 @@ public class SearchListActivity extends ListMeanViewActivity {
         }
         this.etSearch.setFocusable(bFocus);
         this.etSearch.setFocusableInTouchMode(bFocus);
-        this.mClearBtn.setFocusable(bFocus);
-        if (this.mSearchListEmptyLayout.getVisibility() != 0) {
+		if (fakingFocus) {
+			etSearch.clearFocus();
+		}
+		this.mClearBtn.setFocusable(bFocus);
+		if (this.mSearchListEmptyLayout.getVisibility() != 0) {
             this.mTextView.setFocusable(bFocus);
             this.mTextView.setFocusableInTouchMode(bFocus);
         }
