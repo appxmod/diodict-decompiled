@@ -49,6 +49,7 @@ public final class Preference {
 	
 	@Metaline(flagPos=14) public static boolean gestureRecog() { firstFlag=firstFlag; throw new RuntimeException(); }
 	@Metaline(flagPos=14) public static void gestureRecog(boolean val) { firstFlag=firstFlag; throw new RuntimeException(); }
+	
 	@Metaline(flagPos=15) public static boolean refreshViewState() { firstFlag=firstFlag; throw new RuntimeException(); }
 	@Metaline(flagPos=15) public static void refreshViewState(boolean val) { firstFlag=firstFlag; throw new RuntimeException(); }
 	
@@ -67,6 +68,8 @@ public final class Preference {
 	
 	public void check(boolean exitVM) {
 		if (editor!=null || firstFlag!=firstFlagStamp) {
+			if (editor!=null)
+				valueCache.clear();
 			edit().putLong("FF", firstFlagStamp = firstFlag);
 			if (!exitVM && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
 				editor.apply();
