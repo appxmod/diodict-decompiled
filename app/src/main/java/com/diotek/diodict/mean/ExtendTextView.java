@@ -1,11 +1,13 @@
 package com.diotek.diodict.mean;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.text.ClipboardManager;
@@ -43,7 +45,7 @@ import com.diodict.decompiled.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/* loaded from: classes.dex */
+@SuppressLint("WrongConstant")
 public class ExtendTextView extends TextView implements GestureDetector.OnGestureListener {
     public static final String GESTURE_SWIPE_LEFT = "swipe_left";
     public static final String GESTURE_SWIPE_RIGHT = "swipe_right";
@@ -103,7 +105,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     private int mPopupBaseX;
     private int mPopupBaseY;
 	int deltaY;
-    private LinearLayout mPopupContent;
+    public LinearLayout mPopupContent;
     private int[] mPopupMenuOffsetInWindow;
     private List<Rect> mPrevMakerRect;
     private TextArea mRemoveTextArea;
@@ -792,7 +794,12 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
     @Override // android.widget.TextView, android.view.View
     public boolean onTouchEvent(MotionEvent event) {
 		//CMN.Log("onTouchEvent::", event.getActionMasked(), "gripShowing="+gripShowing());
-		int action = event.getActionMasked();
+		int action;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO) {
+			action = event.getActionMasked();
+		} else {
+			action = event.getAction();
+		}
 		if (action!=MotionEvent.ACTION_POINTER_DOWN && action!=MotionEvent.ACTION_POINTER_UP) {
 			try {
 				boolean flingEvent = this.flingDetector.onTouchEvent(event);
@@ -827,7 +834,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 		if (this.bMarkable || mSelectionArea.isTextSelected()) {
 			if (bIsMarking) {
 				if (bIsRemoving) { //todo!!! 删除
-					handleRemoveMarker(event);
+					handleRemoveMarker(event, action);
 					return true;
 				}
 				if (handleDrawMarkers(event, action)) {
@@ -861,7 +868,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 		return super.onTouchEvent(event);
     }
 
-    private void handleRemoveMarker(MotionEvent event) {
+    private void handleRemoveMarker(MotionEvent event, int action) {
         int x = (int) event.getX();
         int y = (int) event.getY();
         int[] location = new int[2];
@@ -871,7 +878,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         Layout layout = super.getLayout();
         int line = layout.getLineForVertical(fy);
         int off = layout.getOffsetForHorizontal(line, fx);
-        switch (event.getActionMasked()) {
+        switch (action) {
             case 0:
                 this.mRemoveTextArea.start = off;
                 this.mRemoveTextArea.start_line = line;
@@ -970,10 +977,12 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 				} else {
 					bIsDrawingMarks = false;
 				}
-				if (!bIsOneShotMark && mScrollView != null) {
-					mScrollView.setScrollEnabled(!bIsDrawingMarks);
+				if (mScrollView != null) {
+					if (!bIsOneShotMark) {
+						mScrollView.setScrollEnabled(!bIsDrawingMarks);
+					}
+					downScrollY = mScrollView.getScrollY();
 				}
-				downScrollY = mScrollView.getScrollY();
 			} return true;
 			case MotionEvent.ACTION_UP:
 				// CMN.debug("mSelectTextMode::ACTION_UP");
@@ -1283,7 +1292,7 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 	}
 	
     private boolean isMiscChar(char charAt) {
-		return charAt=='(' || charAt==')' || charAt==' '
+		return charAt=='(' || charAt==')'
 //				|| charAt=='\r' || charAt=='\n'
 				|| charAt=='◇' || charAt==' '
 				|| charAt=='（' || charAt=='）'
@@ -1415,8 +1424,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         int color = !bIsMarking || bIsOneShotMark?mTextSelectColor:mMarkColor;
         if (this.mMoving && !gripShowing()
 				&& this.mSelectionArea.isTextSelecting()
-				&& (tR = getRectOfSelectedTextOffset(this.mSelectionArea.start, this.mSelectionArea.move)) != null
-				&& tR.size() > 0) {
+				&& (tR = getRectOfSelectedTextOffset(this.mSelectionArea.start, this.mSelectionArea.move))
+					.size() > 0) {
             for (int j = 0; j < tR.size(); j++) {
                 onDrawTextArea(canvas, tR.get(j), color);
             }
@@ -1428,8 +1437,8 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 		int color = !bIsMarking || bIsOneShotMark?mTextSelectColor:mMarkColor;
         if (!this.mMoving
 				&& this.mSelectionArea.isTextSelected()
-				&& (tR = getRectOfSelectedTextOffset(this.mSelectionArea.start, this.mSelectionArea.end)) != null
-				&& tR.size() > 0) {
+				&& (tR = getRectOfSelectedTextOffset(this.mSelectionArea.start, this.mSelectionArea.end))
+					.size() > 0) {
             for (int j = 0; j < tR.size(); j++) {
                 onDrawTextArea(canvas, tR.get(j), color);
             }
@@ -1614,7 +1623,6 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
 					this.mTextSelectPopupMenu.setHeight(popupHeight);
 					this.mTextSelectPopupMenu.showAtLocation(showAt, 0, this.mPopupBaseX + this.mPopupMenuOffsetInWindow[0], this.mPopupBaseY + deltaY + this.mPopupMenuOffsetInWindow[1]);
 				}
-				
 			}
         }
     }
@@ -1947,8 +1955,10 @@ public class ExtendTextView extends TextView implements GestureDetector.OnGestur
         grip.setBackgroundDrawable(null);
         LayoutInflater inflate = (LayoutInflater) getContext().getSystemService("layout_inflater");
         ImageView imv = (ImageView) inflate.inflate(contentViewId, (ViewGroup) null);
-		imv.setAlpha(0.75f);
-        grip.setContentView(imv);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			imv.setAlpha(0.75f);
+		}
+		grip.setContentView(imv);
         imv.measure(0, 0);
         int width = imv.getMeasuredWidth();
         int height = imv.getMeasuredHeight();

@@ -1,5 +1,6 @@
 package com.diotek.diodict;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -95,7 +96,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-/* loaded from: classes.dex */
+@SuppressLint("WrongConstant")
 public class SearchListActivity extends ListMeanViewActivity {
     static final int COUNT_PER_PAGE = 6;
     private static final String DEFAULT_SEARCH_WORD = "";
@@ -691,7 +692,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         }
     };
     HyperSimpleViewModule.HyperSimpleViewModuleCallback mHyperSimpleViewModuleCallback = new HyperSimpleViewModule.HyperSimpleViewModuleCallback() { // from class: com.diotek.diodict.SearchListActivity.59
-        @Override // com.diotek.diodict.mean.HyperSimpleViewModule.HyperSimpleViewModuleCallback
+		@Override // com.diotek.diodict.mean.HyperSimpleViewModule.HyperSimpleViewModuleCallback
         public void runDetailBtn(int meanpos) {
             String word;
             boolean z = true;
@@ -863,6 +864,7 @@ public class SearchListActivity extends ListMeanViewActivity {
         }
     };
 	
+	@SuppressLint("MissingSuperCall")
 	@Override // android.app.Activity
     protected void onCreate(Bundle savedInstanceState) {
 		MultiShareActivity.dict_activity = thisRef;
@@ -947,8 +949,24 @@ public class SearchListActivity extends ListMeanViewActivity {
         handleSaveMarkerObject(false);
 //		this.mFileLinkTagViewManager.onPause();
 //        this.mHyperSimpleViewModule.onPause();
+		if (mTextView.gripShowing()) {
+			ViewUtils.setVisibleV3(mTextView.mPopupContent, false);
+		}
         super.onPause();
     }
+	
+	@Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
+	public void onResume() {
+		if (this.mEngine.getCurDict() == 65520) {
+			enableGesture(false);
+		} else {
+			enableGesture(true);
+		}
+		if (mTextView.gripShowing()) {
+			ViewUtils.setVisibleV3(mTextView.mPopupContent, true);
+		}
+		super.onResume();
+	}
 	
 	@Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity, android.content.ComponentCallbacks
     public void onConfigurationChanged(Configuration newConfig) {
@@ -1187,16 +1205,6 @@ public class SearchListActivity extends ListMeanViewActivity {
 			heightProvider.dismiss();
 		}
         super.onDestroy();
-    }
-
-    @Override // com.diotek.diodict.ListMeanViewActivity, com.diotek.diodict.uitool.BaseActivity, android.app.Activity
-	public void onResume() {
-        if (this.mEngine.getCurDict() == 65520) {
-            enableGesture(false);
-        } else {
-            enableGesture(true);
-        }
-        super.onResume();
     }
 
     @Override // com.diotek.diodict.uitool.BaseActivity, android.app.Activity
